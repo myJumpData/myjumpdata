@@ -20,7 +20,7 @@ export const App = () => {
           alt="Nx - Smart, Extensible Build Framework"
         />
       </div>
-      <div>{m.message}</div>
+      <div className="bg-green-500">{m.message}</div>
     </>
   );
 };
