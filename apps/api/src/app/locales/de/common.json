@@ -1,0 +1,47 @@
+{
+  "entry": {
+    "signup": "Registrieren",
+    "login": "Anmelden"
+  },
+  "roadmap": {
+    "planned": "Geplant",
+    "released": "Veröffentlicht"
+  },
+  "interact": {
+    "open": "Öffnen"
+  },
+  "nav": {
+    "home": "Start",
+    "train": "Trainieren",
+    "groups": "Gruppen",
+    "profile": "Profil",
+    "settings": "Einstellungen"
+  },
+  "action": {
+    "train_own": "Alleine trainieren",
+    "train_group": "Trainieren in Gruppen",
+    "speeddata": "Speed Werte",
+    "speeddataown": "Speed Werte für dich selbst",
+    "create_group": "Gruppe erstellen"
+  },
+  "stats": {
+    "high": "Hoch",
+    "highscores": "Rekorde",
+    "own": "Eigene",
+    "group": "Gruppe"
+  },
+  "role": {
+    "coach": "Trainer",
+    "athlete": "Sportler",
+    "coaches": "Trainer",
+    "athletes": "Sportler"
+  },
+  "fields": {
+    "username": "Benutzername",
+    "password": "Passwort",
+    "firstname": "Vorname",
+    "lastname": "Nachname",
+    "email": "Email",
+    "group_name": "Gruppen Name"
+  }
+}

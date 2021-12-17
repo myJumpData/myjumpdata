@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .gradient {
+    @apply bg-gradient-to-r from-red-600 via-yellow-600 to-yellow-500;
+  }
+
+  .gradient-b {
+    @apply bg-gradient-to-r from-red-600 via-yellow-600 to-yellow-500;
+  }
+}

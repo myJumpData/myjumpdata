@@ -1,0 +1,34 @@
+{
+  "home": {
+    "jumbotron": {
+      "great": "Hallo",
+      "bottom": "Dies ist dein Hauptbildschirm!"
+    }
+  },
+  "share": {
+    "text": "Sehe dir das Profil von {{name}} bei myJumpData an."
+  },
+  "settings": {
+    "data": "Daten",
+    "image": "Profilbild",
+    "image_text": "Da Bilder Server Speicherplatz einnimmt, der teuer ist und wir ausgaben niedrig halten wollen, haben wir uns entschieden zu Gravatar nutzen.",
+    "image_action": "Du kannst es bei gravatar.com ändern!",
+    "danger": "Vorsicht!",
+    "delete": "Profil löschen",
+    "logout": "Abmelden",
+    "reset_coach": "Trainer zurücksetzten",
+    "become_coach": "Trainer werden",
+    "delete_disclaimer_title": "Bist du sicher, dass du dein Benutzer löschen möchtest?",
+    "delete_disclaimer_text": "Alle verbundenen Daten gehen verloren und sind nicht wiederherstellbar.",
+    "delete_disclaimer_confirm": "Trotzdem löschen"
+  },
+  "speeddata": {
+    "title": "Speed Werte für"
+  },
+  "settings_group": {
+    "delete_disclaimer_title": "Bist du sicher, dass du diese Gruppe löschen möchtest?",
+    "delete_disclaimer_text": "Alle verbundenen Daten gehen verloren und sind nicht wiederherstellbar.",
+    "delete_disclaimer_confirm": "Trotzdem löschen",
+    "delete": "Gruppe löschen"
+  }
+}

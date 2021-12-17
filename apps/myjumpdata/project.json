@@ -44,7 +44,9 @@
       "options": {
         "buildTarget": "myjumpdata:build",
         "hmr": true,
-        "proxyConfig": "apps/myjumpdata/proxy.conf.json"
+        "ssl": true,
+        "sslKey": "../localhost-key.pem",
+        "sslCert": "../localhost.pem"
       },
       "configurations": {
         "production": {

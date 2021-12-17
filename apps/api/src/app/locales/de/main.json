@@ -1,0 +1,31 @@
+{
+  "jumbotron": {
+    "top": "Was ist myJumpData?",
+    "title": "Eine Plattform für deine Rope Skipping Fortschritte!",
+    "bottom": "Wenn ihr ein Verein seid, seid ihr hier genau richtig!"
+  },
+  "open_development": {
+    "work_in_progress": {
+      "title": "In Arbeit",
+      "text": "myJumpData wird in einem Open-Source-Modell entwickelt. Dies bedeutet, dass jeder den Quellcode lesen kann. Auch ermöglicht es jedem, bei der Entwicklung dieses Projekts mitzuhelfen."
+    },
+    "title": "Offene Entwicklung",
+    "open_source": {
+      "title": "Quelloffen",
+      "text": "Da die Entwicklung Mitte Oktober angefangen hat, ist dieses Projekt immer noch eine beta Version und unter aktiver Entwicklung."
+    },
+    "user_focused": {
+      "title": "Benutzerorientiert",
+      "text": "Du hast einen Fehler gefunden? Oder hast Feature Idee oder anfrage? Kontaktiere uns und wir versuchen deine Vorschläge umzusetzen."
+    }
+  },
+  "cta": {
+    "title": "Ready, Set, Go!",
+    "text": "Hole dir jetzt dein Zugang bei myJumpData!"
+  },
+  "by": {
+    "title": "Von Skippern für Skipper",
+    "position": "Entwickler und Gründer",
+    "text": "Rope Skipper bei <0>Jumping Swans Hanau</0>, wo auch die Idee für myJumpData mit einer Trainerin enstanden ist."
+  }
+}

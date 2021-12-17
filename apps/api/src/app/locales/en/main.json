@@ -1,0 +1,31 @@
+{
+  "jumbotron": {
+    "top": "What is myJumpData?",
+    "title": "A platform for your Rope Skipping achievements!",
+    "bottom": "If you are a club, you are just right here!"
+  },
+  "open_development": {
+    "work_in_progress": {
+      "title": "Work in Progress",
+      "text": "myJumpData is developed in an open-source model. This means everybody can read through the source code. Also, this allows everyone to help with developing this project."
+    },
+    "title": "Open Development",
+    "open_source": {
+      "title": "Open Source",
+      "text": "Since the Development started in mid-October, this project is still a beta version and under active development."
+    },
+    "user_focused": {
+      "title": "User focused",
+      "text": "You found a bug? Or have a feature idea or request? Contact us, and we'll try and implement your suggestions."
+    }
+  },
+  "cta": {
+    "title": "Ready, Set, Go!",
+    "text": "Get your account at myJumpData now!"
+  },
+  "by": {
+    "title": "By Skippers for Skippers",
+    "position": "Developer and Creator",
+    "text": "Rope Skipper at <0>Jumping Swans Hanau</0>, where the Idea for myJumpData was born with a coach."
+  }
+}

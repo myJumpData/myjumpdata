@@ -1,0 +1,47 @@
+{
+  "entry": {
+    "signup": "Sign up",
+    "login": "Log in"
+  },
+  "roadmap": {
+    "planned": "Planned",
+    "released": "Released"
+  },
+  "interact": {
+    "open": "Open"
+  },
+  "nav": {
+    "home": "Home",
+    "train": "Train",
+    "groups": "Groups",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "action": {
+    "train_own": "Train on your own",
+    "train_group": "Train in Groups",
+    "speeddata": "Speed Data",
+    "speeddataown": "Speed Data for your own",
+    "create_group": "Create Group"
+  },
+  "stats": {
+    "high": "High",
+    "highscores": "Highscores",
+    "own": "Own",
+    "group": "Group"
+  },
+  "role": {
+    "coach": "Coach",
+    "athlete": "Athlete",
+    "coaches": "Coaches",
+    "athletes": "Athletes"
+  },
+  "fields": {
+    "username": "Username",
+    "password": "Password",
+    "firstname": "Firstname",
+    "lastname": "Lastname",
+    "email": "E-Mail",
+    "group_name": "Group name"
+  }
+}

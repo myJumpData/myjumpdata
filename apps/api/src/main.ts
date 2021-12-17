@@ -1,16 +1,11 @@
-import * as express from 'express';
-import { Message } from '@myjumpdata/api-interfaces';
+import createServer from './app/server';
+import dbConfig from './app/config/db.config';
+import mongoose from 'mongoose';
 
-const app = express();
-
-const greeting: Message = { message: 'Welcome to api!' };
-
-app.get('/api', (req, res) => {
-  res.send(greeting);
+mongoose.connect(dbConfig.CONNECT_STRING).then(() => {
+  const app = createServer();
+  const PORT = process.env.PORT || 3333;
+  app.listen(PORT, () => {
+    console.log(`Listening on PORT ${PORT}`);
+  });
 });
-
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-  console.log('Listening at http://localhost:' + port + '/api');
-});
-server.on('error', console.error);
