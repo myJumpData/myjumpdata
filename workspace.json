@@ -2,8 +2,6 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "api-interfaces": "libs/api-interfaces",
-    "myjumpdata": "apps/myjumpdata",
-    "myjumpdata-e2e": "apps/myjumpdata-e2e"
+    "myjumpdata": "apps/myjumpdata"
   }
 }
