@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
-import {FaEye, FaEyeSlash} from "react-icons/fa";
+import { useEffect, useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 type TextInputProps = {
   name?: string;
-  type: "email" | "password" | "text" | "number";
+  type: 'email' | 'password' | 'text' | 'number';
   value?: string;
   stateChange?: any;
   inline?: boolean;
@@ -39,24 +39,17 @@ type TextInputProps = {
  */
 
 export function TextInput({
-                            name,
-                            type,
-                            value,
-                            stateChange,
-                            inline,
-                            min,
-                            inputName,
-                          }: TextInputProps) {
-  let inlineClass = "mb-4";
+  name,
+  type,
+  value,
+  stateChange,
+  inline,
+  min,
+  inputName,
+}: TextInputProps) {
+  let inlineClass = ' mb-4 ';
   if (inline) {
-    inlineClass = "";
-  }
-  let onChange: any = () => {
-  };
-  if (stateChange) {
-    onChange = (e: any) => {
-      stateChange(e.target.value);
-    };
+    inlineClass = '';
   }
   const [passwordShown, setPasswordShown] = useState(false);
 
@@ -68,28 +61,37 @@ export function TextInput({
   }, [passwordShown]);
 
   return (
-    <div className="w-full relative">
-      {name && <span>{name}</span>}
+    <div className="w-full relative py-2">
       <input
         type={
-          type === "password" ? (passwordShown ? "text" : "password") : type
+          type === 'password' ? (passwordShown ? 'text' : 'password') : type
         }
         value={value}
-        onChange={onChange}
+        onChange={(e) => stateChange(e.target.value)}
         className={
-          "block w-full rounded border border-gray-300 py-1 px-2 " + inlineClass
+          'peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-yellow-500 placeholder-transparent transition  ' +
+          inlineClass
         }
         min={min}
         name={inputName}
+        placeholder={name}
       />
-      {type === "password" && (
+      {name && (
+        <label
+          htmlFor={inputName}
+          className="absolute left-0 -top-2 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 transition-all pointer-events-none"
+        >
+          {name}
+        </label>
+      )}
+      {type === 'password' && (
         <span
           onClick={() => {
             setPasswordShown(!passwordShown);
           }}
-          className="absolute top-8 right-4"
+          className="absolute top-6 right-4"
         >
-          {passwordShown ? <FaEyeSlash/> : <FaEye/>}
+          {passwordShown ? <FaEyeSlash /> : <FaEye />}
         </span>
       )}
     </div>
@@ -107,28 +109,23 @@ type SelectOptionProps = {
 };
 
 export function SelectInput({
-                              options,
-                              inline,
-                              stateChange,
-                            }: SelectInputProps) {
-  let inlineClass = "mb-4";
+  options,
+  inline,
+  stateChange,
+}: SelectInputProps) {
+  let inlineClass = 'mb-4';
   if (inline) {
-    inlineClass = "";
-  }
-  let onChange: any = () => {
-  };
-  if (stateChange) {
-    onChange = (e: any) => {
-      stateChange(e.target.value);
-    };
+    inlineClass = '';
   }
   return (
     <div className="w-full">
       <select
         className={
-          "block w-full border border-gray-300 rounded py-1 px-2 " + inlineClass
+          'block w-full border border-gray-300 rounded py-1 px-2 ' + inlineClass
         }
-        onChange={onChange}
+        onChange={(e) => {
+          stateChange(e.target.value);
+        }}
       >
         {options.map((option: SelectOptionProps) => (
           <option value={option.value} key={option.value}>
