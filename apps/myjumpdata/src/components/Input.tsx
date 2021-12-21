@@ -67,7 +67,7 @@ export function TextInput({
           type === 'password' ? (passwordShown ? 'text' : 'password') : type
         }
         value={value}
-        onChange={(e) => stateChange(e.target.value)}
+        onChange={(e) => stateChange && stateChange(e.target.value)}
         className={
           'peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-yellow-500 placeholder-transparent transition  ' +
           inlineClass
@@ -123,9 +123,7 @@ export function SelectInput({
         className={
           'block w-full border border-gray-300 rounded py-1 px-2 ' + inlineClass
         }
-        onChange={(e) => {
-          stateChange(e.target.value);
-        }}
+        onChange={(e) => stateChange && stateChange(e.target.value)}
       >
         {options.map((option: SelectOptionProps) => (
           <option value={option.value} key={option.value}>
