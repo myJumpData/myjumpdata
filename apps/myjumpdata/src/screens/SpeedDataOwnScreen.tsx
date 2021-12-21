@@ -1,19 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaPlus } from 'react-icons/fa';
+import { HiPlus } from 'react-icons/hi';
 import AuthVerify from '../common/AuthVerify';
-import Alert from '../components/Alert';
-import { ButtonIcon } from '../components/Button';
-import Card from '../components/Card';
-import Flex from '../components/Flex';
 import { TextInput } from '../components/Input';
-import Main from '../components/Main';
-import PageSpacer from '../components/PageSpacer';
-import { Section } from '../components/Section';
-import { H5 } from '../components/Text';
-import WaveSeperator from '../components/WaveSeperator';
-import { MainFooter } from '../parts/MainFooter';
-import { ScreenNav } from '../parts/ScreenNav';
+import Wrapper from '../parts/Wrapper';
 import ScoreDataService from '../services/scoredata.service';
 
 export default function SpeedDataOwnScreen() {
@@ -50,47 +40,49 @@ export default function SpeedDataOwnScreen() {
   }
 
   return (
-    <Main>
-      <ScreenNav name={t('common:action.speeddataown')} />
-      <PageSpacer />
-      {message && <Alert design="warning" text={message} />}
-
-      <WaveSeperator />
-      <Section heading={t('common:action.speeddataown')}>
+    <Wrapper current="speeddata">
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">
+          {t('common:action.speeddataown')}
+        </span>
         {scoreData &&
           scoreData.map((score: any) => {
             return (
               score !== null && (
-                <Card design="light" key={score._id}>
-                  <Flex>
-                    <H5 full>{score.type.name}</H5>
-                    <span className="text-xs whitespace-nowrap uppercase">
+                <div
+                  key={score._id}
+                  className="border-t border-gray-300 dark:border-gray-700 py-2"
+                >
+                  <div className="flex items-end space-x-2">
+                    <span className="text-xl font-bold mr-auto leading-none translate-y-2">
+                      {score.type.name}
+                    </span>
+                    <span className="text-xs whitespace-nowrap uppercase leading-none">
                       {t('common:stats.high')}: {score.score}
                     </span>
-                  </Flex>
+                  </div>
                   <form onSubmit={handleRecordDataSubmit}>
                     <input type="hidden" name="id" value={score.type._id} />
-                    <Flex>
+                    <div className="flex items-center space-x-2">
                       <TextInput
                         type="number"
                         inline
                         min="0"
                         inputName="score"
                       />
-                      <ButtonIcon
-                        design="success"
-                        component={<FaPlus />}
+                      <button
+                        className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
                         type="submit"
-                      />
-                    </Flex>
+                      >
+                        <HiPlus />
+                      </button>
+                    </div>
                   </form>
-                </Card>
+                </div>
               )
             );
           })}
-      </Section>
-      <WaveSeperator rotated />
-      <MainFooter />
-    </Main>
+      </div>
+    </Wrapper>
   );
 }

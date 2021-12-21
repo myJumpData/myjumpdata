@@ -69,7 +69,7 @@ export function TextInput({
         value={value}
         onChange={(e) => stateChange && stateChange(e.target.value)}
         className={
-          'peer h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-yellow-500 placeholder-transparent transition  ' +
+          'peer h-10 w-full border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-yellow-500 placeholder-transparent transition bg-transparent  ' +
           inlineClass
         }
         min={min}
@@ -79,7 +79,7 @@ export function TextInput({
       {name && (
         <label
           htmlFor={inputName}
-          className="absolute left-0 -top-2 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 transition-all pointer-events-none"
+          className="absolute left-0 -top-2 text-gray-600 dark:text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 transition-all pointer-events-none"
         >
           {name}
         </label>

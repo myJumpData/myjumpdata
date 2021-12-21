@@ -12,21 +12,17 @@ import GroupScreen from './screens/GroupScreen';
 import GropsScreen from './screens/GroupsScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import LegalScreen from './screens/LegalScreen';
 import TermsScreen from './screens/TermsScreen';
 import MainScreen from './screens/MainScreen';
-import TrainScreen from './screens/TrainScreen';
 import FreestyleScreen from './screens/FreestyleScreen';
 
 ReactDOM.render(
   <Suspense fallback={null}>
     <BrowserRouter>
       <Routes>
-        <Route path="/train" element={<TrainScreen />} />
-
         {'Main Pages'}
         <Route path="/" element={<MainScreen />} />
 
@@ -36,9 +32,6 @@ ReactDOM.render(
         {'Entry Pages'}
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/login" element={<LoginScreen />} />
-
-        {'Home Pages'}
-        <Route path="/home" element={<HomeScreen />} />
 
         {'Profile Pages'}
         <Route path="/u/:username" element={<ProfileScreen />} />

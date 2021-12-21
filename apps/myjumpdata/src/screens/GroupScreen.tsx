@@ -1,17 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaCog } from 'react-icons/fa';
 import { Link, useParams } from 'react-router-dom';
 import AuthVerify from '../common/AuthVerify';
-import Alert from '../components/Alert';
 import Button from '../components/Button';
-import Main from '../components/Main';
-import PageSpacer from '../components/PageSpacer';
-import { Section } from '../components/Section';
-import WaveSeperator from '../components/WaveSeperator';
 import randomColorClass from '../helper/randomColorClass';
-import { MainFooter } from '../parts/MainFooter';
-import { ScreenNav } from '../parts/ScreenNav';
+import Wrapper from '../parts/Wrapper';
 import AuthService from '../services/auth.service';
 import GroupsService from '../services/groups.service';
 
@@ -84,48 +77,19 @@ export default function GroupScreen() {
   }
 
   return (
-    <Main>
-      {groupCoaches.some((i: any) => i._id === currentUser.id) ? (
-        <ScreenNav
-          name={groupName}
-          button={[
-            {
-              icon: <FaCog />,
-              name: t('common:nav.settings'),
-              to: `/group/${params.id}/settings`,
-            },
-          ]}
-        />
-      ) : (
-        <ScreenNav name={groupName} />
+    <Wrapper current="group">
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">{groupName}</span>
+      </div>
+      <div className="space-y-4">
+        <UserRow name={t('common:role.coaches')} list={groupCoaches} />
+        <UserRow name={t('common:role.athletes')} list={groupAthletes} />
+      </div>
+      {groupCoaches.some((i: any) => i._id === currentUser.id) && (
+        <Link to={`/speeddata/group/${params.id}`}>
+          <Button name={t('common:action.speeddata')} design="primary" />
+        </Link>
       )}
-
-      <PageSpacer />
-      {message && <Alert design="warning" text={message} />}
-
-      <WaveSeperator />
-      <Section
-        heading={groupName}
-        button={[
-          {
-            icon: <FaCog />,
-            name: t('common:nav.settings'),
-            to: `/group/${params.id}/settings`,
-          },
-        ]}
-      >
-        <div className="space-y-4">
-          <UserRow name={t('common:role.coaches')} list={groupCoaches} />
-          <UserRow name={t('common:role.athletes')} list={groupAthletes} />
-        </div>
-        {groupCoaches.some((i: any) => i._id === currentUser.id) && (
-          <Link to={`/speeddata/group/${params.id}`}>
-            <Button name={t('common:action.speeddata')} design="primary" />
-          </Link>
-        )}
-      </Section>
-      <WaveSeperator rotated />
-      <MainFooter />
-    </Main>
+    </Wrapper>
   );
 }

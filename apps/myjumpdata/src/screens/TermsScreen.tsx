@@ -1,22 +1,14 @@
+import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import WaveSeperator from '../components/WaveSeperator';
-import { Section } from '../components/Section';
-import { MainNav } from '../parts/MainNav';
-import { MainFooter } from '../parts/MainFooter';
-import PageSpacer from '../components/PageSpacer';
 import undraw_terms from '../assets/undraw_terms_re_6ak4.svg';
+import Wrapper from '../parts/Wrapper';
 
 export default function TermsScreen() {
   return (
-    <div className="gradient h-full min-h-screen text-white">
-      <MainNav />
-      <PageSpacer />
+    <Wrapper current="terms" type="main">
       <Jumbotron />
-      <WaveSeperator />
       <Main />
-      <WaveSeperator rotated />
-      <MainFooter />
-    </div>
+    </Wrapper>
   );
 
   function Jumbotron() {
@@ -28,7 +20,9 @@ export default function TermsScreen() {
             Terms of Use
           </h1>
         </div>
-        <div className="text-center w-full md:w-2/5">{undraw_terms}</div>
+        <div className="text-center w-full md:w-2/5">
+          <img src={undraw_terms} alt="Terms" />
+        </div>
       </div>
     );
   }
@@ -111,7 +105,7 @@ export default function TermsScreen() {
             Excluding any User Content that you may provide, you are aware that
             all the intellectual property rights, including copyrights, patents,
             trademarks, and trade secrets, in the Site and its content are owned
-            by Company or Company’s suppliers. Note that these Terms and access
+            by Company or Company's suppliers. Note that these Terms and access
             to the Site do not give you any rights, title or interest in or to
             any intellectual property rights, except for the limited access
             rights expressed in TermsSection 2.1. Company and its suppliers
@@ -151,7 +145,7 @@ export default function TermsScreen() {
             Site to collect, upload, transmit, display, or distribute any User
             Content (i) that violates any third-party right or any intellectual
             property or proprietary right; (ii) that is unlawful, harassing,
-            abusive, tortious, threatening, harmful, invasive of another’s
+            abusive, tortious, threatening, harmful, invasive of another's
             privacy, vulgar, defamatory, false, intentionally misleading, trade
             libelous, pornographic, obscene, patently offensive, promotes
             racism, bigotry, hatred, or physical harm of any kind against any
@@ -173,7 +167,7 @@ export default function TermsScreen() {
             regulations, policies or procedures of such networks; (v) attempt to
             gain unauthorized access to the Site, whether through password
             mining or any other means; (vi) harass or interfere with any other
-            user’s use and enjoyment of the Site; or (vi) use software or
+            user's use and enjoyment of the Site; or (vi) use software or
             automated agents or scripts to produce multiple accounts on the
             Site, or to generate automated searches, requests, or queries to the
             Site.
@@ -200,7 +194,7 @@ export default function TermsScreen() {
 
           <TermsText>
             You agree to indemnify and hold Company and its officers, employees,
-            and agents harmless, including costs and attorneys’ fees, from any
+            and agents harmless, including costs and attorneys' fees, from any
             claim or demand made by any third-party due to or arising out of (a)
             your use of the Site, (b) your violation of these Terms, (c) your
             violation of applicable laws or regulations or (d) your User
@@ -224,8 +218,8 @@ export default function TermsScreen() {
             representations with respect to Third-Party Links & Ads. You use all
             Third-Party Links & Ads at your own risk, and should apply a
             suitable level of caution and discretion in doing so. When you click
-            on any of the Third-Party Links & Ads, the applicable third party’s
-            terms and policies apply, including the third party’s privacy and
+            on any of the Third-Party Links & Ads, the applicable third party's
+            terms and policies apply, including the third party's privacy and
             data gathering practices.
           </TermsText>
 
@@ -372,7 +366,7 @@ export default function TermsScreen() {
             Please note that, pursuant to 17 U.S.C. § 512(f), any
             misrepresentation of material fact in a written notification
             automatically subjects the complaining party to liability for any
-            damages, costs and attorney’s fees incurred by us in connection with
+            damages, costs and attorney's fees incurred by us in connection with
             the written notification and allegation of copyright infringement.
           </TermsText>
         </TermsSection>
@@ -569,7 +563,7 @@ export default function TermsScreen() {
             <strong>Claims Not Subject to Arbitration.</strong> Notwithstanding
             the foregoing, claims of defamation, violation of the Computer Fraud
             and Abuse Act, and infringement or misappropriation of the other
-            party’s patent, copyright, trademark or trade secrets shall not be
+            party's patent, copyright, trademark or trade secrets shall not be
             subject to this Arbitration Agreement.
           </TermsText>
 
@@ -625,7 +619,7 @@ export default function TermsScreen() {
             independent contractor, and neither party is an agent or partner of
             the other. These Terms, and your rights and obligations herein, may
             not be assigned, subcontracted, delegated, or otherwise transferred
-            by you without Company’s prior written consent, and any attempted
+            by you without Company's prior written consent, and any attempted
             assignment, subcontract, delegation, or transfer in violation of the
             foregoing will be null and void. Company may freely assign these
             Terms. The terms and conditions set forth in these Terms shall be
@@ -650,24 +644,25 @@ export default function TermsScreen() {
       </div>
     );
   }
+}
 
-  function TermsSection({
-    children,
-    heading,
-  }: {
-    children?: any;
-    heading: string;
-  }) {
-    return (
-      <Section heading={heading}>
-        <div className="max-w-prose mx-auto text-justify break-normal">
-          {children}
-        </div>
-      </Section>
-    );
-  }
+export function TermsSection({
+  children,
+  heading,
+}: {
+  children?: ReactNode;
+  heading: string;
+}) {
+  return (
+    <div className="max-w-prose mx-auto">
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">{heading}</span>
+      </div>
+      <div className="text-justify break-normal">{children}</div>
+    </div>
+  );
+}
 
-  function TermsText({ children }: { children?: any }) {
-    return <p className="mb-4">{children}</p>;
-  }
+export function TermsText({ children }: { children?: ReactNode }) {
+  return <p className="mb-4">{children}</p>;
 }

@@ -1,21 +1,13 @@
-import WaveSeperator from '../components/WaveSeperator';
-import { Section } from '../components/Section';
-import { MainNav } from '../parts/MainNav';
-import { MainFooter } from '../parts/MainFooter';
-import PageSpacer from '../components/PageSpacer';
 import undraw_terms from '../assets/undraw_terms_re_6ak4.svg';
+import Wrapper from '../parts/Wrapper';
+import { TermsSection, TermsText } from './TermsScreen';
 
 export default function LegalScreen() {
   return (
-    <div className="gradient h-full min-h-screen text-white">
-      <MainNav />
-      <PageSpacer />
+    <Wrapper current="legal" type="main">
       <Jumbotron />
-      <WaveSeperator />
       <Main />
-      <WaveSeperator rotated />
-      <MainFooter />
-    </div>
+    </Wrapper>
   );
 
   function Jumbotron() {
@@ -27,7 +19,9 @@ export default function LegalScreen() {
             Legal Notice
           </h1>
         </div>
-        <div className="text-center w-full md:w-2/5">{undraw_terms}</div>
+        <div className="text-center w-full md:w-2/5">
+          <img src={undraw_terms} alt="Terms" />
+        </div>
       </div>
     );
   }
@@ -54,25 +48,5 @@ export default function LegalScreen() {
         </TermsSection>
       </div>
     );
-  }
-
-  function TermsSection({
-    children,
-    heading,
-  }: {
-    children?: any;
-    heading: string;
-  }) {
-    return (
-      <Section heading={heading}>
-        <div className="max-w-prose mx-auto text-justify break-normal">
-          {children}
-        </div>
-      </Section>
-    );
-  }
-
-  function TermsText({ children }: { children?: any }) {
-    return <p className="mb-4">{children}</p>;
   }
 }

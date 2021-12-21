@@ -15,7 +15,8 @@
     "train": "Trainieren",
     "groups": "Gruppen",
     "profile": "Profil",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "speeddata": "Speed Werte"
   },
   "action": {
     "train_own": "Alleine trainieren",
@@ -44,5 +45,8 @@
     "lastname": "Nachname",
     "email": "Email",
     "group_name": "Gruppen Name"
+  },
+  "footer": {
+    "text": "Die Plattform für deine Rope Skipping Fortschritte!"
   }
 }

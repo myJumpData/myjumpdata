@@ -1,16 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import Alert from '../components/Alert';
 import Button from '../components/Button';
 import { TextInput } from '../components/Input';
-import Main from '../components/Main';
-import PageSpacer from '../components/PageSpacer';
-import { Section } from '../components/Section';
-import Spacer from '../components/Spacer';
-import WaveSeperator from '../components/WaveSeperator';
-import { MainFooter } from '../parts/MainFooter';
-import { MainNav } from '../parts/MainNav';
+import Wrapper from '../parts/Wrapper';
 import AuthService from '../services/auth.service';
 
 export default function LoginScreen() {
@@ -26,7 +19,7 @@ export default function LoginScreen() {
     AuthService.login(username.trim(), password).then(
       (response: any) => {
         if (response.message.key === 'success.user.login') {
-          navigate('/home');
+          navigate(`/u/${username}`);
         }
       },
       (error: any) => {
@@ -36,40 +29,31 @@ export default function LoginScreen() {
   }
 
   if (currentUser) {
-    return <Navigate to="/home" />;
+    return <Navigate to={`/u/${currentUser.username}`} />;
   }
 
   return (
-    <Main>
-      <MainNav page="login" />
-      <PageSpacer />
-      {message && <Alert design="warning" text={message} />}
-      <WaveSeperator />
-      <Section heading={t('common:entry.login')}>
-        <form className="max-w-prose mx-auto" onSubmit={handleLoginSubmit}>
-          <TextInput
-            type="text"
-            name={t('common:fields.username') + ':'}
-            inputName="username"
-          />
-          <TextInput
-            name={t('common:fields.password') + ':'}
-            type="password"
-            inputName="password"
-          />
-          <Button
-            name={t('common:entry.login')}
-            type="submit"
-            design="success"
-          />
-          <Spacer />
-          <Link to="/register">
-            <Button name={t('common:entry.signup')} design="link" />
-          </Link>
-        </form>
-      </Section>
-      <WaveSeperator rotated />
-      <MainFooter />
-    </Main>
+    <Wrapper current="login" type="main">
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">{t('common:entry.login')}</span>
+      </div>
+      <form onSubmit={handleLoginSubmit}>
+        <TextInput
+          type="text"
+          name={t('common:fields.username') + ':'}
+          inputName="username"
+        />
+        <TextInput
+          name={t('common:fields.password') + ':'}
+          type="password"
+          inputName="password"
+        />
+        <Button name={t('common:entry.login')} type="submit" design="success" />
+        <span className="h-16" />
+        <Link to="/register">
+          <Button name={t('common:entry.signup')} design="link" />
+        </Link>
+      </form>
+    </Wrapper>
   );
 }

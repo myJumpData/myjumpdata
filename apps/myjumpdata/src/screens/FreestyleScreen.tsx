@@ -1,13 +1,6 @@
-import Main from '../components/Main';
-import PageSpacer from '../components/PageSpacer';
-import Alert from '../components/Alert';
 import AuthVerify from '../common/AuthVerify';
 import { Dispatch, Fragment, useEffect, useState } from 'react';
-import WaveSeperator from '../components/WaveSeperator';
-import { MainFooter } from '../parts/MainFooter';
-import { ScreenNav } from '../parts/ScreenNav';
 import { useTranslation } from 'react-i18next';
-import { Section } from '../components/Section';
 import {
   FaCaretDown,
   FaCaretRight,
@@ -27,6 +20,7 @@ import {
 import FreestyleService from '../services/freestyle.service';
 import { Tab } from '@headlessui/react';
 import randomColorClass from '../helper/randomColorClass';
+import Wrapper from '../parts/Wrapper';
 
 type freestyle_data_group_type = {
   name: string;
@@ -93,165 +87,105 @@ export default function FreestyleScreen() {
     );
   }
 
-  /* function ChangeCurrentFreestyleData() {
-    if (current !== '') {
-      const currentSplit = current.split('_');
-      let data: any[] = [];
-
-      let len = 0;
-      if (currentSplit?.length !== undefined) {
-        len = currentSplit.length;
-      }
-
-      function processSelect(num: number, array: any[], parent: string) {
-        if (currentSplit) {
-          const i = array.findIndex((e) => e.name === currentSplit[num]);
-          const d = array[i];
-          if (num + 1 < len) {
-            processSelect(
-              num + 1,
-              d.groups,
-              parent ? parent + '_' + d.name : d.name
-            );
-          } else {
-            if (d.groups) {
-              const tmp = d.groups.map((q) => {
-                return { name: q.name, key: current + '_' + q.name };
-              });
-              data = [...data, ...tmp];
-            }
-            if (d.elements) {
-              const tmp = d.elements.map((q) => {
-                return {
-                  name: q.name,
-                  key: current + '_' + q.name,
-                  element: true,
-                };
-              });
-              data = [...data, ...tmp];
-            }
-            data = [{ name: 'Back', key: parent, back: true }, ...data];
-          }
-        }
-      }
-      processSelect(0, freestyleData, '');
-      setFolderData(data);
-    } else {
-      const data = freestyleData.map((e: freestyle_data_group_type) => {
-        return {
-          name: e.name,
-          key: e.name,
-        };
-      });
-      setFolderData(data);
-    }
-  } */
-
   return (
-    <Main>
-      <ScreenNav name={t('common:action:freestyle')} />
-      <PageSpacer />
-      {message && <Alert design="warning" text={message} />}
+    <Wrapper current="freestyle">
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">
+          {t('common:action:freestyle')}
+        </span>
+      </div>
+      <div className="flex mb-4 items-end">
+        <div className="mr-auto">
+          {viewStyle === 'grid' && (
+            <div className="flex h-full items-center bg-gray-200 rounded-xl px-4 space-x-2 py-2 mr-2 flex-wrap">
+              {current === '' ? (
+                <HiHome
+                  className={'text-xl cursor-pointer'}
+                  onClick={() => {
+                    setCurrent('');
+                  }}
+                />
+              ) : (
+                <HiOutlineHome
+                  className={'text-xl cursor-pointer'}
+                  onClick={() => {
+                    setCurrent('');
+                  }}
+                />
+              )}
 
-      <WaveSeperator />
-      <Section heading={t('common:action:freestyle')}>
-        <div className="flex mb-4 items-end">
-          <div className="mr-auto">
-            {viewStyle === 'grid' && (
-              <div className="flex h-full items-center bg-gray-200 rounded-xl px-4 space-x-2 py-2 mr-2 flex-wrap">
-                {current === '' ? (
-                  <HiHome
-                    className={'text-xl cursor-pointer'}
-                    onClick={() => {
-                      setCurrent('');
-                    }}
-                  />
-                ) : (
-                  <HiOutlineHome
-                    className={'text-xl cursor-pointer'}
-                    onClick={() => {
-                      setCurrent('');
-                    }}
-                  />
-                )}
-
-                {current !== '' &&
-                  current.split('_').map((e, index, array) => {
-                    let last = false;
-                    let first = false;
-                    if (index === 0) {
-                      first = true;
-                    }
-                    if (index + 1 === array.length) {
-                      last = true;
-                    }
-                    return (
-                      <span className="inline-flex">
-                        <HiChevronRight className="text-2xl" />
-                        <span
-                          className={
-                            'whitespace-nowrap ' + (last && 'font-bold')
-                          }
-                        >
-                          {e}
-                        </span>
-                      </span>
-                    );
-                  })}
-              </div>
-            )}
-          </div>
-          <ViewSelect state={setViewStyle} />
-        </div>
-
-        {viewStyle === 'list' || viewStyle === 'board' ? (
-          <div
-            className={`${
-              viewStyle === 'list' && ' flex flex-col max-w-prose mx-auto'
-            } ${
-              viewStyle === 'board' &&
-              'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
-            }`}
-          >
-            {freestyleData.map((e: freestyle_data_group_type) => (
-              <Group
-                name={e.name}
-                key={e.name}
-                uncollapsed
-                cardStyle={viewStyle === 'board' ? true : false}
-                onClick={() => {
-                  setCurrent(e.name);
-                }}
-              >
-                {readGroup(e, e.name)}
-              </Group>
-            ))}
-          </div>
-        ) : (
-          viewStyle === 'grid' && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {folderData.map((e: any) => {
-                if (e.element) {
-                  return <Element name={e.name} />;
-                } else if (e.back) {
-                  return <Back onClick={() => setCurrent(e.key)} />;
-                } else {
+              {current !== '' &&
+                current.split('_').map((e, index, array) => {
+                  let last = false;
+                  let first = false;
+                  if (index === 0) {
+                    first = true;
+                  }
+                  if (index + 1 === array.length) {
+                    last = true;
+                  }
                   return (
-                    <Folder
-                      key={e.key}
-                      name={e.key}
-                      onClick={(el) => setCurrent(el)}
-                    />
+                    <span className="inline-flex">
+                      <HiChevronRight className="text-2xl" />
+                      <span
+                        className={'whitespace-nowrap ' + (last && 'font-bold')}
+                      >
+                        {e}
+                      </span>
+                    </span>
                   );
-                }
-              })}
+                })}
             </div>
-          )
-        )}
-      </Section>
-      <WaveSeperator rotated />
-      <MainFooter />
-    </Main>
+          )}
+        </div>
+        <ViewSelect state={setViewStyle} />
+      </div>
+
+      {viewStyle === 'list' || viewStyle === 'board' ? (
+        <div
+          className={`${
+            viewStyle === 'list' && ' flex flex-col max-w-prose mx-auto'
+          } ${
+            viewStyle === 'board' &&
+            'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
+          }`}
+        >
+          {freestyleData.map((e: freestyle_data_group_type) => (
+            <Group
+              name={e.name}
+              key={e.name}
+              uncollapsed
+              cardStyle={viewStyle === 'board' ? true : false}
+              onClick={() => {
+                setCurrent(e.name);
+              }}
+            >
+              {readGroup(e, e.name)}
+            </Group>
+          ))}
+        </div>
+      ) : (
+        viewStyle === 'grid' && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {folderData.map((e: any) => {
+              if (e.element) {
+                return <Element name={e.name} />;
+              } else if (e.back) {
+                return <Back onClick={() => setCurrent(e.key)} />;
+              } else {
+                return (
+                  <Folder
+                    key={e.key}
+                    name={e.key}
+                    onClick={(el) => setCurrent(el)}
+                  />
+                );
+              }
+            })}
+          </div>
+        )
+      )}
+    </Wrapper>
   );
 }
 

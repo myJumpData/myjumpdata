@@ -24,7 +24,11 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "rules": {
+        "no-unreachable": "error",
+        "no-constant-condition": "error",
+        "no-unused-vars": "warn"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

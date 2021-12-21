@@ -15,7 +15,8 @@
     "train": "Train",
     "groups": "Groups",
     "profile": "Profile",
-    "settings": "Settings"
+    "settings": "Settings",
+    "speeddata": "Speed Data"
   },
   "action": {
     "train_own": "Train on your own",
@@ -44,5 +45,8 @@
     "lastname": "Lastname",
     "email": "E-Mail",
     "group_name": "Group name"
+  },
+  "footer": {
+    "text": "The Plattform for your Rope Skipping achievments!"
   }
 }

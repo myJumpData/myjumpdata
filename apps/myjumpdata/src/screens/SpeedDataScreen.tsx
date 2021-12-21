@@ -1,25 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaPlus } from 'react-icons/fa';
-
+import { useParams } from 'react-router';
+import AuthVerify from '../common/AuthVerify';
+import { ButtonIcon } from '../components/Button';
+import { SelectInput, TextInput } from '../components/Input';
+import Wrapper from '../parts/Wrapper';
 import GroupsService from '../services/groups.service';
 import ScoreDataService from '../services/scoredata.service';
-
-import { H5 } from '../components/Text';
-import Flex from '../components/Flex';
-import Alert from '../components/Alert';
-import Card from '../components/Card';
-import Seperator from '../components/Seperator';
-import { SelectInput, TextInput } from '../components/Input';
-import { ButtonIcon } from '../components/Button';
-import AuthVerify from '../common/AuthVerify';
-import { useParams } from 'react-router';
-import Main from '../components/Main';
-import { ScreenNav } from '../parts/ScreenNav';
-import PageSpacer from '../components/PageSpacer';
-import WaveSeperator from '../components/WaveSeperator';
-import { MainFooter } from '../parts/MainFooter';
-import { Section } from '../components/Section';
-import { useTranslation } from 'react-i18next';
 
 export default function SpeedDataScreen() {
   AuthVerify();
@@ -90,49 +78,52 @@ export default function SpeedDataScreen() {
   }
 
   return (
-    <Main>
-      <ScreenNav name={t('speeddata.title') + ' ' + groupName} />
-      <PageSpacer />
-      {message && <Alert design="warning" text={message} />}
-
-      <WaveSeperator />
-      <Section heading={t('speeddata.title') + ' ' + groupName}>
-        <Flex>
-          <SelectInput
-            options={typesOptions}
-            inline
-            stateChange={setScoreDataType}
-          />
-          <span className="text-xs whitespace-nowrap uppercase">
-            {t('common:stats.high')}: {groupHigh}
-          </span>
-        </Flex>
-        <Seperator />
-        {groupScores &&
-          groupScores.map((score: any) => (
-            <Card design="light" key={score.user._id}>
-              <Flex>
-                <H5 full>{score.user.username}</H5>
-                <span className="text-xs whitespace-nowrap uppercase">
-                  {t('common:stats.high')}: {score.score}
-                </span>
-              </Flex>
-              <form onSubmit={handleRecordDataSubmit}>
-                <input type="hidden" name="id" value={score.user._id} />
-                <Flex>
-                  <TextInput type="number" inline min="0" inputName="score" />
-                  <ButtonIcon
-                    design="success"
-                    component={<FaPlus />}
-                    type="submit"
-                  />
-                </Flex>
-              </form>
-            </Card>
-          ))}
-      </Section>
-      <WaveSeperator rotated />
-      <MainFooter />
-    </Main>
+    <Wrapper current="speeddata_group">
+      <span className="font-bold text-xl">
+        {t('speeddata.title') + ' ' + groupName}
+      </span>
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">
+          {t('speeddata.title') + ' ' + groupName}
+        </span>
+      </div>
+      <div className="flex items-center space-x-2 mb-2">
+        <SelectInput
+          options={typesOptions}
+          inline
+          stateChange={setScoreDataType}
+        />
+        <span className="text-xs whitespace-nowrap uppercase">
+          {t('common:stats.high')}: {groupHigh}
+        </span>
+      </div>
+      {groupScores &&
+        groupScores.map((score: any) => (
+          <div
+            key={score._id}
+            className="border-t border-gray-300 dark:border-gray-700 py-2"
+          >
+            <div className="flex items-center space-x-2">
+              <span className="text-xl font-bold mr-auto leading-none translate-y-2">
+                {score.user.username}
+              </span>
+              <span className="text-xs whitespace-nowrap uppercase">
+                {t('common:stats.high')}: {score.score}
+              </span>
+            </div>
+            <form onSubmit={handleRecordDataSubmit}>
+              <input type="hidden" name="id" value={score.user._id} />
+              <div className="flex items-center space-x-2">
+                <TextInput type="number" inline min="0" inputName="score" />
+                <ButtonIcon
+                  design="success"
+                  component={<FaPlus />}
+                  type="submit"
+                />
+              </div>
+            </form>
+          </div>
+        ))}
+    </Wrapper>
   );
 }
