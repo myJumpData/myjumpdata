@@ -22,7 +22,8 @@
     "train_group": "Trainieren in Gruppen",
     "speeddata": "Speed Werte",
     "speeddataown": "Speed Werte für dich selbst",
-    "create_group": "Gruppe erstellen"
+    "create_group": "Gruppe erstellen",
+    "freestyle": "Freestyle"
   },
   "stats": {
     "high": "Hoch",

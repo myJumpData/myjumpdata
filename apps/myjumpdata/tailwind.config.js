@@ -1,7 +1,10 @@
 module.exports = {
   content: ['./apps/myjumpdata/src/**/*.{js,jsx,ts,tsx,html}'],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: '480px',
+      },
+    },
   },
-  plugins: [],
 };

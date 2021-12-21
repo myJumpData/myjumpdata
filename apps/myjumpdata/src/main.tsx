@@ -19,6 +19,7 @@ import LegalScreen from './screens/LegalScreen';
 import TermsScreen from './screens/TermsScreen';
 import MainScreen from './screens/MainScreen';
 import TrainScreen from './screens/TrainScreen';
+import FreestyleScreen from './screens/FreestyleScreen';
 
 ReactDOM.render(
   <Suspense fallback={null}>
@@ -57,6 +58,9 @@ ReactDOM.render(
           <Route path="own/" element={<SpeedDataOwnScreen />} />
           <Route path="group/:id" element={<SpeedDataScreen />} />
         </Route>
+
+        {'Freestyle'}
+        <Route path="/freestyle" element={<FreestyleScreen />} />
       </Routes>
     </BrowserRouter>
   </Suspense>,

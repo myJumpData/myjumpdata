@@ -5,6 +5,7 @@ import UsersRoutes from './routes/users.routes';
 import ScoredataRoutes from './routes/scoredata.routes';
 import GroupsRoutes from './routes/groups.routes';
 import * as fs from 'fs';
+import FreestyleRoutes from './routes/freestyle.routes';
 
 export default function createServer() {
   const app = express();
@@ -29,6 +30,7 @@ export default function createServer() {
   UsersRoutes(app);
   ScoredataRoutes(app);
   GroupsRoutes(app);
+  FreestyleRoutes(app);
   app.get('/locales/:lng/:ns', (req, res) => {
     const lng = req.params.lng;
     const ns = req.params.ns;

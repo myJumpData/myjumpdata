@@ -22,7 +22,8 @@
     "train_group": "Train in Groups",
     "speeddata": "Speed Data",
     "speeddataown": "Speed Data for your own",
-    "create_group": "Create Group"
+    "create_group": "Create Group",
+    "freestyle": "Freestyle"
   },
   "stats": {
     "high": "High",
