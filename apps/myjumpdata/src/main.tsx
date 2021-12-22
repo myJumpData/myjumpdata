@@ -1,23 +1,20 @@
-import React from 'react';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import * as ReactDOM from 'react-dom';
-import './styles.scss';
-import './i18n';
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SpeedDataScreen from './screens/SpeedDataScreen';
-import SpeedDataOwnScreen from './screens/SpeedDataOwnScreen';
-import GroupSettingsScreen from './screens/GroupSettingsScreen';
-import GroupScreen from './screens/GroupScreen';
-import GropsScreen from './screens/GroupsScreen';
-import SettingsScreen from './screens/SettingsScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import LegalScreen from './screens/LegalScreen';
-import TermsScreen from './screens/TermsScreen';
-import MainScreen from './screens/MainScreen';
+import './i18n';
 import FreestyleScreen from './screens/FreestyleScreen';
+import GroupScreen from './screens/GroupScreen';
+import GroupSettingsScreen from './screens/GroupSettingsScreen';
+import LegalScreen from './screens/LegalScreen';
+import LoginScreen from './screens/LoginScreen';
+import MainScreen from './screens/MainScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import SpeedDataOwnScreen from './screens/SpeedDataOwnScreen';
+import SpeedDataScreen from './screens/SpeedDataScreen';
+import TermsScreen from './screens/TermsScreen';
+import './styles.scss';
 
 ReactDOM.render(
   <Suspense fallback={null}>
@@ -38,13 +35,9 @@ ReactDOM.render(
         <Route path="/settings" element={<SettingsScreen />} />
 
         {'Group Pages'}
-        <Route path="/group">
-          <Route path="" element={<GropsScreen />} />
-          <Route path=":id">
-            <Route path="" element={<GroupScreen />} />
-            <Route path="settings" element={<GroupSettingsScreen />} />
-          </Route>
-        </Route>
+        <Route path="/group" element={<GroupScreen />} />
+        <Route path="/group/:id" element={<GroupScreen />} />
+        <Route path="/group/:id/settings" element={<GroupSettingsScreen />} />
 
         {'Speeddata'}
         <Route path="/speeddata">

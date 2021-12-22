@@ -8,7 +8,8 @@
     "released": "Released"
   },
   "interact": {
-    "open": "Open"
+    "open": "Open",
+    "back": "Back"
   },
   "nav": {
     "home": "Home",

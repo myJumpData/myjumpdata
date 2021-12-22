@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import AuthVerify from '../common/AuthVerify';
 import Button from '../components/Button';
+import { TextInput } from '../components/Input';
 import randomColorClass from '../helper/randomColorClass';
 import Wrapper from '../parts/Wrapper';
 import AuthService from '../services/auth.service';
@@ -12,15 +13,20 @@ export default function GroupScreen() {
   AuthVerify();
   let params = useParams();
 
-  const { currentUser } = AuthService.getCurrentUser();
+  const { currentUser, isCoach } = AuthService.getCurrentUser();
   const { t } = useTranslation();
   const [message, setMessage] = useState('');
+  const [groups, setGroups] = useState([]);
   const [groupName, setGroupName] = useState('');
   const [groupCoaches, setGroupCoaches] = useState([]);
   const [groupAthletes, setGroupAthletes] = useState([]);
 
   useEffect(() => {
-    getGroup();
+    if (params.id) {
+      getGroup();
+    } else {
+      getGroups();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
@@ -37,20 +43,43 @@ export default function GroupScreen() {
     );
   }
 
+  function getGroups() {
+    GroupsService.getGroups().then(
+      (response: any) => {
+        setGroups(response.data.groups);
+      },
+      (error: any) => {
+        setMessage(error.response?.data?.message.text);
+      }
+    );
+  }
+
+  function handleCreateGroup() {
+    GroupsService.createGroup(groupName.trim()).then(
+      () => {
+        getGroups();
+        setGroupName('');
+      },
+      (error: any) => {
+        setMessage(error.response?.data?.message.text);
+      }
+    );
+  }
+
   function UserBlock({ username }: { username: String }) {
     return (
       <div className="flex flex-col items-center w-20 group">
         <Link
           to={`/u/${username}`}
-          className="flex flex-col items-center w-20 group"
+          className="flex flex-col items-center max-w-20 group"
         >
           <span
             className={
-              'h-12 w-12 rounded-full block transition duration-500 ease-in-out bg-opacity-75 shadow ' +
+              'h-8 w-8 md:h-12 md:w-12 rounded-full block transition duration-500 ease-in-out bg-opacity-75 shadow ' +
               randomColorClass()
             }
           />
-          <span className="overflow-hidden whitespace-nowrap overflow-ellipsis w-20 text-sm text-center">
+          <span className="overflow-hidden whitespace-nowrap overflow-ellipsis max-w-20 text-sm text-center">
             {username}
           </span>
         </Link>
@@ -66,8 +95,8 @@ export default function GroupScreen() {
   function UserRow({ list, name }: { list: any; name: string }) {
     return (
       <div className="flex items-center">
-        <span className="text-xl font-bold pr-4">{name}</span>
-        <div className="w-full overflow-x-auto flex space-x-2 sm:overflow-x-visible sm:flex-wrap">
+        <span className="text-base font-bold pr-4">{name}</span>
+        <div className="w-full overflow-x-auto flex space-x-4 sm:overflow-x-visible sm:flex-wrap">
           {list.map((item: any) => (
             <UserBlock username={item.username} key={item.username} />
           ))}
@@ -76,20 +105,68 @@ export default function GroupScreen() {
     );
   }
 
-  return (
-    <Wrapper current="group">
-      <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{groupName}</span>
-      </div>
-      <div className="space-y-4">
-        <UserRow name={t('common:role.coaches')} list={groupCoaches} />
-        <UserRow name={t('common:role.athletes')} list={groupAthletes} />
-      </div>
-      {groupCoaches.some((i: any) => i._id === currentUser.id) && (
-        <Link to={`/speeddata/group/${params.id}`}>
-          <Button name={t('common:action.speeddata')} design="primary" />
+  if (params.id) {
+    return (
+      <Wrapper current="">
+        <div className="w-full space-y-2">
+          <span className="font-bold text-xl">{groupName}</span>
+        </div>
+        <div className="space-y-4">
+          <UserRow name={t('common:role.coaches')} list={groupCoaches} />
+          <UserRow name={t('common:role.athletes')} list={groupAthletes} />
+        </div>
+        {groupCoaches.some((i: any) => i._id === currentUser.id) && (
+          <Link to={`/speeddata/group/${params.id}`}>
+            <Button name={t('common:action.speeddata')} design="primary" />
+          </Link>
+        )}
+        <Link to={`/group`}>
+          <Button name={t('common:interact.back')} design="link" />
         </Link>
-      )}
-    </Wrapper>
-  );
+      </Wrapper>
+    );
+  } else {
+    return (
+      <Wrapper current="groups">
+        <div className="w-full space-y-2">
+          <span className="font-bold text-xl">
+            {t('common:action.train_group')}
+          </span>
+        </div>
+        <div className="flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 space-y-4 sm:space-y-0">
+          {groups.map((group: any) => (
+            <Link
+              to={`/group/${group._id}`}
+              key={group._id}
+              className="w-full bg-gray-300 px-4 py-2 md:px-8 md:py-4 rounded-lg shadow overflow-ellipsis overflow-hidden items-center flex md:justify-center hover:bg-gray-200 dark:hover:bg-gray-800 outline-gray-700 dark:outline-gray-200 dark:outline dark:bg-transparent"
+            >
+              <span className="font-bold text-lg md:text-xl">{group.name}</span>
+            </Link>
+          ))}
+        </div>
+        {isCoach && (
+          <>
+            <div className="w-full space-y-2">
+              <span className="font-bold text-xl">
+                {t('common:action.create_group')}
+              </span>
+            </div>
+            <div className="max-w-screen-sm">
+              <TextInput
+                name={t('common:fields.group_name') + ':'}
+                type="text"
+                value={groupName}
+                stateChange={setGroupName}
+              />
+              <Button
+                name={t('common:action.create_group')}
+                onClick={handleCreateGroup}
+                design="success"
+              />
+            </div>
+          </>
+        )}
+      </Wrapper>
+    );
+  }
 }

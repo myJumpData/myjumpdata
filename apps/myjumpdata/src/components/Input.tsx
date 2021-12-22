@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
+import { Fragment, useEffect, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { HiCheck, HiSelector } from 'react-icons/hi';
+import classNames from '../helper/classNames';
 
 type TextInputProps = {
   name?: string;
@@ -100,8 +103,8 @@ export function TextInput({
 
 type SelectInputProps = {
   options: any | SelectOptionProps;
-  inline?: boolean;
-  stateChange?: any;
+  stateChange: any;
+  current: any;
 };
 type SelectOptionProps = {
   name: string | number | undefined;
@@ -110,27 +113,77 @@ type SelectOptionProps = {
 
 export function SelectInput({
   options,
-  inline,
   stateChange,
+  current,
 }: SelectInputProps) {
-  let inlineClass = 'mb-4';
-  if (inline) {
-    inlineClass = '';
-  }
   return (
-    <div className="w-full">
-      <select
-        className={
-          'block w-full border border-gray-300 rounded py-1 px-2 ' + inlineClass
-        }
-        onChange={(e) => stateChange && stateChange(e.target.value)}
-      >
-        {options.map((option: SelectOptionProps) => (
-          <option value={option.value} key={option.value}>
-            {option.name}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Listbox value={current} onChange={stateChange}>
+      <div className="relative">
+        <Listbox.Button
+          className={classNames(
+            'relative w-full py-2 pl-3 pr-10 text-left rounded-lg cursor-default sm:text-sm',
+            'border border-gray-200 dark:border-gray-500',
+            'bg-transparent',
+            'focus-visible:ring-2 focus-visible:ring-transparent focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2',
+            'focus:ring-2 focus:ring-transparent focus:ring-offset-orange-300 focus:ring-offset-2'
+          )}
+        >
+          <span className="block truncate">
+            {
+              options.find((e) => {
+                return e.value === current;
+              })?.name
+            }
+          </span>
+          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+            <HiSelector className="w-5 h-5 text-gray-400" aria-hidden="true" />
+          </span>
+        </Listbox.Button>
+        <Transition
+          as={Fragment}
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white dark:bg-black rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-20">
+            {options.map((e: SelectOptionProps, i) => (
+              <Listbox.Option
+                key={i}
+                className={({ active }) =>
+                  classNames(
+                    active
+                      ? 'text-dark dark:text-white bg-yellow-100 dark:bg-yellow-900'
+                      : 'text-gray-900 dark:text-gray-100',
+                    'cursor-default select-none relative py-2 pl-10 pr-4'
+                  )
+                }
+                value={e.value}
+              >
+                {({ selected }) => (
+                  <>
+                    <span
+                      className={`${
+                        selected ? 'font-medium' : 'font-normal'
+                      } block truncate`}
+                    >
+                      {e.name}
+                    </span>
+                    {selected ? (
+                      <span
+                        className={classNames(
+                          'text-yellow-500 absolute inset-y-0 left-0 flex items-center pl-3'
+                        )}
+                      >
+                        <HiCheck className="w-5 h-5" aria-hidden="true" />
+                      </span>
+                    ) : null}
+                  </>
+                )}
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </Transition>
+      </div>
+    </Listbox>
   );
 }

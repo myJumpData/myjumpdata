@@ -23,6 +23,10 @@ export default function SpeedDataScreen() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
+    console.log(message);
+  }, [message]);
+
+  useEffect(() => {
     GroupsService.getGroup(params.id).then(
       (response: any) => {
         setGroupName(response.data.group.name);
@@ -82,17 +86,14 @@ export default function SpeedDataScreen() {
       <span className="font-bold text-xl">
         {t('speeddata.title') + ' ' + groupName}
       </span>
-      <div className="w-full space-y-2">
-        <span className="font-bold text-xl">
-          {t('speeddata.title') + ' ' + groupName}
-        </span>
-      </div>
       <div className="flex items-center space-x-2 mb-2">
-        <SelectInput
-          options={typesOptions}
-          inline
-          stateChange={setScoreDataType}
-        />
+        <div className="w-full">
+          <SelectInput
+            options={typesOptions}
+            current={scoreDataType}
+            stateChange={setScoreDataType}
+          />
+        </div>
         <span className="text-xs whitespace-nowrap uppercase">
           {t('common:stats.high')}: {groupHigh}
         </span>
