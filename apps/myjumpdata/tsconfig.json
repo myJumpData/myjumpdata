@@ -4,7 +4,8 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "noImplicitReturns": true,
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "noUnusedParameters": true
   },
   "files": [],
   "include": [],

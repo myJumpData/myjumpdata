@@ -22,8 +22,7 @@
     "baseUrl": ".",
     "paths": {
       "@myjumpdata/api-interfaces": ["libs/api-interfaces/src/index.ts"]
-    },
-    "noUnusedParameters": true
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

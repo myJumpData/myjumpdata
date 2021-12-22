@@ -1,11 +1,11 @@
-import express from 'express';
 import cors from 'cors';
-import UserRoutes from './routes/user.routes';
-import UsersRoutes from './routes/users.routes';
-import ScoredataRoutes from './routes/scoredata.routes';
-import GroupsRoutes from './routes/groups.routes';
+import express from 'express';
 import * as fs from 'fs';
 import FreestyleRoutes from './routes/freestyle.routes';
+import GroupsRoutes from './routes/groups.routes';
+import ScoredataRoutes from './routes/scoredata.routes';
+import UserRoutes from './routes/user.routes';
+import UsersRoutes from './routes/users.routes';
 
 export default function createServer() {
   const app = express();
@@ -19,13 +19,6 @@ export default function createServer() {
     })
   );
   app.use(express.json());
-  app.use(function (req, res, next) {
-    res.header(
-      'Access-Control-Allow-Headers',
-      'x-access-token, Origin, Content-Type, Accept'
-    );
-    next();
-  });
   UserRoutes(app);
   UsersRoutes(app);
   ScoredataRoutes(app);
