@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HiCog } from 'react-icons/hi';
 import { Link, useParams } from 'react-router-dom';
 import AuthVerify from '../common/AuthVerify';
 import Button from '../components/Button';
@@ -108,8 +109,16 @@ export default function GroupScreen() {
   if (params.id) {
     return (
       <Wrapper current="">
-        <div className="w-full space-y-2">
-          <span className="font-bold text-xl">{groupName}</span>
+        <div className="flex">
+          <div className="w-full space-y-2">
+            <span className="font-bold text-xl">{groupName}</span>
+          </div>
+          <Link
+            to={`/group/${params.id}/settings`}
+            className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full flex items-center justify-center text-2xl aspect-square h-8 w-8"
+          >
+            <HiCog />
+          </Link>
         </div>
         <div className="space-y-4">
           <UserRow name={t('common:role.coaches')} list={groupCoaches} />

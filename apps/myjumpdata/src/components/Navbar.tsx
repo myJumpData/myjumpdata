@@ -1,10 +1,9 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Fragment, ReactElement } from 'react';
-import { HiArrowDown, HiMenu, HiUser, HiX } from 'react-icons/hi';
+import { HiMenu, HiX } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
-import classNames from '../helper/classNames';
 import Logo from '../assets/skipping-rope.png';
-import { FaCaretDown } from 'react-icons/fa';
+import classNames from '../helper/classNames';
 
 export default function Navbar({
   navigation,

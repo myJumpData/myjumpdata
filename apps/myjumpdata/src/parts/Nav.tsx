@@ -75,22 +75,39 @@ export function NavMain({
   current: 'login' | 'register' | 'home' | string;
 }) {
   const { t } = useTranslation();
-  const navigation = [
-    {
-      name: t('common:nav.home'),
-      to: '/',
-      current: current === 'home',
-    },
-    {
-      name: t('common:entry.login'),
-      to: '/login',
-      current: current === 'login',
-    },
-    {
-      name: t('common:entry.signup'),
-      to: '/register',
-      current: current === 'register',
-    },
-  ];
+  const { currentUser } = AuthService.getCurrentUser();
+  let navigation: { name: string; to: string; current: boolean }[] = [];
+  if (currentUser) {
+    navigation = [
+      {
+        name: t('common:nav.home'),
+        to: '/',
+        current: current === 'home',
+      },
+      {
+        name: t('common:interact.open'),
+        to: `/u/${currentUser.username}`,
+        current: current === 'profile',
+      },
+    ];
+  } else {
+    navigation = [
+      {
+        name: t('common:nav.home'),
+        to: '/',
+        current: current === 'home',
+      },
+      {
+        name: t('common:entry.login'),
+        to: '/login',
+        current: current === 'login',
+      },
+      {
+        name: t('common:entry.signup'),
+        to: '/register',
+        current: current === 'register',
+      },
+    ];
+  }
   return <Navbar navigation={navigation} />;
 }
