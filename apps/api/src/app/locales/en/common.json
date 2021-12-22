@@ -16,7 +16,8 @@
     "groups": "Groups",
     "profile": "Profile",
     "settings": "Settings",
-    "speeddata": "Speed Data"
+    "speeddata": "Speed Data",
+    "freestyle": "Freestyle"
   },
   "action": {
     "train_own": "Train on your own",

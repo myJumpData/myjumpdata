@@ -1,4 +1,4 @@
-import AuthVerify from '../common/AuthVerify';
+import { Tab } from '@headlessui/react';
 import { Dispatch, Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,10 +17,10 @@ import {
   HiViewGrid,
   HiViewList,
 } from 'react-icons/hi';
-import FreestyleService from '../services/freestyle.service';
-import { Tab } from '@headlessui/react';
+import AuthVerify from '../common/AuthVerify';
 import randomColorClass from '../helper/randomColorClass';
 import Wrapper from '../parts/Wrapper';
+import FreestyleService from '../services/freestyle.service';
 
 type freestyle_data_group_type = {
   name: string;
@@ -97,7 +97,7 @@ export default function FreestyleScreen() {
       <div className="flex mb-4 items-end">
         <div className="mr-auto">
           {viewStyle === 'grid' && (
-            <div className="flex h-full items-center bg-gray-200 rounded-xl px-4 space-x-2 py-2 mr-2 flex-wrap">
+            <div className="flex h-full items-center bg-gray-200 dark:bg-gray-700 rounded-xl px-4 space-x-2 py-2 mr-2 flex-wrap">
               {current === '' ? (
                 <HiHome
                   className={'text-xl cursor-pointer'}
@@ -203,8 +203,8 @@ function ViewSelect({ state }: { state: Dispatch<'list' | 'grid' | 'board'> }) {
           <button
             className={`${
               selected
-                ? 'bg-white shadow text-yellow-500'
-                : 'hover:bg-black/10 hover:text-gray-700 text-gray-500'
+                ? 'bg-white dark:bg-gray-100 shadow text-yellow-500'
+                : 'hover:bg-black/10 hover:text-gray-700 dark:hover:text-gray-400 text-gray-500 dark:text-gray-400'
             } p-2.5 text-sm leading-5 font-medium rounded-lg focus:outline-none fouces:ring-2 ring-offset-2 ring-offset-yellow-500 ring-white ring-opacity-60${
               hideSmall && 'hidden xs:block'
             }`}
@@ -228,7 +228,7 @@ function ViewSelect({ state }: { state: Dispatch<'list' | 'grid' | 'board'> }) {
         }
       }}
     >
-      <Tab.List className="flex p-1 space-x-1 rounded-xl bg-gray-200 h-fit ">
+      <Tab.List className="flex p-1 space-x-1 rounded-xl bg-gray-200 dark:bg-gray-700 h-fit ">
         <StyledTab icon={<HiViewBoards />} hideSmall />
         <StyledTab icon={<HiViewList />} />
         <StyledTab icon={<HiViewGrid />} />

@@ -16,7 +16,8 @@
     "groups": "Gruppen",
     "profile": "Profil",
     "settings": "Einstellungen",
-    "speeddata": "Speed Werte"
+    "speeddata": "Speed Werte",
+    "freestyle": "Freestyle"
   },
   "action": {
     "train_own": "Alleine trainieren",

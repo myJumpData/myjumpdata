@@ -21,6 +21,11 @@ export function Nav({
       current: current === 'speeddata',
     },
     {
+      name: t('common:nav.freestyle'),
+      to: '/freestyle',
+      current: current === 'freestyle',
+    },
+    {
       name: t('common:nav.groups'),
       to: '/group',
       current: current === 'group',
