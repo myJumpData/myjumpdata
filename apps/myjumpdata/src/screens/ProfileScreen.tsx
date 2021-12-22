@@ -75,11 +75,13 @@ export default function ProfileScreen() {
               <img src={User} alt="user" />
             </div>
           )}
-          <div className="flex flex-col justify-center">
-            <span className="font-bold text-xl md:text-2xl">{username}</span>
-            <span className="text-lg md:text-2xl capitalize">
-              {firstname && lastname ? firstname + ' ' + lastname : username}
+          <div className="flex flex-col justify-center w-full min-w-0">
+            <span className="font-bold text-xl md:text-2xl w-full truncate">
+              {username}
             </span>
+            <div className="text-lg md:text-2xl capitalize truncate">
+              {firstname && lastname ? firstname + ' ' + lastname : username}
+            </div>
           </div>
         </div>
         <div>

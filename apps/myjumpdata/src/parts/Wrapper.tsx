@@ -12,7 +12,7 @@ export default function Wrapper({
   children: ReactNode;
 }) {
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">
       {type === 'main' ? (
         <NavMain current={current} />
       ) : (
