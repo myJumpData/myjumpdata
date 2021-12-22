@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './i18n';
-import FreestyleScreen from './screens/FreestyleScreen';
 import GroupScreen from './screens/GroupScreen';
 import GroupSettingsScreen from './screens/GroupSettingsScreen';
 import LegalScreen from './screens/LegalScreen';
@@ -46,7 +45,7 @@ ReactDOM.render(
         </Route>
 
         {'Freestyle'}
-        <Route path="/freestyle" element={<FreestyleScreen />} />
+        {'<Route path="/freestyle" element={<FreestyleScreen />} />'}
       </Routes>
     </BrowserRouter>
   </Suspense>,
