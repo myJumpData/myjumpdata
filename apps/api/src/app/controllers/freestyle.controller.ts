@@ -1,4 +1,3 @@
-import FreestyleDataElement from '../models/freestyleDataElement.model';
 import FreestyleDataGroup from '../models/freestyleDataGroup';
 
 export function getFreestyle(req, res) {

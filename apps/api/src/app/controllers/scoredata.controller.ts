@@ -1,8 +1,8 @@
-import ScoreDataRecord from '../models/scoreDataRecord.model';
-import Group from '../models/group.model';
-import ScoreDataType from '../models/scoreDataType.model';
-import ScoreDataRecordOwn from '../models/scoreDataRecordOwn.model';
 import mongoose from 'mongoose';
+import Group from '../models/group.model';
+import ScoreDataRecord from '../models/scoreDataRecord.model';
+import ScoreDataRecordOwn from '../models/scoreDataRecordOwn.model';
+import ScoreDataType from '../models/scoreDataType.model';
 
 export function saveScoreData(req: any, res: any) {
   if (!req.body.user) {

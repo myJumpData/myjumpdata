@@ -1,11 +1,11 @@
-import AuthVerify from '../common/AuthVerify';
-import AuthService from '../services/auth.service';
-import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getUser } from '../services/user.service.';
+import { useParams } from 'react-router';
 import User from '../assets/user.svg';
+import AuthVerify from '../common/AuthVerify';
 import Wrapper from '../parts/Wrapper';
+import AuthService from '../services/auth.service';
+import { getUser } from '../services/user.service.';
 
 export default function ProfileScreen() {
   const params = useParams();
@@ -32,6 +32,10 @@ export default function ProfileScreen() {
       setUsername(params.username);
     }
   }, [params, currentUser?.username]);
+
+  useEffect(() => {
+    console.log(message);
+  }, [message]);
 
   useEffect(() => {
     if (username !== '') {
