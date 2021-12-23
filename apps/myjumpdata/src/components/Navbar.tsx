@@ -36,7 +36,9 @@ export default function Navbar({
                 </div>
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex-shrink-0 flex items-center">
-                    <img className="h-8 w-auto" src={Logo} alt="myJumpData" />
+                    <Link to="/">
+                      <img className="h-8 w-auto" src={Logo} alt="myJumpData" />
+                    </Link>
                   </div>
                   <div className="hidden sm:block sm:ml-6">
                     <div className="flex space-x-4">
@@ -78,7 +80,7 @@ export default function Navbar({
                       >
                         <Menu.Items className="origin-top-right absolute right-0 mt-2 max-w-48 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none">
                           {dropdown.map((e) => (
-                            <Menu.Item>
+                            <Menu.Item key={e.name}>
                               {({ active }) => (
                                 <Link
                                   to={e.to}
