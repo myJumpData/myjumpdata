@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
+import { Query } from 'mongoose';
 import config from '../config/auth.config';
 import Role from '../models/role.model';
 import ScoreDataRecord from '../models/scoreDataRecord.model';
@@ -8,7 +9,7 @@ import ScoreDataRecordOwn from '../models/scoreDataRecordOwn.model';
 import ScoreDataType from '../models/scoreDataType.model';
 import User from '../models/user.model';
 
-export function signup(req: any, res: any) {
+export function signup(req, res) {
   // Initiate Variables
   const { username, firstname, lastname, email, password } = req.body;
 
@@ -37,7 +38,7 @@ export function signup(req: any, res: any) {
       password: bcrypt.hashSync(password, 8),
     });
 
-    user.save((err: any, user: any) => {
+    user.save((err, user) => {
       if (err) {
         return res.status(500).send({ message: err });
       }
@@ -50,7 +51,7 @@ export function signup(req: any, res: any) {
         }
 
         user.roles = roles.map((role) => role._id);
-        user.save((err: any) => {
+        user.save((err) => {
           if (err) {
             return res.status(500).send({ message: err });
           }
@@ -66,7 +67,7 @@ export function signup(req: any, res: any) {
   });
 }
 
-export function signin(req: any, res: any) {
+export function signin(req, res) {
   // Initiate Variables
   const { username, password } = req.body;
 
@@ -104,7 +105,7 @@ export function signin(req: any, res: any) {
         expiresIn: config.jwtExpiration,
       });
 
-      const roles = user.roles.map((role: any) => role.name);
+      const roles = user.roles.map((role) => role.name);
 
       res.status(200).send({
         message: {
@@ -124,7 +125,7 @@ export function signin(req: any, res: any) {
     });
 }
 
-export async function getUser(req: any, res: any) {
+export async function getUser(req, res) {
   const search = req.params.search;
 
   const request = await User.findOne({ username: search })
@@ -137,7 +138,7 @@ export async function getUser(req: any, res: any) {
   }
 
   const scoreDataTypesList = await ScoreDataType.find({});
-  const jobQueries: any[] = [];
+  const jobQueries: Query<object, object>[] = [];
   scoreDataTypesList.forEach((type) => {
     jobQueries.push(
       ScoreDataRecordOwn.findOne({
@@ -157,25 +158,26 @@ export async function getUser(req: any, res: any) {
     );
   });
   const highdata = Promise.all(jobQueries).then((d) => {
-    const tmp: any = scoreDataTypesList.map((item) => {
+    const tmp: { scoreOwn: number; score: number; type: string }[] = [];
+    scoreDataTypesList.map((item) => {
       if (item) {
-        return { type: item.name, score: 0, scoreOwn: 0 };
+        tmp.push({ type: item.name, score: 0, scoreOwn: 0 });
       }
     });
-    d.forEach((i) => {
+    d.forEach((i: any) => {
       if (i !== null) {
         if (i.coach === undefined) {
-          const index = tmp.findIndex((e: any) => e.type === i.type.name);
+          const index = tmp.findIndex((e) => e.type === i.type.name);
           tmp[index].scoreOwn = i.score;
         } else {
-          const index = tmp.findIndex((e: any) => e.type === i.type.name);
+          const index = tmp.findIndex((e) => e.type === i.type.name);
           tmp[index].score = i.score;
         }
       }
     });
     return tmp;
   });
-  const roles = request.roles.map((role: any) => role.name);
+  const roles = request.roles.map((role) => role.name);
   const picture = `https://secure.gravatar.com/avatar/${crypto
     .createHash('md5')
     .update(request.email)
@@ -196,7 +198,7 @@ export async function getUser(req: any, res: any) {
   });
 }
 
-export function deleteUser(req: any, res: any) {
+export function deleteUser(req, res) {
   User.deleteOne({ _id: req.userId }).exec((err) => {
     if (err) {
       return res.status(500).send({ message: err });

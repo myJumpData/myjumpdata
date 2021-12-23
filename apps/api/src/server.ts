@@ -28,7 +28,7 @@ export default function createServer() {
     const lng = req.params.lng;
     const ns = req.params.ns;
     fs.readFile(
-      './apps/api/src/app/locales/' + lng + '/' + ns + '.json',
+      './apps/api/src/locales/' + lng + '/' + ns + '.json',
       (err, data) => {
         if (err) {
           return res.status(500).send(err);

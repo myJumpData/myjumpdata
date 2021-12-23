@@ -27,7 +27,8 @@
       "rules": {
         "no-unreachable": "error",
         "no-constant-condition": "error",
-        "no-unused-vars": "error"
+        "no-unused-vars": "error",
+        "@typescript-eslint/no-explicit-any": "off"
       }
     },
     {

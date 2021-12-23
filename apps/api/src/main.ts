@@ -1,6 +1,6 @@
-import createServer from './app/server';
-import dbConfig from './app/config/db.config';
 import mongoose from 'mongoose';
+import dbConfig from './config/db.config';
+import createServer from './server';
 
 mongoose.connect(dbConfig.CONNECT_STRING).then(() => {
   const app = createServer();

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import Role from '../models/role.model';
 import User from '../models/user.model';
 
-export const updateUsersRole = (req: any, res: any) => {
+export const updateUsersRole = (req, res) => {
   if (!req.body.roles) {
     return res
       .status(400)
@@ -13,7 +13,7 @@ export const updateUsersRole = (req: any, res: any) => {
       res.status(500).send({ message: err });
       return;
     }
-    User.updateOne({ _id: req.userId }, { roles: roles }, (err: any) => {
+    User.updateOne({ _id: req.userId }, { roles: roles }, (err) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
@@ -26,7 +26,7 @@ export const updateUsersRole = (req: any, res: any) => {
   });
 };
 
-export const getUsers = (req: any, res: any) => {
+export const getUsers = (req, res) => {
   User.find({ _id: { $ne: req.userId } })
     .populate('roles')
     .select('-password')
@@ -38,7 +38,7 @@ export const getUsers = (req: any, res: any) => {
     });
 };
 
-export const updateUser = (req: any, res: any) => {
+export const updateUser = (req, res) => {
   User.findOne({ _id: req.userId })
     .select('-password -__v')
     .exec((err, user) => {
@@ -117,7 +117,7 @@ export const updateUser = (req: any, res: any) => {
             if (req.userId === userNew.id) {
               email = userNew.email;
             }
-            const roles = userNew.roles.map((role: any) => role.name);
+            const roles = userNew.roles.map((role) => role.name);
             return res.send({
               message: `Successfully Updated ${JSON.stringify(updatedList)} `,
               user: {

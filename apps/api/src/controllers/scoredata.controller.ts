@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose, { Query } from 'mongoose';
 import Group from '../models/group.model';
 import ScoreDataRecord from '../models/scoreDataRecord.model';
 import ScoreDataRecordOwn from '../models/scoreDataRecordOwn.model';
 import ScoreDataType from '../models/scoreDataType.model';
 
-export function saveScoreData(req: any, res: any) {
+export function saveScoreData(req, res) {
   if (!req.body.user) {
     return res.status(400).send({ message: { text: 'No User provided!' } });
   }
@@ -22,7 +22,7 @@ export function saveScoreData(req: any, res: any) {
     type: new mongoose.Types.ObjectId(req.body.type),
   });
 
-  scoreData.save((err: any, scoredata: any) => {
+  scoreData.save((err, scoredata) => {
     if (err) {
       return res.status(500).send({ message: err });
     }
@@ -30,7 +30,7 @@ export function saveScoreData(req: any, res: any) {
   });
 }
 
-export function getScoreDataTypes(req: any, res: any) {
+export function getScoreDataTypes(req, res) {
   ScoreDataType.find({}, (err, scoreDataTypes) => {
     if (err) {
       return res.status(500).send({ message: err });
@@ -39,7 +39,7 @@ export function getScoreDataTypes(req: any, res: any) {
   });
 }
 
-export function getScoreDataHigh(req: any, res: any) {
+export function getScoreDataHigh(req, res) {
   const id = req.params.id;
   const type = req.params.type;
   Group.findOne({ _id: id }, { coaches: 0 })
@@ -51,7 +51,7 @@ export function getScoreDataHigh(req: any, res: any) {
       if (!group) {
         return res.status(404).send({ message: { text: "Can't find group!" } });
       }
-      const athletes = group.athletes.map((athlete: any) => athlete._id);
+      const athletes = group.athletes.map((athlete) => athlete._id);
       ScoreDataRecord.find(
         {
           user: { $in: athletes },
@@ -69,13 +69,13 @@ export function getScoreDataHigh(req: any, res: any) {
           if (err) {
             return res.status(500).send({ message: err });
           }
-          const response: { user: any; score: number }[] = [];
+          const response: { user; score: number }[] = [];
           records.forEach((item) => {
             if (!response.some((response) => response.user === item.user)) {
               response.push(item);
             }
           });
-          group.athletes.forEach((item: { username: any }) => {
+          group.athletes.forEach((item: { username }) => {
             if (
               !response.some(
                 (response) => response.user.username === item.username
@@ -110,10 +110,10 @@ export function getScoreDataHigh(req: any, res: any) {
     });
 }
 
-export function getScoreDataOwn(req: any, res: any) {
+export function getScoreDataOwn(req, res) {
   ScoreDataType.find({})
     .then((scoreDataTypesList) => {
-      const jobQueries: any[] = [];
+      const jobQueries: Query<object, object>[] = [];
       scoreDataTypesList.forEach((type) => {
         jobQueries.push(
           ScoreDataRecordOwn.findOne({ user: req.userId, type: type._id })
@@ -130,7 +130,7 @@ export function getScoreDataOwn(req: any, res: any) {
         }
         const response = data;
         scoreDataTypes.forEach((item) => {
-          if (!response.some((r) => r?.type.name === item.name)) {
+          if (!response.some((r: any) => r?.type.name === item.name)) {
             response.push({ type: item, score: 0 });
           }
         });
@@ -142,7 +142,7 @@ export function getScoreDataOwn(req: any, res: any) {
     });
 }
 
-export function saveScoreDataOwn(req: any, res: any) {
+export function saveScoreDataOwn(req, res) {
   if (!req.body.score) {
     return res.status(400).send({ message: { text: 'No Score provided!' } });
   }
@@ -156,7 +156,7 @@ export function saveScoreDataOwn(req: any, res: any) {
     type: new mongoose.Types.ObjectId(req.body.type),
   });
 
-  scoreDataOwn.save((err: any, scoredata: any) => {
+  scoreDataOwn.save((err, scoredata) => {
     if (err) {
       return res.status(500).send({ message: err });
     }
