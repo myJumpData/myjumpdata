@@ -16,7 +16,7 @@ export default function GroupScreen() {
 
   const { currentUser, isCoach } = AuthService.getCurrentUser();
   const { t } = useTranslation();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
   const [groups, setGroups] = useState([]);
   const [groupName, setGroupName] = useState('');
   const [groupCoaches, setGroupCoaches] = useState([]);
@@ -108,7 +108,7 @@ export default function GroupScreen() {
 
   if (params.id) {
     return (
-      <Wrapper current="">
+      <Wrapper current="group" text={message} state={(e) => setMessage(e)}>
         <div className="flex">
           <div className="w-full space-y-2">
             <span className="font-bold text-xl">{groupName}</span>
@@ -136,7 +136,7 @@ export default function GroupScreen() {
     );
   } else {
     return (
-      <Wrapper current="groups">
+      <Wrapper current="groups" text={message} state={(e) => setMessage(e)}>
         <div className="w-full space-y-2">
           <span className="font-bold text-xl">
             {t('common:action.train_group')}

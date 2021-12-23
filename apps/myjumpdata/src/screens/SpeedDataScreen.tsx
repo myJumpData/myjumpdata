@@ -20,7 +20,7 @@ export default function SpeedDataScreen() {
   const [scoreDataTypes, setScoreDataTypes] = useState([]);
   const [typesOptions, setTypesOptions] = useState([]);
   const [scoreDataType, setScoreDataType] = useState('');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
 
   useEffect(() => {
     console.log(message);
@@ -82,7 +82,11 @@ export default function SpeedDataScreen() {
   }
 
   return (
-    <Wrapper current="speeddata_group">
+    <Wrapper
+      current="speeddata_group"
+      text={message}
+      state={(e) => setMessage(e)}
+    >
       <span className="font-bold text-xl">
         {t('speeddata.title') + ' ' + groupName}
       </span>

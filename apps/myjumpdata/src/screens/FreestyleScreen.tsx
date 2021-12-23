@@ -39,7 +39,7 @@ type freestyle_data_type = {
 export default function FreestyleScreen() {
   AuthVerify();
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
   const [freestyleData, setFreestyleData] = useState<freestyle_data_type[]>([]);
   const [viewStyle, setViewStyle] = useState<'list' | 'grid' | 'board'>('grid');
   const [current, setCurrent] = useState<string>('');
@@ -88,7 +88,7 @@ export default function FreestyleScreen() {
   }
 
   return (
-    <Wrapper current="freestyle">
+    <Wrapper current="freestyle" text={message} state={(e) => setMessage(e)}>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
           {t('common:action:freestyle')}

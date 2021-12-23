@@ -9,7 +9,7 @@ import ScoreDataService from '../services/scoredata.service';
 export default function SpeedDataOwnScreen() {
   AuthVerify();
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
   const [scoreData, setScoreData] = useState([]);
   const { t } = useTranslation();
 
@@ -40,7 +40,7 @@ export default function SpeedDataOwnScreen() {
   }
 
   return (
-    <Wrapper current="speeddata">
+    <Wrapper current="speeddata" text={message} state={(e) => setMessage(e)}>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
           {t('common:action.speeddataown')}

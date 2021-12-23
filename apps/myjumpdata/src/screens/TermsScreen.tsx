@@ -1,11 +1,17 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
 import undraw_terms from '../assets/undraw_terms_re_6ak4.svg';
 import Wrapper from '../parts/Wrapper';
 
 export default function TermsScreen() {
+  const [message, setMessage] = useState<null | string>(null);
   return (
-    <Wrapper current="terms" type="main">
+    <Wrapper
+      current="terms"
+      type="main"
+      text={message}
+      state={(e) => setMessage(e)}
+    >
       <Jumbotron />
       <Main />
     </Wrapper>

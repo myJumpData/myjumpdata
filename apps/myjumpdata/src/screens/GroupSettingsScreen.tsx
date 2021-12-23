@@ -18,7 +18,7 @@ export default function GroupSettingsScreen() {
 
   const { currentUser } = AuthService.getCurrentUser();
   const { t } = useTranslation();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
   const [groupCoaches, setGroupCoaches] = useState([]);
   const [groupAthletes, setGroupAthletes] = useState([]);
   const [groupName, setGroupName] = useState('');
@@ -88,7 +88,11 @@ export default function GroupSettingsScreen() {
   }, [groupName, groupUpdateName, params]);
 
   return (
-    <Wrapper current="group_settings">
+    <Wrapper
+      current="group_settings"
+      text={message}
+      state={(e) => setMessage(e)}
+    >
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
           {groupName + ' ' + t('common:nav.settings')}

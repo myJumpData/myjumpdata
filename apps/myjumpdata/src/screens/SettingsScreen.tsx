@@ -16,7 +16,7 @@ export default function SettingsScreen() {
   const { currentUser, isCoach } = AuthService.getCurrentUser();
   const { t } = useTranslation();
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
   const [username, setUsername] = useState(currentUser.username);
   const [firstname, setFirstname] = useState(currentUser.firstname);
   const [lastname, setLastname] = useState(currentUser.lastname);
@@ -125,7 +125,7 @@ export default function SettingsScreen() {
     );
   }
   return (
-    <Wrapper current="profile">
+    <Wrapper current="profile" text={message} state={(e) => setMessage(e)}>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">{t('common:nav.settings')}</span>
       </div>

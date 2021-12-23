@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import markofediv from '../assets/markofediv.jpg';
@@ -8,9 +9,15 @@ import Wrapper from '../parts/Wrapper';
 
 export default function MainScreen() {
   const { t } = useTranslation();
+  const [message, setMessage] = useState<null | string>(null);
 
   return (
-    <Wrapper current="home" type="main">
+    <Wrapper
+      current="home"
+      type="main"
+      text={message}
+      state={(e) => setMessage(e)}
+    >
       <div className="flex flex-col space-y-12">
         <Jumbotron />
         <BySkippersForSkippers />

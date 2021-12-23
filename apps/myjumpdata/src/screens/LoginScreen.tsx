@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
@@ -9,12 +9,8 @@ import AuthService from '../services/auth.service';
 export default function LoginScreen() {
   const { currentUser } = AuthService.getCurrentUser();
   const { t } = useTranslation();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
 
   function handleLoginSubmit(e: any) {
     e.preventDefault();
@@ -37,7 +33,12 @@ export default function LoginScreen() {
   }
 
   return (
-    <Wrapper current="login" type="main">
+    <Wrapper
+      current="login"
+      type="main"
+      text={message}
+      state={(e) => setMessage(e)}
+    >
       <div className="max-w-screen-sm">
         <div className="w-full space-y-2">
           <span className="font-bold text-xl">{t('common:entry.login')}</span>

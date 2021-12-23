@@ -9,7 +9,7 @@ import AuthService from '../services/auth.service';
 export default function RegisterScreen() {
   const { currentUser } = AuthService.getCurrentUser();
   const { t } = useTranslation();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
 
   const navigate = useNavigate();
 
@@ -52,7 +52,12 @@ export default function RegisterScreen() {
   }
 
   return (
-    <Wrapper current="register" type="main">
+    <Wrapper
+      current="register"
+      type="main"
+      text={message}
+      state={(e) => setMessage(e)}
+    >
       <div className="max-w-screen-sm">
         <div className="w-full space-y-2">
           <span className="font-bold text-xl">{t('common:entry.signup')}</span>

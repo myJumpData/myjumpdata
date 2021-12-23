@@ -21,7 +21,7 @@ export default function ProfileScreen() {
   const [lastname, setLastname] = useState('');
   const [image, setImage] = useState('');
   const [userOverviewScoreData, setUserOverviewScoreData] = useState([]);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<null | string>(null);
 
   const { currentUser } = AuthService.getCurrentUser();
 
@@ -32,10 +32,6 @@ export default function ProfileScreen() {
       setUsername(params.username);
     }
   }, [params, currentUser?.username]);
-
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
 
   useEffect(() => {
     if (username !== '') {
@@ -59,7 +55,7 @@ export default function ProfileScreen() {
   }, [username]);
 
   return (
-    <Wrapper current="profile">
+    <Wrapper current="profile" text={message} state={(e) => setMessage(e)}>
       <div className="w-full space-y-2">
         <div className="flex justify-start space-x-4">
           {image !== '' ? (
