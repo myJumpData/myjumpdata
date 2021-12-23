@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch, useEffect } from 'react';
 import {
   HiCheckCircle,
   HiExclamation,
@@ -18,6 +18,12 @@ export default function Alert({
   design?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info';
   icon?: boolean;
 }) {
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      state(null);
+    }, 10000);
+    return () => clearTimeout(timeoutId);
+  }, [text]);
   if (text) {
     return (
       <div
