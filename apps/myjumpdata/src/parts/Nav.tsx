@@ -13,17 +13,16 @@ export function Nav({
   const { t } = useTranslation();
   const { currentUser } = AuthService.getCurrentUser();
   const [image, setImage] = useState('');
-  /*
-    {
-      name: t('common:nav.freestyle'),
-      to: '/freestyle',
-      current: current === 'freestyle',
-    }, */
   const navigation = [
     {
       name: t('common:nav.speeddata'),
       to: '/speeddata/own',
       current: current === 'speeddata',
+    },
+    {
+      name: t('common:nav.freestyle'),
+      to: '/freestyle',
+      current: current === 'freestyle',
     },
     {
       name: t('common:nav.groups'),
