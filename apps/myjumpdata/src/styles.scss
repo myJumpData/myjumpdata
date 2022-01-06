@@ -2,12 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .gradient {
-    @apply bg-gradient-to-r from-red-600 via-yellow-600 to-yellow-500;
-  }
-
-  .gradient-b {
-    @apply bg-gradient-to-r from-red-600 via-yellow-600 to-yellow-500;
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: black;
+  -webkit-text-fill-color: black;
+  @media (prefers-color-scheme: dark) {
+    -webkit-box-shadow: 0 0 0 30px black inset !important;
+    -webkit-text-fill-color: white;
   }
 }
