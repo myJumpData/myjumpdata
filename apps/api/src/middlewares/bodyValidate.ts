@@ -1,4 +1,7 @@
 export function bodyValidateUsername(req, res, next) {
+  if (!req.body.username) {
+    return next();
+  }
   if (req.body.username.length < 4) {
     return res.status(400).send({
       message: {
@@ -15,10 +18,13 @@ export function bodyValidateUsername(req, res, next) {
       },
     });
   }
-  next();
+  return next();
 }
 
 export function bodyValidateFirstname(req, res, next) {
+  if (!req.body.firstname) {
+    return next();
+  }
   if (!req.body.firstname.match(/^[A-Z-]+$/i)) {
     return res.status(400).send({
       message: {
@@ -27,10 +33,13 @@ export function bodyValidateFirstname(req, res, next) {
       },
     });
   }
-  next();
+  return next();
 }
 
 export function bodyValidateLastname(req, res, next) {
+  if (!req.body.lastname) {
+    return next();
+  }
   if (!req.body.lastname.match(/^[A-Z-]+$/i)) {
     return res.status(400).send({
       message: {
@@ -39,10 +48,13 @@ export function bodyValidateLastname(req, res, next) {
       },
     });
   }
-  next();
+  return next();
 }
 
 export function bodyValidateEmail(req, res, next) {
+  if (!req.body.email) {
+    return next();
+  }
   if (!req.body.email.match(/^\w+([.-]?\w+)*@\w+([.]?\w+)*(\.\w{2,3})+$/i)) {
     return res.status(400).send({
       message: {
@@ -51,10 +63,13 @@ export function bodyValidateEmail(req, res, next) {
       },
     });
   }
-  next();
+  return next();
 }
 
 export function bodyValidatePassword(req, res, next) {
+  if (!req.body.password) {
+    return next();
+  }
   if (req.body.password.length < 4) {
     return res.status(400).send({
       message: {
@@ -63,5 +78,5 @@ export function bodyValidatePassword(req, res, next) {
       },
     });
   }
-  next();
+  return next();
 }
