@@ -47,6 +47,14 @@ export const updateUser = (req, res) => {
       }
       const updatedList: string[] = [];
       if (req.body.username && user.username !== req.body.username) {
+        if (!req.body.username.match(/^[A-Z0-9._-]+$/i)) {
+          return res.status(400).send({
+            message: {
+              text: 'Not allowed character Field Username',
+              key: 'notallowedcharacter.field.username',
+            },
+          });
+        }
         User.findOne({ username: req.body.username }).exec((err, u) => {
           if (u === null || u == undefined) {
             User.updateOne(
@@ -62,6 +70,14 @@ export const updateUser = (req, res) => {
         });
       }
       if (req.body.firstname && user.firstname !== req.body.firstname) {
+        if (!req.body.firstname.match(/^[A-Z-]+$/i)) {
+          return res.status(400).send({
+            message: {
+              text: 'Not allowed character Field Firstname',
+              key: 'notallowedcharacter.field.firstname',
+            },
+          });
+        }
         User.updateOne(
           { _id: req.userId },
           { firstname: req.body.firstname.toLowerCase() }
@@ -73,6 +89,14 @@ export const updateUser = (req, res) => {
         });
       }
       if (req.body.lastname && user.lastname !== req.body.lastname) {
+        if (!req.body.lastname.match(/^[A-Z-]+$/i)) {
+          return res.status(400).send({
+            message: {
+              text: 'Not allowed character Field Lastname',
+              key: 'notallowedcharacter.field.lastname',
+            },
+          });
+        }
         User.updateOne(
           { _id: req.userId },
           { lastname: req.body.lastname.toLowerCase() }
@@ -84,6 +108,16 @@ export const updateUser = (req, res) => {
         });
       }
       if (req.body.email && user.email !== req.body.email) {
+        if (
+          !req.body.email.match(/^\w+([.-]?\w+)*@\w+([.]?\w+)*(\.\w{2,3})+$/i)
+        ) {
+          return res.status(400).send({
+            message: {
+              text: 'Not allowed character Field Email',
+              key: 'notallowedcharacter.field.email',
+            },
+          });
+        }
         User.updateOne(
           { _id: req.userId },
           { email: req.body.email.toLowerCase() }
@@ -95,6 +129,14 @@ export const updateUser = (req, res) => {
         });
       }
       if (req.body.password) {
+        if (req.body.password.length < 8) {
+          return res.status(400).send({
+            message: {
+              text: 'Not enough character Field password',
+              key: 'notenoughcharacter.field.password',
+            },
+          });
+        }
         User.updateOne(
           { _id: req.userId },
           { password: bcrypt.hashSync(req.body.password) }
