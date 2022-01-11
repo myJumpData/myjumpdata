@@ -110,7 +110,9 @@ export default function SpeedDataScreen() {
           >
             <div className="flex items-center space-x-2">
               <span className="text-xl font-bold mr-auto leading-none translate-y-2">
-                {score.user.username}
+                {score.user.firstname && score.user.lastname
+                  ? score.user.firstname + ' ' + score.user.lastname
+                  : score.user.username}
               </span>
               <span className="text-xs whitespace-nowrap uppercase">
                 {t('common:stats.high')}: {score.score}
