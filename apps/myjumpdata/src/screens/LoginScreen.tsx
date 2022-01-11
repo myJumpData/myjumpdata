@@ -19,7 +19,7 @@ export default function LoginScreen() {
     AuthService.login(username.trim(), password).then(
       (response: any) => {
         if (response.message.key === 'success.user.login') {
-          navigate(`/u/${username}`);
+          navigate(`/u/${response.user.username}`);
         }
       },
       (error: any) => {
