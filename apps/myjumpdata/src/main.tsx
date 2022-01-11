@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import * as ReactDOM from 'react-dom';
-import ReactGA from 'react-ga';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './i18n';
 import FreestyleScreen from './screens/FreestyleScreen';
@@ -16,8 +15,6 @@ import SpeedDataOwnScreen from './screens/SpeedDataOwnScreen';
 import SpeedDataScreen from './screens/SpeedDataScreen';
 import TermsScreen from './screens/TermsScreen';
 import './styles.scss';
-
-ReactGA.initialize('G-61CTXJ58KF');
 
 ReactDOM.render(
   <Suspense fallback={null}>

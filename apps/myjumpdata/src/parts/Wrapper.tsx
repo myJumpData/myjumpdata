@@ -1,6 +1,4 @@
-import { Dispatch, ReactNode, useEffect } from 'react';
-import ReactGA from 'react-ga';
-import { useLocation } from 'react-router-dom';
+import { Dispatch, ReactNode } from 'react';
 import Alert from '../components/Alert';
 import Footer from './Footer';
 import { Nav, NavMain } from './Nav';
@@ -22,12 +20,6 @@ export default function Wrapper({
   design?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info';
   icon?: boolean;
 }) {
-  const location = useLocation();
-  const pathname = location.pathname;
-  useEffect(() => {
-    ReactGA.pageview(pathname);
-  }, [pathname]);
-
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">
       {type === 'main' ? (
