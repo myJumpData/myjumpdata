@@ -16,7 +16,8 @@
         "tsConfig": "apps/myjumpdata/tsconfig.app.json",
         "assets": [
           "apps/myjumpdata/src/favicon.ico",
-          "apps/myjumpdata/src/assets"
+          "apps/myjumpdata/src/assets",
+          "apps/myjumpdata/src/.htaccess"
         ],
         "styles": ["apps/myjumpdata/src/styles.scss"],
         "scripts": [],
