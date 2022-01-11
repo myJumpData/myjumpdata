@@ -1,5 +1,5 @@
 export function bodyValidateUsername(req, res, next) {
-  if (!req.body.username.match(/^[A-Z0-9]+$/i)) {
+  if (!req.body.username.match(/^[A-Z0-9._]+$/i)) {
     return res.status(400).send({
       message: {
         text: 'Not allowed character Field Username',
