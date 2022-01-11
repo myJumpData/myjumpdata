@@ -74,7 +74,7 @@ export function signin(req, res) {
   // Login
   User.findOne({
     username: {
-      $regex: new RegExp(`^${username}`, 'i'),
+      $regex: new RegExp(`^${username}$`, 'i'),
     },
   })
     .populate('roles', '-__v')
