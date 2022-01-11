@@ -109,7 +109,7 @@ export default function SpeedDataScreen() {
             className="border-t border-gray-300 dark:border-gray-700 py-2"
           >
             <div className="flex items-center space-x-2">
-              <span className="text-xl font-bold mr-auto leading-none translate-y-2">
+              <span className="text-xl font-bold mr-auto leading-none translate-y-2 truncate">
                 {score.user.firstname && score.user.lastname
                   ? score.user.firstname + ' ' + score.user.lastname
                   : score.user.username}
