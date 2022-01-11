@@ -1,4 +1,12 @@
 export function bodyValidateUsername(req, res, next) {
+  if (req.body.username.length < 4) {
+    return res.status(400).send({
+      message: {
+        text: 'Not enough character Field Username',
+        key: 'notenoughcharacter.field.username',
+      },
+    });
+  }
   if (!req.body.username.match(/^[A-Z0-9._-]+$/i)) {
     return res.status(400).send({
       message: {
@@ -47,7 +55,7 @@ export function bodyValidateEmail(req, res, next) {
 }
 
 export function bodyValidatePassword(req, res, next) {
-  if (req.body.password.length < 8) {
+  if (req.body.password.length < 4) {
     return res.status(400).send({
       message: {
         text: 'Not enough character Field password',
