@@ -1,5 +1,6 @@
 import { Dispatch, ReactNode } from 'react';
 import Alert from '../components/Alert';
+import AuthService from '../services/auth.service';
 import Footer from './Footer';
 import { Nav, NavMain } from './Nav';
 
@@ -20,9 +21,14 @@ export default function Wrapper({
   design?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info';
   icon?: boolean;
 }) {
+  const { currentUser } = AuthService.getCurrentUser();
+  console.log(currentUser);
+
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">
-      {type === 'main' ? (
+      {type === 'main' ||
+      currentUser?.username === null ||
+      currentUser?.username === undefined ? (
         <NavMain current={current} />
       ) : (
         <Nav current={current} />
