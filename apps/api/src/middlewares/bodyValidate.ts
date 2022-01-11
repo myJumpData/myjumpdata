@@ -1,5 +1,5 @@
 export function bodyValidateUsername(req, res, next) {
-  if (!req.body.username.match(/^[A-Z0-9._]+$/i)) {
+  if (!req.body.username.match(/^[A-Z0-9._-]+$/i)) {
     return res.status(400).send({
       message: {
         text: 'Not allowed character Field Username',
@@ -11,7 +11,7 @@ export function bodyValidateUsername(req, res, next) {
 }
 
 export function bodyValidateFirstname(req, res, next) {
-  if (!req.body.firstname.match(/^[A-Z]+$/i)) {
+  if (!req.body.firstname.match(/^[A-Z-]+$/i)) {
     return res.status(400).send({
       message: {
         text: 'Not allowed character Field Firstname',
@@ -23,7 +23,7 @@ export function bodyValidateFirstname(req, res, next) {
 }
 
 export function bodyValidateLastname(req, res, next) {
-  if (!req.body.lastname.match(/^[A-Z]+$/i)) {
+  if (!req.body.lastname.match(/^[A-Z-]+$/i)) {
     return res.status(400).send({
       message: {
         text: 'Not allowed character Field Lastname',
