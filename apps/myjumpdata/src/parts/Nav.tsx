@@ -13,16 +13,11 @@ export function Nav({
   const { t } = useTranslation();
   const { currentUser } = AuthService.getCurrentUser();
   const [image, setImage] = useState('');
-  const navigation = [
+  let navigation = [
     {
       name: t('common:nav.speeddata'),
       to: '/speeddata/own',
       current: current === 'speeddata',
-    },
-    {
-      name: t('common:nav.freestyle'),
-      to: '/freestyle',
-      current: current === 'freestyle',
     },
     {
       name: t('common:nav.groups'),
@@ -30,6 +25,25 @@ export function Nav({
       current: current === 'group',
     },
   ];
+  if (process.env.NODE_ENV === 'development') {
+    navigation = [
+      {
+        name: t('common:nav.speeddata'),
+        to: '/speeddata/own',
+        current: current === 'speeddata',
+      },
+      {
+        name: t('common:nav.freestyle'),
+        to: '/freestyle',
+        current: current === 'freestyle',
+      },
+      {
+        name: t('common:nav.groups'),
+        to: '/group',
+        current: current === 'group',
+      },
+    ];
+  }
   const dropdown = [
     {
       icon: <HiUser />,

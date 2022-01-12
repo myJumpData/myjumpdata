@@ -46,7 +46,9 @@ ReactDOM.render(
         </Route>
 
         {'Freestyle'}
-        <Route path="/freestyle" element={<FreestyleScreen />} />
+        {process.env.NODE_ENV === 'development' && (
+          <Route path="/freestyle" element={<FreestyleScreen />} />
+        )}
       </Routes>
     </BrowserRouter>
   </Suspense>,
