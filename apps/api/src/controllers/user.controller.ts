@@ -157,6 +157,7 @@ export function signin(req, res) {
           email: user.email,
           roles: roles,
           token: token,
+          active: user.active,
         },
       });
     });

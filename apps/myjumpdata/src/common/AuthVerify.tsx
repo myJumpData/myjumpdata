@@ -1,9 +1,15 @@
+import { Buffer } from 'buffer';
 import TokenService from '../services/token.service';
 import Logout from './Logout';
-import { Buffer } from 'buffer';
 
 export default function AuthVerify() {
   const token = TokenService.getLocalAccessToken();
+  const user = TokenService.getUser();
+  console.log(user);
+  if (user.active !== true) {
+    Logout();
+    return;
+  }
 
   if (token) {
     const payload = JSON.parse(
