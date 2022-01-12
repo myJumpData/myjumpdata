@@ -21,7 +21,7 @@ export default function Alert({
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       state(null);
-    }, 10000);
+    }, 20000);
     return () => clearTimeout(timeoutId);
   }, [text]);
   if (text) {
