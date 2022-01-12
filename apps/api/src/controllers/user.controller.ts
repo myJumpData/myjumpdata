@@ -180,47 +180,13 @@ export function verify(req, res) {
         },
       });
     }
-    User.findOne({ id: data.id }).exec((err, user) => {
-      if (err) {
-        return res.status(500).send({ message: { text: err } });
-      }
-      if (!user) {
-        console.log('user');
-        return res.status(400).send({
-          message: {
-            text: 'Invalid Token',
-            key: 'wrong.field.token',
-          },
-        });
-      }
-      if (data.timestamp + 3600000 < Date.now()) {
-        return res.status(400).send({
-          message: {
-            text: 'Invalid Token',
-            key: 'wrong.field.token',
-          },
-        });
-      }
-      if (data.email !== user.email) {
-        console.log('email');
-        return res.status(400).send({
-          message: {
-            text: 'Invalid Token',
-            key: 'wrong.field.token',
-          },
-        });
-      }
-      if (user.active === true) {
-        return res.redirect(`${hostConfig.APP}/login`);
-      }
-      User.findOneAndUpdate({ _id: user.id }, { active: true }).exec((err) => {
+      User.updateMany({ email: data.email }, { active: true }).exec((err) => {
         if (err) {
           return res.status(500).send({ message: { text: err } });
         }
         return res.redirect(`${hostConfig.APP}/login`);
       });
     });
-  });
 }
 
 export async function getUser(req, res) {
