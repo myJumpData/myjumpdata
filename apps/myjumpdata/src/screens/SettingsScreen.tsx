@@ -80,22 +80,9 @@ export default function SettingsScreen() {
           }
         );
       }
-      if (email !== currentUser.email) {
-        UsersService.updateUser({ email }).then(
-          (response: any) => {
-            setMessage(response?.data?.message.text);
-            setEmail(response.data.user.email);
-            TokenService.updateUserLocalStorage(response.data.user);
-          },
-          (error: any) => {
-            setMessage(error.response?.data?.message.text);
-            setUsername(currentUser.email);
-          }
-        );
-      }
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, [username, firstname, lastname, email, currentUser]);
+  }, [username, firstname, lastname, currentUser]);
 
   const escFunction = useCallback((e: any) => {
     if (e.keyCode === 27) {
@@ -111,6 +98,17 @@ export default function SettingsScreen() {
     };
   }, [escFunction]);
 
+  function emailSubmit() {
+    UsersService.updateUser({ email }).then(
+      () => {
+        Logout();
+      },
+      (error: any) => {
+        setMessage(error.response?.data?.message.text);
+        setEmail(currentUser.email);
+      }
+    );
+  }
   function passwordSubmit() {
     UsersService.updateUser({ password }).then(
       (response: any) => {
@@ -152,12 +150,24 @@ export default function SettingsScreen() {
               value={lastname}
             />
           </div>
-          <TextInput
-            type="text"
-            name={t('common:fields.email') + ':'}
-            stateChange={setEmail}
-            value={email}
-          />
+          <div className="flex space-x-4">
+            <span className="w-full">
+              <TextInput
+                type="text"
+                name={t('common:fields.email') + ':'}
+                stateChange={setEmail}
+                value={email}
+              />
+            </span>
+            <span className="self-end mb-4">
+              <button
+                className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
+                onClick={emailSubmit}
+              >
+                <HiCheck />
+              </button>
+            </span>
+          </div>
           <div className="flex space-x-4">
             <span className="w-full">
               <TextInput
@@ -189,37 +199,38 @@ export default function SettingsScreen() {
         <div className="flex flex-col">
           <span className="text-base font-bold">{t('settings.danger')}: </span>
           <div className="flex flex-col space-y-4">
-            {isCoach ? (
-              <Button
-                name={t('settings.reset_coach')}
-                design="warning"
-                onClick={() => {
-                  UsersService.updateUsersRole(['athlete']).then(
-                    () => {
-                      Logout();
-                    },
-                    (error: any) => {
-                      setMessage(error.response?.data?.message.text);
-                    }
-                  );
-                }}
-              />
-            ) : (
-              <Button
-                name={t('settings.become_coach')}
-                design="warning"
-                onClick={() => {
-                  UsersService.updateUsersRole(['athlete', 'coach']).then(
-                    () => {
-                      Logout();
-                    },
-                    (error: any) => {
-                      setMessage(error.response?.data?.message.text);
-                    }
-                  );
-                }}
-              />
-            )}
+            {process.env.NODE_ENV === 'development' &&
+              (isCoach ? (
+                <Button
+                  name={t('settings.reset_coach')}
+                  design="warning"
+                  onClick={() => {
+                    UsersService.updateUsersRole(['athlete']).then(
+                      () => {
+                        Logout();
+                      },
+                      (error: any) => {
+                        setMessage(error.response?.data?.message.text);
+                      }
+                    );
+                  }}
+                />
+              ) : (
+                <Button
+                  name={t('settings.become_coach')}
+                  design="warning"
+                  onClick={() => {
+                    UsersService.updateUsersRole(['athlete', 'coach']).then(
+                      () => {
+                        Logout();
+                      },
+                      (error: any) => {
+                        setMessage(error.response?.data?.message.text);
+                      }
+                    );
+                  }}
+                />
+              ))}
             <Button
               name={t('settings.logout')}
               design="danger"

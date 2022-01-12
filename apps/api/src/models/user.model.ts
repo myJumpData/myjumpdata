@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
 const User = mongoose.model(
-  "User",
+  'User',
   new mongoose.Schema({
-    username: {type: String, unique: true},
+    username: { type: String, unique: true },
     firstname: String,
     lastname: String,
     email: String,
@@ -11,9 +11,10 @@ const User = mongoose.model(
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Role",
+        ref: 'Role',
       },
     ],
+    active: Boolean,
   })
 );
 

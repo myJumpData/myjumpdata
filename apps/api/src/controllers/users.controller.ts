@@ -1,4 +1,8 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import config from '../config/auth.config';
+import hostConfig from '../config/host.config';
+import SendMail from '../helper/email';
 import Role from '../models/role.model';
 import User from '../models/user.model';
 
@@ -86,11 +90,23 @@ export const updateUser = (req, res) => {
       if (req.body.email && user.email !== req.body.email) {
         User.updateOne(
           { _id: req.userId },
-          { email: req.body.email.toLowerCase() }
+          { email: req.body.email.toLowerCase(), active: false }
         ).exec((err) => {
           if (err) {
             return res.status(500).send({ message: err });
           }
+          const token = jwt.sign(
+            { id: user.id, email: req.body.email, timestamp: Date.now() },
+            config.secret
+          );
+          const url = `${hostConfig.URL}/verify/${token}`;
+          SendMail({
+            to: user.email,
+            subject: 'Please Confirm your E-Mail-Adress',
+            html: `<a href="${url}">${url}</a>`,
+          }).catch((err) => {
+            return res.status(500).send({ message: err });
+          });
           updatedList.push('Email');
         });
       }

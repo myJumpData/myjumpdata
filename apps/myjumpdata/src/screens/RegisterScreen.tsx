@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
@@ -12,10 +12,6 @@ export default function RegisterScreen() {
   const [message, setMessage] = useState<null | string>(null);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
 
   function handleRegisterSubmit(e: any) {
     e.preventDefault();
@@ -31,17 +27,12 @@ export default function RegisterScreen() {
       email.trim(),
       password
     ).then(
-      () => {
-        AuthService.login(username.trim(), password).then(
-          () => {
-            navigate(`/u/${username}`);
-          },
-          (error: any) => {
-            setMessage(error.response?.data?.message.text);
-          }
-        );
+      (response) => {
+        setMessage(response.data.message.text);
+        navigate('/login');
       },
       (error: any) => {
+        console.log(error);
         setMessage(error.response?.data?.message.text);
       }
     );

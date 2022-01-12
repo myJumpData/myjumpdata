@@ -3,6 +3,8 @@ import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { Query } from 'mongoose';
 import config from '../config/auth.config';
+import hostConfig from '../config/host.config';
+import SendMail from '../helper/email';
 import Role from '../models/role.model';
 import ScoreDataRecord from '../models/scoreDataRecord.model';
 import ScoreDataRecordOwn from '../models/scoreDataRecordOwn.model';
@@ -36,6 +38,7 @@ export function signup(req, res) {
       lastname: lastname,
       email: email,
       password: bcrypt.hashSync(password, 8),
+      emailConfirm: false,
     });
 
     user.save((err, user) => {
@@ -55,9 +58,22 @@ export function signup(req, res) {
           if (err) {
             return res.status(500).send({ message: err });
           }
+
+          const token = jwt.sign(
+            { id: user.id, email: user.email, timestamp: Date.now() },
+            config.secret
+          );
+          const url = `${hostConfig.URL}/verify/${token}`;
+          SendMail({
+            to: user.email,
+            subject: 'Please Confirm your E-Mail-Adress',
+            html: `<a href="${url}">${url}</a>`,
+          }).catch((err) => {
+            return res.status(500).send({ message: err });
+          });
           return res.status(201).send({
             message: {
-              text: 'Successfully created user',
+              text: 'Successfully created user. Please Confirm Email',
               key: 'success.user.created',
             },
           });
@@ -101,6 +117,27 @@ export function signin(req, res) {
         });
       }
 
+      if (user.active !== true) {
+        const token = jwt.sign(
+          { id: user.id, email: user.email, timestamp: Date.now() },
+          config.secret
+        );
+        const url = `${hostConfig.URL}/verify/${token}`;
+        SendMail({
+          to: user.email,
+          subject: 'Please Confirm your E-Mail-Adress',
+          html: `<a href="${url}">${url}</a>`,
+        }).catch((err) => {
+          return res.status(500).send({ message: err });
+        });
+        return res.status(403).send({
+          message: {
+            text: 'Not Active Account. Confirm your E-Mail',
+            key: 'wrong.field.active',
+          },
+        });
+      }
+
       const token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: config.jwtExpiration,
       });
@@ -123,6 +160,66 @@ export function signin(req, res) {
         },
       });
     });
+}
+export function verify(req, res) {
+  const token = req.params.token;
+  if (token.lenght < 1) {
+    return res.status(400).send({
+      message: {
+        text: 'Missing Field Token',
+        key: 'missing.field.token',
+      },
+    });
+  }
+  jwt.verify(token, config.secret, (err, data) => {
+    if (err) {
+      return res.status(500).send({
+        message: {
+          text: err,
+        },
+      });
+    }
+    User.findOne({ id: data.id }).exec((err, user) => {
+      if (err) {
+        return res.status(500).send({ message: { text: err } });
+      }
+      if (!user) {
+        console.log('user');
+        return res.status(400).send({
+          message: {
+            text: 'Invalid Token',
+            key: 'wrong.field.token',
+          },
+        });
+      }
+      if (data.timestamp + 3600000 < Date.now()) {
+        return res.status(400).send({
+          message: {
+            text: 'Invalid Token',
+            key: 'wrong.field.token',
+          },
+        });
+      }
+      if (data.email !== user.email) {
+        console.log('email');
+        return res.status(400).send({
+          message: {
+            text: 'Invalid Token',
+            key: 'wrong.field.token',
+          },
+        });
+      }
+      if (user.active === true) {
+        return res.redirect(`${hostConfig.APP}/login`);
+      }
+      User.findOneAndUpdate({ _id: user.id }, { active: true }).exec((err) => {
+        if (err) {
+          return res.status(500).send({ message: { text: err } });
+        }
+        return res.redirect(`${hostConfig.APP}/login`);
+      });
+    });
+  });
 }
 
 export async function getUser(req, res) {
