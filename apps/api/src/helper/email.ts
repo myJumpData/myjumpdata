@@ -11,12 +11,17 @@ const transporter = nodemailer.createTransport(
   },
   { from: emailConfig.EMAIL_USER }
 );
-export default function SendMail(
-  to: string,
-  subject: string,
-  text?: string,
-  html?: string
-): Promise<object> {
+export default function SendMail({
+  to,
+  subject,
+  text,
+  html,
+}: {
+  to: string;
+  subject: string;
+  text?: string;
+  html?: string;
+}): Promise<object> {
   return transporter.sendMail({
     to,
     subject,
