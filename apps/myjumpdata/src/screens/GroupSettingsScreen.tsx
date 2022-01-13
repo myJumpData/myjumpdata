@@ -289,7 +289,7 @@ export default function GroupSettingsScreen() {
     onClick: any;
   }) {
     return (
-      <div className="flex bg-gray-300 py-2 px-4 rounded-xl">
+      <div className="flex bg-gray-500/50 py-2 px-4 rounded-xl">
         <span className="w-full font-bold truncate capitalize">{name}</span>
         <span
           className="text-xl self-center"
