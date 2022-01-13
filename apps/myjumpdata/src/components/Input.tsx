@@ -102,7 +102,7 @@ export function TextInput({
 }
 
 type SelectInputProps = {
-  options: any | SelectOptionProps;
+  options: SelectOptionProps[];
   stateChange: any;
   current: any;
 };
