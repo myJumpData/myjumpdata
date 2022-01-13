@@ -20,7 +20,9 @@
     "become_coach": "Become Coach",
     "delete_disclaimer_title": "Are you shure you want to delete your Account?",
     "delete_disclaimer_text": "All associated Date will be lost and cannot be restored.",
-    "delete_disclaimer_confirm": "Delete Anyway"
+    "delete_disclaimer_confirm": "Delete Anyway",
+    "image_gravatar": "Use Gravatar",
+    "image_none": "No Picture"
   },
   "speeddata": {
     "title": "Speed Data for"

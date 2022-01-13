@@ -15,6 +15,7 @@ const User = mongoose.model(
       },
     ],
     active: Boolean,
+    picture: String,
   })
 );
 

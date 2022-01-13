@@ -121,6 +121,16 @@ export const updateUser = (req, res) => {
           updatedList.push('Password');
         });
       }
+      if (req.body.picture) {
+        User.updateOne({ _id: req.userId }, { picture: req.body.picture }).exec(
+          (err) => {
+            if (err) {
+              return res.status(500).send({ message: err });
+            }
+            updatedList.push('Picture');
+          }
+        );
+      }
       setTimeout(() => {
         User.findOne({ _id: req.userId })
           .select('-password -__v')
@@ -142,6 +152,7 @@ export const updateUser = (req, res) => {
                 lastname: userNew.lastname,
                 roles,
                 email,
+                picture: userNew.picture,
               },
             });
           });

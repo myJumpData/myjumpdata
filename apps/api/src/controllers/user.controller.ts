@@ -38,7 +38,8 @@ export function signup(req, res) {
       lastname: lastname,
       email: email,
       password: bcrypt.hashSync(password, 8),
-      emailConfirm: false,
+      active: false,
+      picture: false,
     });
 
     user.save((err, user) => {
@@ -158,6 +159,7 @@ export function signin(req, res) {
           roles: roles,
           token: token,
           active: user.active,
+          picture: user.picture,
         },
       });
     });
@@ -180,13 +182,13 @@ export function verify(req, res) {
         },
       });
     }
-      User.updateMany({ email: data.email }, { active: true }).exec((err) => {
-        if (err) {
-          return res.status(500).send({ message: { text: err } });
-        }
-        return res.redirect(`${hostConfig.APP}/login`);
-      });
+    User.updateMany({ email: data.email }, { active: true }).exec((err) => {
+      if (err) {
+        return res.status(500).send({ message: { text: err } });
+      }
+      return res.redirect(`${hostConfig.APP}/login`);
     });
+  });
 }
 
 export async function getUser(req, res) {
@@ -242,10 +244,13 @@ export async function getUser(req, res) {
     return tmp;
   });
   const roles = request.roles.map((role) => role.name);
-  const picture = `https://secure.gravatar.com/avatar/${crypto
-    .createHash('md5')
-    .update(request.email)
-    .digest('hex')}?size=300&d=404`;
+  let picture: null | string = null;
+  if (request.picture === 'gravatar') {
+    picture = `https://secure.gravatar.com/avatar/${crypto
+      .createHash('md5')
+      .update(request.email)
+      .digest('hex')}?size=300&d=404`;
+  }
   highdata.then((highdata) => {
     return res.status(200).send({
       message: { text: 'Successfully found User', key: 'success.user.found' },

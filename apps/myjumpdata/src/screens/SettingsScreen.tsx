@@ -21,6 +21,9 @@ export default function SettingsScreen() {
   const [firstname, setFirstname] = useState(currentUser.firstname);
   const [lastname, setLastname] = useState(currentUser.lastname);
   const [email, setEmail] = useState(currentUser.email);
+  const [picture, setPicture] = useState<undefined | 'gravatar' | 'none'>(
+    currentUser.picture
+  );
   const [password, setPassword] = useState('');
   const [delStep, setDelStep] = useState(0);
 
@@ -31,6 +34,7 @@ export default function SettingsScreen() {
         setFirstname(response.data.user.firstname);
         setLastname(response.data.user.lastname);
         setEmail(response.data.user.email);
+        setPicture(response.data.user.picture);
         TokenService.updateUserLocalStorage(response.data.user);
       },
       (error: any) => {
@@ -80,9 +84,22 @@ export default function SettingsScreen() {
           }
         );
       }
+      if (picture !== currentUser.picture) {
+        UsersService.updateUser({ picture }).then(
+          (response: any) => {
+            setMessage(response?.data?.message.text);
+            setPicture(response.data.user.picture);
+            TokenService.updateUserLocalStorage(response.data.user);
+          },
+          (error: any) => {
+            setMessage(error.response?.data?.message.text);
+            setPicture(currentUser.picture);
+          }
+        );
+      }
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, [username, firstname, lastname, currentUser]);
+  }, [username, firstname, lastname, currentUser, picture]);
 
   const escFunction = useCallback((e: any) => {
     if (e.keyCode === 27) {
@@ -187,14 +204,46 @@ export default function SettingsScreen() {
             </span>
           </div>
         </div>
-        <div className="flex flex-col">
-          <span className="text-base font-bold">{t('settings.image')}: </span>
-          <span className="text-left">{t('settings.image_text')}</span>
-          <span className="text-blue-900 hover:text-blue-500 underline hover:no-underline">
-            <a href="https://gravatar.com/" target="_blank" rel="noreferrer">
-              {t('settings.image_action')}
-            </a>
-          </span>
+        <div className="flex flex-col sm:flex-row">
+          <div className="flex flex-col">
+            <span className="text-base font-bold">{t('settings.image')}: </span>
+            <span className="text-left">{t('settings.image_text')}</span>
+            <span className="text-blue-900 hover:text-blue-500 underline hover:no-underline">
+              <a href="https://gravatar.com/" target="_blank" rel="noreferrer">
+                {t('settings.image_action')}
+              </a>
+            </span>
+          </div>
+          <div className="flex flex-col whitespace-nowrap">
+            <div
+              className="flex flex-row items-center hover:outline outline-blue-500 rounded-lg px-2 py-1"
+              onClick={() => {
+                setPicture('gravatar');
+              }}
+            >
+              <input
+                type="radio"
+                name="picture"
+                value="gravatar"
+                checked={picture === 'gravatar'}
+              />
+              <label className="ml-1">{t('settings.image_gravatar')}</label>
+            </div>
+            <div
+              className="flex flex-row items-center hover:outline outline-blue-500 rounded-lg px-2 py-1"
+              onClick={() => {
+                setPicture('none');
+              }}
+            >
+              <input
+                type="radio"
+                name="picture"
+                value=""
+                checked={picture !== 'gravatar'}
+              />
+              <label className="ml-1">{t('settings.image_none')}</label>
+            </div>
+          </div>
         </div>
         <div className="flex flex-col">
           <span className="text-base font-bold">{t('settings.danger')}: </span>
