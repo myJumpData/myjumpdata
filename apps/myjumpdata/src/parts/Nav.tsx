@@ -55,11 +55,13 @@ export function Nav({
 
   useEffect(() => {
     getUser(currentUser.username).then((response: any) => {
-      fetch(response.data.data.picture).then((r) => {
-        if (r.status === 200) {
-          setImage(response.data.data.picture);
-        }
-      });
+      if (response.data.data.picture) {
+        fetch(response.data.data.picture).then((r) => {
+          if (r.status === 200) {
+            setImage(response.data.data.picture);
+          }
+        });
+      }
     });
   }, []);
 

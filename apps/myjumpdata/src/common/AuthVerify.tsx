@@ -5,7 +5,6 @@ import Logout from './Logout';
 export default function AuthVerify() {
   const token = TokenService.getLocalAccessToken();
   const user = TokenService.getUser();
-  console.log(user);
   if (user.active !== true) {
     Logout();
     return;

@@ -22,7 +22,6 @@ export default function Wrapper({
   icon?: boolean;
 }) {
   const { currentUser } = AuthService.getCurrentUser();
-  console.log(currentUser);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">

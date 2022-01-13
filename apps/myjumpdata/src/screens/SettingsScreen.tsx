@@ -226,6 +226,8 @@ export default function SettingsScreen() {
                 name="picture"
                 value="gravatar"
                 checked={picture === 'gravatar'}
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                onChange={() => {}}
               />
               <label className="ml-1">{t('settings.image_gravatar')}</label>
             </div>
@@ -240,6 +242,8 @@ export default function SettingsScreen() {
                 name="picture"
                 value=""
                 checked={picture !== 'gravatar'}
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                onChange={() => {}}
               />
               <label className="ml-1">{t('settings.image_none')}</label>
             </div>
