@@ -113,12 +113,14 @@ export default function GroupScreen() {
           <div className="w-full space-y-2">
             <span className="font-bold text-xl">{groupName}</span>
           </div>
-          <Link
-            to={`/group/${params.id}/settings`}
-            className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full flex items-center justify-center text-2xl aspect-square h-8 w-8"
-          >
-            <HiCog />
-          </Link>
+          {groupCoaches.some((i: any) => i._id === currentUser.id) && (
+            <Link
+              to={`/group/${params.id}/settings`}
+              className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full flex items-center justify-center text-2xl aspect-square h-8 w-8"
+            >
+              <HiCog />
+            </Link>
+          )}
         </div>
         <div className="space-y-4">
           <UserRow name={t('common:role.coaches')} list={groupCoaches} />
