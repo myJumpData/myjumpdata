@@ -1,7 +1,7 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import backend from 'i18next-xhr-backend';
 import detector from 'i18next-browser-languagedetector';
+import backend from 'i18next-xhr-backend';
+import { initReactI18next } from 'react-i18next';
 import { CONF } from './Constants';
 
 i18n
@@ -15,7 +15,6 @@ i18n
     defaultNS: 'translation',
     lowerCaseLng: true,
     cleanCode: true,
-    debug: process.env.NODE_ENV === 'development',
     interpolation: {
       escapeValue: false,
     },
