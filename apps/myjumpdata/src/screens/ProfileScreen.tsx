@@ -41,11 +41,13 @@ export default function ProfileScreen() {
           setFirstname(response.data.data.firstname);
           setLastname(response.data.data.lastname);
           setUserOverviewScoreData(response.data.data.highdata);
-          fetch(response.data.data.picture).then((r) => {
-            if (r.status === 200) {
-              setImage(response.data.data.picture);
-            }
-          });
+          if (response.data.data.picture) {
+            fetch(response.data.data.picture).then((r) => {
+              if (r.status === 200) {
+                setImage(response.data.data.picture);
+              }
+            });
+          }
         },
         (error: any) => {
           setMessage(error.response?.data?.message.text);
