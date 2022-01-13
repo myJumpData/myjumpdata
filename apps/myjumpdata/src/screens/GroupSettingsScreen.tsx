@@ -149,7 +149,11 @@ export default function GroupSettingsScreen() {
                       });
                     }}
                     remove
-                    name={user.username}
+                    name={
+                      user.firstname && user.lastname
+                        ? user.firstname + ' ' + user.lastname
+                        : user.username
+                    }
                     key={user._id}
                   />
                 );
@@ -164,7 +168,11 @@ export default function GroupSettingsScreen() {
                         }
                       );
                     }}
-                    name={user.username}
+                    name={
+                      user.firstname && user.lastname
+                        ? user.firstname + ' ' + user.lastname
+                        : user.username
+                    }
                     key={user._id}
                   />
                 );
@@ -187,7 +195,11 @@ export default function GroupSettingsScreen() {
                       });
                     }}
                     remove
-                    name={user.username}
+                    name={
+                      user.firstname && user.lastname
+                        ? user.firstname + ' ' + user.lastname
+                        : user.username
+                    }
                     key={user._id}
                   />
                 );
@@ -202,7 +214,11 @@ export default function GroupSettingsScreen() {
                         getUsers();
                       });
                     }}
-                    name={user.username}
+                    name={
+                      user.firstname && user.lastname
+                        ? user.firstname + ' ' + user.lastname
+                        : user.username
+                    }
                     key={user._id}
                   />
                 );
@@ -274,7 +290,7 @@ export default function GroupSettingsScreen() {
   }) {
     return (
       <div className="flex bg-gray-300 py-2 px-4 rounded-xl">
-        <span className="w-full font-bold">{name}</span>
+        <span className="w-full font-bold truncate capitalize">{name}</span>
         <span
           className="text-xl self-center"
           onClick={() => {
