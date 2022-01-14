@@ -83,7 +83,7 @@ export default function GroupScreen() {
       <Link
         to={`/u/${username}`}
         className={classNames(
-          'flex flex-col items-center justify-center w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 overflow-hidden group rounded-full shrink-0',
+          'flex flex-col items-center justify-center w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 group rounded-full shrink-0 relative',
           picture === null && randomColorClass(),
           picture === null && 'bg-opacity-75'
         )}
@@ -95,10 +95,10 @@ export default function GroupScreen() {
               : username[0] + username.slice(-1)}
           </span>
         ) : (
-          <img className="" src={picture} alt={username} />
+          <img className="rounded-full" src={picture} alt={username} />
         )}
         <div className="absolute hidden group-hover:block group-focus:block">
-          <span className="backdrop-filter backdrop-blur bg-gray-800 bg-opacity-75 text-white text-xs rounded-lg py-1 px-2 right-0 bottom-full m-4">
+          <span className="backdrop-filter backdrop-blur bg-gray-800 bg-opacity-75 text-white text-xs rounded-lg py-1 px-2 right-0 bottom-full m-4 capitalize whitespace-nowrap">
             {firstname && lastname ? firstname + ' ' + lastname : username}
           </span>
         </div>
