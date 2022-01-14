@@ -14,12 +14,20 @@ export function saveScoreData(req, res) {
   if (!req.body.type) {
     return res.status(400).send({ message: { text: 'No Type provided!' } });
   }
+  if (!req.body.date) {
+    return res.status(400).send({
+      message: {
+        text: 'No Date provided!',
+      },
+    });
+  }
 
   const scoreData = new ScoreDataRecord({
     user: new mongoose.Types.ObjectId(req.body.user),
     score: req.body.score,
     coach: new mongoose.Types.ObjectId(req.userId),
     type: new mongoose.Types.ObjectId(req.body.type),
+    createdAt: req.body.date,
   });
 
   scoreData.save((err, scoredata) => {

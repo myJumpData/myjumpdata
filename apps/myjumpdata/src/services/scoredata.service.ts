@@ -4,8 +4,8 @@ const getScoreDataTypes = () => {
   return api.get('/scoredata/types');
 };
 
-const saveScoreData = (user: any, type: any, score: number) => {
-  return api.post('/scoredata', { user, type, score });
+const saveScoreData = (user: any, type: any, score: number, date: Date) => {
+  return api.post('/scoredata', { user, type, score, date });
 };
 
 const getScoreDataHigh = (id: any, type: any) => {

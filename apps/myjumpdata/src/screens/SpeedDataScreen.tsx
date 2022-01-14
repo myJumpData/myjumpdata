@@ -4,7 +4,7 @@ import { FaPlus } from 'react-icons/fa';
 import { useParams } from 'react-router';
 import AuthVerify from '../common/AuthVerify';
 import { ButtonIcon } from '../components/Button';
-import { SelectInput, TextInput } from '../components/Input';
+import { DateInput, SelectInput, TextInput } from '../components/Input';
 import Wrapper from '../parts/Wrapper';
 import GroupsService from '../services/groups.service';
 import ScoreDataService from '../services/scoredata.service';
@@ -21,6 +21,7 @@ export default function SpeedDataScreen() {
   const [typesOptions, setTypesOptions] = useState([]);
   const [scoreDataType, setScoreDataType] = useState('');
   const [message, setMessage] = useState<null | string>(null);
+  const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
     console.log(message);
@@ -76,7 +77,7 @@ export default function SpeedDataScreen() {
     e.preventDefault();
     const score = e.target.elements.score.value;
     const id = e.target.elements.id.value;
-    ScoreDataService.saveScoreData(id, scoreDataType, score);
+    ScoreDataService.saveScoreData(id, scoreDataType, score, date);
     e.target.elements.score.value = null;
     getScoreDataHigh(params.id, scoreDataType);
   }
@@ -90,6 +91,12 @@ export default function SpeedDataScreen() {
       <span className="font-bold text-xl">
         {t('speeddata.title') + ' ' + groupName}
       </span>
+      <DateInput
+        setDate={(e) => {
+          setDate(e);
+        }}
+        date={date}
+      />
       <div className="flex items-center space-x-2 mb-2">
         <div className="w-full">
           <SelectInput
