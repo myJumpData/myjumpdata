@@ -60,7 +60,7 @@ export function updateGroupName(req, res) {
 
 export function getGroup(req, res) {
   Group.findOne({ _id: req.params.id })
-    .populate('coaches athletes', '-password -roles -__v -_id')
+    .populate('coaches athletes', '-password -roles -__v')
     .exec((err, group) => {
       if (err) {
         return res.status(500).send({ message: err });
@@ -74,6 +74,7 @@ export function getGroup(req, res) {
             .digest('hex')}?size=300&d=404`;
         }
         return {
+          id: d._id,
           firstname: d.firstname,
           lastname: d.lastname,
           username: d.username,
@@ -89,6 +90,7 @@ export function getGroup(req, res) {
             .digest('hex')}?size=300&d=404`;
         }
         return {
+          id: d._id,
           firstname: d.firstname,
           lastname: d.lastname,
           username: d.username,

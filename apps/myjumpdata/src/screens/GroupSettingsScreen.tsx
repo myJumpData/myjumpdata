@@ -24,14 +24,13 @@ export default function GroupSettingsScreen() {
   const [groupAthletes, setGroupAthletes] = useState([]);
   const [groupName, setGroupName] = useState('');
   const [groupUpdateName, setGroupUpdateName] = useState('');
-  const [tab, setTab] = useState('athletes');
   const [users, setUsers] = useState([]);
   const [delStep, setDelStep] = useState(0);
 
   useEffect(() => {
     if (
       groupCoaches.length > 0 &&
-      !groupCoaches.some((i: any) => i._id === currentUser.id)
+      !groupCoaches.some((i: any) => i.id === currentUser.id)
     ) {
       navigate(-1);
     }
@@ -135,14 +134,14 @@ export default function GroupSettingsScreen() {
                   </span>
                   <div className="flex flex-row items-center justify-end space-x-2">
                     {groupCoaches.some(
-                      (athlete: any) => athlete._id === _id
+                      (athlete: any) => athlete.id === _id
                     ) && (
                       <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-blue-500 text-sm">
                         C
                       </span>
                     )}
                     {groupAthletes.some(
-                      (athlete: any) => athlete._id === _id
+                      (athlete: any) => athlete.id === _id
                     ) && (
                       <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-orange-500 text-sm">
                         A
@@ -164,7 +163,7 @@ export default function GroupSettingsScreen() {
                         <Menu.Items className="origin-top-right absolute right-0 mt-4 top-4 max-w-36 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                           {roles.some((e: any) => e.name === 'coach') &&
                             !groupCoaches.some(
-                              (athlete: any) => athlete._id === _id
+                              (athlete: any) => athlete.id === _id
                             ) && (
                               <MenuItem
                                 icon={<HiUserAdd />}
@@ -180,7 +179,7 @@ export default function GroupSettingsScreen() {
                               />
                             )}
                           {groupCoaches.some(
-                            (athlete: any) => athlete._id === _id
+                            (athlete: any) => athlete.id === _id
                           ) && (
                             <MenuItem
                               icon={<HiUserRemove />}
@@ -199,10 +198,10 @@ export default function GroupSettingsScreen() {
                             />
                           )}
                           {!groupCoaches.some(
-                            (coach: any) => coach._id === _id
+                            (coach: any) => coach.id === _id
                           ) &&
                             !groupAthletes.some(
-                              (athlete: any) => athlete._id === _id
+                              (athlete: any) => athlete.id === _id
                             ) && (
                               <MenuItem
                                 icon={<HiUserAdd />}
@@ -220,7 +219,7 @@ export default function GroupSettingsScreen() {
                               />
                             )}
                           {groupAthletes.some(
-                            (athlete: any) => athlete._id === _id
+                            (athlete: any) => athlete.id === _id
                           ) && (
                             <MenuItem
                               icon={<HiUserRemove />}

@@ -83,7 +83,7 @@ export default function GroupScreen() {
       <Link
         to={`/u/${username}`}
         className={classNames(
-          'flex flex-col items-center justify-center w-12 h-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 overflow-hidden group border-red-500 border rounded-full',
+          'flex flex-col items-center justify-center w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 overflow-hidden group rounded-full shrink-0',
           picture === null && randomColorClass(),
           picture === null && 'bg-opacity-75'
         )}
@@ -132,7 +132,7 @@ export default function GroupScreen() {
           <div className="w-full space-y-2">
             <span className="font-bold text-xl">{groupName}</span>
           </div>
-          {groupCoaches.some((i: any) => i._id === currentUser.id) && (
+          {groupCoaches.some((i: any) => i.id === currentUser.id) && (
             <Link
               to={`/group/${params.id}/settings`}
               className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full flex items-center justify-center text-2xl aspect-square h-8 w-8"
