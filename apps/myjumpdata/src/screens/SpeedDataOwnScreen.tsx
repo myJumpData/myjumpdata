@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HiPlus } from 'react-icons/hi';
 import AuthVerify from '../common/AuthVerify';
-import { TextInput } from '../components/Input';
+import { DateInput, TextInput } from '../components/Input';
 import Wrapper from '../parts/Wrapper';
 import ScoreDataService from '../services/scoredata.service';
 
@@ -11,6 +11,7 @@ export default function SpeedDataOwnScreen() {
 
   const [message, setMessage] = useState<null | string>(null);
   const [scoreData, setScoreData] = useState([]);
+  const [date, setDate] = useState<Date>(new Date());
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function SpeedDataOwnScreen() {
     const score = e.target.elements.score.value;
     const type = e.target.elements.id.value;
     if (score !== '') {
-      ScoreDataService.saveScoreDataOwn(type, score);
+      ScoreDataService.saveScoreDataOwn(type, score, date);
       e.target.elements.score.value = null;
       getData();
     }
@@ -45,12 +46,18 @@ export default function SpeedDataOwnScreen() {
         <span className="font-bold text-xl">
           {t('common:action.speeddataown')}
         </span>
+        <DateInput
+          setDate={(e) => {
+            setDate(e);
+          }}
+          date={date}
+        />
         {scoreData &&
           scoreData.map((score: any) => {
             return (
               score !== null && (
                 <div
-                  key={score._id}
+                  key={score.type._id}
                   className="border-t border-gray-300 dark:border-gray-700 py-2"
                 >
                   <div className="flex items-end space-x-2">

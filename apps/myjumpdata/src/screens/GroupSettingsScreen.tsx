@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment, ReactChild, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaMinus, FaPlus } from 'react-icons/fa';
+import { HiDotsVertical, HiUserAdd, HiUserRemove } from 'react-icons/hi';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import AuthVerify from '../common/AuthVerify';
@@ -105,130 +106,99 @@ export default function GroupSettingsScreen() {
         stateChange={setGroupUpdateName}
         value={groupUpdateName}
       />
-      <span className="text-xl font-bold">
-        {tab === 'athletes' && t('common:role.athletes')}
-        {tab === 'coaches' && t('common:role.coaches')} in {groupName}
-      </span>
-      <div className="flex space-x-4">
-        <Button
-          name={t('common:role.athletes')}
-          design={tab === 'athletes' ? 'primary' : 'secondary'}
-          onClick={() => {
-            setTab('athletes');
-          }}
-        />
-        <Button
-          name={t('common:role.coaches')}
-          design={tab === 'coaches' ? 'primary' : 'secondary'}
-          onClick={() => {
-            setTab('coaches');
-          }}
-        />
-      </div>
-      <div className="mt-4">
-        <div className="flex flex-col space-y-4 mt-4">
-          {users.map((user: any) => {
-            if (tab === 'athletes') {
-              if (
-                groupCoaches.some((athlete: any) => athlete._id === user._id) ||
-                user._id === currentUser.id
-              ) {
-                return <span key={user._id} className="hidden" />;
-              }
-              if (
-                groupAthletes.some((athlete: any) => athlete._id === user._id)
-              ) {
-                return (
-                  <UserBox
-                    onClick={() => {
-                      GroupsService.removeUsersFromGroup(params.id, [
-                        user._id,
-                      ]).then(() => {
-                        getGroup();
-                        getUsers();
-                      });
-                    }}
-                    remove
-                    name={
-                      user.firstname && user.lastname
-                        ? user.firstname + ' ' + user.lastname
-                        : user.username
-                    }
-                    key={user._id}
-                  />
-                );
-              } else {
-                return (
-                  <UserBox
-                    onClick={() => {
-                      GroupsService.addUsersToGroup(params.id, [user._id]).then(
-                        () => {
-                          getGroup();
-                          getUsers();
-                        }
-                      );
-                    }}
-                    name={
-                      user.firstname && user.lastname
-                        ? user.firstname + ' ' + user.lastname
-                        : user.username
-                    }
-                    key={user._id}
-                  />
-                );
-              }
-            } else if (tab === 'coaches') {
-              if (groupAthletes.some((coach: any) => coach._id === user._id)) {
-                return <span key={user._id} className="hidden" />;
-              }
-              if (
-                groupCoaches.some((coaches: any) => coaches._id === user._id)
-              ) {
-                return (
-                  <UserBox
-                    onClick={() => {
-                      GroupsService.removeCoachesFromGroup(params.id, [
-                        user._id,
-                      ]).then(() => {
-                        getGroup();
-                        getUsers();
-                      });
-                    }}
-                    remove
-                    name={
-                      user.firstname && user.lastname
-                        ? user.firstname + ' ' + user.lastname
-                        : user.username
-                    }
-                    key={user._id}
-                  />
-                );
-              } else {
-                return (
-                  <UserBox
-                    onClick={() => {
-                      GroupsService.addCoachesToGroup(params.id, [
-                        user._id,
-                      ]).then(() => {
-                        getGroup();
-                        getUsers();
-                      });
-                    }}
-                    name={
-                      user.firstname && user.lastname
-                        ? user.firstname + ' ' + user.lastname
-                        : user.username
-                    }
-                    key={user._id}
-                  />
-                );
-              }
-            } else {
-              return <span key={user._id} className="hidden" />;
+      <div>
+        <span className="text-xl font-bold">Mitglieder der Gruppe</span>
+        <div className="mt-2 flex flex-col space-y-2">
+          {users.map(
+            ({
+              _id,
+              firstname,
+              lastname,
+              username,
+              roles,
+            }: {
+              _id: string;
+              firstname: string;
+              lastname: string;
+              username: string;
+              roles: [Object];
+            }) => {
+              console.log(roles);
+              return (
+                <div
+                  className="bg-gray-500/50 flex flex-row py-2 px-4 rounded-lg items-center justify-between"
+                  key={_id}
+                >
+                  <span className="truncate capitalize">
+                    {firstname && lastname
+                      ? firstname + ' ' + lastname
+                      : username}
+                  </span>
+                  <div className="flex flex-row items-center justify-end space-x-2">
+                    {groupCoaches.some(
+                      (athlete: any) => athlete._id === _id
+                    ) && (
+                      <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-blue-500 text-sm">
+                        C
+                      </span>
+                    )}
+                    {groupAthletes.some(
+                      (athlete: any) => athlete._id === _id
+                    ) && (
+                      <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-orange-500 text-sm">
+                        A
+                      </span>
+                    )}
+                    <Menu as="div" className="relative">
+                      <Menu.Button className="flex justify-center items-center h-8 w-8 rounded-full hover:outline outline-gray-500">
+                        <HiDotsVertical />
+                      </Menu.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="origin-top-right absolute right-0 mt-4 top-4 max-w-36 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                          {roles.some((e: any) => e.name === 'coach') && (
+                            <MenuItem
+                              onClick={() => {}}
+                              icon={<HiUserAdd />}
+                              name="Add as Coach"
+                            />
+                          )}
+                          {groupCoaches.some(
+                            (athlete: any) => athlete._id === _id
+                          ) && (
+                            <MenuItem
+                              onClick={() => {}}
+                              icon={<HiUserRemove />}
+                              name="Remove Coach"
+                            />
+                          )}
+                          {groupAthletes.some(
+                            (athlete: any) => athlete._id === _id
+                          ) && (
+                            <MenuItem
+                              onClick={() => {}}
+                              icon={<HiUserRemove />}
+                              name="Remove Athlete"
+                            />
+                          )}
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  </div>
+                </div>
+              );
             }
-          })}
+          )}
         </div>
       </div>
+
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">{t('settings.danger')}</span>
       </div>
@@ -279,27 +249,26 @@ export default function GroupSettingsScreen() {
     </Wrapper>
   );
 
-  function UserBox({
-    name,
-    remove,
+  function MenuItem({
     onClick,
+    icon,
+    name,
   }: {
-    name: string;
-    remove?: boolean;
     onClick: any;
+    icon: ReactChild;
+    name: string;
   }) {
     return (
-      <div className="flex bg-gray-500/50 py-2 px-4 rounded-xl">
-        <span className="w-full font-bold truncate capitalize">{name}</span>
-        <span
-          className="text-xl self-center"
-          onClick={() => {
-            onClick();
-          }}
-        >
-          {remove ? <FaMinus /> : <FaPlus />}
-        </span>
-      </div>
+      <Menu.Item
+        as="span"
+        className="flex items-center justify-start px-4 py-2 text-sm leading-none hover:bg-gray-500/50 cursor-pointer"
+        onClick={() => {
+          onClick();
+        }}
+      >
+        <span className="text-lg mr-2">{icon}</span>
+        <span className="whitespace-nowrap">{name}</span>
+      </Menu.Item>
     );
   }
 }
