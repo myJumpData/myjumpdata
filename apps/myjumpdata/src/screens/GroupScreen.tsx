@@ -83,7 +83,7 @@ export default function GroupScreen() {
       <Link
         to={`/u/${username}`}
         className={classNames(
-          'flex flex-col items-center justify-center w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 overflow-hidden group border-red-500 border rounded-full',
+          'flex flex-col items-center justify-center w-12 h-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 overflow-hidden group border-red-500 border rounded-full',
           picture === null && randomColorClass(),
           picture === null && 'bg-opacity-75'
         )}
