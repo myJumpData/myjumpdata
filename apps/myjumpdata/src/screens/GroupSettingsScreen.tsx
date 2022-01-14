@@ -163,29 +163,73 @@ export default function GroupSettingsScreen() {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items className="origin-top-right absolute right-0 mt-4 top-4 max-w-36 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                          {roles.some((e: any) => e.name === 'coach') && (
-                            <MenuItem
-                              onClick={() => {}}
-                              icon={<HiUserAdd />}
-                              name="Add as Coach"
-                            />
-                          )}
+                          {roles.some((e: any) => e.name === 'coach') &&
+                            !groupCoaches.some(
+                              (athlete: any) => athlete._id === _id
+                            ) && (
+                              <MenuItem
+                                icon={<HiUserAdd />}
+                                name="Add as Coach"
+                                onClick={() => {
+                                  GroupsService.addCoachesToGroup(params.id, [
+                                    _id,
+                                  ]).then(() => {
+                                    getGroup();
+                                    getUsers();
+                                  });
+                                }}
+                              />
+                            )}
                           {groupCoaches.some(
                             (athlete: any) => athlete._id === _id
                           ) && (
                             <MenuItem
-                              onClick={() => {}}
                               icon={<HiUserRemove />}
                               name="Remove Coach"
+                              onClick={() => {
+                                GroupsService.removeCoachesFromGroup(
+                                  params.id,
+                                  [_id]
+                                ).then(() => {
+                                  getGroup();
+                                  getUsers();
+                                });
+                              }}
                             />
                           )}
+                          {!groupCoaches.some(
+                            (coach: any) => coach._id === _id
+                          ) &&
+                            !groupAthletes.some(
+                              (athlete: any) => athlete._id === _id
+                            ) && (
+                              <MenuItem
+                                icon={<HiUserAdd />}
+                                name="Add Athlete"
+                                onClick={() => {
+                                  GroupsService.addUsersToGroup(params.id, [
+                                    _id,
+                                  ]).then(() => {
+                                    getGroup();
+                                    getUsers();
+                                  });
+                                }}
+                              />
+                            )}
                           {groupAthletes.some(
                             (athlete: any) => athlete._id === _id
                           ) && (
                             <MenuItem
-                              onClick={() => {}}
                               icon={<HiUserRemove />}
                               name="Remove Athlete"
+                              onClick={() => {
+                                GroupsService.removeUsersFromGroup(params.id, [
+                                  _id,
+                                ]).then(() => {
+                                  getGroup();
+                                  getUsers();
+                                });
+                              }}
                             />
                           )}
                         </Menu.Items>
@@ -254,7 +298,7 @@ export default function GroupSettingsScreen() {
     icon,
     name,
   }: {
-    onClick: any;
+    onClick: () => void;
     icon: ReactChild;
     name: string;
   }) {
