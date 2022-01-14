@@ -89,7 +89,7 @@ export default function GroupScreen() {
         )}
       >
         {picture === null ? (
-          <span className="text-center capitalize">
+          <span className="text-center uppercase">
             {firstname && lastname
               ? firstname[0] + lastname[0]
               : username[0] + username.slice(-1)}
