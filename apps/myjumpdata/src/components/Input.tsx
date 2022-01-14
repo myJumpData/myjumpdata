@@ -1,7 +1,22 @@
 import { Listbox, Transition } from '@headlessui/react';
-import { Fragment, useEffect, useState } from 'react';
+import { t } from 'i18next';
+import {
+  createElement,
+  forwardRef,
+  Fragment,
+  useEffect,
+  useState,
+} from 'react';
+import DatePicker from 'react-datepicker';
+import { useTranslation } from 'react-i18next';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { HiCheck, HiSelector } from 'react-icons/hi';
+import {
+  HiCheck,
+  HiChevronDown,
+  HiChevronLeft,
+  HiChevronRight,
+  HiSelector,
+} from 'react-icons/hi';
 import classNames from '../helper/classNames';
 
 type TextInputProps = {
@@ -97,6 +112,94 @@ export function TextInput({
           {passwordShown ? <FaEyeSlash /> : <FaEye />}
         </span>
       )}
+    </div>
+  );
+}
+
+export function DateInput({
+  setDate,
+  date,
+}: {
+  // eslint-disable-next-line no-unused-vars
+  setDate: (d: Date) => void;
+  date: Date;
+}) {
+  const { i18n } = useTranslation();
+  const customInput = forwardRef(({ value, onClick }: any, ref: any) => {
+    const i18n_lang = i18n.language;
+    const options: any = {
+      weekday: 'short',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    };
+    const selected = new Date(value).toLocaleDateString(i18n_lang, options);
+    let text = selected;
+    const input = new Date(value).setHours(0, 0, 0, 0);
+    if (input === new Date().setHours(0, 0, 0, 0)) {
+      text = `Today (${selected})`;
+    }
+    return (
+      <button
+        className="w-full flex flex-row justify-between items-center"
+        onClick={onClick}
+        ref={ref}
+      >
+        <span className="truncate">{text}</span>
+        <HiChevronDown />
+      </button>
+    );
+  });
+  return (
+    <div>
+      <DatePicker
+        selected={date}
+        onChange={(d: Date) => {
+          setDate(d);
+        }}
+        closeOnScroll
+        fixedHeight
+        customInput={createElement(customInput)}
+        calendarStartDay={1}
+        locale={i18n.language}
+        todayButton={t('common:date_picker.today')}
+        renderCustomHeader={({
+          date,
+          decreaseMonth,
+          increaseMonth,
+          prevMonthButtonDisabled,
+          nextMonthButtonDisabled,
+        }: any) => (
+          <div className="m-2 justify-around flex">
+            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+              <HiChevronLeft />
+            </button>
+            <span>
+              {(() => {
+                const d = new Date(date);
+                d.setDate(1);
+                d.setHours(0, 0, 0, 0);
+                return d.toLocaleDateString(i18n.language, {
+                  month: 'long',
+                });
+              })()}
+            </span>
+            <span>
+              {(() => {
+                const d = new Date(date);
+                d.setDate(1);
+                d.setHours(0, 0, 0, 0);
+                return d.toLocaleDateString(i18n.language, {
+                  year: 'numeric',
+                });
+              })()}
+            </span>
+            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+              <HiChevronRight />
+            </button>
+          </div>
+        )}
+      />
     </div>
   );
 }

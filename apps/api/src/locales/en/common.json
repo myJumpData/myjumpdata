@@ -50,5 +50,8 @@
   },
   "footer": {
     "text": "The Plattform for your Rope Skipping achievments!"
+  },
+  "date_picker": {
+    "today": "Today"
   }
 }

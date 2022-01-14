@@ -14,3 +14,44 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: white;
   }
 }
+
+.react-datepicker {
+  &-popper {
+    @apply bg-white dark:bg-black z-10 mt-3 border-2 border-gray-500 rounded-lg relative;
+  }
+  &__triangle {
+    @apply h-3 w-3 absolute top-0 -mt-3 border-[0.5rem] border-t-0 border-l-transparent border-r-transparent border-b-gray-500;
+  }
+  &__month {
+    @apply flex flex-col;
+  }
+  &__week {
+    @apply flex flex-row justify-between px-2;
+  }
+  &__day {
+    &-names {
+      @apply flex flex-row justify-between p-2 text-gray-500;
+    }
+    &-name {
+      @apply text-right rounded-lg py-1 px-2 m-[.1rem] h-8 w-8 flex justify-end items-center leading-none;
+    }
+    @apply text-right rounded-lg py-1 px-2 m-[.1rem] h-8 w-8 flex justify-end items-center leading-none;
+    &:hover {
+      @apply bg-gray-500/50;
+    }
+    &--outside-month {
+      @apply text-gray-500/75;
+    }
+    &--today {
+      @apply bg-gray-500/25;
+    }
+    &--selected {
+      @apply outline outline-blue-500;
+    }
+  }
+  &__today {
+    &-button {
+      @apply px-2 py-1 border-t border-gray-500 mt-2 text-center hover:bg-gray-500/25 cursor-pointer;
+    }
+  }
+}
