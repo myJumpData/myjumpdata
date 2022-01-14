@@ -123,7 +123,6 @@ export default function GroupSettingsScreen() {
               username: string;
               roles: [Object];
             }) => {
-              console.log(roles);
               return (
                 <div
                   className="bg-gray-500/50 flex flex-row py-2 px-4 rounded-lg items-center justify-between"

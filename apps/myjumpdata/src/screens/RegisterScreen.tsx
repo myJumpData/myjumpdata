@@ -32,7 +32,6 @@ export default function RegisterScreen() {
         navigate('/login');
       },
       (error: any) => {
-        console.log(error);
         setMessage(error.response?.data?.message.text);
       }
     );

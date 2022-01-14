@@ -77,7 +77,6 @@ export default function FreestyleScreen() {
   function getCurrentData() {
     FreestyleService.getFreestyle(current).then(
       (response: any) => {
-        console.log(response.data.freestyle_data);
         setFreestyleData(response.data.freestyle_data);
         setFolderData(response.data.freestyle_data);
       },
