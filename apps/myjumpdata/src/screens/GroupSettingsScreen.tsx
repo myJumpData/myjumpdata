@@ -169,7 +169,7 @@ export default function GroupSettingsScreen() {
                             ) && (
                               <MenuItem
                                 icon={<HiUserAdd />}
-                                name="Add as Coach"
+                                name={t('settings_group.user_action.add_coach')}
                                 onClick={() => {
                                   GroupsService.addCoachesToGroup(params.id, [
                                     _id,
@@ -185,7 +185,9 @@ export default function GroupSettingsScreen() {
                           ) && (
                             <MenuItem
                               icon={<HiUserRemove />}
-                              name="Remove Coach"
+                              name={t(
+                                'settings_group.user_action.remove_coach'
+                              )}
                               onClick={() => {
                                 GroupsService.removeCoachesFromGroup(
                                   params.id,
@@ -205,7 +207,9 @@ export default function GroupSettingsScreen() {
                             ) && (
                               <MenuItem
                                 icon={<HiUserAdd />}
-                                name="Add Athlete"
+                                name={t(
+                                  'settings_group.user_action.add_athlete'
+                                )}
                                 onClick={() => {
                                   GroupsService.addUsersToGroup(params.id, [
                                     _id,
@@ -221,7 +225,9 @@ export default function GroupSettingsScreen() {
                           ) && (
                             <MenuItem
                               icon={<HiUserRemove />}
-                              name="Remove Athlete"
+                              name={t(
+                                'settings_group.user_action.remove_athlete'
+                              )}
                               onClick={() => {
                                 GroupsService.removeUsersFromGroup(params.id, [
                                   _id,

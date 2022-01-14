@@ -31,6 +31,12 @@
     "delete_disclaimer_title": "Bist du sicher, dass du diese Gruppe löschen möchtest?",
     "delete_disclaimer_text": "Alle verbundenen Daten gehen verloren und sind nicht wiederherstellbar.",
     "delete_disclaimer_confirm": "Trotzdem löschen",
-    "delete": "Gruppe löschen"
+    "delete": "Gruppe löschen",
+    "user_action": {
+      "remove_coach": "Trainer entfernen",
+      "remove_athlete": "Sportler entfernen",
+      "add_athlete": "Als Sportler hinzufügen",
+      "add_coach": "Als Trainer hinzufügen"
+    }
   }
 }
