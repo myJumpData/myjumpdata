@@ -31,7 +31,7 @@ export const updateUsersRole = (req, res) => {
 };
 
 export const getUsers = (req, res) => {
-  User.find({ _id: { $ne: req.userId } })
+  User.find({ _id: { $ne: req.userId }, active: true })
     .populate('roles')
     .select('-password')
     .exec((err, users) => {
