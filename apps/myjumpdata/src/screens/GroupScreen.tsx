@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import AuthVerify from '../common/AuthVerify';
 import Button from '../components/Button';
 import { TextInput } from '../components/Input';
+import classNames from '../helper/classNames';
 import randomColorClass from '../helper/randomColorClass';
 import Wrapper from '../parts/Wrapper';
 import AuthService from '../services/auth.service';
@@ -67,29 +68,41 @@ export default function GroupScreen() {
     );
   }
 
-  function UserBlock({ username }: { username: String }) {
+  function UserBlock({
+    username,
+    firstname,
+    lastname,
+    picture,
+  }: {
+    username: string;
+    firstname: string;
+    lastname: string;
+    picture: string;
+  }) {
     return (
-      <div className="flex flex-col items-center w-20 group">
-        <Link
-          to={`/u/${username}`}
-          className="flex flex-col items-center max-w-20 group"
-        >
-          <span
-            className={
-              'h-8 w-8 md:h-12 md:w-12 rounded-full block transition duration-500 ease-in-out bg-opacity-75 shadow ' +
-              randomColorClass()
-            }
-          />
-          <span className="overflow-hidden whitespace-nowrap overflow-ellipsis max-w-20 text-sm text-center">
-            {username}
+      <Link
+        to={`/u/${username}`}
+        className={classNames(
+          'flex flex-col items-center justify-center w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 overflow-hidden group border-red-500 border rounded-full',
+          picture === null && randomColorClass(),
+          picture === null && 'bg-opacity-75'
+        )}
+      >
+        {picture === null ? (
+          <span className="text-center capitalize">
+            {firstname && lastname
+              ? firstname[0] + lastname[0]
+              : username[0] + username.slice(-1)}
           </span>
-        </Link>
+        ) : (
+          <img className="" src={picture} alt={username} />
+        )}
         <div className="absolute hidden group-hover:block group-focus:block">
-          <span className="backdrop-filter backdrop-blur bg-gray-800 bg-opacity-40 text-white text-xs rounded-lg py-1 px-2 right-0 bottom-full m-4">
-            {username}
+          <span className="backdrop-filter backdrop-blur bg-gray-800 bg-opacity-75 text-white text-xs rounded-lg py-1 px-2 right-0 bottom-full m-4">
+            {firstname && lastname ? firstname + ' ' + lastname : username}
           </span>
         </div>
-      </div>
+      </Link>
     );
   }
 
@@ -99,7 +112,13 @@ export default function GroupScreen() {
         <span className="text-base font-bold pr-4">{name}</span>
         <div className="w-full overflow-x-auto flex space-x-4 sm:overflow-x-visible sm:flex-wrap">
           {list.map((item: any) => (
-            <UserBlock username={item.username} key={item.username} />
+            <UserBlock
+              username={item.username}
+              firstname={item.firstname}
+              lastname={item.lastname}
+              picture={item.picture}
+              key={item.username}
+            />
           ))}
         </div>
       </div>

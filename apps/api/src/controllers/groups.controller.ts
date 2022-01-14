@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import Group from '../models/group.model';
 import User from '../models/user.model';
 
@@ -59,12 +60,44 @@ export function updateGroupName(req, res) {
 
 export function getGroup(req, res) {
   Group.findOne({ _id: req.params.id })
-    .populate('coaches athletes', '-password')
+    .populate('coaches athletes', '-password -roles -__v -_id')
     .exec((err, group) => {
       if (err) {
         return res.status(500).send({ message: err });
       }
-      res.send({ group });
+      const athletes = group.athletes.map((d) => {
+        let picture: null | string = null;
+        if (d.picture === 'gravatar') {
+          picture = `https://secure.gravatar.com/avatar/${crypto
+            .createHash('md5')
+            .update(d.email)
+            .digest('hex')}?size=300&d=404`;
+        }
+        return {
+          firstname: d.firstname,
+          lastname: d.lastname,
+          username: d.username,
+          picture,
+        };
+      });
+      const coaches = group.coaches.map((d) => {
+        let picture: null | string = null;
+        if (d.picture === 'gravatar') {
+          picture = `https://secure.gravatar.com/avatar/${crypto
+            .createHash('md5')
+            .update(d.email)
+            .digest('hex')}?size=300&d=404`;
+        }
+        return {
+          firstname: d.firstname,
+          lastname: d.lastname,
+          username: d.username,
+          picture,
+        };
+      });
+      res.send({
+        group: { name: group.name, _id: group._id, athletes, coaches },
+      });
     });
 }
 
