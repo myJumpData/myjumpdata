@@ -14,43 +14,46 @@ import SettingsScreen from './screens/SettingsScreen';
 import SpeedDataOwnScreen from './screens/SpeedDataOwnScreen';
 import SpeedDataScreen from './screens/SpeedDataScreen';
 import TermsScreen from './screens/TermsScreen';
+import StoreProvider from './store/StoreProvider';
 import './styles.scss';
 
 ReactDOM.render(
   <Suspense fallback={null}>
-    <BrowserRouter>
-      <Routes>
-        {'Main Pages'}
-        <Route path="/" element={<MainScreen />} />
+    <StoreProvider>
+      <BrowserRouter>
+        <Routes>
+          {'Main Pages'}
+          <Route path="/" element={<MainScreen />} />
 
-        <Route path="/terms" element={<TermsScreen />} />
-        <Route path="/legal" element={<LegalScreen />} />
+          <Route path="/terms" element={<TermsScreen />} />
+          <Route path="/legal" element={<LegalScreen />} />
 
-        {'Entry Pages'}
-        <Route path="/register" element={<RegisterScreen />} />
-        <Route path="/login" element={<LoginScreen />} />
+          {'Entry Pages'}
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
 
-        {'Profile Pages'}
-        <Route path="/u/:username" element={<ProfileScreen />} />
-        <Route path="/settings" element={<SettingsScreen />} />
+          {'Profile Pages'}
+          <Route path="/u/:username" element={<ProfileScreen />} />
+          <Route path="/settings" element={<SettingsScreen />} />
 
-        {'Group Pages'}
-        <Route path="/group" element={<GroupScreen />} />
-        <Route path="/group/:id" element={<GroupScreen />} />
-        <Route path="/group/:id/settings" element={<GroupSettingsScreen />} />
+          {'Group Pages'}
+          <Route path="/group" element={<GroupScreen />} />
+          <Route path="/group/:id" element={<GroupScreen />} />
+          <Route path="/group/:id/settings" element={<GroupSettingsScreen />} />
 
-        {'Speeddata'}
-        <Route path="/speeddata">
-          <Route path="own/" element={<SpeedDataOwnScreen />} />
-          <Route path="group/:id" element={<SpeedDataScreen />} />
-        </Route>
+          {'Speeddata'}
+          <Route path="/speeddata">
+            <Route path="own/" element={<SpeedDataOwnScreen />} />
+            <Route path="group/:id" element={<SpeedDataScreen />} />
+          </Route>
 
-        {'Freestyle'}
-        {process.env.NODE_ENV === 'development' && (
-          <Route path="/freestyle" element={<FreestyleScreen />} />
-        )}
-      </Routes>
-    </BrowserRouter>
+          {'Freestyle'}
+          {process.env.NODE_ENV === 'development' && (
+            <Route path="/freestyle" element={<FreestyleScreen />} />
+          )}
+        </Routes>
+      </BrowserRouter>
+    </StoreProvider>
   </Suspense>,
   document.getElementById('root')
 );

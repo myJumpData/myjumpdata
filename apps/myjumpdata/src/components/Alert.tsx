@@ -1,69 +1,65 @@
-import { Dispatch, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   HiCheckCircle,
   HiExclamation,
   HiInformationCircle,
   HiX,
 } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 import classNames from '../helper/classNames';
 
-export default function Alert({
-  text,
-  state,
-  design = 'primary',
-  icon = true,
-}: {
-  text: string | null;
-  state: Dispatch<string | null>;
-  design?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info';
-  icon?: boolean;
-}) {
+export default function Alert() {
+  const message = useSelector((state: any) => state.message);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      state(null);
+      dispatch({ type: 'message/setMessage', payload: { text: '' } });
     }, 20000);
     return () => clearTimeout(timeoutId);
-  }, [text]);
-  if (text) {
+  }, [message]);
+
+  if (message?.text && message?.text !== '' && message?.text !== null) {
     return (
       <div
         className={classNames(
           'outline outline-2 outline-offset-2 rounded-lg flex py-1 px-2 items-center justify-between transition w-full',
-          design === 'primary' && 'outline-yellow-500',
-          design === 'secondary' && 'outline-gray-500',
-          design === 'success' && 'outline-green-500',
-          design === 'danger' && 'outline-red-500',
-          design === 'warning' && 'outline-orange-500',
-          design === 'info' && 'outline-blue-500'
+          message.design === 'primary' && 'outline-yellow-500',
+          message.design === 'secondary' && 'outline-gray-500',
+          message.design === 'success' && 'outline-green-500',
+          message.design === 'danger' && 'outline-red-500',
+          message.design === 'warning' && 'outline-orange-500',
+          message.design === 'info' && 'outline-blue-500'
         )}
       >
-        {icon && (
+        {message.icon && (
           <div
             className={classNames(
               'mr-2 text-2xl',
               'flex items-center justify-center',
-              design === 'primary' && 'text-yellow-500',
-              design === 'secondary' && 'text-gray-500',
-              design === 'success' && 'text-green-500',
-              design === 'danger' && 'text-red-500',
-              design === 'warning' && 'text-orange-500',
-              design === 'info' && 'text-blue-500'
+              message.design === 'primary' && 'text-yellow-500',
+              message.design === 'secondary' && 'text-gray-500',
+              message.design === 'success' && 'text-green-500',
+              message.design === 'danger' && 'text-red-500',
+              message.design === 'warning' && 'text-orange-500',
+              message.design === 'info' && 'text-blue-500'
             )}
           >
-            {design === 'primary' && <HiInformationCircle />}
-            {design === 'secondary' && <HiInformationCircle />}
-            {design === 'success' && <HiCheckCircle />}
-            {design === 'danger' && <HiExclamation />}
-            {design === 'warning' && <HiExclamation />}
-            {design === 'info' && <HiInformationCircle />}
+            {message.design === 'primary' && <HiInformationCircle />}
+            {message.design === 'secondary' && <HiInformationCircle />}
+            {message.design === 'success' && <HiCheckCircle />}
+            {message.design === 'danger' && <HiExclamation />}
+            {message.design === 'warning' && <HiExclamation />}
+            {message.design === 'info' && <HiInformationCircle />}
           </div>
         )}
 
-        <div className="leading-none w-full">{text}</div>
+        <div className="leading-none w-full">{message}</div>
         <div
           className="text-gray-600 dark:Text-gray-400 hover:text-black dark:hover:text-white transition ml-2 self-start"
           onClick={() => {
-            state(null);
+            dispatch({ type: 'message/setMessage', payload: { text: '' } });
           }}
         >
           <HiX />
@@ -71,5 +67,5 @@ export default function Alert({
       </div>
     );
   }
-  return <div />;
+  return <Outlet />;
 }
