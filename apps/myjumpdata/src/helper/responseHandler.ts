@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import i18next from "i18next";
-import store from "../store/store";
+import { setMessage } from "../store/message.action";
 
 export interface responseHandlerType {
   status: number;
@@ -10,7 +10,7 @@ export interface responseHandlerType {
 }
 
 export default async function responseHandler(
-  res: AxiosResponse<any, any> | undefined | Promise<any>
+  res: AxiosResponse<any, any> | Promise<any>
 ) {
   const response = await res;
   const message_key: string = response?.data?.message?.key;
@@ -19,10 +19,7 @@ export default async function responseHandler(
       ? i18next.t(message_key)
       : response?.data?.message?.text;
 
-  store.dispatch({
-    type: "setMessage",
-    payload: { text: message_text },
-  });
+  setMessage({ text: message_text });
 
   return {
     status: response?.status,

@@ -1,18 +1,19 @@
-import { Buffer } from 'buffer';
-import TokenService from '../services/token.service';
-import Logout from './Logout';
+import { Buffer } from "buffer";
+import { getUser } from "../store/user.action";
+import Logout from "./Logout";
 
 export default function AuthVerify() {
-  const token = TokenService.getLocalAccessToken();
-  const user = TokenService.getUser();
+  const user = getUser();
+  if (Object.keys(user).length === 0) {
+    return Logout();
+  }
   if (user.active !== true) {
-    Logout();
-    return;
+    return Logout();
   }
 
-  if (token) {
+  if (user.token) {
     const payload = JSON.parse(
-      Buffer.from(token.split('.')[1], 'base64').toString()
+      Buffer.from(user.token.split(".")[1], "base64").toString()
     );
     const exp = payload.exp * 1000;
     const now = Date.now();
@@ -20,6 +21,5 @@ export default function AuthVerify() {
       return;
     }
   }
-  Logout();
-  return;
+  return Logout();
 }

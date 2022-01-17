@@ -59,7 +59,7 @@ export function updateGroupName(req, res) {
                 res,
                 200,
                 "success.update.group.name",
-                "Sucess updating group name!",
+                "Success updating group name!",
                 new_group
               );
             });
@@ -69,7 +69,7 @@ export function updateGroupName(req, res) {
           res,
           200,
           "success.update.group.name",
-          "Sucess updating group name!",
+          "Success updating group name!",
           group
         );
       }
@@ -115,13 +115,12 @@ export function getGroup(req, res) {
           picture,
         };
       });
-      return responseHandler(
-        res,
-        200,
-        "success.read.group",
-        "Sucess reading group!",
-        { name: group.name, _id: group._id, athletes, coaches }
-      );
+      return responseHandler(res, 200, "", "", {
+        name: group.name,
+        _id: group._id,
+        athletes,
+        coaches,
+      });
     });
 }
 
@@ -134,13 +133,7 @@ export function getGroups(req, res) {
       if (err) {
         return responseHandlerError(res, err);
       }
-      return responseHandler(
-        res,
-        200,
-        "success.read.groups",
-        "Sucess reading groups!",
-        groups
-      );
+      return responseHandler(res, 200, "", "", groups);
     });
 }
 

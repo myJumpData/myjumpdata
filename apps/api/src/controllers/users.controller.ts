@@ -41,13 +41,7 @@ export const getUsers = (req, res) => {
       if (err) {
         return responseHandlerError(res, err);
       }
-      return responseHandler(
-        res,
-        200,
-        "success.red.users",
-        "Users have been read successfully!",
-        users
-      );
+      return responseHandler(res, 200, "", "", users);
     });
 };
 

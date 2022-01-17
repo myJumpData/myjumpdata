@@ -5,17 +5,17 @@ import {
   HiInformationCircle,
   HiX,
 } from "react-icons/hi";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import classNames from "../helper/classNames";
+import { clearMessage } from "../store/message.action";
 
 export default function Alert() {
   const message = useSelector((state: any) => state.message);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      dispatch({ type: "clearMessage" });
+      clearMessage();
     }, 20000);
     return () => clearTimeout(timeoutId);
   }, [message]);
@@ -59,7 +59,7 @@ export default function Alert() {
         <div
           className="text-gray-600 dark:Text-gray-400 hover:text-black dark:hover:text-white transition ml-2 self-start"
           onClick={() => {
-            dispatch({ type: "clearMessage" });
+            clearMessage();
           }}
         >
           <HiX />

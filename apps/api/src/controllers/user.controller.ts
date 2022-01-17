@@ -249,21 +249,15 @@ export async function getUser(req, res) {
       .digest("hex")}?size=300&d=404`;
   }
   highdata.then((highdata) => {
-    return responseHandler(
-      res,
-      200,
-      "success.read.user",
-      "Sucess reading user!",
-      {
-        id: request.id,
-        username: request.username,
-        firstname: request.firstname,
-        lastname: request.lastname,
-        roles,
-        picture,
-        highdata,
-      }
-    );
+    return responseHandler(res, 200, "", "", {
+      id: request.id,
+      username: request.username,
+      firstname: request.firstname,
+      lastname: request.lastname,
+      roles,
+      picture,
+      highdata,
+    });
   });
 }
 

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
@@ -6,7 +7,7 @@ import Wrapper from "../parts/Wrapper";
 import AuthService from "../services/auth.service";
 
 export default function LoginScreen() {
-  const { currentUser } = AuthService.getCurrentUser();
+  const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -15,14 +16,13 @@ export default function LoginScreen() {
     const username = e.target.elements.username.value;
     const password = e.target.elements.password.value;
     const response: any = await AuthService.login(username.trim(), password);
-    console.log(response);
     if (response.key === "success.login.user") {
       navigate(`/u/${response.data.username}`);
     }
   }
 
-  if (currentUser) {
-    return <Navigate to={`/u/${currentUser.username}`} />;
+  if (Object.keys(user).length > 0) {
+    return <Navigate to={`/u/${user.username}`} />;
   }
 
   return (

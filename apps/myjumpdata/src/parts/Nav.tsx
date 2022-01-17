@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCog, HiUser } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
-import AuthService from "../services/auth.service";
-import { getUser } from "../services/user.service.";
+import { getUserSearch } from "../services/user.service.";
 
 export function Nav({
   current,
@@ -11,7 +11,8 @@ export function Nav({
   current: "home" | "speeddata" | "group" | string;
 }) {
   const { t } = useTranslation();
-  const { currentUser } = AuthService.getCurrentUser();
+
+  const user = useSelector((state: any) => state.user);
   const [image, setImage] = useState("");
   let navigation = [
     {
@@ -48,13 +49,13 @@ export function Nav({
     {
       icon: <HiUser />,
       name: t("common:nav.profile"),
-      to: `/u/${currentUser.username}`,
+      to: `/u/${user.username}`,
     },
     { icon: <HiCog />, name: t("common:nav:settings"), to: "/settings" },
   ];
 
   useEffect(() => {
-    getUser(currentUser.username).then((response) => {
+    getUserSearch(user.username).then((response) => {
       if (response.data.picture) {
         fetch(response.data.picture).then((r) => {
           if (r.status === 200) {
@@ -63,7 +64,7 @@ export function Nav({
         });
       }
     });
-  }, []);
+  }, [user.usernma]);
 
   return (
     <Navbar
@@ -90,9 +91,9 @@ export function NavMain({
   current: "login" | "register" | "home" | string;
 }) {
   const { t } = useTranslation();
-  const { currentUser } = AuthService.getCurrentUser();
+  const user = useSelector((state: any) => state.user);
   let navigation: { name: string; to: string; current: boolean }[] = [];
-  if (currentUser) {
+  if (Object.keys(user).length > 0) {
     navigation = [
       {
         name: t("common:nav.home"),
@@ -101,7 +102,7 @@ export function NavMain({
       },
       {
         name: t("common:interact.open"),
-        to: `/u/${currentUser.username}`,
+        to: `/u/${user.username}`,
         current: current === "profile",
       },
     ];

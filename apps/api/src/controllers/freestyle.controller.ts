@@ -39,21 +39,12 @@ export function getFreestyle(req, res) {
         return { key: e.key, group: true };
       });
       if (parent_key === null) {
-        return responseHandler(
-          res,
-          200,
-          "success",
-          "Success reading Freestyle",
-          [...groups]
-        );
+        return responseHandler(res, 200, "", "", [...groups]);
       } else {
-        return responseHandler(
-          res,
-          200,
-          "success",
-          "Success reading Freestyle",
-          [{ key: parent_key, back: true }, ...groups]
-        );
+        return responseHandler(res, 200, "", "", [
+          { key: parent_key, back: true },
+          ...groups,
+        ]);
       }
     }
   }

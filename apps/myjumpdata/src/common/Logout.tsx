@@ -1,6 +1,6 @@
-import AuthService from "../services/auth.service";
+import { clearUser } from "../store/user.action";
 
 export default function Logout() {
-  AuthService.logout();
+  clearUser();
   window.location.href = "/login";
 }

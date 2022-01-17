@@ -17,7 +17,7 @@ input:-webkit-autofill:active {
 
 .react-datepicker {
   &-popper {
-    @apply bg-white dark:bg-black z-10 mt-3 border-2 border-gray-500 rounded-lg relative;
+    @apply bg-white dark:bg-black z-10 border-2 border-gray-500 rounded-lg relative;
   }
   &__triangle {
     @apply h-3 w-3 absolute top-0 -mt-3 border-[0.5rem] border-t-0 border-l-transparent border-r-transparent border-b-gray-500;

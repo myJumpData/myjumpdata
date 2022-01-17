@@ -2,18 +2,11 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import User from "../assets/user.svg";
-import AuthVerify from "../common/AuthVerify";
 import Wrapper from "../parts/Wrapper";
-import AuthService from "../services/auth.service";
-import { getUser } from "../services/user.service.";
+import { getUserSearch } from "../services/user.service.";
 
 export default function ProfileScreen() {
   const params = useParams();
-
-  if (params.username === undefined) {
-    AuthVerify();
-  }
-
   const { t } = useTranslation();
 
   const [username, setUsername] = useState("");
@@ -22,25 +15,18 @@ export default function ProfileScreen() {
   const [image, setImage] = useState("");
   const [userOverviewScoreData, setUserOverviewScoreData] = useState([]);
 
-  const { currentUser } = AuthService.getCurrentUser();
+  useEffect(() => {
+    setUsername(params.username as string);
+  }, [params]);
 
   useEffect(() => {
-    if (params.username === undefined) {
-      setUsername(currentUser.username);
-    } else {
-      setUsername(params.username);
-    }
-  }, [params, currentUser?.username]);
-
-  useEffect(() => {
-    if (username !== "") {
-      getUser(username).then((response) => {
-        console.log(response);
-        setUsername(response.data.username);
-        setFirstname(response.data.firstname);
-        setLastname(response.data.lastname);
-        setUserOverviewScoreData(response.data.highdata);
-        if (response.data.picture) {
+    if (username !== undefined && username !== "") {
+      getUserSearch(username).then((response) => {
+        setUsername(response.data?.username);
+        setFirstname(response.data?.firstname);
+        setLastname(response.data?.lastname);
+        setUserOverviewScoreData(response.data?.highdata);
+        if (response.data?.picture) {
           fetch(response.data.picture).then((r) => {
             if (r.status === 200) {
               setImage(response.data.picture);
@@ -82,7 +68,7 @@ export default function ProfileScreen() {
             {t("common:stats.highscores")}:
           </span>
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {userOverviewScoreData.map(
+            {userOverviewScoreData?.map(
               (score: { type: string; score: number; scoreOwn: number }) => (
                 <div
                   className="w-full bg-gray-200 dark:bg-gray-800 px-4 py-2 rounded-lg shadow space-x-4 flex items-center justify-between"

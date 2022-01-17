@@ -1,25 +1,25 @@
-import { ReactNode } from 'react';
-import Alert from '../components/Alert';
-import AuthService from '../services/auth.service';
-import Footer from './Footer';
-import { Nav, NavMain } from './Nav';
+import { ReactNode } from "react";
+import { useSelector } from "react-redux";
+import Alert from "../components/Alert";
+import Footer from "./Footer";
+import { Nav, NavMain } from "./Nav";
 
 export default function Wrapper({
   current,
   type,
   children,
 }: {
-  type?: 'main';
+  type?: "main";
   current: string;
   children: ReactNode;
 }) {
-  const { currentUser } = AuthService.getCurrentUser();
+  const user = useSelector((state: any) => state.user);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">
-      {type === 'main' ||
-      currentUser?.username === null ||
-      currentUser?.username === undefined ? (
+      {type === "main" ||
+      user?.username === null ||
+      user?.username === undefined ? (
         <NavMain current={current} />
       ) : (
         <Nav current={current} />

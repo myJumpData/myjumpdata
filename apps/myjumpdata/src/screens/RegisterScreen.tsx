@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
@@ -6,7 +7,7 @@ import Wrapper from "../parts/Wrapper";
 import AuthService from "../services/auth.service";
 
 export default function RegisterScreen() {
-  const { currentUser } = AuthService.getCurrentUser();
+  const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ export default function RegisterScreen() {
     });
   }
 
-  if (currentUser) {
-    return <Navigate to={`/u/${currentUser.username}`} />;
+  if (Object.keys(user).length > 0) {
+    return <Navigate to={`/u/${user.username}`} />;
   }
 
   return (

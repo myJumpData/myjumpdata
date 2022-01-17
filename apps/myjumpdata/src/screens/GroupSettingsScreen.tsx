@@ -2,13 +2,13 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, ReactChild, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiUserAdd, HiUserRemove } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
-import AuthService from "../services/auth.service";
 import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
 
@@ -16,8 +16,7 @@ export default function GroupSettingsScreen() {
   AuthVerify();
   let params = useParams();
   let navigate = useNavigate();
-
-  const { currentUser } = AuthService.getCurrentUser();
+  const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
   const [groupCoaches, setGroupCoaches] = useState([]);
   const [groupAthletes, setGroupAthletes] = useState([]);
@@ -29,11 +28,11 @@ export default function GroupSettingsScreen() {
   useEffect(() => {
     if (
       groupCoaches.length > 0 &&
-      !groupCoaches.some((i: any) => i.id === currentUser.id)
+      !groupCoaches.some((i: any) => i.id === user.id)
     ) {
       navigate(-1);
     }
-  }, [navigate, currentUser, groupCoaches]);
+  }, [navigate, user, groupCoaches]);
 
   useEffect(() => {
     getGroup();

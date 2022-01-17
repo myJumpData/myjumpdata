@@ -1,5 +1,5 @@
+import { setUser } from "../store/user.action";
 import api from "./api";
-import TokenService from "./token.service";
 
 const register = (
   username: any,
@@ -26,29 +26,16 @@ const login = (username: any, password: any) => {
     })
     .then((response) => {
       if (response.data?.token) {
-        TokenService.setUser(response.data);
+        setUser(response.data);
       }
 
       return response;
     });
 };
 
-const logout = () => {
-  TokenService.removeUser();
-};
-
-const getCurrentUser = () => {
-  return {
-    currentUser: TokenService.getUser(),
-    isCoach: TokenService.getUser()?.roles.includes("coach"),
-  };
-};
-
 const AuthService = {
   register,
   login,
-  logout,
-  getCurrentUser,
 };
 
 export default AuthService;

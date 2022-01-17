@@ -1,27 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import AuthVerify from "../common/AuthVerify";
 import Logout from "../common/Logout";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
-import AuthService from "../services/auth.service";
-import TokenService from "../services/token.service";
 import UsersService from "../services/users.service";
+import { setUser } from "../store/user.action";
 
 export default function SettingsScreen() {
   AuthVerify();
 
-  const { currentUser, isCoach } = AuthService.getCurrentUser();
+  const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
 
-  const [username, setUsername] = useState(currentUser.username);
-  const [firstname, setFirstname] = useState(currentUser.firstname);
-  const [lastname, setLastname] = useState(currentUser.lastname);
-  const [email, setEmail] = useState(currentUser.email);
+  const [username, setUsername] = useState(user.username);
+  const [firstname, setFirstname] = useState(user.firstname);
+  const [lastname, setLastname] = useState(user.lastname);
+  const [email, setEmail] = useState(user.email);
   const [picture, setPicture] = useState<undefined | "gravatar" | "none">(
-    currentUser.picture
+    user.picture
   );
   const [password, setPassword] = useState("");
   const [delStep, setDelStep] = useState(0);
@@ -33,35 +33,33 @@ export default function SettingsScreen() {
       setLastname(response.data.lastname);
       setEmail(response.data.email);
       setPicture(response.data.picture);
-      TokenService.updateUserLocalStorage(response.data);
+      setUser(response.data);
     });
   }, []);
 
-  useEffect(() => console.log(picture), [picture]);
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (username !== currentUser.username) {
+      if (username !== user.username) {
         UsersService.updateUser({ username }).then((response) => {
           setUsername(response.data.username);
-          TokenService.updateUserLocalStorage(response.data);
+          setUser(response.data);
         });
       }
-      if (firstname !== currentUser.firstname) {
+      if (firstname !== user.firstname) {
         UsersService.updateUser({ firstname }).then((response) => {
           setFirstname(response.data.firstname);
-          TokenService.updateUserLocalStorage(response.data);
+          setUser(response.data);
         });
       }
-      if (lastname !== currentUser.lastname) {
+      if (lastname !== user.lastname) {
         UsersService.updateUser({ lastname }).then((response) => {
           setLastname(response.data.lastname);
-          TokenService.updateUserLocalStorage(response.data);
+          setUser(response.data);
         });
       }
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, [username, firstname, lastname, currentUser]);
+  }, [username, firstname, lastname, user]);
 
   const escFunction = useCallback((e: any) => {
     if (e.keyCode === 27) {
@@ -85,7 +83,7 @@ export default function SettingsScreen() {
   function passwordSubmit() {
     UsersService.updateUser({ password }).then((response: any) => {
       setPassword("");
-      TokenService.updateUserLocalStorage(response.data);
+      setUser(response.data);
     });
   }
   return (
@@ -170,7 +168,7 @@ export default function SettingsScreen() {
                 UsersService.updateUser({ picture: "gravatar" }).then(
                   (response) => {
                     setPicture(response.data.picture);
-                    TokenService.updateUserLocalStorage(response.data);
+                    setUser(response.data);
                   }
                 );
               }}
@@ -191,7 +189,7 @@ export default function SettingsScreen() {
                 UsersService.updateUser({ picture: "none" }).then(
                   (response) => {
                     setPicture(response.data.picture);
-                    TokenService.updateUserLocalStorage(response.data);
+                    setUser(response.data);
                   }
                 );
               }}
@@ -212,7 +210,7 @@ export default function SettingsScreen() {
           <span className="text-base font-bold">{t("settings.danger")}: </span>
           <div className="flex flex-col space-y-4">
             {process.env.NODE_ENV === "development" &&
-              (isCoach ? (
+              (user.roles.includes("coach") ? (
                 <Button
                   name={t("settings.reset_coach")}
                   design="warning"

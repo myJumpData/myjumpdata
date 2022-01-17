@@ -1,27 +1,27 @@
-import { Listbox, Transition } from '@headlessui/react';
-import { t } from 'i18next';
+import { Listbox, Transition } from "@headlessui/react";
+import { t } from "i18next";
 import {
   createElement,
   forwardRef,
   Fragment,
   useEffect,
   useState,
-} from 'react';
-import DatePicker from 'react-datepicker';
-import { useTranslation } from 'react-i18next';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+} from "react";
+import DatePicker from "react-datepicker";
+import { useTranslation } from "react-i18next";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
   HiCheck,
   HiChevronDown,
   HiChevronLeft,
   HiChevronRight,
   HiSelector,
-} from 'react-icons/hi';
-import classNames from '../helper/classNames';
+} from "react-icons/hi";
+import classNames from "../helper/classNames";
 
 type TextInputProps = {
   name?: string;
-  type: 'email' | 'password' | 'text' | 'number';
+  type: "email" | "password" | "text" | "number";
   value?: string;
   stateChange?: any;
   inline?: boolean;
@@ -65,9 +65,9 @@ export function TextInput({
   min,
   inputName,
 }: TextInputProps) {
-  let inlineClass = ' mb-4 ';
+  let inlineClass = " mb-4 ";
   if (inline) {
-    inlineClass = '';
+    inlineClass = "";
   }
   const [passwordShown, setPasswordShown] = useState(false);
 
@@ -82,12 +82,12 @@ export function TextInput({
     <div className="w-full relative py-2">
       <input
         type={
-          type === 'password' ? (passwordShown ? 'text' : 'password') : type
+          type === "password" ? (passwordShown ? "text" : "password") : type
         }
         value={value}
         onChange={(e) => stateChange && stateChange(e.target.value)}
         className={
-          'peer h-10 w-full border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-yellow-500 placeholder-transparent transition bg-transparent  ' +
+          "peer h-10 w-full border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-yellow-500 placeholder-transparent transition bg-transparent  " +
           inlineClass
         }
         min={min}
@@ -102,7 +102,7 @@ export function TextInput({
           {name}
         </label>
       )}
-      {type === 'password' && (
+      {type === "password" && (
         <span
           onClick={() => {
             setPasswordShown(!passwordShown);
@@ -128,10 +128,10 @@ export function DateInput({
   const customInput = forwardRef(({ value, onClick }: any, ref: any) => {
     const i18n_lang = i18n.language;
     const options: any = {
-      weekday: 'short',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
+      weekday: "short",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     };
     const selected = new Date(value).toLocaleDateString(i18n_lang, options);
     let text = selected;
@@ -161,8 +161,7 @@ export function DateInput({
         fixedHeight
         customInput={createElement(customInput)}
         calendarStartDay={1}
-        locale={i18n.language}
-        todayButton={t('common:date_picker.today')}
+        todayButton={t("common:date_picker.today")}
         renderCustomHeader={({
           date,
           decreaseMonth,
@@ -180,7 +179,7 @@ export function DateInput({
                 d.setDate(1);
                 d.setHours(0, 0, 0, 0);
                 return d.toLocaleDateString(i18n.language, {
-                  month: 'long',
+                  month: "long",
                 });
               })()}
             </span>
@@ -190,7 +189,7 @@ export function DateInput({
                 d.setDate(1);
                 d.setHours(0, 0, 0, 0);
                 return d.toLocaleDateString(i18n.language, {
-                  year: 'numeric',
+                  year: "numeric",
                 });
               })()}
             </span>
@@ -224,11 +223,11 @@ export function SelectInput({
       <div className="relative">
         <Listbox.Button
           className={classNames(
-            'relative w-full py-2 pl-3 pr-10 text-left rounded-lg cursor-default sm:text-sm',
-            'border border-gray-200 dark:border-gray-500',
-            'bg-transparent',
-            'focus-visible:ring-2 focus-visible:ring-transparent focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2',
-            'focus:ring-2 focus:ring-transparent focus:ring-offset-orange-300 focus:ring-offset-2'
+            "relative w-full py-2 pl-3 pr-10 text-left rounded-lg cursor-default sm:text-sm",
+            "border border-gray-200 dark:border-gray-500",
+            "bg-transparent",
+            "focus-visible:ring-2 focus-visible:ring-transparent focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2",
+            "focus:ring-2 focus:ring-transparent focus:ring-offset-orange-300 focus:ring-offset-2"
           )}
         >
           <span className="block truncate">
@@ -255,9 +254,9 @@ export function SelectInput({
                 className={({ active }) =>
                   classNames(
                     active
-                      ? 'text-dark dark:text-white bg-yellow-100 dark:bg-yellow-900'
-                      : 'text-gray-900 dark:text-gray-100',
-                    'cursor-default select-none relative py-2 pl-10 pr-4'
+                      ? "text-dark dark:text-white bg-yellow-100 dark:bg-yellow-900"
+                      : "text-gray-900 dark:text-gray-100",
+                    "cursor-default select-none relative py-2 pl-10 pr-4"
                   )
                 }
                 value={e.value}
@@ -266,7 +265,7 @@ export function SelectInput({
                   <>
                     <span
                       className={`${
-                        selected ? 'font-medium' : 'font-normal'
+                        selected ? "font-medium" : "font-normal"
                       } block truncate`}
                     >
                       {e.name}
@@ -274,7 +273,7 @@ export function SelectInput({
                     {selected ? (
                       <span
                         className={classNames(
-                          'text-yellow-500 absolute inset-y-0 left-0 flex items-center pl-3'
+                          "text-yellow-500 absolute inset-y-0 left-0 flex items-center pl-3"
                         )}
                       >
                         <HiCheck className="w-5 h-5" aria-hidden="true" />

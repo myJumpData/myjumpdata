@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { CONF } from "../Constants";
 import responseHandler from "../helper/responseHandler";
-import TokenService from "./token.service";
+import { getUser } from "../store/user.action";
 
 const instance = axios.create({
   baseURL: CONF.API_URL,
@@ -12,10 +12,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const token = TokenService.getLocalAccessToken();
-    if (token) {
+    const user = getUser();
+    if (user && user.token) {
       // @ts-ignore
-      config.headers["x-access-token"] = token;
+      config.headers["x-access-token"] = user.token;
     }
     return config;
   },
@@ -29,7 +29,7 @@ instance.interceptors.response.use(
     return responseHandler(res);
   },
   (err: AxiosError) => {
-    return responseHandler(err.response);
+    return responseHandler(err.response as AxiosResponse<any, any>);
   }
 );
 

@@ -88,7 +88,7 @@ export default function SpeedDataScreen() {
       {groupScores &&
         groupScores.map((score: any) => (
           <div
-            key={score._id}
+            key={score.id}
             className="border-t border-gray-300 dark:border-gray-700 py-2"
           >
             <div className="flex items-center space-x-2">

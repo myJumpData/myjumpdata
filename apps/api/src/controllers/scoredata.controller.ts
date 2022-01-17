@@ -38,8 +38,8 @@ export function getScoreDataTypes(req, res) {
     return responseHandler(
       res,
       200,
-      "success.read.scoredata.types",
-      "Successfully read scoredata types!",
+      "",
+      "",
       scoreDataTypes
     );
   });
@@ -115,8 +115,8 @@ export function getScoreDataHigh(req, res) {
           return responseHandler(
             res,
             200,
-            "success.read.scoredata.high",
-            "Successfully read scoredata high!",
+            "",
+            "",
             { high: high, scores: response }
           );
         });
@@ -150,8 +150,8 @@ export function getScoreDataOwn(req, res) {
         return responseHandler(
           res,
           200,
-          "success.read.scoredata.own",
-          "Successfully read scoredata own!",
+          "",
+          "",
           response
         );
       });
