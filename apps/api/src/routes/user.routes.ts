@@ -8,7 +8,6 @@ import {
 } from '../controllers/user.controller';
 import verifyToken from '../middlewares/authJwt';
 import {
-  bodyCheckNull,
   bodyCheckNullEmail,
   bodyCheckNullFirstname,
   bodyCheckNullLastname,
@@ -34,7 +33,6 @@ export default function UserRoutes(app: Express) {
   app.post(
     '/auth/signup',
     [
-      bodyCheckNull,
       bodyCheckNullUsername,
       bodyCheckNullFirstname,
       bodyCheckNullLastname,
@@ -59,7 +57,6 @@ export default function UserRoutes(app: Express) {
   app.post(
     '/auth/signin',
     [
-      bodyCheckNull,
       bodyCheckNullUsername,
       bodyCheckNullPassword,
 

@@ -1,27 +1,13 @@
-import mongoose, { Query } from 'mongoose';
-import Group from '../models/group.model';
-import ScoreDataRecord from '../models/scoreDataRecord.model';
-import ScoreDataRecordOwn from '../models/scoreDataRecordOwn.model';
-import ScoreDataType from '../models/scoreDataType.model';
+import mongoose, { Query } from "mongoose";
+import responseHandler, {
+  responseHandlerError,
+} from "../helper/responseHandler";
+import Group from "../models/group.model";
+import ScoreDataRecord from "../models/scoreDataRecord.model";
+import ScoreDataRecordOwn from "../models/scoreDataRecordOwn.model";
+import ScoreDataType from "../models/scoreDataType.model";
 
 export function saveScoreData(req, res) {
-  if (!req.body.user) {
-    return res.status(400).send({ message: { text: 'No User provided!' } });
-  }
-  if (!req.body.score) {
-    return res.status(400).send({ message: { text: 'No Score provided!' } });
-  }
-  if (!req.body.type) {
-    return res.status(400).send({ message: { text: 'No Type provided!' } });
-  }
-  if (!req.body.date) {
-    return res.status(400).send({
-      message: {
-        text: 'No Date provided!',
-      },
-    });
-  }
-
   const scoreData = new ScoreDataRecord({
     user: new mongoose.Types.ObjectId(req.body.user),
     score: req.body.score,
@@ -32,18 +18,30 @@ export function saveScoreData(req, res) {
 
   scoreData.save((err, scoredata) => {
     if (err) {
-      return res.status(500).send({ message: err });
+      return responseHandlerError(res, err);
     }
-    return res.send({ scoredata });
+    return responseHandler(
+      res,
+      200,
+      "success.save.scoredata",
+      "Successfully saved scoredata!",
+      scoredata
+    );
   });
 }
 
 export function getScoreDataTypes(req, res) {
   ScoreDataType.find({}, (err, scoreDataTypes) => {
     if (err) {
-      return res.status(500).send({ message: err });
+      return responseHandlerError(res, err);
     }
-    res.send({ scoreDataTypes });
+    return responseHandler(
+      res,
+      200,
+      "success.read.scoredata.types",
+      "Successfully read scoredata types!",
+      scoreDataTypes
+    );
   });
 }
 
@@ -51,13 +49,13 @@ export function getScoreDataHigh(req, res) {
   const id = req.params.id;
   const type = req.params.type;
   Group.findOne({ _id: id }, { coaches: 0 })
-    .populate('athletes', '-password -roles -email')
+    .populate("athletes", "-password -roles -email")
     .exec((err, group) => {
       if (err) {
-        return res.status(500).send({ message: err });
+        return responseHandlerError(res, err);
       }
       if (!group) {
-        return res.status(404).send({ message: { text: "Can't find group!" } });
+        return responseHandler(res, 404, "notfound.group", "Can't find group!");
       }
       const athletes = group.athletes.map((athlete) => athlete._id);
       ScoreDataRecord.find(
@@ -71,11 +69,11 @@ export function getScoreDataHigh(req, res) {
           coach: 0,
         }
       )
-        .sort('user -score -type')
-        .populate('user', '-password -email -roles')
+        .sort("user -score -type")
+        .populate("user", "-password -email -roles")
         .exec((err, records) => {
           if (err) {
-            return res.status(500).send({ message: err });
+            return responseHandlerError(res, err);
           }
           const response: { user; score: number }[] = [];
           records.forEach((item) => {
@@ -113,7 +111,14 @@ export function getScoreDataHigh(req, res) {
             return score.score;
           });
           const high = Math.max(...highs);
-          return res.send({ high: high, scores: response });
+
+          return responseHandler(
+            res,
+            200,
+            "success.read.scoredata.high",
+            "Successfully read scoredata high!",
+            { high: high, scores: response }
+          );
         });
     });
 }
@@ -125,8 +130,8 @@ export function getScoreDataOwn(req, res) {
       scoreDataTypesList.forEach((type) => {
         jobQueries.push(
           ScoreDataRecordOwn.findOne({ user: req.userId, type: type._id })
-            .sort('-score')
-            .populate('type', '-__v')
+            .sort("-score")
+            .populate("type", "-__v")
         );
       });
       return Promise.all(jobQueries);
@@ -134,7 +139,7 @@ export function getScoreDataOwn(req, res) {
     .then((data) => {
       ScoreDataType.find({}, (err, scoreDataTypes) => {
         if (err) {
-          return res.status(500).send({ message: err });
+          return responseHandlerError(res, err);
         }
         const response = data;
         scoreDataTypes.forEach((item) => {
@@ -142,29 +147,21 @@ export function getScoreDataOwn(req, res) {
             response.push({ type: item, score: 0 });
           }
         });
-        return res.send({ data: response });
+        return responseHandler(
+          res,
+          200,
+          "success.read.scoredata.own",
+          "Successfully read scoredata own!",
+          response
+        );
       });
     })
     .catch((err) => {
-      return res.status(500).send({ message: err });
+      return responseHandlerError(res, err);
     });
 }
 
 export function saveScoreDataOwn(req, res) {
-  if (!req.body.score) {
-    return res.status(400).send({ message: { text: 'No Score provided!' } });
-  }
-  if (!req.body.type) {
-    return res.status(400).send({ message: { text: 'No Type provided!' } });
-  }
-  if (!req.body.date) {
-    return res.status(400).send({
-      message: {
-        text: 'No Date provided!',
-      },
-    });
-  }
-
   const scoreDataOwn = new ScoreDataRecordOwn({
     user: new mongoose.Types.ObjectId(req.userId),
     score: req.body.score,
@@ -174,8 +171,14 @@ export function saveScoreDataOwn(req, res) {
 
   scoreDataOwn.save((err, scoredata) => {
     if (err) {
-      return res.status(500).send({ message: err });
+      return responseHandlerError(res, err);
     }
-    return res.send({ scoredata });
+    return responseHandler(
+      res,
+      200,
+      "success.save.scoredata.own",
+      "Successfully saved scoredata own!",
+      scoredata
+    );
   });
 }

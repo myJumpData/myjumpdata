@@ -1,22 +1,24 @@
+import responseHandler from "../helper/responseHandler";
+
 export function bodyValidateUsername(req, res, next) {
   if (!req.body.username) {
     return next();
   }
   if (req.body.username.length < 4) {
-    return res.status(400).send({
-      message: {
-        text: 'Not enough character Field Username',
-        key: 'notenoughcharacter.field.username',
-      },
-    });
+    return responseHandler(
+      res,
+      400,
+      "notenoughcharacter.field.username",
+      "Not enough character Field Username"
+    );
   }
   if (!req.body.username.match(/^[A-Z0-9._-]+$/i)) {
-    return res.status(400).send({
-      message: {
-        text: 'Not allowed character Field Username',
-        key: 'notallowedcharacter.field.username',
-      },
-    });
+    return responseHandler(
+      res,
+      400,
+      "notallowedcharacter.field.username",
+      "Not allowed character Field Username"
+    );
   }
   return next();
 }
@@ -26,12 +28,12 @@ export function bodyValidateFirstname(req, res, next) {
     return next();
   }
   if (!req.body.firstname.match(/^[A-Z-]+$/i)) {
-    return res.status(400).send({
-      message: {
-        text: 'Not allowed character Field Firstname',
-        key: 'notallowedcharacter.field.firstname',
-      },
-    });
+    return responseHandler(
+      res,
+      400,
+      "notallowedcharacter.field.firstname",
+      "Not allowed character Field Firstname"
+    );
   }
   return next();
 }
@@ -41,12 +43,12 @@ export function bodyValidateLastname(req, res, next) {
     return next();
   }
   if (!req.body.lastname.match(/^[A-Z-]+$/i)) {
-    return res.status(400).send({
-      message: {
-        text: 'Not allowed character Field Lastname',
-        key: 'notallowedcharacter.field.lastname',
-      },
-    });
+    return responseHandler(
+      res,
+      400,
+      "notallowedcharacter.field.lastname",
+      "Not allowed character Field Lastname"
+    );
   }
   return next();
 }
@@ -56,12 +58,12 @@ export function bodyValidateEmail(req, res, next) {
     return next();
   }
   if (!req.body.email.match(/^\w+([.-]?\w+)*@\w+([.]?\w+)*(\.\w{2,3})+$/i)) {
-    return res.status(400).send({
-      message: {
-        text: 'Not allowed character Field Email',
-        key: 'notallowedcharacter.field.email',
-      },
-    });
+    return responseHandler(
+      res,
+      400,
+      "notallowedcharacter.field.email",
+      "Not allowed character Field Email"
+    );
   }
   return next();
 }
@@ -71,12 +73,12 @@ export function bodyValidatePassword(req, res, next) {
     return next();
   }
   if (req.body.password.length < 4) {
-    return res.status(400).send({
-      message: {
-        text: 'Not enough character Field password',
-        key: 'notenoughcharacter.field.password',
-      },
-    });
+    return responseHandler(
+      res,
+      400,
+      "notenoughcharacter.field.password",
+      "Not enough character Field password"
+    );
   }
   return next();
 }

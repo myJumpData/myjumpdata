@@ -1,53 +1,62 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import config from '../config/auth.config';
-import hostConfig from '../config/host.config';
-import SendMail from '../helper/email';
-import Role from '../models/role.model';
-import User from '../models/user.model';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import config from "../config/auth.config";
+import hostConfig from "../config/host.config";
+import SendMail from "../helper/email";
+import responseHandler, {
+  responseHandlerError,
+} from "../helper/responseHandler";
+import Role from "../models/role.model";
+import User from "../models/user.model";
 
 export const updateUsersRole = (req, res) => {
   if (!req.body.roles) {
     return res
       .status(400)
-      .send({ message: { text: 'No Roles selected' }, body: req.body });
+      .send({ message: { text: "No Roles selected" }, body: req.body });
   }
   Role.find({ name: req.body.roles }, (err, roles) => {
     if (err) {
-      res.status(500).send({ message: err });
-      return;
+      return responseHandlerError(res, err);
     }
     User.updateOne({ _id: req.userId }, { roles: roles }, (err) => {
       if (err) {
-        res.status(500).send({ message: err });
-        return;
+        return responseHandlerError(res, err);
       }
-      res.send({
-        message: { text: 'User Roles have been updated successfully!' },
-      });
-      return;
+      return responseHandler(
+        res,
+        200,
+        "success.updpdated.user.role",
+        "User Roles have been updated successfully!"
+      );
     });
   });
 };
 
 export const getUsers = (req, res) => {
   User.find({ _id: { $ne: req.userId }, active: true })
-    .populate('roles')
-    .select('-password')
+    .populate("roles")
+    .select("-password")
     .exec((err, users) => {
       if (err) {
-        return res.status(500).send({ message: err });
+        return responseHandlerError(res, err);
       }
-      res.send({ users });
+      return responseHandler(
+        res,
+        200,
+        "success.red.users",
+        "Users have been read successfully!",
+        users
+      );
     });
 };
 
 export const updateUser = (req, res) => {
   User.findOne({ _id: req.userId })
-    .select('-password -__v')
+    .select("-password -__v")
     .exec((err, user) => {
       if (err) {
-        return res.status(500).send({ message: err });
+        return responseHandlerError(res, err);
       }
       const updatedList: string[] = [];
       if (req.body.username && user.username !== req.body.username) {
@@ -58,9 +67,9 @@ export const updateUser = (req, res) => {
               { username: req.body.username.toLowerCase() }
             ).exec((err) => {
               if (err) {
-                return res.status(500).send({ message: err });
+                return responseHandlerError(res, err);
               }
-              updatedList.push('Username');
+              updatedList.push("Username");
             });
           }
         });
@@ -71,9 +80,9 @@ export const updateUser = (req, res) => {
           { firstname: req.body.firstname.toLowerCase() }
         ).exec((err) => {
           if (err) {
-            return res.status(500).send({ message: err });
+            return responseHandlerError(res, err);
           }
-          updatedList.push('Firstname');
+          updatedList.push("Firstname");
         });
       }
       if (req.body.lastname && user.lastname !== req.body.lastname) {
@@ -82,9 +91,9 @@ export const updateUser = (req, res) => {
           { lastname: req.body.lastname.toLowerCase() }
         ).exec((err) => {
           if (err) {
-            return res.status(500).send({ message: err });
+            return responseHandlerError(res, err);
           }
-          updatedList.push('Lastname');
+          updatedList.push("Lastname");
         });
       }
       if (req.body.email && user.email !== req.body.email) {
@@ -93,7 +102,7 @@ export const updateUser = (req, res) => {
           { email: req.body.email.toLowerCase(), active: false }
         ).exec((err) => {
           if (err) {
-            return res.status(500).send({ message: err });
+            return responseHandlerError(res, err);
           }
           const token = jwt.sign(
             { id: user.id, email: req.body.email, timestamp: Date.now() },
@@ -102,12 +111,12 @@ export const updateUser = (req, res) => {
           const url = `${hostConfig.URL}/verify/${token}`;
           SendMail({
             to: user.email,
-            subject: 'Please Confirm your E-Mail-Adress',
+            subject: "Please Confirm your E-Mail-Adress",
             html: `<a href="${url}">${url}</a>`,
           }).catch((err) => {
-            return res.status(500).send({ message: err });
+            return responseHandlerError(res, err);
           });
-          updatedList.push('Email');
+          updatedList.push("Email");
         });
       }
       if (req.body.password) {
@@ -116,45 +125,48 @@ export const updateUser = (req, res) => {
           { password: bcrypt.hashSync(req.body.password) }
         ).exec((err) => {
           if (err) {
-            return res.status(500).send({ message: err });
+            return responseHandlerError(res, err);
           }
-          updatedList.push('Password');
+          updatedList.push("Password");
         });
       }
       if (req.body.picture) {
         User.updateOne({ _id: req.userId }, { picture: req.body.picture }).exec(
           (err) => {
             if (err) {
-              return res.status(500).send({ message: err });
+              return responseHandlerError(res, err);
             }
-            updatedList.push('Picture');
+            updatedList.push("Picture");
           }
         );
       }
       setTimeout(() => {
         User.findOne({ _id: req.userId })
-          .select('-password -__v')
-          .populate('roles')
+          .select("-password -__v")
+          .populate("roles")
           .exec((err, userNew) => {
             if (err) {
-              return res.status(500).send({ message: err });
+              return responseHandlerError(res, err);
             }
-            let email = '';
+            let email = "";
             if (req.userId === userNew.id) {
               email = userNew.email;
             }
             const roles = userNew.roles.map((role) => role.name);
-            return res.send({
-              message: `Successfully Updated ${JSON.stringify(updatedList)} `,
-              user: {
+            return responseHandler(
+              res,
+              200,
+              "success.update.user",
+              `Successfully Updated ${JSON.stringify(updatedList)} `,
+              {
                 username: userNew.username,
                 firstname: userNew.firstname,
                 lastname: userNew.lastname,
                 roles,
                 email,
                 picture: userNew.picture,
-              },
-            });
+              }
+            );
           });
       }, 500);
     });

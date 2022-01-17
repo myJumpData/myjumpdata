@@ -1,4 +1,5 @@
-import FreestyleDataGroup from '../models/freestyleDataGroup';
+import responseHandler from "../helper/responseHandler";
+import FreestyleDataGroup from "../models/freestyleDataGroup";
 
 export function getFreestyle(req, res) {
   let count = 0;
@@ -8,7 +9,7 @@ export function getFreestyle(req, res) {
     parent: '61c0a9a19fbb588485b04477',
   }); newData.save();*/
   const path = req.params.path;
-  const pathSplit = path.split('/').filter((e: string) => e);
+  const pathSplit = path.split("/").filter((e: string) => e);
   process(pathSplit[0]);
   async function process(key) {
     let id = null;
@@ -24,7 +25,7 @@ export function getFreestyle(req, res) {
         }).exec();
         parent_key = findGroupParent.key;
       } else {
-        parent_key = '';
+        parent_key = "";
       }
     }
     const findGroupChilds = await FreestyleDataGroup.find({
@@ -38,13 +39,21 @@ export function getFreestyle(req, res) {
         return { key: e.key, group: true };
       });
       if (parent_key === null) {
-        return res.send({
-          freestyle_data: [...groups],
-        });
+        return responseHandler(
+          res,
+          200,
+          "success",
+          "Success reading Freestyle",
+          [...groups]
+        );
       } else {
-        return res.send({
-          freestyle_data: [{ key: parent_key, back: true }, ...groups],
-        });
+        return responseHandler(
+          res,
+          200,
+          "success",
+          "Success reading Freestyle",
+          [{ key: parent_key, back: true }, ...groups]
+        );
       }
     }
   }
