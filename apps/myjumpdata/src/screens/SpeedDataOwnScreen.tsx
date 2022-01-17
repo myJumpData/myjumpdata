@@ -19,7 +19,7 @@ export default function SpeedDataOwnScreen() {
 
   function getData() {
     ScoreDataService.getScoreDataOwn().then((response: any) => {
-      setScoreData(response.data.data);
+      setScoreData(response.data);
     });
   }
 
