@@ -1,17 +1,10 @@
-import { useState } from 'react';
 import undraw_terms from '../assets/undraw_terms_re_6ak4.svg';
 import Wrapper from '../parts/Wrapper';
 import { TermsSection, TermsText } from './TermsScreen';
 
 export default function LegalScreen() {
-  const [message, setMessage] = useState<null | string>(null);
   return (
-    <Wrapper
-      current="legal"
-      type="main"
-      text={message}
-      state={(e) => setMessage(e)}
-    >
+    <Wrapper current="legal" type="main">
       <Jumbotron />
       <Main />
     </Wrapper>

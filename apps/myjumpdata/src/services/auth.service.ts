@@ -1,7 +1,13 @@
 import api from "./api";
 import TokenService from "./token.service";
 
-const register = (username: any, firstname: any, lastname: any, email: any, password: any) => {
+const register = (
+  username: any,
+  firstname: any,
+  lastname: any,
+  email: any,
+  password: any
+) => {
   return api.post("/auth/signup", {
     username,
     firstname,
@@ -19,11 +25,11 @@ const login = (username: any, password: any) => {
       password,
     })
     .then((response) => {
-      if (response.data.user.token) {
-        TokenService.setUser(response.data.user);
+      if (response.data?.token) {
+        TokenService.setUser(response.data);
       }
 
-      return response.data;
+      return response;
     });
 };
 

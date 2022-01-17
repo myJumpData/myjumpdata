@@ -1,5 +1,6 @@
-import axios from "axios";
-import {CONF} from "../Constants";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { CONF } from "../Constants";
+import responseHandler from "../helper/responseHandler";
 import TokenService from "./token.service";
 
 const instance = axios.create({
@@ -9,23 +10,26 @@ const instance = axios.create({
   },
 });
 
-instance.interceptors.request.use((config) => {
-  const token = TokenService.getLocalAccessToken();
-  if (token) {
-    // @ts-ignore
-    config.headers["x-access-token"] = token;
+instance.interceptors.request.use(
+  (config) => {
+    const token = TokenService.getLocalAccessToken();
+    if (token) {
+      // @ts-ignore
+      config.headers["x-access-token"] = token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+);
 
 instance.interceptors.response.use(
-  (res) => {
-    return res;
+  (res: AxiosResponse<any, any>) => {
+    return responseHandler(res);
   },
-  async (err) => {
-    return Promise.reject(err);
+  (err: AxiosError) => {
+    return responseHandler(err.response);
   }
 );
 

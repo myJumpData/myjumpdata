@@ -1,16 +1,16 @@
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment, ReactChild, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { HiDotsVertical, HiUserAdd, HiUserRemove } from 'react-icons/hi';
-import { useNavigate, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
-import AuthVerify from '../common/AuthVerify';
-import Button from '../components/Button';
-import { TextInput } from '../components/Input';
-import Wrapper from '../parts/Wrapper';
-import AuthService from '../services/auth.service';
-import GroupsService from '../services/groups.service';
-import UsersService from '../services/users.service';
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment, ReactChild, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { HiDotsVertical, HiUserAdd, HiUserRemove } from "react-icons/hi";
+import { useNavigate, useParams } from "react-router";
+import { Link } from "react-router-dom";
+import AuthVerify from "../common/AuthVerify";
+import Button from "../components/Button";
+import { TextInput } from "../components/Input";
+import Wrapper from "../parts/Wrapper";
+import AuthService from "../services/auth.service";
+import GroupsService from "../services/groups.service";
+import UsersService from "../services/users.service";
 
 export default function GroupSettingsScreen() {
   AuthVerify();
@@ -19,11 +19,10 @@ export default function GroupSettingsScreen() {
 
   const { currentUser } = AuthService.getCurrentUser();
   const { t } = useTranslation();
-  const [message, setMessage] = useState<null | string>(null);
   const [groupCoaches, setGroupCoaches] = useState([]);
   const [groupAthletes, setGroupAthletes] = useState([]);
-  const [groupName, setGroupName] = useState('');
-  const [groupUpdateName, setGroupUpdateName] = useState('');
+  const [groupName, setGroupName] = useState("");
+  const [groupUpdateName, setGroupUpdateName] = useState("");
   const [users, setUsers] = useState([]);
   const [delStep, setDelStep] = useState(0);
 
@@ -43,31 +42,21 @@ export default function GroupSettingsScreen() {
   }, [params]);
 
   function getGroup() {
-    GroupsService.getGroup(params.id).then(
-      (response: any) => {
-        setGroupName(response.data.group.name);
-        setGroupCoaches(response.data.group.coaches);
-        setGroupAthletes(response.data.group.athletes);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
-      }
-    );
+    GroupsService.getGroup(params.id).then((response: any) => {
+      setGroupName(response.data.name);
+      setGroupCoaches(response.data.coaches);
+      setGroupAthletes(response.data.athletes);
+    });
   }
 
   function getUsers() {
-    UsersService.getUsers().then(
-      (response: any) => {
-        setUsers(response.data.users);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
-      }
-    );
+    UsersService.getUsers().then((response: any) => {
+      setUsers(response.data);
+    });
   }
 
   useEffect(() => {
-    if (groupUpdateName === '') {
+    if (groupUpdateName === "") {
       setGroupUpdateName(groupName);
     }
   }, [groupName, groupUpdateName]);
@@ -76,32 +65,23 @@ export default function GroupSettingsScreen() {
     if (groupName !== groupUpdateName) {
       GroupsService.updateGroupName(groupUpdateName, params.id).then(
         (response: any) => {
-          setMessage(response?.data?.message?.text);
-          setGroupName(response.data.group.name);
-        },
-        (error: any) => {
-          setMessage(error.response?.data?.message.text);
-          setGroupUpdateName(groupName);
+          setGroupName(response.data.name);
         }
       );
     }
   }, [groupName, groupUpdateName, params]);
 
   return (
-    <Wrapper
-      current="group_settings"
-      text={message}
-      state={(e) => setMessage(e)}
-    >
+    <Wrapper current="group_settings">
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
-          {groupName + ' ' + t('common:nav.settings')}
+          {groupName + " " + t("common:nav.settings")}
         </span>
       </div>
-      <span className="text-2xl font-bold">{t('settings.data')}: </span>
+      <span className="text-2xl font-bold">{t("settings.data")}: </span>
       <TextInput
         type="text"
-        name={t('common:fields.group_name') + ':'}
+        name={t("common:fields.group_name") + ":"}
         stateChange={setGroupUpdateName}
         value={groupUpdateName}
       />
@@ -129,7 +109,7 @@ export default function GroupSettingsScreen() {
                 >
                   <span className="truncate capitalize">
                     {firstname && lastname
-                      ? firstname + ' ' + lastname
+                      ? firstname + " " + lastname
                       : username}
                   </span>
                   <div className="flex flex-row items-center justify-end space-x-2">
@@ -161,13 +141,13 @@ export default function GroupSettingsScreen() {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items className="origin-top-right absolute right-0 mt-4 top-4 max-w-36 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                          {roles.some((e: any) => e.name === 'coach') &&
+                          {roles.some((e: any) => e.name === "coach") &&
                             !groupCoaches.some(
                               (athlete: any) => athlete.id === _id
                             ) && (
                               <MenuItem
                                 icon={<HiUserAdd />}
-                                name={t('settings_group.user_action.add_coach')}
+                                name={t("settings_group.user_action.add_coach")}
                                 onClick={() => {
                                   GroupsService.addCoachesToGroup(params.id, [
                                     _id,
@@ -184,7 +164,7 @@ export default function GroupSettingsScreen() {
                             <MenuItem
                               icon={<HiUserRemove />}
                               name={t(
-                                'settings_group.user_action.remove_coach'
+                                "settings_group.user_action.remove_coach"
                               )}
                               onClick={() => {
                                 GroupsService.removeCoachesFromGroup(
@@ -206,7 +186,7 @@ export default function GroupSettingsScreen() {
                               <MenuItem
                                 icon={<HiUserAdd />}
                                 name={t(
-                                  'settings_group.user_action.add_athlete'
+                                  "settings_group.user_action.add_athlete"
                                 )}
                                 onClick={() => {
                                   GroupsService.addUsersToGroup(params.id, [
@@ -224,7 +204,7 @@ export default function GroupSettingsScreen() {
                             <MenuItem
                               icon={<HiUserRemove />}
                               name={t(
-                                'settings_group.user_action.remove_athlete'
+                                "settings_group.user_action.remove_athlete"
                               )}
                               onClick={() => {
                                 GroupsService.removeUsersFromGroup(params.id, [
@@ -248,10 +228,10 @@ export default function GroupSettingsScreen() {
       </div>
 
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t('settings.danger')}</span>
+        <span className="font-bold text-xl">{t("settings.danger")}</span>
       </div>
       <Button
-        name={t('settings_group.delete')}
+        name={t("settings_group.delete")}
         design="danger"
         onClick={() => {
           setDelStep(1);
@@ -259,8 +239,8 @@ export default function GroupSettingsScreen() {
       />
       <div
         className={
-          'top-0 left-0 h-full w-full backdrop-filter backdrop-blur p-4 flex flex-col justify-center ' +
-          (delStep === 1 ? 'fixed z-50' : 'hidden z-0')
+          "top-0 left-0 h-full w-full backdrop-filter backdrop-blur p-4 flex flex-col justify-center " +
+          (delStep === 1 ? "fixed z-50" : "hidden z-0")
         }
         onClick={() => {
           setDelStep(0);
@@ -268,31 +248,25 @@ export default function GroupSettingsScreen() {
       >
         <div className="max-w-prose p-4 bg-gray-300 rounded-lg bg-opacity-50 mx-auto flex flex-col space-y-4">
           <span className="font-bold text-xl">
-            {t('settings_group.delete_disclaimer_title')}
+            {t("settings_group.delete_disclaimer_title")}
           </span>
-          <span>{t('settings_group.delete_disclaimer_text')}</span>
+          <span>{t("settings_group.delete_disclaimer_text")}</span>
           <Button
-            name={t('settings_group.delete_disclaimer_confirm')}
+            name={t("settings_group.delete_disclaimer_confirm")}
             design="danger"
             onClick={() => {
-              GroupsService.deleteGroup(params.id).then(
-                (response: any) => {
-                  if (response.status === 200) {
-                    setDelStep(0);
-                    navigate('/groups');
-                  }
-                },
-                (error: any) => {
-                  setMessage(error.response?.data?.message.text);
+              GroupsService.deleteGroup(params.id).then((response: any) => {
+                if (response.status === 200) {
                   setDelStep(0);
+                  navigate("/groups");
                 }
-              );
+              });
             }}
           />
         </div>
       </div>
       <Link to={`/group/${params.id}/`}>
-        <Button name={t('common:interact.back')} design="link" />
+        <Button name={t("common:interact.back")} design="link" />
       </Link>
     </Wrapper>
   );

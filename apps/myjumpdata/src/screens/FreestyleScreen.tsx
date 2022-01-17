@@ -1,13 +1,13 @@
-import { Tab } from '@headlessui/react';
-import { Dispatch, Fragment, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Tab } from "@headlessui/react";
+import { Dispatch, Fragment, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FaCaretDown,
   FaCaretRight,
   FaRegCheckSquare,
   FaRegSquare,
   FaSquare,
-} from 'react-icons/fa';
+} from "react-icons/fa";
 import {
   HiArrowLeft,
   HiChevronRight,
@@ -16,11 +16,11 @@ import {
   HiViewBoards,
   HiViewGrid,
   HiViewList,
-} from 'react-icons/hi';
-import AuthVerify from '../common/AuthVerify';
-import randomColorClass from '../helper/randomColorClass';
-import Wrapper from '../parts/Wrapper';
-import FreestyleService from '../services/freestyle.service';
+} from "react-icons/hi";
+import AuthVerify from "../common/AuthVerify";
+import randomColorClass from "../helper/randomColorClass";
+import Wrapper from "../parts/Wrapper";
+import FreestyleService from "../services/freestyle.service";
 
 type freestyle_data_group_type = {
   name: string;
@@ -39,10 +39,9 @@ type freestyle_data_type = {
 export default function FreestyleScreen() {
   AuthVerify();
 
-  const [message, setMessage] = useState<null | string>(null);
   const [freestyleData, setFreestyleData] = useState<freestyle_data_type[]>([]);
-  const [viewStyle, setViewStyle] = useState<'list' | 'grid' | 'board'>('grid');
-  const [current, setCurrent] = useState<string>('');
+  const [viewStyle, setViewStyle] = useState<"list" | "grid" | "board">("grid");
+  const [current, setCurrent] = useState<string>("");
   const [folderData, setFolderData] = useState<
     { name?: string; key?: string }[]
   >([]);
@@ -59,11 +58,11 @@ export default function FreestyleScreen() {
           name={e.name}
           key={e.name}
           onClick={() => {
-            setCurrent(id + '_' + e.name);
+            setCurrent(id + "_" + e.name);
           }}
         >
           {e.elements && readElement(e)}
-          {e.groups && readGroup(e, id + '_' + e.name)}
+          {e.groups && readGroup(e, id + "_" + e.name)}
         </Group>
       );
     });
@@ -75,46 +74,41 @@ export default function FreestyleScreen() {
   }
 
   function getCurrentData() {
-    FreestyleService.getFreestyle(current).then(
-      (response: any) => {
-        setFreestyleData(response.data.freestyle_data);
-        setFolderData(response.data.freestyle_data);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
-      }
-    );
+    FreestyleService.getFreestyle(current).then((response: any) => {
+      setFreestyleData(response.data);
+      setFolderData(response.data);
+    });
   }
 
   return (
-    <Wrapper current="freestyle" text={message} state={(e) => setMessage(e)}>
+    <Wrapper current="freestyle">
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
-          {t('common:action:freestyle')}
+          {t("common:action:freestyle")}
         </span>
       </div>
       <div className="flex mb-4 items-end">
         <div className="mr-auto">
-          {viewStyle === 'grid' && (
+          {viewStyle === "grid" && (
             <div className="flex h-full items-center bg-gray-200 dark:bg-gray-700 rounded-xl px-4 space-x-2 py-2 mr-2 flex-wrap">
-              {current === '' ? (
+              {current === "" ? (
                 <HiHome
-                  className={'text-xl cursor-pointer'}
+                  className={"text-xl cursor-pointer"}
                   onClick={() => {
-                    setCurrent('');
+                    setCurrent("");
                   }}
                 />
               ) : (
                 <HiOutlineHome
-                  className={'text-xl cursor-pointer'}
+                  className={"text-xl cursor-pointer"}
                   onClick={() => {
-                    setCurrent('');
+                    setCurrent("");
                   }}
                 />
               )}
 
-              {current !== '' &&
-                current.split('_').map((e, index, array) => {
+              {current !== "" &&
+                current.split("_").map((e, index, array) => {
                   let last = false;
                   let first = false;
                   if (index === 0) {
@@ -127,7 +121,7 @@ export default function FreestyleScreen() {
                     <span className="inline-flex">
                       <HiChevronRight className="text-2xl" />
                       <span
-                        className={'whitespace-nowrap ' + (last && 'font-bold')}
+                        className={"whitespace-nowrap " + (last && "font-bold")}
                       >
                         {e}
                       </span>
@@ -140,13 +134,13 @@ export default function FreestyleScreen() {
         <ViewSelect state={setViewStyle} />
       </div>
 
-      {viewStyle === 'list' || viewStyle === 'board' ? (
+      {viewStyle === "list" || viewStyle === "board" ? (
         <div
           className={`${
-            viewStyle === 'list' && ' flex flex-col max-w-prose mx-auto'
+            viewStyle === "list" && " flex flex-col max-w-prose mx-auto"
           } ${
-            viewStyle === 'board' &&
-            'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
+            viewStyle === "board" &&
+            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
           }`}
         >
           {freestyleData.map((e: freestyle_data_group_type) => (
@@ -154,7 +148,7 @@ export default function FreestyleScreen() {
               name={e.name}
               key={e.name}
               uncollapsed
-              cardStyle={viewStyle === 'board' ? true : false}
+              cardStyle={viewStyle === "board" ? true : false}
               onClick={() => {
                 setCurrent(e.name);
               }}
@@ -164,7 +158,7 @@ export default function FreestyleScreen() {
           ))}
         </div>
       ) : (
-        viewStyle === 'grid' && (
+        viewStyle === "grid" && (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {folderData.map((e: any) => {
               if (e.element) {
@@ -188,7 +182,7 @@ export default function FreestyleScreen() {
   );
 }
 
-function ViewSelect({ state }: { state: Dispatch<'list' | 'grid' | 'board'> }) {
+function ViewSelect({ state }: { state: Dispatch<"list" | "grid" | "board"> }) {
   function StyledTab({
     icon,
     hideSmall,
@@ -202,10 +196,10 @@ function ViewSelect({ state }: { state: Dispatch<'list' | 'grid' | 'board'> }) {
           <button
             className={`${
               selected
-                ? 'bg-white dark:bg-gray-100 shadow text-yellow-500'
-                : 'hover:bg-black/10 hover:text-gray-700 dark:hover:text-gray-400 text-gray-500 dark:text-gray-400'
+                ? "bg-white dark:bg-gray-100 shadow text-yellow-500"
+                : "hover:bg-black/10 hover:text-gray-700 dark:hover:text-gray-400 text-gray-500 dark:text-gray-400"
             } p-2.5 text-sm leading-5 font-medium rounded-lg focus:outline-none fouces:ring-2 ring-offset-2 ring-offset-yellow-500 ring-white ring-opacity-60${
-              hideSmall && 'hidden xs:block'
+              hideSmall && "hidden xs:block"
             }`}
           >
             {icon}
@@ -219,11 +213,11 @@ function ViewSelect({ state }: { state: Dispatch<'list' | 'grid' | 'board'> }) {
       defaultIndex={2}
       onChange={(index) => {
         if (index === 0) {
-          state('board');
+          state("board");
         } else if (index === 1) {
-          state('list');
+          state("list");
         } else if (index === 2) {
-          state('grid');
+          state("grid");
         }
       }}
     >
@@ -254,7 +248,7 @@ function Folder({ name, onClick }: { name: string; onClick: (e) => void }) {
   return (
     <div
       className={
-        'p-4 rounded-xl shadow break-words items-center flex font-bold sm:text-lg md:text-xl cursor-pointer ' +
+        "p-4 rounded-xl shadow break-words items-center flex font-bold sm:text-lg md:text-xl cursor-pointer " +
         randomColorClass()
       }
       onClick={() => {
@@ -284,7 +278,7 @@ function Group({
   return (
     <div
       className={`border-l border-gray-300 flex flex-col ${
-        cardStyle && 'rounded-xl p-4 shadow border-none'
+        cardStyle && "rounded-xl p-4 shadow border-none"
       }`}
     >
       {cardStyle ? (
@@ -303,7 +297,7 @@ function Group({
           <span className="font-bold">{name}</span>
         </div>
       )}
-      <div className={`${!cardStyle && 'pl-6'} flex flex-col space-y-2`}>
+      <div className={`${!cardStyle && "pl-6"} flex flex-col space-y-2`}>
         {!isCollapsed && children}
       </div>
     </div>

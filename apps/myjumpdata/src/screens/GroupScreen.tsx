@@ -17,7 +17,6 @@ export default function GroupScreen() {
 
   const { currentUser, isCoach } = AuthService.getCurrentUser();
   const { t } = useTranslation();
-  const [message, setMessage] = useState<null | string>(null);
   const [groups, setGroups] = useState([]);
   const [groupName, setGroupName] = useState('');
   const [groupCoaches, setGroupCoaches] = useState([]);
@@ -35,12 +34,9 @@ export default function GroupScreen() {
   function getGroup() {
     GroupsService.getGroup(params.id).then(
       (response: any) => {
-        setGroupName(response.data.group.name);
-        setGroupCoaches(response.data.group.coaches);
-        setGroupAthletes(response.data.group.athletes);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
+        setGroupName(response.data.name);
+        setGroupCoaches(response.data.coaches);
+        setGroupAthletes(response.data.athletes);
       }
     );
   }
@@ -48,10 +44,7 @@ export default function GroupScreen() {
   function getGroups() {
     GroupsService.getGroups().then(
       (response: any) => {
-        setGroups(response.data.groups);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
+        setGroups(response.data);
       }
     );
   }
@@ -61,9 +54,6 @@ export default function GroupScreen() {
       () => {
         getGroups();
         setGroupName('');
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
       }
     );
   }
@@ -127,7 +117,7 @@ export default function GroupScreen() {
 
   if (params.id) {
     return (
-      <Wrapper current="group" text={message} state={(e) => setMessage(e)}>
+      <Wrapper current="group">
         <div className="flex">
           <div className="w-full space-y-2">
             <span className="font-bold text-xl">{groupName}</span>
@@ -157,7 +147,7 @@ export default function GroupScreen() {
     );
   } else {
     return (
-      <Wrapper current="groups" text={message} state={(e) => setMessage(e)}>
+      <Wrapper current="groups">
         <div className="w-full space-y-2">
           <span className="font-bold text-xl">
             {t('common:action.train_group')}

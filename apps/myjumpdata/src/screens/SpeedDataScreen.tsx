@@ -1,51 +1,36 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { FaPlus } from 'react-icons/fa';
-import { useParams } from 'react-router';
-import AuthVerify from '../common/AuthVerify';
-import { ButtonIcon } from '../components/Button';
-import { DateInput, SelectInput, TextInput } from '../components/Input';
-import Wrapper from '../parts/Wrapper';
-import GroupsService from '../services/groups.service';
-import ScoreDataService from '../services/scoredata.service';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FaPlus } from "react-icons/fa";
+import { useParams } from "react-router";
+import AuthVerify from "../common/AuthVerify";
+import { ButtonIcon } from "../components/Button";
+import { DateInput, SelectInput, TextInput } from "../components/Input";
+import Wrapper from "../parts/Wrapper";
+import GroupsService from "../services/groups.service";
+import ScoreDataService from "../services/scoredata.service";
 
 export default function SpeedDataScreen() {
   AuthVerify();
   const params = useParams();
 
-  const [groupName, setGroupName] = useState('');
+  const [groupName, setGroupName] = useState("");
   const { t } = useTranslation();
   const [groupScores, setGroupScores] = useState([]);
   const [groupHigh, setGroupHigh] = useState([]);
   const [scoreDataTypes, setScoreDataTypes] = useState([]);
   const [typesOptions, setTypesOptions] = useState([]);
-  const [scoreDataType, setScoreDataType] = useState('');
-  const [message, setMessage] = useState<null | string>(null);
+  const [scoreDataType, setScoreDataType] = useState("");
   const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
-    console.log(message);
-  }, [message]);
-
-  useEffect(() => {
-    GroupsService.getGroup(params.id).then(
-      (response: any) => {
-        setGroupName(response.data.group.name);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
-      }
-    );
-    ScoreDataService.getScoreDataTypes().then(
-      (response: any) => {
-        setScoreDataTypes(response.data.scoreDataTypes);
-        setScoreDataType(response.data.scoreDataTypes[0]._id);
-        getScoreDataHigh(params.id, response.data.scoreDataTypes[0]._id);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
-      }
-    );
+    GroupsService.getGroup(params.id).then((response: any) => {
+      setGroupName(response.data.name);
+    });
+    ScoreDataService.getScoreDataTypes().then((response: any) => {
+      setScoreDataTypes(response.data);
+      setScoreDataType(response.data[0]._id);
+      getScoreDataHigh(params.id, response.data[0]._id);
+    });
   }, [params]);
 
   useEffect(() => {
@@ -62,15 +47,10 @@ export default function SpeedDataScreen() {
   }, [scoreDataTypes]);
 
   function getScoreDataHigh(id: any, type: any) {
-    ScoreDataService.getScoreDataHigh(id, type).then(
-      (response: any) => {
-        setGroupScores(response.data.scores);
-        setGroupHigh(response.data.high);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
-      }
-    );
+    ScoreDataService.getScoreDataHigh(id, type).then((response: any) => {
+      setGroupScores(response.data.scores);
+      setGroupHigh(response.data.high);
+    });
   }
 
   function handleRecordDataSubmit(e: any) {
@@ -83,13 +63,9 @@ export default function SpeedDataScreen() {
   }
 
   return (
-    <Wrapper
-      current="speeddata_group"
-      text={message}
-      state={(e) => setMessage(e)}
-    >
+    <Wrapper current="speeddata_group">
       <span className="font-bold text-xl">
-        {t('speeddata.title') + ' ' + groupName}
+        {t("speeddata.title") + " " + groupName}
       </span>
       <DateInput
         setDate={(e) => {
@@ -106,7 +82,7 @@ export default function SpeedDataScreen() {
           />
         </div>
         <span className="text-xs whitespace-nowrap uppercase">
-          {t('common:stats.high')}: {groupHigh}
+          {t("common:stats.high")}: {groupHigh}
         </span>
       </div>
       {groupScores &&
@@ -118,11 +94,11 @@ export default function SpeedDataScreen() {
             <div className="flex items-center space-x-2">
               <span className="text-xl font-bold mr-auto leading-none translate-y-2 truncate capitalize">
                 {score.user.firstname && score.user.lastname
-                  ? score.user.firstname + ' ' + score.user.lastname
+                  ? score.user.firstname + " " + score.user.lastname
                   : score.user.username}
               </span>
               <span className="text-xs whitespace-nowrap uppercase">
-                {t('common:stats.high')}: {score.score}
+                {t("common:stats.high")}: {score.score}
               </span>
             </div>
             <form onSubmit={handleRecordDataSubmit}>

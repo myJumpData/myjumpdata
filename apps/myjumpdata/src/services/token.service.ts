@@ -1,5 +1,5 @@
 const getLocalAccessToken = () => {
-  const storedUser = localStorage.getItem("user")
+  const storedUser = localStorage.getItem("user");
   let user;
   if (storedUser) {
     user = JSON.parse(storedUser);
@@ -8,7 +8,7 @@ const getLocalAccessToken = () => {
 };
 
 const updateLocalAccessToken = (token: any) => {
-  const storedUser = localStorage.getItem("user")
+  const storedUser = localStorage.getItem("user");
   let user;
   if (storedUser) {
     user = JSON.parse(storedUser);
@@ -18,12 +18,12 @@ const updateLocalAccessToken = (token: any) => {
 };
 
 const getUser = () => {
-  const storedUser = localStorage.getItem("user")
+  const storedUser = localStorage.getItem("user");
   let user;
   if (storedUser) {
     user = JSON.parse(storedUser);
   }
-  return user
+  return user;
 };
 
 const setUser = (user: any) => {
@@ -35,12 +35,17 @@ const removeUser = () => {
 };
 
 const updateUserLocalStorage = ({
-                                  username,
-                                  firstname,
-                                  lastname,
-                                  email
-                                }: { username: any; firstname: any; lastname: any; email: any; }) => {
-  const storedUser = localStorage.getItem("user")
+  username,
+  firstname,
+  lastname,
+  email,
+}: {
+  username: any;
+  firstname: any;
+  lastname: any;
+  email: any;
+}) => {
+  const storedUser = localStorage.getItem("user");
   let user;
   if (storedUser) {
     user = JSON.parse(storedUser);

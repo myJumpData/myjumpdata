@@ -1,8 +1,15 @@
-import { AxiosResponse } from 'axios';
-import i18next from 'i18next';
-import store from '../store/store';
+import { AxiosResponse } from "axios";
+import i18next from "i18next";
+import store from "../store/store";
 
-export default async function ResponseHandler(
+export interface responseHandlerType {
+  status: number;
+  message: string;
+  key: string;
+  data: any;
+}
+
+export default async function responseHandler(
   res: AxiosResponse<any, any> | undefined | Promise<any>
 ) {
   const response = await res;
@@ -13,7 +20,7 @@ export default async function ResponseHandler(
       : response?.data?.message?.text;
 
   store.dispatch({
-    type: 'message/setMessage',
+    type: "setMessage",
     payload: { text: message_text },
   });
 
@@ -22,5 +29,5 @@ export default async function ResponseHandler(
     message: message_text,
     key: message_key,
     data: response?.data?.data,
-  } as { status: number; message: string; key: string; data: any };
+  } as responseHandlerType;
 }

@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { HiPlus } from 'react-icons/hi';
-import AuthVerify from '../common/AuthVerify';
-import { DateInput, TextInput } from '../components/Input';
-import Wrapper from '../parts/Wrapper';
-import ScoreDataService from '../services/scoredata.service';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { HiPlus } from "react-icons/hi";
+import AuthVerify from "../common/AuthVerify";
+import { DateInput, TextInput } from "../components/Input";
+import Wrapper from "../parts/Wrapper";
+import ScoreDataService from "../services/scoredata.service";
 
 export default function SpeedDataOwnScreen() {
   AuthVerify();
 
-  const [message, setMessage] = useState<null | string>(null);
   const [scoreData, setScoreData] = useState([]);
   const [date, setDate] = useState<Date>(new Date());
   const { t } = useTranslation();
@@ -19,21 +18,16 @@ export default function SpeedDataOwnScreen() {
   }, []);
 
   function getData() {
-    ScoreDataService.getScoreDataOwn().then(
-      (response: any) => {
-        setScoreData(response.data.data);
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
-      }
-    );
+    ScoreDataService.getScoreDataOwn().then((response: any) => {
+      setScoreData(response.data.data);
+    });
   }
 
   function handleRecordDataSubmit(e: any) {
     e.preventDefault();
     const score = e.target.elements.score.value;
     const type = e.target.elements.id.value;
-    if (score !== '') {
+    if (score !== "") {
       ScoreDataService.saveScoreDataOwn(type, score, date);
       e.target.elements.score.value = null;
       getData();
@@ -41,10 +35,10 @@ export default function SpeedDataOwnScreen() {
   }
 
   return (
-    <Wrapper current="speeddata" text={message} state={(e) => setMessage(e)}>
+    <Wrapper current="speeddata">
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
-          {t('common:action.speeddataown')}
+          {t("common:action.speeddataown")}
         </span>
         <DateInput
           setDate={(e) => {
@@ -65,7 +59,7 @@ export default function SpeedDataOwnScreen() {
                       {score.type.name}
                     </span>
                     <span className="text-xs whitespace-nowrap uppercase leading-none">
-                      {t('common:stats.high')}: {score.score}
+                      {t("common:stats.high")}: {score.score}
                     </span>
                   </div>
                   <form onSubmit={handleRecordDataSubmit}>

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
-import User from '../assets/user.svg';
-import AuthVerify from '../common/AuthVerify';
-import Wrapper from '../parts/Wrapper';
-import AuthService from '../services/auth.service';
-import { getUser } from '../services/user.service.';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import User from "../assets/user.svg";
+import AuthVerify from "../common/AuthVerify";
+import Wrapper from "../parts/Wrapper";
+import AuthService from "../services/auth.service";
+import { getUser } from "../services/user.service.";
 
 export default function ProfileScreen() {
   const params = useParams();
@@ -16,12 +16,11 @@ export default function ProfileScreen() {
 
   const { t } = useTranslation();
 
-  const [username, setUsername] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [image, setImage] = useState('');
+  const [username, setUsername] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [image, setImage] = useState("");
   const [userOverviewScoreData, setUserOverviewScoreData] = useState([]);
-  const [message, setMessage] = useState<null | string>(null);
 
   const { currentUser } = AuthService.getCurrentUser();
 
@@ -34,33 +33,29 @@ export default function ProfileScreen() {
   }, [params, currentUser?.username]);
 
   useEffect(() => {
-    if (username !== '') {
-      getUser(username).then(
-        (response: any) => {
-          setUsername(response.data.data.username);
-          setFirstname(response.data.data.firstname);
-          setLastname(response.data.data.lastname);
-          setUserOverviewScoreData(response.data.data.highdata);
-          if (response.data.data.picture) {
-            fetch(response.data.data.picture).then((r) => {
-              if (r.status === 200) {
-                setImage(response.data.data.picture);
-              }
-            });
-          }
-        },
-        (error: any) => {
-          setMessage(error.response?.data?.message.text);
+    if (username !== "") {
+      getUser(username).then((response) => {
+        console.log(response);
+        setUsername(response.data.username);
+        setFirstname(response.data.firstname);
+        setLastname(response.data.lastname);
+        setUserOverviewScoreData(response.data.highdata);
+        if (response.data.picture) {
+          fetch(response.data.picture).then((r) => {
+            if (r.status === 200) {
+              setImage(response.data.picture);
+            }
+          });
         }
-      );
+      });
     }
   }, [username]);
 
   return (
-    <Wrapper current="profile" text={message} state={(e) => setMessage(e)}>
+    <Wrapper current="profile">
       <div className="w-full space-y-2">
         <div className="flex justify-start space-x-4">
-          {image !== '' ? (
+          {image !== "" ? (
             <div className="aspect-square h-24 sm:h-32 md:h-48 flex justify-center">
               <img
                 src={image}
@@ -78,13 +73,13 @@ export default function ProfileScreen() {
               {username}
             </span>
             <div className="text-lg md:text-2xl capitalize truncate">
-              {firstname && lastname ? firstname + ' ' + lastname : username}
+              {firstname && lastname ? firstname + " " + lastname : username}
             </div>
           </div>
         </div>
         <div>
           <span className="font-bold text-lg md:text-xl">
-            {t('common:stats.highscores')}:
+            {t("common:stats.highscores")}:
           </span>
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {userOverviewScoreData.map(
@@ -98,11 +93,11 @@ export default function ProfileScreen() {
                   </span>
                   <div className="flex-col flex whitespace-nowrap text-sm">
                     <div className="flex justify-between space-x-2">
-                      <span>{t('common:stats.group')}</span>
+                      <span>{t("common:stats.group")}</span>
                       <span>{score.score}</span>
                     </div>
                     <div className="flex justify-between space-x-2">
-                      <span>{t('common:stats.own')}</span>
+                      <span>{t("common:stats.own")}</span>
                       <span>{score.scoreOwn}</span>
                     </div>
                   </div>

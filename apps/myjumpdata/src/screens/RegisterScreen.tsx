@@ -1,15 +1,13 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
-import { TextInput } from '../components/Input';
-import Wrapper from '../parts/Wrapper';
-import AuthService from '../services/auth.service';
+import { useTranslation } from "react-i18next";
+import { Navigate, useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import { TextInput } from "../components/Input";
+import Wrapper from "../parts/Wrapper";
+import AuthService from "../services/auth.service";
 
 export default function RegisterScreen() {
   const { currentUser } = AuthService.getCurrentUser();
   const { t } = useTranslation();
-  const [message, setMessage] = useState<null | string>(null);
 
   const navigate = useNavigate();
 
@@ -26,15 +24,9 @@ export default function RegisterScreen() {
       lastname.trim(),
       email.trim(),
       password
-    ).then(
-      (response) => {
-        setMessage(response.data.message.text);
-        navigate('/login');
-      },
-      (error: any) => {
-        setMessage(error.response?.data?.message.text);
-      }
-    );
+    ).then(() => {
+      navigate("/login");
+    });
   }
 
   if (currentUser) {
@@ -42,44 +34,39 @@ export default function RegisterScreen() {
   }
 
   return (
-    <Wrapper
-      current="register"
-      type="main"
-      text={message}
-      state={(e) => setMessage(e)}
-    >
+    <Wrapper current="register" type="main">
       <div className="max-w-screen-sm">
         <div className="w-full space-y-2">
-          <span className="font-bold text-xl">{t('common:entry.signup')}</span>
+          <span className="font-bold text-xl">{t("common:entry.signup")}</span>
         </div>
         <form onSubmit={handleRegisterSubmit}>
           <TextInput
             type="text"
-            name={t('common:fields.username') + ':'}
+            name={t("common:fields.username") + ":"}
             inputName="username"
           />
           <TextInput
             type="text"
-            name={t('common:fields.firstname') + ':'}
+            name={t("common:fields.firstname") + ":"}
             inputName="firstname"
           />
           <TextInput
             type="text"
-            name={t('common:fields.lastname') + ':'}
+            name={t("common:fields.lastname") + ":"}
             inputName="lastname"
           />
           <TextInput
-            name={t('common:fields.email') + ':'}
+            name={t("common:fields.email") + ":"}
             type="text"
             inputName="email"
           />
           <TextInput
-            name={t('common:fields.password') + ':'}
+            name={t("common:fields.password") + ":"}
             type="password"
             inputName="password"
           />
           <Button
-            name={t('common:entry.signup')}
+            name={t("common:entry.signup")}
             type="submit"
             design="success"
           />
