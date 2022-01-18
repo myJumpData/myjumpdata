@@ -1,10 +1,10 @@
-import { Trans, useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import markofediv from '../assets/markofediv.jpg';
-import undraw_code_review from '../assets/undraw_code_review_re_woeb.svg';
-import undraw_collaborators from '../assets/undraw_collaborators_re_hont.svg';
-import undraw_work_in_progress from '../assets/undraw_work_in_progress_uhmv.svg';
-import Wrapper from '../parts/Wrapper';
+import { Trans, useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import markofediv from "../assets/markofediv.jpg";
+import undraw_code_review from "../assets/undraw_code_review_re_woeb.svg";
+import undraw_collaborators from "../assets/undraw_collaborators_re_hont.svg";
+import undraw_work_in_progress from "../assets/undraw_work_in_progress_uhmv.svg";
+import Wrapper from "../parts/Wrapper";
 
 export default function MainScreen() {
   const { t } = useTranslation();
@@ -23,19 +23,19 @@ export default function MainScreen() {
   function Jumbotron() {
     return (
       <div>
-        <p className="tracking-loose w-full">{t('main:jumbotron.top')}</p>
+        <p className="tracking-loose w-full">{t("main:jumbotron.top")}</p>
         <h1 className="my-4 lg:text-4xl text-2xl font-bold leading-tight w-full">
-          {t('main:jumbotron.title')}
+          {t("main:jumbotron.title")}
         </h1>
         <p className="leading-normal lg:text-2xl text-xl mb-8 w-full">
-          {t('main:jumbotron.bottom')}
+          {t("main:jumbotron.bottom")}
         </p>
 
         <Link
           to="/register"
           className="hover:underline text-gray-800 bg-yellow-500 font-bold rounded-full md:py-4 md:px-8 py-2 px-4 shadow-lg"
         >
-          {t('common:entry:signup')}
+          {t("common:entry:signup")}
         </Link>
       </div>
     );
@@ -45,7 +45,7 @@ export default function MainScreen() {
     return (
       <div>
         <div className="w-full space-y-2 mb-2">
-          <span className="font-bold text-xl">{t('main:by.title')}</span>
+          <span className="font-bold text-xl">{t("main:by.title")}</span>
         </div>
         <div className="flex items-center flex-col sm:flex-row justify-center">
           <div className="md:w-1/5 sm:w-2/5 max-w-xs">
@@ -53,7 +53,7 @@ export default function MainScreen() {
           </div>
           <div className="mt-8 ml-0 sm:ml-8 sm:mt-0 text-center sm:text-left max-w-prose">
             <p className="text-gray-600 dark:text-gray-400 text-sm lg:text-lg">
-              {t('main:by.position')}
+              {t("main:by.position")}
             </p>
             <div className="font-bold text-xl lg:text-4xl">Marko Fediv</div>
             <p className="text-base lg:text-xl mb-6">
@@ -100,8 +100,8 @@ export default function MainScreen() {
       return (
         <div
           className={
-            'flex flex-wrap items-center mb-8 ' +
-            (swap && 'sm:flex-row-reverse')
+            "flex flex-wrap items-center mb-8 " +
+            (swap && "sm:flex-row-reverse")
           }
         >
           <div className="w-full sm:w-1/3 mb-4 sm:mb-0 px-0 sm:px-4">
@@ -118,7 +118,7 @@ export default function MainScreen() {
               <a
                 target="_blank"
                 rel="noreferrer"
-                className="hover:underline bg-yellow-500 text-white font-bold rounded-full py-2 px-4 lg:py-4 lg:px-8 shadow-lg"
+                className="hover:underline bg-yellow-500 text-black font-bold rounded-full py-2 px-4 lg:py-4 lg:px-8 shadow-lg"
                 href={to}
               >
                 {link}
@@ -133,32 +133,32 @@ export default function MainScreen() {
       <div>
         <div className="w-full space-y-2 mb-2">
           <span className="font-bold text-xl">
-            {t('main:open_development.title')}
+            {t("main:open_development.title")}
           </span>
         </div>
 
         <Part
           img={undraw_work_in_progress}
-          heading={t('main:open_development.work_in_progress.title')}
+          heading={t("main:open_development.work_in_progress.title")}
         >
-          {t('main:open_development.work_in_progress.text')}
+          {t("main:open_development.work_in_progress.text")}
         </Part>
         <Part
           img={undraw_code_review}
-          heading={t('main:open_development.open_source.title')}
+          heading={t("main:open_development.open_source.title")}
           link="GitHub"
           to="https://github.com/myJumpData"
           swap
         >
-          {t('main:open_development.open_source.text')}
+          {t("main:open_development.open_source.text")}
         </Part>
         <Part
           img={undraw_collaborators}
-          heading={t('main:open_development.user_focused.title')}
+          heading={t("main:open_development.user_focused.title")}
           link="myJumpData@gmail.com"
           to="mailto:myjumpdata@gmail.com"
         >
-          {t('main:open_development.user_focused.text')}
+          {t("main:open_development.user_focused.text")}
         </Part>
       </div>
     );
@@ -168,15 +168,15 @@ export default function MainScreen() {
     return (
       <div>
         <div className="w-full space-y-2 mb-2">
-          <span className="font-bold text-xl">{t('main:cta.title')}</span>
+          <span className="font-bold text-xl">{t("main:cta.title")}</span>
         </div>
-        <h3 className="my-4 leading-tight">{t('main:cta.text')}</h3>
+        <h3 className="my-4 leading-tight">{t("main:cta.text")}</h3>
         <div className="py-6">
           <Link
             to="/register"
             className="mx-auto lg:mx-0 hover:underline bg-yellow-500 font-bold rounded-full my-6 py-2 px-4 lg:py-4 lg:px-8 shadow-lg text-gray-800"
           >
-            {t('common:entry.signup')}
+            {t("common:entry.signup")}
           </Link>
         </div>
       </div>

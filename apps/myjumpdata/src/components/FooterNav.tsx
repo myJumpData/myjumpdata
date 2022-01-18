@@ -16,8 +16,9 @@ export default function FooterNav({ social, links }) {
             <p>{t("common:footer.text")}</p>
           </div>
           <div className="flex space-x-2 text-lg">
-            {social.map(({ link, icon }) => (
+            {social.map(({ link, icon, name }) => (
               <a
+                aria-label={name}
                 key={link}
                 href={link}
                 className="hover:text-gray-600 dark:hover:text-gray-400"
@@ -30,23 +31,19 @@ export default function FooterNav({ social, links }) {
         <div className="flex flex-wrap sm:justify-center w-full">
           {links &&
             links.map(({ heading, links }) => (
-              <div
-                key={heading}
-                className="min-w-[10rem] flex flex-col my-4 sm:my-4"
-              >
-                <span className="text-lg">{heading}</span>
-                <ul className="text-sm flex flex-col space-y-2">
+              <div key={heading} className="min-w-[10rem] flex flex-col m<-4">
+                <span className="text-lg mb-2">{heading}</span>
+                <div className="text-sm flex flex-col">
                   {links.map(({ name, to }) => (
-                    <li key={name}>
-                      <Link
-                        to={to}
-                        className="hover:text-gray-600 dark:hover:text-gray-400"
-                      >
-                        {name}
-                      </Link>
-                    </li>
+                    <Link
+                      key={name}
+                      to={to}
+                      className="hover:text-gray-600 dark:hover:text-gray-400 py-2"
+                    >
+                      {name}
+                    </Link>
                   ))}
-                </ul>
+                </div>
               </div>
             ))}
         </div>
