@@ -1,9 +1,9 @@
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Fragment, ReactElement } from 'react';
-import { HiMenu, HiX } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
-import Logo from '../assets/skipping-rope.png';
-import classNames from '../helper/classNames';
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Fragment, ReactElement } from "react";
+import { HiMenu, HiX } from "react-icons/hi";
+import { Link } from "react-router-dom";
+import Logo from "../assets/skipping-rope.png";
+import classNames from "../helper/classNames";
 
 export default function Navbar({
   navigation,
@@ -28,9 +28,17 @@ export default function Navbar({
                   {/* Mobile menu button*/}
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     {open ? (
-                      <HiX className="block h-6 w-6" aria-hidden="true" />
+                      <HiX
+                        className="block h-6 w-6"
+                        aria-hidden="true"
+                        aria-label="close menu"
+                      />
                     ) : (
-                      <HiMenu className="block h-6 w-6" aria-hidden="true" />
+                      <HiMenu
+                        className="block h-6 w-6"
+                        aria-hidden="true"
+                        aria-label="open menu"
+                      />
                     )}
                   </Disclosure.Button>
                 </div>
@@ -48,11 +56,11 @@ export default function Navbar({
                           to={item.to}
                           className={classNames(
                             item.current
-                              ? 'bg-gray-300/50 text-black dark:bg-gray-500/50 hover:bg-gray-300/75 dark:hover:bg-gray-500/75 dark:text-white'
-                              : 'text-gray-700 dark:text-gray-200 hover:bg-gray-300/30 hover:text-gray-800 dark:hover:bg-gray-500/30 dark:hover:text-gray-100',
-                            'px-3 py-2 rounded-md text-sm font-medium'
+                              ? "bg-gray-300/50 text-black dark:bg-gray-500/50 hover:bg-gray-300/75 dark:hover:bg-gray-500/75 dark:text-white"
+                              : "text-gray-700 dark:text-gray-200 hover:bg-gray-300/30 hover:text-gray-800 dark:hover:bg-gray-500/30 dark:hover:text-gray-100",
+                            "px-3 py-2 rounded-md text-sm font-medium"
                           )}
-                          aria-current={item.current ? 'page' : undefined}
+                          aria-current={item.current ? "page" : undefined}
                         >
                           {item.name}
                         </Link>
@@ -85,8 +93,8 @@ export default function Navbar({
                                 <Link
                                   to={e.to}
                                   className={classNames(
-                                    active && 'bg-gray-100 dark:bg-gray-900',
-                                    'flex items-center justify-start px-4 py-2 text-sm leading-none'
+                                    active && "bg-gray-100 dark:bg-gray-900",
+                                    "flex items-center justify-start px-4 py-2 text-sm leading-none"
                                   )}
                                 >
                                   <span className="mr-2 text-base">
@@ -114,11 +122,11 @@ export default function Navbar({
                     to={item.to}
                     className={classNames(
                       item.current
-                        ? 'bg-gray-300/50 text-black dark:bg-gray-500/50 hover:bg-gray-300/75 dark:hover:bg-gray-500/75 dark:text-white'
-                        : 'text-gray-700 dark:text-gray-200 hover:bg-gray-300/30 hover:text-gray-800 dark:hover:bg-gray-500/30 dark:hover:text-gray-100',
-                      'block px-3 py-2 rounded-md text-base font-medium'
+                        ? "bg-gray-300/50 text-black dark:bg-gray-500/50 hover:bg-gray-300/75 dark:hover:bg-gray-500/75 dark:text-white"
+                        : "text-gray-700 dark:text-gray-200 hover:bg-gray-300/30 hover:text-gray-800 dark:hover:bg-gray-500/30 dark:hover:text-gray-100",
+                      "block px-3 py-2 rounded-md text-base font-medium"
                     )}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
                   </Disclosure.Button>
