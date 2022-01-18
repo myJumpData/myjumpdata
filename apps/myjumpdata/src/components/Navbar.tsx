@@ -26,19 +26,14 @@ export default function Navbar({
               <div className="relative flex items-center justify-between h-16">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button*/}
-                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <Disclosure.Button
+                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                    aria-label="menu button"
+                  >
                     {open ? (
-                      <HiX
-                        className="block h-6 w-6"
-                        aria-hidden="true"
-                        aria-label="close menu"
-                      />
+                      <HiX className="block h-6 w-6" aria-hidden="true" />
                     ) : (
-                      <HiMenu
-                        className="block h-6 w-6"
-                        aria-hidden="true"
-                        aria-label="open menu"
-                      />
+                      <HiMenu className="block h-6 w-6" aria-hidden="true" />
                     )}
                   </Disclosure.Button>
                 </div>
