@@ -33,12 +33,33 @@ export const updateUsersRole = (req, res) => {
   });
 };
 
-export const getUsers = (req, res) => {
-  User.find({ _id: { $ne: req.userId }, active: true })
+export const searchUsers = (req, res) => {
+  if (
+    req.params.search === "" ||
+    req.params.search === null ||
+    req.params.search === undefined
+  ) {
+    return responseHandler(res, 200, "", "", []);
+  }
+  console.log(req.params.search);
+  if (!req.params.search.match(/^[A-Z0-9._-]+$/i)) {
+    return responseHandler(res, 200, "", "", []);
+  }
+  User.find(
+    {
+      $text: { $search: req.params.search },
+      _id: { $ne: req.userId },
+      active: true,
+    },
+    { score: { $meta: "textScore" } }
+  )
+    .sort({ score: { $meta: "textScore" } })
     .populate("roles")
     .select("-password")
+    .limit(5)
     .exec((err, users) => {
       if (err) {
+        console.log(err);
         return responseHandlerError(res, err);
       }
       return responseHandler(res, 200, "", "", users);

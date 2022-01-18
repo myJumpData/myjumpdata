@@ -1,30 +1,30 @@
-import { Express } from 'express-serve-static-core';
+import { Express } from "express-serve-static-core";
 import {
-  getUsers,
+  searchUsers,
   updateUser,
   updateUsersRole,
-} from '../controllers/users.controller';
-import verifyToken from '../middlewares/authJwt';
+} from "../controllers/users.controller";
+import verifyToken from "../middlewares/authJwt";
 import {
   bodySanitizeEmail,
   bodySanitizeFirstname,
   bodySanitizeLastname,
   bodySanitizePassword,
   bodySanitizeUsername,
-} from '../middlewares/bodySanitize';
+} from "../middlewares/bodySanitize";
 import {
   bodyValidateEmail,
   bodyValidateFirstname,
   bodyValidateLastname,
   bodyValidatePassword,
   bodyValidateUsername,
-} from '../middlewares/bodyValidate';
+} from "../middlewares/bodyValidate";
 
 export default function UsersRoutes(app: Express) {
-  app.put('/users/role', [verifyToken], updateUsersRole);
-  app.get('/users', [verifyToken], getUsers);
+  app.put("/users/role", [verifyToken], updateUsersRole);
+  app.get("/users/:search", [verifyToken], searchUsers);
   app.put(
-    '/user',
+    "/user",
     [
       verifyToken,
 

@@ -26,7 +26,8 @@
     "speeddata": "Speed Data",
     "speeddataown": "Speed Data for your own",
     "create_group": "Create Group",
-    "freestyle": "Freestyle"
+    "freestyle": "Freestyle",
+    "search": "Search"
   },
   "stats": {
     "high": "High",

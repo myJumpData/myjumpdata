@@ -2,12 +2,14 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, ReactChild, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiUserAdd, HiUserRemove } from "react-icons/hi";
+import { TailSpin } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
+import { PrimaryColor } from "../Constants";
 import Wrapper from "../parts/Wrapper";
 import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
@@ -22,8 +24,10 @@ export default function GroupSettingsScreen() {
   const [groupAthletes, setGroupAthletes] = useState([]);
   const [groupName, setGroupName] = useState("");
   const [groupUpdateName, setGroupUpdateName] = useState("");
+  const [groupSearch, setGroupSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [delStep, setDelStep] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -36,7 +40,6 @@ export default function GroupSettingsScreen() {
 
   useEffect(() => {
     getGroup();
-    getUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
@@ -48,12 +51,6 @@ export default function GroupSettingsScreen() {
     });
   }
 
-  function getUsers() {
-    UsersService.getUsers().then((response: any) => {
-      setUsers(response.data);
-    });
-  }
-
   useEffect(() => {
     if (groupUpdateName === "") {
       setGroupUpdateName(groupName);
@@ -61,13 +58,29 @@ export default function GroupSettingsScreen() {
   }, [groupName, groupUpdateName]);
 
   useEffect(() => {
-    if (groupName !== groupUpdateName) {
-      GroupsService.updateGroupName(groupUpdateName, params.id).then(
-        (response: any) => {
-          setGroupName(response.data.name);
-        }
-      );
-    }
+    setLoading(true);
+    const timeoutId = setTimeout(() => {
+      if (groupSearch !== "") {
+        UsersService.searchUsers(groupSearch).then((response) => {
+          setUsers(response.data);
+          setLoading(false);
+        });
+      }
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [groupSearch]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (groupName !== groupUpdateName) {
+        GroupsService.updateGroupName(groupUpdateName, params.id).then(
+          (response: any) => {
+            setGroupName(response.data.name);
+          }
+        );
+      }
+    }, 1000);
+    return () => clearTimeout(timeoutId);
   }, [groupName, groupUpdateName, params]);
 
   return (
@@ -86,143 +99,162 @@ export default function GroupSettingsScreen() {
       />
       <div>
         <span className="text-xl font-bold">Mitglieder der Gruppe</span>
-        <div className="mt-2 flex flex-col space-y-2">
-          {users.map(
-            ({
-              _id,
-              firstname,
-              lastname,
-              username,
-              roles,
-            }: {
-              _id: string;
-              firstname: string;
-              lastname: string;
-              username: string;
-              roles: [Object];
-            }) => {
-              return (
-                <div
-                  className="bg-gray-500/50 flex flex-row py-2 px-4 rounded-lg items-center justify-between"
-                  key={_id}
-                >
-                  <span className="truncate capitalize">
-                    {firstname && lastname
-                      ? firstname + " " + lastname
-                      : username}
-                  </span>
-                  <div className="flex flex-row items-center justify-end space-x-2">
-                    {groupCoaches.some(
-                      (athlete: any) => athlete.id === _id
-                    ) && (
-                      <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-blue-500 text-sm">
-                        C
+        <div className="mt-4">
+          <TextInput
+            type="text"
+            name={t("common:action.search") + ":"}
+            stateChange={setGroupSearch}
+            value={groupSearch}
+          />
+        </div>
+        <div className="flex flex-col space-y-2">
+          {loading && groupSearch !== "" && <TailSpin color={PrimaryColor} />}
+          {groupSearch !== "" &&
+            users &&
+            users.map(
+              ({
+                _id,
+                firstname,
+                lastname,
+                username,
+                roles,
+              }: {
+                _id: string;
+                firstname: string;
+                lastname: string;
+                username: string;
+                roles: [Object];
+              }) => {
+                return (
+                  <div
+                    className="bg-gray-500/50 flex flex-row py-2 px-4 rounded-lg items-center justify-between"
+                    key={_id}
+                  >
+                    <div>
+                      <span className="truncate capitalize mr-2">
+                        {firstname && lastname
+                          ? `${firstname} ${lastname}`
+                          : username}
                       </span>
-                    )}
-                    {groupAthletes.some(
-                      (athlete: any) => athlete.id === _id
-                    ) && (
-                      <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-orange-500 text-sm">
-                        A
-                      </span>
-                    )}
-                    <Menu as="div" className="relative">
-                      <Menu.Button className="flex justify-center items-center h-8 w-8 rounded-full hover:outline outline-gray-500">
-                        <HiDotsVertical />
-                      </Menu.Button>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <Menu.Items className="origin-top-right absolute right-0 mt-4 top-4 max-w-36 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                          {roles.some((e: any) => e.name === "coach") &&
-                            !groupCoaches.some(
-                              (athlete: any) => athlete.id === _id
-                            ) && (
-                              <MenuItem
-                                icon={<HiUserAdd />}
-                                name={t("settings_group.user_action.add_coach")}
-                                onClick={() => {
-                                  GroupsService.addCoachesToGroup(params.id, [
-                                    _id,
-                                  ]).then(() => {
-                                    getGroup();
-                                    getUsers();
-                                  });
-                                }}
-                              />
-                            )}
-                          {groupCoaches.some(
-                            (athlete: any) => athlete.id === _id
-                          ) && (
-                            <MenuItem
-                              icon={<HiUserRemove />}
-                              name={t(
-                                "settings_group.user_action.remove_coach"
+
+                      {firstname && lastname && (
+                        <span className="truncate text-sm font-thin">
+                          ({username})
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-row items-center justify-end space-x-2">
+                      {groupCoaches.some(
+                        (athlete: any) => athlete.id === _id
+                      ) && (
+                        <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-blue-500 text-sm">
+                          C
+                        </span>
+                      )}
+                      {groupAthletes.some(
+                        (athlete: any) => athlete.id === _id
+                      ) && (
+                        <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-orange-500 text-sm">
+                          A
+                        </span>
+                      )}
+                      <Menu as="div" className="relative">
+                        <Menu.Button className="flex justify-center items-center h-8 w-8 rounded-full hover:outline outline-gray-500">
+                          <HiDotsVertical />
+                        </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="origin-top-right absolute right-0 mt-4 top-4 max-w-36 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                            {roles.some((e: any) => e.name === "coach") &&
+                              !groupCoaches.some(
+                                (athlete: any) => athlete.id === _id
+                              ) && (
+                                <MenuItem
+                                  icon={<HiUserAdd />}
+                                  name={t(
+                                    "settings_group.user_action.add_coach"
+                                  )}
+                                  onClick={() => {
+                                    GroupsService.addCoachesToGroup(params.id, [
+                                      _id,
+                                    ]).then(() => {
+                                      getGroup();
+                                    });
+                                  }}
+                                />
                               )}
-                              onClick={() => {
-                                GroupsService.removeCoachesFromGroup(
-                                  params.id,
-                                  [_id]
-                                ).then(() => {
-                                  getGroup();
-                                  getUsers();
-                                });
-                              }}
-                            />
-                          )}
-                          {!groupCoaches.some(
-                            (coach: any) => coach.id === _id
-                          ) &&
-                            !groupAthletes.some(
+                            {groupCoaches.some(
                               (athlete: any) => athlete.id === _id
                             ) && (
                               <MenuItem
-                                icon={<HiUserAdd />}
+                                icon={<HiUserRemove />}
                                 name={t(
-                                  "settings_group.user_action.add_athlete"
+                                  "settings_group.user_action.remove_coach"
                                 )}
                                 onClick={() => {
-                                  GroupsService.addUsersToGroup(params.id, [
-                                    _id,
-                                  ]).then(() => {
+                                  GroupsService.removeCoachesFromGroup(
+                                    params.id,
+                                    [_id]
+                                  ).then(() => {
                                     getGroup();
-                                    getUsers();
                                   });
                                 }}
                               />
                             )}
-                          {groupAthletes.some(
-                            (athlete: any) => athlete.id === _id
-                          ) && (
-                            <MenuItem
-                              icon={<HiUserRemove />}
-                              name={t(
-                                "settings_group.user_action.remove_athlete"
+                            {!groupCoaches.some(
+                              (coach: any) => coach.id === _id
+                            ) &&
+                              !groupAthletes.some(
+                                (athlete: any) => athlete.id === _id
+                              ) && (
+                                <MenuItem
+                                  icon={<HiUserAdd />}
+                                  name={t(
+                                    "settings_group.user_action.add_athlete"
+                                  )}
+                                  onClick={() => {
+                                    GroupsService.addUsersToGroup(params.id, [
+                                      _id,
+                                    ]).then(() => {
+                                      getGroup();
+                                    });
+                                  }}
+                                />
                               )}
-                              onClick={() => {
-                                GroupsService.removeUsersFromGroup(params.id, [
-                                  _id,
-                                ]).then(() => {
-                                  getGroup();
-                                  getUsers();
-                                });
-                              }}
-                            />
-                          )}
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
+                            {groupAthletes.some(
+                              (athlete: any) => athlete.id === _id
+                            ) && (
+                              <MenuItem
+                                icon={<HiUserRemove />}
+                                name={t(
+                                  "settings_group.user_action.remove_athlete"
+                                )}
+                                onClick={() => {
+                                  GroupsService.removeUsersFromGroup(
+                                    params.id,
+                                    [_id]
+                                  ).then(() => {
+                                    getGroup();
+                                  });
+                                }}
+                              />
+                            )}
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    </div>
                   </div>
-                </div>
-              );
-            }
-          )}
+                );
+              }
+            )}
         </div>
       </div>
 
