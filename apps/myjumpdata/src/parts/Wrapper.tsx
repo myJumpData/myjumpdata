@@ -16,7 +16,7 @@ export default function Wrapper({
   const user = useSelector((state: any) => state.user);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden flex flex-col">
       {type === "main" ||
       user?.username === null ||
       user?.username === undefined ? (
@@ -24,9 +24,11 @@ export default function Wrapper({
       ) : (
         <Nav current={current} />
       )}
-      <div className="bg-white text-black dark:bg-black dark:text-white w-full rounded-tl-3xl p-4 sm:p-8 lg:p-12 flex flex-col space-y-8">
-        <Alert />
-        {children}
+      <div className="bg-white text-black dark:bg-black dark:text-white w-full rounded-tl-3xl p-4 sm:p-8 lg:p-12 flex flex-col h-full grow">
+        <div className="mb-auto space-y-8">
+          <Alert />
+          {children}
+        </div>
       </div>
       <Footer />
     </div>
