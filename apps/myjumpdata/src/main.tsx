@@ -1,22 +1,23 @@
-import React, { Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./i18n";
 import Spinner from "./parts/Spinner";
-import FreestyleScreen from "./screens/FreestyleScreen";
-import GroupScreen from "./screens/GroupScreen";
-import GroupSettingsScreen from "./screens/GroupSettingsScreen";
-import LegalScreen from "./screens/LegalScreen";
-import LoginScreen from "./screens/LoginScreen";
-import MainScreen from "./screens/MainScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import SettingsScreen from "./screens/SettingsScreen";
-import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
-import SpeedDataScreen from "./screens/SpeedDataScreen";
-import TermsScreen from "./screens/TermsScreen";
 import StoreProvider from "./store/StoreProvider";
 import "./styles.scss";
+
+const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
+const GroupScreen = lazy(() => import("./screens/GroupScreen"));
+const GroupSettingsScreen = lazy(() => import("./screens/GroupSettingsScreen"));
+const LegalScreen = lazy(() => import("./screens/LegalScreen"));
+const LoginScreen = lazy(() => import("./screens/LoginScreen"));
+const MainScreen = lazy(() => import("./screens/MainScreen"));
+const ProfileScreen = lazy(() => import("./screens/ProfileScreen"));
+const RegisterScreen = lazy(() => import("./screens/RegisterScreen"));
+const SettingsScreen = lazy(() => import("./screens/SettingsScreen"));
+const SpeedDataOwnScreen = lazy(() => import("./screens/SpeedDataOwnScreen"));
+const SpeedDataScreen = lazy(() => import("./screens/SpeedDataScreen"));
+const TermsScreen = lazy(() => import("./screens/TermsScreen"));
 
 ReactDOM.render(
   <Suspense fallback={<Spinner wrapper />}>
