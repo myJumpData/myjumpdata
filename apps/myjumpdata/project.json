@@ -9,15 +9,14 @@
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/myjumpdata",
-        "index": "apps/myjumpdata/src/public/index.html",
+        "index": "apps/myjumpdata/src/index.html",
         "baseHref": "/",
         "main": "apps/myjumpdata/src/main.tsx",
         "polyfills": "apps/myjumpdata/src/polyfills.ts",
         "tsConfig": "apps/myjumpdata/tsconfig.app.json",
         "assets": [
-          "apps/myjumpdata/src/public/index.html",
-          "apps/myjumpdata/src/public/.htaccess",
-          "apps/myjumpdata/src/public/favicon.ico"
+          "apps/myjumpdata/src/.htaccess",
+          "apps/myjumpdata/src/favicon.ico"
         ],
         "styles": ["apps/myjumpdata/src/styles.scss"],
         "scripts": [],
