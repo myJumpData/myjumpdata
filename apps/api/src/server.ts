@@ -10,9 +10,6 @@ import UsersRoutes from './routes/users.routes';
 export default function createServer() {
   const app = express();
   let app_url = 'https://myjumpdata.fediv.me';
-  if (process.env.NODE_ENV === 'development') {
-    app_url = 'https://localhost:4200';
-  }
   app.use(
     cors({
       origin: app_url,

@@ -15,7 +15,10 @@
         "polyfills": "apps/myjumpdata/src/polyfills.ts",
         "tsConfig": "apps/myjumpdata/tsconfig.app.json",
         "assets": [
+          "apps/myjumpdata/src/icon",
           "apps/myjumpdata/src/.htaccess",
+          "apps/myjumpdata/src/robots.txt",
+          "apps/myjumpdata/src/manifest.json",
           "apps/myjumpdata/src/favicon.ico"
         ],
         "styles": ["apps/myjumpdata/src/styles.scss"],
