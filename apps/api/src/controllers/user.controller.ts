@@ -8,6 +8,7 @@ import SendMail from "../helper/email";
 import responseHandler, {
   responseHandlerError,
 } from "../helper/responseHandler";
+import Group from "../models/group.model";
 import Role from "../models/role.model";
 import ScoreDataRecord from "../models/scoreDataRecord.model";
 import ScoreDataRecordOwn from "../models/scoreDataRecordOwn.model";
@@ -262,15 +263,48 @@ export async function getUser(req, res) {
 }
 
 export function deleteUser(req, res) {
-  User.deleteOne({ _id: req.userId }).exec((err) => {
+  Group.updateMany(
+    {
+      $or: [
+        { coaches: { $in: req.userId } },
+        { athletes: { $in: req.userId } },
+      ],
+    },
+    {
+      $pullAll: {
+        coaches: [req.userId],
+        athletes: [req.userId],
+      },
+    }
+  ).exec((err) => {
     if (err) {
       return responseHandlerError(res, err);
     }
-    return responseHandler(
-      res,
-      200,
-      "success.user.delete",
-      "Deleted User Successfully"
-    );
+    Group.deleteMany({ coaches: [] }).exec((err) => {
+      if (err) {
+        return responseHandlerError(res, err);
+      }
+      ScoreDataRecordOwn.deleteMany({ user: req.userId }).exec((err) => {
+        if (err) {
+          return responseHandlerError(res, err);
+        }
+        ScoreDataRecord.deleteMany({ user: req.userId }).exec((err) => {
+          if (err) {
+            return responseHandlerError(res, err);
+          }
+          User.deleteOne({ _id: req.userId }).exec((err) => {
+            if (err) {
+              return responseHandlerError(res, err);
+            }
+            return responseHandler(
+              res,
+              200,
+              "success.user.delete",
+              "Deleted User Successfully"
+            );
+          });
+        });
+      });
+    });
   });
 }

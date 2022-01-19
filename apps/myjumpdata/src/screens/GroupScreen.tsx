@@ -13,7 +13,7 @@ import GroupsService from "../services/groups.service";
 
 export default function GroupScreen() {
   AuthVerify();
-  let params = useParams();
+  const params = useParams();
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
   const [groups, setGroups] = useState([]);
@@ -32,9 +32,9 @@ export default function GroupScreen() {
 
   function getGroup() {
     GroupsService.getGroup(params.id).then((response: any) => {
-      setGroupName(response.data.name);
-      setGroupCoaches(response.data.coaches);
-      setGroupAthletes(response.data.athletes);
+      setGroupName(response?.data?.name);
+      setGroupCoaches(response?.data?.coaches);
+      setGroupAthletes(response?.data?.athletes);
     });
   }
 
@@ -94,7 +94,7 @@ export default function GroupScreen() {
       <div className="flex items-center">
         <span className="text-base font-bold pr-4">{name}</span>
         <div className="w-full overflow-x-auto flex space-x-4 sm:overflow-x-visible sm:flex-wrap">
-          {list.map((item: any) => (
+          {list?.map((item: any) => (
             <UserBlock
               username={item.username}
               firstname={item.firstname}
@@ -115,7 +115,7 @@ export default function GroupScreen() {
           <div className="w-full space-y-2">
             <span className="font-bold text-xl">{groupName}</span>
           </div>
-          {groupCoaches.some((i: any) => i.id === user.id) && (
+          {groupCoaches?.some((i: any) => i.id === user.id) && (
             <Link
               to={`/group/${params.id}/settings`}
               className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full flex items-center justify-center text-2xl aspect-square h-8 w-8"
@@ -128,7 +128,7 @@ export default function GroupScreen() {
           <UserRow name={t("common:role.coaches")} list={groupCoaches} />
           <UserRow name={t("common:role.athletes")} list={groupAthletes} />
         </div>
-        {groupCoaches.some((i: any) => i.id === user.id) && (
+        {groupCoaches?.some((i: any) => i.id === user.id) && (
           <Link to={`/speeddata/group/${params.id}`}>
             <Button name={t("common:action.speeddata")} design="primary" />
           </Link>
@@ -147,7 +147,7 @@ export default function GroupScreen() {
           </span>
         </div>
         <div className="flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 space-y-4 sm:space-y-0">
-          {groups.map((group: any) => (
+          {groups?.map((group: any) => (
             <Link
               to={`/group/${group._id}`}
               key={group._id}

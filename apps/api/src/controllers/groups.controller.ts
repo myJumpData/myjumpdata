@@ -83,44 +83,48 @@ export function getGroup(req, res) {
       if (err) {
         return responseHandlerError(res, err);
       }
-      const athletes = group.athletes.map((d) => {
-        let picture: null | string = null;
-        if (d.picture === "gravatar") {
-          picture = `https://secure.gravatar.com/avatar/${crypto
-            .createHash("md5")
-            .update(d.email)
-            .digest("hex")}?size=300&d=404`;
-        }
-        return {
-          id: d._id,
-          firstname: d.firstname,
-          lastname: d.lastname,
-          username: d.username,
-          picture,
-        };
-      });
-      const coaches = group.coaches.map((d) => {
-        let picture: null | string = null;
-        if (d.picture === "gravatar") {
-          picture = `https://secure.gravatar.com/avatar/${crypto
-            .createHash("md5")
-            .update(d.email)
-            .digest("hex")}?size=300&d=404`;
-        }
-        return {
-          id: d._id,
-          firstname: d.firstname,
-          lastname: d.lastname,
-          username: d.username,
-          picture,
-        };
-      });
-      return responseHandler(res, 200, "", "", {
-        name: group.name,
-        _id: group._id,
-        athletes,
-        coaches,
-      });
+      if (group) {
+        const athletes = group.athletes.map((d) => {
+          let picture: null | string = null;
+          if (d.picture === "gravatar") {
+            picture = `https://secure.gravatar.com/avatar/${crypto
+              .createHash("md5")
+              .update(d.email)
+              .digest("hex")}?size=300&d=404`;
+          }
+          return {
+            id: d._id,
+            firstname: d.firstname,
+            lastname: d.lastname,
+            username: d.username,
+            picture,
+          };
+        });
+        const coaches = group.coaches.map((d) => {
+          let picture: null | string = null;
+          if (d.picture === "gravatar") {
+            picture = `https://secure.gravatar.com/avatar/${crypto
+              .createHash("md5")
+              .update(d.email)
+              .digest("hex")}?size=300&d=404`;
+          }
+          return {
+            id: d._id,
+            firstname: d.firstname,
+            lastname: d.lastname,
+            username: d.username,
+            picture,
+          };
+        });
+        return responseHandler(res, 200, "", "", {
+          name: group.name,
+          _id: group._id,
+          athletes,
+          coaches,
+        });
+      } else {
+        return responseHandler(res, 404, "", "");
+      }
     });
 }
 
