@@ -2,22 +2,21 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, ReactChild, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiUserAdd, HiUserRemove } from "react-icons/hi";
-import { TailSpin } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
-import { PrimaryColor } from "../Constants";
+import Spinner from "../parts/Spinner";
 import Wrapper from "../parts/Wrapper";
 import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
 
 export default function GroupSettingsScreen() {
   AuthVerify();
-  let params = useParams();
-  let navigate = useNavigate();
+  const params = useParams();
+  const navigate = useNavigate();
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
   const [groupCoaches, setGroupCoaches] = useState([]);
@@ -108,7 +107,11 @@ export default function GroupSettingsScreen() {
           />
         </div>
         <div className="flex flex-col space-y-2">
-          {loading && groupSearch !== "" && <TailSpin color={PrimaryColor} />}
+          {loading && groupSearch !== "" && (
+            <div className="h-28">
+              <Spinner />
+            </div>
+          )}
           {groupSearch !== "" &&
             users &&
             users.map(
@@ -123,7 +126,7 @@ export default function GroupSettingsScreen() {
                 firstname: string;
                 lastname: string;
                 username: string;
-                roles: [Object];
+                roles: [];
               }) => {
                 return (
                   <div

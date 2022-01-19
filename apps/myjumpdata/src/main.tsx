@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import * as ReactDOM from "react-dom";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./i18n";
 import Spinner from "./parts/Spinner";
@@ -20,7 +19,7 @@ import StoreProvider from "./store/StoreProvider";
 import "./styles.scss";
 
 ReactDOM.render(
-  <Suspense fallback={<Spinner />}>
+  <Suspense fallback={<Spinner wrapper />}>
     <StoreProvider>
       <BrowserRouter>
         <Routes>
