@@ -17,7 +17,8 @@
         "assets": [
           "apps/myjumpdata/src/favicon.ico",
           "apps/myjumpdata/src/assets",
-          "apps/myjumpdata/src/.htaccess"
+          "apps/myjumpdata/src/.htaccess",
+          "apps/myjumpdata/src/robots.txt"
         ],
         "styles": ["apps/myjumpdata/src/styles.scss"],
         "scripts": [],
