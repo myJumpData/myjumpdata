@@ -3,7 +3,7 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { Query } from "mongoose";
 import config from "../config/auth.config";
-import hostConfig from "../config/host.config";
+import { APP_URL } from "../config/host.config";
 import SendMail from "../helper/email";
 import responseHandler, {
   responseHandlerError,
@@ -67,7 +67,7 @@ export function signup(req, res) {
             { id: user.id, email: user.email, timestamp: Date.now() },
             config.secret
           );
-          const url = `${hostConfig.URL}/verify/${token}`;
+          const url = `${APP_URL}/verify/${token}`;
           SendMail({
             to: user.email,
             subject: "Please Confirm your E-Mail-Adress",
@@ -126,7 +126,7 @@ export function signin(req, res) {
           { id: user.id, email: user.email, timestamp: Date.now() },
           config.secret
         );
-        const url = `${hostConfig.URL}/verify/${token}`;
+        const url = `${APP_URL}/verify/${token}`;
         SendMail({
           to: user.email,
           subject: "Please Confirm your E-Mail-Adress",
@@ -185,7 +185,7 @@ export function verify(req, res) {
       if (err) {
         return responseHandlerError(res, err);
       }
-      return res.redirect(`${hostConfig.APP}/login`);
+      return res.redirect(`${APP_URL}/login`);
     });
   });
 }

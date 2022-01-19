@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-import dbConfig from "../config/db.config";
-import createServer from "../server";
+import { CONNECT_STRING_TEST } from "../config/db.config";
 import Role from "../models/role.model";
 import ScoreDataType from "../models/scoreDataType.model";
+import createServer from "../server";
 
 beforeAll((done) => {
-  mongoose.connect(dbConfig.CONNECT_STRING_TEST).then(() => {
+  mongoose.connect(CONNECT_STRING_TEST).then(() => {
     ["athlete", "coach"].forEach((role_item) => {
-      const role = new Role({name: role_item});
+      const role = new Role({ name: role_item });
       role.save((err: any) => {
         if (err) {
           console.log(err);
@@ -22,7 +22,7 @@ beforeAll((done) => {
       "3m Speed",
       "TU",
     ].forEach((type_item) => {
-      const type = new ScoreDataType({name: type_item});
+      const type = new ScoreDataType({ name: type_item });
       type.save((err: any) => {
         if (err) {
           console.log(err);

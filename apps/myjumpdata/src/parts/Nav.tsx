@@ -100,7 +100,7 @@ export function Nav({
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
       getUserSearch(user.username).then((response) => {
-        if (response.data.picture) {
+        if (response.data?.picture) {
           fetch(response.data.picture).then((r) => {
             if (r.status === 200) {
               setImage(response.data.picture);
@@ -109,7 +109,7 @@ export function Nav({
         }
       });
     }
-  }, [user.usernma]);
+  }, [user]);
 
   return (
     <Navbar

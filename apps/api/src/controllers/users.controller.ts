@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import config from "../config/auth.config";
-import hostConfig from "../config/host.config";
+import { APP_URL } from "../config/host.config";
 import SendMail from "../helper/email";
 import responseHandler, {
   responseHandlerError,
@@ -123,7 +123,7 @@ export const updateUser = (req, res) => {
             { id: user.id, email: req.body.email, timestamp: Date.now() },
             config.secret
           );
-          const url = `${hostConfig.URL}/verify/${token}`;
+          const url = `${APP_URL}/verify/${token}`;
           SendMail({
             to: user.email,
             subject: "Please Confirm your E-Mail-Adress",

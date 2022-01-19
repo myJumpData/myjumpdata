@@ -1,15 +1,15 @@
-import nodemailer from 'nodemailer';
-import emailConfig from '../config/email.config';
+import nodemailer from "nodemailer";
+import { EMAIL_PSWD, EMAIL_USER } from "../config/email.config";
 
 const transporter = nodemailer.createTransport(
   {
-    service: 'gmail',
+    service: "gmail",
     auth: {
-      user: emailConfig.EMAIL_USER,
-      pass: emailConfig.EMAIL_PSWD,
+      user: EMAIL_USER,
+      pass: EMAIL_PSWD,
     },
   },
-  { from: emailConfig.EMAIL_USER }
+  { from: EMAIL_USER }
 );
 export default function SendMail({
   to,

@@ -55,10 +55,10 @@ export default function SpeedDataScreen() {
 
   function handleRecordDataSubmit(e: any) {
     e.preventDefault();
-    const score = e.target.elements.score.value;
     const id = e.target.elements.id.value;
+    const score = e.target.elements[id].value;
     ScoreDataService.saveScoreData(id, scoreDataType, score, date);
-    e.target.elements.score.value = null;
+    e.target.elements[id].value = null;
     getScoreDataHigh(params.id, scoreDataType);
   }
 
@@ -96,7 +96,7 @@ export default function SpeedDataScreen() {
               <div className="flex items-center space-x-2">
                 <label
                   className="text-xl font-bold mr-auto leading-none translate-y-2 truncate capitalize"
-                  htmlFor={score.user.username + "-" + rand}
+                  htmlFor={score.user._id}
                 >
                   {score.user.firstname && score.user.lastname
                     ? score.user.firstname + " " + score.user.lastname
@@ -113,7 +113,7 @@ export default function SpeedDataScreen() {
                     type="number"
                     inline
                     min="0"
-                    inputName={score.user.username + "-" + rand}
+                    inputName={score.user._id}
                   />
                   <button
                     className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"

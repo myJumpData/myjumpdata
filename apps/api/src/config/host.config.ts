@@ -1,8 +1,6 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
-export default {
-  URL: process.env.URL,
-  APP: process.env.APP,
-};
+export const API_URL = process.env.API_URL;
+export const APP_URL = process.env.APP_URL;
