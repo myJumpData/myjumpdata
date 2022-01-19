@@ -24,7 +24,7 @@ export default function SpeedDataScreen() {
 
   useEffect(() => {
     GroupsService.getGroup(params.id).then((response: any) => {
-      setGroupName(response.data.name);
+      setGroupName(response.data?.name);
     });
     ScoreDataService.getScoreDataTypes().then((response: any) => {
       setScoreDataTypes(response.data);
@@ -48,8 +48,8 @@ export default function SpeedDataScreen() {
 
   function getScoreDataHigh(id: any, type: any) {
     ScoreDataService.getScoreDataHigh(id, type).then((response: any) => {
-      setGroupScores(response.data.scores);
-      setGroupHigh(response.data.high);
+      setGroupScores(response.data?.scores);
+      setGroupHigh(response.data?.high);
     });
   }
 
