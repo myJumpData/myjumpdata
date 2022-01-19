@@ -14,7 +14,7 @@
         "main": "apps/myjumpdata/src/main.tsx",
         "polyfills": "apps/myjumpdata/src/polyfills.ts",
         "tsConfig": "apps/myjumpdata/tsconfig.app.json",
-        "assets": ["apps/myjumpdata/src/public/"],
+        "assets": ["apps/myjumpdata/src/public", "apps/myjumpdata/src/assets"],
         "styles": ["apps/myjumpdata/src/styles.scss"],
         "scripts": [],
         "webpackConfig": "@nrwl/react/plugins/webpack"
