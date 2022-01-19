@@ -1,10 +1,10 @@
-import undraw_terms from '../assets/undraw_terms_re_6ak4.svg';
-import Wrapper from '../parts/Wrapper';
-import { TermsSection, TermsText } from './TermsScreen';
+import undraw_terms from "../assets/undraw_terms_re_6ak4.svg";
+import Wrapper from "../parts/Wrapper";
+import { TermsSection, TermsText } from "./TermsScreen";
 
 export default function LegalScreen() {
   return (
-    <Wrapper current="legal" type="main">
+    <Wrapper current="legal">
       <Jumbotron />
       <Main />
     </Wrapper>
@@ -42,7 +42,7 @@ export default function LegalScreen() {
           <TermsText>
             Phone: <a href="tel:017682763899">017682763899</a>
             <br />
-            Email:{' '}
+            Email:{" "}
             <a href="mailto:marko.fediv@gmail.com">marko.fediv@gmail.com</a>
           </TermsText>
         </TermsSection>

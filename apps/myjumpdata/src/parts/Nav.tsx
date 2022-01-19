@@ -8,92 +8,34 @@ import { getUserSearch } from "../services/user.service.";
 export function Nav({
   current,
 }: {
-  current: "home" | "speeddata" | "group" | string;
+  current: "login" | "register" | "home" | "speeddata" | "group" | string;
 }) {
   const { t } = useTranslation();
 
   const user = useSelector((state: any) => state.user);
   const [image, setImage] = useState("");
-  let navigation = [
-    {
-      name: t("common:nav.speeddata"),
-      to: "/speeddata/own",
-      current: current === "speeddata",
-    },
-    {
-      name: t("common:nav.groups"),
-      to: "/group",
-      current: current === "group",
-    },
-  ];
-  if (process.env.NODE_ENV === "development") {
-    navigation = [
+  let dropdown;
+  let dropdownButton;
+  let navigation;
+  if (Object.keys(user).length !== 0) {
+    dropdown = [
       {
-        name: t("common:nav.speeddata"),
-        to: "/speeddata/own",
-        current: current === "speeddata",
+        icon: <HiUser />,
+        name: t("common:nav.profile"),
+        to: `/u/${user.username}`,
       },
-      {
-        name: t("common:nav.freestyle"),
-        to: "/freestyle",
-        current: current === "freestyle",
-      },
-      {
-        name: t("common:nav.groups"),
-        to: "/group",
-        current: current === "group",
-      },
+      { icon: <HiCog />, name: t("common:nav:settings"), to: "/settings" },
     ];
-  }
-  const dropdown = [
-    {
-      icon: <HiUser />,
-      name: t("common:nav.profile"),
-      to: `/u/${user.username}`,
-    },
-    { icon: <HiCog />, name: t("common:nav:settings"), to: "/settings" },
-  ];
-
-  useEffect(() => {
-    getUserSearch(user.username).then((response) => {
-      if (response.data.picture) {
-        fetch(response.data.picture).then((r) => {
-          if (r.status === 200) {
-            setImage(response.data.picture);
-          }
-        });
-      }
-    });
-  }, [user.usernma]);
-
-  return (
-    <Navbar
-      navigation={navigation}
-      dropdown={dropdown}
-      dropdownButton={
-        image === "" ? (
-          <HiUser className="h-8 w-8 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 p-1.5 rounded-full" />
-        ) : (
-          <img
-            src={image}
-            alt="Profile"
-            className="object-cover h-8 w-8 rounded-full"
-          />
-        )
-      }
-    />
-  );
-}
-
-export function NavMain({
-  current,
-}: {
-  current: "login" | "register" | "home" | string;
-}) {
-  const { t } = useTranslation();
-  const user = useSelector((state: any) => state.user);
-  let navigation: { name: string; to: string; current: boolean }[] = [];
-  if (Object.keys(user).length > 0) {
+    dropdownButton =
+      image === "" ? (
+        <HiUser className="h-8 w-8 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 p-1.5 rounded-full" />
+      ) : (
+        <img
+          src={image}
+          alt="Profile"
+          className="object-cover h-8 w-8 rounded-full"
+        />
+      );
     navigation = [
       {
         name: t("common:nav.home"),
@@ -101,11 +43,40 @@ export function NavMain({
         current: current === "home",
       },
       {
-        name: t("common:interact.open"),
-        to: `/u/${user.username}`,
-        current: current === "profile",
+        name: t("common:nav.speeddata"),
+        to: "/speeddata/own",
+        current: current === "speeddata",
+      },
+      {
+        name: t("common:nav.groups"),
+        to: "/group",
+        current: current === "group",
       },
     ];
+    if (process.env.NODE_ENV === "development") {
+      navigation = [
+        {
+          name: t("common:nav.home"),
+          to: "/",
+          current: current === "home",
+        },
+        {
+          name: t("common:nav.speeddata"),
+          to: "/speeddata/own",
+          current: current === "speeddata",
+        },
+        {
+          name: t("common:nav.freestyle"),
+          to: "/freestyle",
+          current: current === "freestyle",
+        },
+        {
+          name: t("common:nav.groups"),
+          to: "/group",
+          current: current === "group",
+        },
+      ];
+    }
   } else {
     navigation = [
       {
@@ -125,5 +96,26 @@ export function NavMain({
       },
     ];
   }
-  return <Navbar navigation={navigation} />;
+
+  useEffect(() => {
+    if (Object.keys(user).length !== 0) {
+      getUserSearch(user.username).then((response) => {
+        if (response.data.picture) {
+          fetch(response.data.picture).then((r) => {
+            if (r.status === 200) {
+              setImage(response.data.picture);
+            }
+          });
+        }
+      });
+    }
+  }, [user.usernma]);
+
+  return (
+    <Navbar
+      navigation={navigation}
+      dropdown={dropdown}
+      dropdownButton={dropdownButton}
+    />
+  );
 }

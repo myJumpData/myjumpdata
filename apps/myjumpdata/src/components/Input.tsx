@@ -92,6 +92,7 @@ export function TextInput({
         }
         min={min}
         name={inputName}
+        id={inputName}
         placeholder={name}
       />
       {name && (

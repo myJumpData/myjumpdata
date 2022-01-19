@@ -35,7 +35,7 @@ export default function RegisterScreen() {
   }
 
   return (
-    <Wrapper current="register" type="main">
+    <Wrapper current="register">
       <div className="max-w-screen-sm">
         <div className="w-full space-y-2">
           <span className="font-bold text-xl">{t("common:entry.signup")}</span>

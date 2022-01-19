@@ -127,6 +127,7 @@ export default function SettingsScreen() {
               <button
                 className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
                 onClick={emailSubmit}
+                aria-label="submit"
               >
                 <HiCheck />
               </button>
@@ -145,6 +146,7 @@ export default function SettingsScreen() {
               <button
                 className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
                 onClick={passwordSubmit}
+                aria-label="submit"
               >
                 <HiCheck />
               </button>
@@ -155,7 +157,7 @@ export default function SettingsScreen() {
           <div className="flex flex-col">
             <span className="text-base font-bold">{t("settings.image")}: </span>
             <span className="text-left">{t("settings.image_text")}</span>
-            <span className="text-blue-900 hover:text-blue-500 underline hover:no-underline">
+            <span className="text-blue-800 dark:text-blue-300 hover:text-blue-500 underline hover:no-underline py-2">
               <a href="https://gravatar.com/" target="_blank" rel="noreferrer">
                 {t("settings.image_action")}
               </a>
@@ -174,6 +176,7 @@ export default function SettingsScreen() {
               }}
             >
               <input
+                id="select-gravatar"
                 type="radio"
                 name="picture"
                 value="gravatar"
@@ -181,7 +184,9 @@ export default function SettingsScreen() {
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
                 onChange={() => {}}
               />
-              <label className="ml-1">{t("settings.image_gravatar")}</label>
+              <label className="ml-1" htmlFor="select-gravatar">
+                {t("settings.image_gravatar")}
+              </label>
             </div>
             <div
               className="flex flex-row items-center hover:outline outline-blue-500 rounded-lg px-2 py-1"
@@ -197,12 +202,15 @@ export default function SettingsScreen() {
               <input
                 type="radio"
                 name="picture"
+                id="select-none"
                 value=""
                 checked={picture !== "gravatar"}
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
                 onChange={() => {}}
               />
-              <label className="ml-1">{t("settings.image_none")}</label>
+              <label className="ml-1" htmlFor="select-none">
+                {t("settings.image_none")}
+              </label>
             </div>
           </div>
         </div>

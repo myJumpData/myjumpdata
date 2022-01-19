@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
-import undraw_terms from '../assets/undraw_terms_re_6ak4.svg';
-import Wrapper from '../parts/Wrapper';
+import { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import undraw_terms from "../assets/undraw_terms_re_6ak4.svg";
+import Wrapper from "../parts/Wrapper";
 
 export default function TermsScreen() {
   return (
-    <Wrapper current="terms" type="main">
+    <Wrapper current="terms">
       <Jumbotron />
       <Main />
     </Wrapper>
@@ -57,7 +57,7 @@ export default function TermsScreen() {
             These terms require the use of arbitration TermsSection 10.2 on an
             individual basis to resolve disputes and also limit the remedies
             available to you in the event of a dispute. These Terms of Use were
-            created with the help of the{' '}
+            created with the help of the{" "}
             <Link to="https://www.termsofusegenerator.net">
               Terms Of Use Generator
             </Link>
@@ -408,7 +408,7 @@ export default function TermsScreen() {
           </TermsText>
 
           <TermsText>
-            <strong>Notice Requirement and Informal Dispute Resolution.</strong>{' '}
+            <strong>Notice Requirement and Informal Dispute Resolution.</strong>{" "}
             Before either party may seek arbitration, the party must first send
             to the other party a written Notice of Dispute describing the nature
             and basis of the claim or dispute, and the requested relief. A
@@ -458,7 +458,7 @@ export default function TermsScreen() {
           <TermsText>
             <strong>
               Additional Rules for Non-Appearance Based Arbitration.
-            </strong>{' '}
+            </strong>{" "}
             If non-appearance based arbitration is elected, the arbitration
             shall be conducted by telephone, online and/or based solely on
             written submissions; the specific manner shall be chosen by the

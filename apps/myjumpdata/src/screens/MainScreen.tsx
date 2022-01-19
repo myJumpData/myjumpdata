@@ -10,7 +10,7 @@ export default function MainScreen() {
   const { t } = useTranslation();
 
   return (
-    <Wrapper current="home" type="main">
+    <Wrapper current="home">
       <div className="flex flex-col space-y-12">
         <Jumbotron />
         <BySkippersForSkippers />

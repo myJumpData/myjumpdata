@@ -26,7 +26,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <Wrapper current="login" type="main">
+    <Wrapper current="login">
       <div className="max-w-screen-sm">
         <div className="w-full space-y-2">
           <span className="font-bold text-xl">{t("common:entry.login")}</span>
