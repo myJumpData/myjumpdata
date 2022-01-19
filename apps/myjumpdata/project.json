@@ -9,16 +9,12 @@
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/myjumpdata",
-        "index": "apps/myjumpdata/src/index.html",
+        "index": "apps/myjumpdata/src/public/index.html",
         "baseHref": "/",
         "main": "apps/myjumpdata/src/main.tsx",
         "polyfills": "apps/myjumpdata/src/polyfills.ts",
         "tsConfig": "apps/myjumpdata/tsconfig.app.json",
-        "assets": [
-          "apps/myjumpdata/src/favicon.ico",
-          "apps/myjumpdata/src/assets",
-          "apps/myjumpdata/src/.htaccess"
-        ],
+        "assets": ["apps/myjumpdata/src/public/"],
         "styles": ["apps/myjumpdata/src/styles.scss"],
         "scripts": [],
         "webpackConfig": "@nrwl/react/plugins/webpack"
