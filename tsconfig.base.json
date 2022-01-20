@@ -16,13 +16,21 @@
     "noFallthroughCasesInSwitch": true,
     "target": "es6",
     "module": "commonjs",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@myjumpdata/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@myjumpdata/api-interfaces": [
+        "libs/api-interfaces/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
