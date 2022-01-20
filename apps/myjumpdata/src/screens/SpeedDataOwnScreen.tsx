@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiPlus } from "react-icons/hi";
-import { v4 as uuidv4 } from "uuid";
 import AuthVerify from "../common/AuthVerify";
 import { DateInput, TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
@@ -26,11 +25,11 @@ export default function SpeedDataOwnScreen() {
 
   function handleRecordDataSubmit(e: any) {
     e.preventDefault();
-    const score = e.target.elements.score.value;
     const type = e.target.elements.id.value;
+    const score = e.target.elements[type].value;
     if (score !== "") {
       ScoreDataService.saveScoreDataOwn(type, score, date);
-      e.target.elements.score.value = null;
+      e.target.elements[type].value = null;
       getData();
     }
   }
@@ -49,7 +48,6 @@ export default function SpeedDataOwnScreen() {
         />
         {scoreData &&
           scoreData.map((score: any) => {
-            const rand = uuidv4();
             return (
               score !== null && (
                 <div
@@ -59,7 +57,7 @@ export default function SpeedDataOwnScreen() {
                   <div className="flex items-end space-x-2">
                     <label
                       className="text-xl font-bold mr-auto leading-none translate-y-2"
-                      htmlFor={"score-" + rand}
+                      htmlFor={score.type._id}
                     >
                       {score.type.name}
                     </label>
@@ -74,7 +72,7 @@ export default function SpeedDataOwnScreen() {
                         type="number"
                         inline
                         min="0"
-                        inputName={"score-" + rand}
+                        inputName={score.type._id}
                       />
                       <button
                         className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
