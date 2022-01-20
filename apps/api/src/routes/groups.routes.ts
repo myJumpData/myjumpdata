@@ -1,4 +1,4 @@
-import {Express} from "express-serve-static-core";
+import { Express } from "express-serve-static-core";
 import {
   addAthletesToGroup,
   addCoachesToGroup,
@@ -11,25 +11,29 @@ import {
   updateGroupName,
 } from "../controllers/groups.controller";
 import verifyToken from "../middlewares/authJwt";
-import {verifyGroupCoach} from "../middlewares/verifyGroupCoach";
+import { verifyGroupCoach } from "../middlewares/verifyGroupCoach";
 
 export default function GroupsRoutes(app: Express) {
   app.post("/groups", [verifyToken], createGroup);
 
   app.get("/groups", [verifyToken], getGroups);
   app.get("/groups/:id", [verifyToken], getGroup);
-  app.put(
+  app.post(
     "/groups/:id/athletes/add",
     [verifyToken, verifyGroupCoach],
     addAthletesToGroup
   );
-  app.put(
+  app.post(
     "/groups/:id/athletes/remove",
     [verifyToken, verifyGroupCoach],
     removeAthletesFromGroup
   );
-  app.put("/groups/:id/coaches/add", [verifyToken, verifyGroupCoach], addCoachesToGroup);
-  app.put(
+  app.post(
+    "/groups/:id/coaches/add",
+    [verifyToken, verifyGroupCoach],
+    addCoachesToGroup
+  );
+  app.post(
     "/groups/:id/coaches/remove",
     [verifyToken, verifyGroupCoach],
     removeCoachesFromGroup

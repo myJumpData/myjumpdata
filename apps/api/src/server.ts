@@ -15,6 +15,10 @@ export default function createServer() {
       origin: APP_URL,
     })
   );
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", APP_URL);
+    next();
+  });
   app.use(express.json());
   UserRoutes(app);
   UsersRoutes(app);

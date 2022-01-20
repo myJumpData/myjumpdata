@@ -1,7 +1,7 @@
 import api from "./api";
 
-const createGroup = (name: String) => {
-  return api.post("/groups", {name});
+const createGroup = (name: string) => {
+  return api.post("/groups", { name });
 };
 
 const getGroups = () => {
@@ -13,23 +13,23 @@ const getGroup = (id: any) => {
 };
 
 const addUsersToGroup = (id: any, users: any) => {
-  return api.put(`/groups/${id}/athletes/add`, {users});
+  return api.post(`/groups/${id}/athletes/add`, { users });
 };
 
 const removeUsersFromGroup = (id: any, users: any) => {
-  return api.put(`/groups/${id}/athletes/remove`, {users});
+  return api.post(`/groups/${id}/athletes/remove`, { users });
 };
 
 const addCoachesToGroup = (id: any, coach: any) => {
-  return api.put(`/groups/${id}/coaches/add`, {coach});
+  return api.post(`/groups/${id}/coaches/add`, { coach });
 };
 
 const removeCoachesFromGroup = (id: any, coach: any) => {
-  return api.put(`/groups/${id}/coaches/remove`, {coach});
+  return api.post(`/groups/${id}/coaches/remove`, { coach });
 };
 
 const updateGroupName = (name: string, id: any) => {
-  return api.put(`/groups/${id}`, {name});
+  return api.put(`/groups/${id}`, { name });
 };
 
 const deleteGroup = (id: any) => {
