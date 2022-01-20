@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, RefreshControl } from "react-native";
+import { Image, RefreshControl, View } from "react-native";
 import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
@@ -113,9 +113,11 @@ export default function ProfileScreen() {
                   marginBottom: 10,
                 }}
               >
-                <StyledText style={{ flexGrow: 1 }}>{score.type}</StyledText>
-                <StyledView style={{ flexShrink: 1 }}>
-                  <StyledView
+                <StyledView>
+                  <StyledText>{score.type}</StyledText>
+                </StyledView>
+                <View style={{ width: 100 }}>
+                  <View
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
@@ -123,7 +125,7 @@ export default function ProfileScreen() {
                   >
                     <StyledText>Gruppe</StyledText>
                     <StyledText>{score.score}</StyledText>
-                  </StyledView>
+                  </View>
                   <StyledView
                     style={{
                       flexDirection: "row",
@@ -133,7 +135,7 @@ export default function ProfileScreen() {
                     <StyledText>Eigene</StyledText>
                     <StyledText>{score.scoreOwn}</StyledText>
                   </StyledView>
-                </StyledView>
+                </View>
               </StyledView>
             )
           )}
