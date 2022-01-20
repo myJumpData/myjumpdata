@@ -4,7 +4,7 @@ import Logo from "../assets/skipping-rope.png";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText, StyledTextH1 } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { StyledView } from "../components/StyledView";
+import { StyledScrollView, StyledView } from "../components/StyledView";
 import AuthService from "../services/auth.service";
 
 export default function LoginScreen() {
@@ -19,10 +19,9 @@ export default function LoginScreen() {
   }
 
   return (
-    <StyledView
+    <StyledScrollView
       style={{
-        padding: 15,
-        justifyContent: "center",
+        padding: 10,
       }}
     >
       <StyledView
@@ -33,7 +32,9 @@ export default function LoginScreen() {
       >
         <Image
           source={Logo}
-          style={{ width: "100%", height: "100%" }}
+          style={{
+            height: 200,
+          }}
           resizeMode="contain"
         />
       </StyledView>
@@ -81,6 +82,6 @@ export default function LoginScreen() {
       >
         <StyledButton title="Anmelden" onPress={handleLoginSubmit} />
       </StyledView>
-    </StyledView>
+    </StyledScrollView>
   );
 }
