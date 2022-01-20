@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import { useColorScheme } from "react-native";
+import { LogBox, useColorScheme } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { Colors } from "./Constants";
@@ -10,6 +10,10 @@ import LoginScreen from "./screens/LoginScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
+
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+]);
 
 export default function App() {
   const user = useSelector((state: any) => state.user);
