@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-native": "*",
+    "@testing-library/react-native": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-config": "*",
+    "react-native-svg": "*",
+    "@react-navigation/stack": "*",
+    "react-native-gesture-handler": "*",
+    "@react-navigation/native": "*",
+    "react-native-screens": "*",
+    "react-native-safe-area-context": "*",
+    "@react-navigation/bottom-tabs": "*",
+    "react-native-vector-icons": "*",
+    "axios": "*",
+    "i18next": "*",
+    "redux": "*",
+    "redux-persist-sensitive-storage": "*",
+    "react-redux": "*",
+    "redux-persist": "*",
+    "@react-native-community/async-storage": "*",
+    "@react-native-community/datetimepicker": "*"
+  }
+}
