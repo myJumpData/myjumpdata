@@ -1,11 +1,15 @@
 import * as React from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 
-export default function GroupsScreen() {
+export default function GroupsScreen({ navigation }) {
+  const user = useSelector((state: any) => state.user);
   const [groups, setGroups] = React.useState([]);
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -24,12 +28,39 @@ export default function GroupsScreen() {
 
   React.useEffect(() => {
     getGroups();
-  });
+  }, []);
 
   const renderItem = ({ item }) => (
-    <StyledView style={{ paddingTop: 10, paddingBottom: 10 }}>
-      <StyledText>{item.name}</StyledText>
-    </StyledView>
+    <TouchableOpacity
+      style={{
+        paddingTop: 20,
+        paddingBottom: 20,
+      }}
+      onPress={() => {
+        if (item.coaches.some((i: any) => i._id === user.id)) {
+          navigation.navigate("Group", { id: item._id });
+        }
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <StyledText>{item.name}</StyledText>
+        <View style={{ flexDirection: "row" }}>
+          {item.coaches.some((i: any) => i._id === user.id) && (
+            <Ionicons
+              name="chevron-forward-outline"
+              style={{ color: Colors.white, padding: 5 }}
+              size={18}
+            />
+          )}
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 
   return (

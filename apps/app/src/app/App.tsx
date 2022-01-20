@@ -1,11 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import * as React from "react";
 import { LogBox, useColorScheme } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { Colors } from "./Constants";
+import GroupScreen from "./screens/GroupScreen";
 import GroupsScreen from "./screens/GroupsScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -31,15 +35,61 @@ export default function App() {
 
 const MainStack = createStackNavigator();
 function MainStackScreen() {
+  const isDarkMode = useColorScheme() === "dark";
   return (
-    <MainStack.Navigator screenOptions={{ headerShown: false }}>
-      <MainStack.Screen name="MainTab" component={MainTabScreen} />
+    <MainStack.Navigator
+      detachInactiveScreens={true}
+      screenOptions={({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          borderTopWidth: 1,
+          borderTopColor: Colors.grey,
+        },
+        headerTitleStyle: {
+          color: isDarkMode ? Colors.white : Colors.black,
+        },
+        headerLeft: () => (
+          <Ionicons
+            name="arrow-back"
+            onPress={() => {
+              navigation.goBack();
+            }}
+            size={30}
+            color={Colors.white}
+            style={{ paddingLeft: 10 }}
+          />
+        ),
+      })}
+    >
+      <MainStack.Screen
+        name="MainTab"
+        component={MainTabScreen}
+        options={{ headerShown: false }}
+      />
+      <MainStack.Screen
+        name="Einstellungen"
+        component={SettingsScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <MainStack.Screen
+        name="Group"
+        component={GroupScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
     </MainStack.Navigator>
   );
 }
 
 const MainTab = createBottomTabNavigator();
-function MainTabScreen() {
+function MainTabScreen({ navigation }) {
   const isDarkMode = useColorScheme() === "dark";
   return (
     <MainTab.Navigator
@@ -52,8 +102,6 @@ function MainTabScreen() {
             iconName = focused ? "timer" : "timer-outline";
           } else if (route.name === "Profil") {
             iconName = focused ? "person" : "person-outline";
-          } else if (route.name === "Einstellungen") {
-            iconName = focused ? "settings" : "settings-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -73,11 +121,25 @@ function MainTabScreen() {
           color: isDarkMode ? Colors.white : Colors.black,
         },
       })}
+      detachInactiveScreens={true}
     >
       <MainTab.Screen name="Gruppen" component={GroupsScreen} />
       <MainTab.Screen name="Speed Werte" component={SpeedDataOwnScreen} />
-      <MainTab.Screen name="Profil" component={ProfileScreen} />
-      <MainTab.Screen name="Einstellungen" component={SettingsScreen} />
+      <MainTab.Screen
+        name="Profil"
+        component={ProfileScreen}
+        options={{
+          headerRight: () => (
+            <Ionicons
+              name="settings-outline"
+              size={30}
+              color={Colors.white}
+              style={{ paddingRight: 10 }}
+              onPress={() => navigation.navigate("Einstellungen")}
+            />
+          ),
+        }}
+      />
     </MainTab.Navigator>
   );
 }

@@ -72,7 +72,11 @@ export default function SpeedDataOwnScreen() {
           value={date}
           mode="date"
           onChange={(e: any, d: any) => {
-            setDate(d);
+            if (d) {
+              setDate(d);
+            } else {
+              setDate(new Date());
+            }
             setDateShow(false);
           }}
         />
