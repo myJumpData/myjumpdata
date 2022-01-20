@@ -9,11 +9,10 @@ import { Colors } from "./Constants";
 import LoginScreen from "./screens/LoginScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
 
 export default function App() {
   const user = useSelector((state: any) => state.user);
-  console.log(user);
-
   return (
     <NavigationContainer>
       {user.token !== undefined && user.token !== null ? (
@@ -42,9 +41,11 @@ function MainTabScreen() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "Profile") {
+          if (route.name === "Speed Werte") {
+            iconName = focused ? "timer" : "timer-outline";
+          } else if (route.name === "Profil") {
             iconName = focused ? "person" : "person-outline";
-          } else if (route.name === "Settings") {
+          } else if (route.name === "Einstellungen") {
             iconName = focused ? "settings" : "settings-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -66,8 +67,9 @@ function MainTabScreen() {
         },
       })}
     >
-      <MainTab.Screen name="Profile" component={ProfileScreen} />
-      <MainTab.Screen name="Settings" component={SettingsScreen} />
+      <MainTab.Screen name="Speed Werte" component={SpeedDataOwnScreen} />
+      <MainTab.Screen name="Profil" component={ProfileScreen} />
+      <MainTab.Screen name="Einstellungen" component={SettingsScreen} />
     </MainTab.Navigator>
   );
 }

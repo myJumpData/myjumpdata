@@ -21,6 +21,8 @@
     "redux": "*",
     "redux-persist-sensitive-storage": "*",
     "react-redux": "*",
-    "redux-persist": "*"
+    "redux-persist": "*",
+    "@react-native-community/async-storage": "*",
+    "@react-native-community/datetimepicker": "*"
   }
 }

@@ -1,19 +1,16 @@
+import AsyncStorage from "@react-native-community/async-storage";
 import { combineReducers } from "redux";
-import { persistReducer } from "redux-persist";
-import createSensitiveStorage from "redux-persist-sensitive-storage";
+import persistReducer from "redux-persist/es/persistReducer";
 import userReducer from "./user.reducer";
 
-const rootReducer = combineReducers({
-  user: persistReducer(
-    {
-      key: "user",
-      storage: createSensitiveStorage({
-        keychainService: "myKeychain",
-        sharedPreferencesName: "mySharedPrefs",
-      }),
-    },
-    userReducer
-  ),
-});
+const rootReducer = persistReducer(
+  {
+    key: "root",
+    storage: AsyncStorage,
+  },
+  combineReducers({
+    user: userReducer,
+  })
+);
 
 export default rootReducer;

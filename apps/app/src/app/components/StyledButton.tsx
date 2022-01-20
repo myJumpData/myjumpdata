@@ -1,7 +1,6 @@
 import * as React from "react";
 import { TouchableOpacity } from "react-native";
-import { borderRadius } from "../Constants";
-import { Colors } from "../Constants";
+import { borderRadius, Colors } from "../Constants";
 import { StyledText } from "./StyledText";
 export function StyledButton(props) {
   return (
@@ -20,6 +19,7 @@ export function StyledButton(props) {
       color={Colors.main}
     >
       <StyledText>{props.title}</StyledText>
+      {props.children}
     </TouchableOpacity>
   );
 }

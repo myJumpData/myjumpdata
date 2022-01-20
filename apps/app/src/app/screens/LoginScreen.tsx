@@ -11,7 +11,7 @@ export default function LoginScreen() {
   const [username, onChangeUsername] = React.useState("");
   const [password, onChangePassword] = React.useState("");
 
-  async function handleLoginSubmit() {
+  function handleLoginSubmit() {
     AuthService.login(username.trim(), password).then(() => {
       onChangePassword("");
       onChangeUsername("");
