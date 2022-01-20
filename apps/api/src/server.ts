@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import * as fs from "fs";
+import { APP_URL } from "./config/host.config";
 import FreestyleRoutes from "./routes/freestyle.routes";
 import GroupsRoutes from "./routes/groups.routes";
 import ScoredataRoutes from "./routes/scoredata.routes";
@@ -11,7 +12,7 @@ export default function createServer() {
   const app = express();
   app.use(
     cors({
-      origin: "*",
+      origin: APP_URL,
     })
   );
   app.use((req, res, next) => {
