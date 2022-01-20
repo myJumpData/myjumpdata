@@ -6,6 +6,7 @@ import { LogBox, useColorScheme } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { Colors } from "./Constants";
+import GroupsScreen from "./screens/GroupsScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
@@ -45,7 +46,9 @@ function MainTabScreen() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "Speed Werte") {
+          if (route.name === "Gruppen") {
+            iconName = focused ? "people" : "people-outline";
+          } else if (route.name === "Speed Werte") {
             iconName = focused ? "timer" : "timer-outline";
           } else if (route.name === "Profil") {
             iconName = focused ? "person" : "person-outline";
@@ -71,6 +74,7 @@ function MainTabScreen() {
         },
       })}
     >
+      <MainTab.Screen name="Gruppen" component={GroupsScreen} />
       <MainTab.Screen name="Speed Werte" component={SpeedDataOwnScreen} />
       <MainTab.Screen name="Profil" component={ProfileScreen} />
       <MainTab.Screen name="Einstellungen" component={SettingsScreen} />
