@@ -3,7 +3,7 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { Query } from "mongoose";
 import config from "../config/auth.config";
-import { APP_URL } from "../config/host.config";
+import { API_URL, APP_URL } from "../config/host.config";
 import SendMail from "../helper/email";
 import responseHandler, {
   responseHandlerError,
@@ -68,20 +68,23 @@ export function signup(req, res) {
             { id: user.id, email: user.email, timestamp: Date.now() },
             config.secret
           );
-          const url = `${APP_URL}/verify/${token}`;
+          const url = `${API_URL}/verify/${token}`;
           SendMail({
             to: user.email,
             subject: "Please Confirm your E-Mail-Adress",
             html: `<a href="${url}">${url}</a>`,
-          }).catch((err) => {
-            return responseHandlerError(res, err);
-          });
-          return responseHandler(
-            res,
-            201,
-            "success.create.user",
-            "Successfully created user. Please Confirm Email"
-          );
+          })
+            .then(() => {
+              return responseHandler(
+                res,
+                201,
+                "success.create.user",
+                "Successfully created user. Please Confirm Email"
+              );
+            })
+            .catch((err) => {
+              return responseHandlerError(res, err);
+            });
         });
       });
     });
@@ -127,45 +130,48 @@ export function signin(req, res) {
           { id: user.id, email: user.email, timestamp: Date.now() },
           config.secret
         );
-        const url = `${APP_URL}/verify/${token}`;
+        const url = `${API_URL}/verify/${token}`;
         SendMail({
           to: user.email,
           subject: "Please Confirm your E-Mail-Adress",
           html: `<a href="${url}">${url}</a>`,
-        }).catch((err) => {
-          return responseHandlerError(res, err);
+        })
+          .then(() => {
+            return responseHandler(
+              res,
+              403,
+              "wrong.field.active",
+              "Not Active Account. Confirm your E-Mail"
+            );
+          })
+          .catch((err) => {
+            return responseHandlerError(res, err);
+          });
+      } else {
+        const token = jwt.sign({ id: user.id }, config.secret, {
+          expiresIn: config.jwtExpiration,
         });
+
+        const roles = user.roles.map((role) => role.name);
+
         return responseHandler(
           res,
-          403,
-          "wrong.field.active",
-          "Not Active Account. Confirm your E-Mail"
+          201,
+          "success.login.user",
+          "Successfully logged in",
+          {
+            id: user._id,
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            roles: roles,
+            token: token,
+            active: user.active,
+            picture: user.picture,
+          }
         );
       }
-
-      const token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: config.jwtExpiration,
-      });
-
-      const roles = user.roles.map((role) => role.name);
-
-      return responseHandler(
-        res,
-        201,
-        "success.login.user",
-        "Successfully logged in",
-        {
-          id: user._id,
-          username: user.username,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          email: user.email,
-          roles: roles,
-          token: token,
-          active: user.active,
-          picture: user.picture,
-        }
-      );
     });
 }
 export function verify(req, res) {
