@@ -2,7 +2,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Fragment, ReactElement } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import Logo from "../assets/skipping-rope.png";
+import Logo from "../assets/Logo.svg";
 import classNames from "../helper/classNames";
 
 export default function Navbar({
@@ -40,7 +40,11 @@ export default function Navbar({
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex-shrink-0 flex items-center">
                     <Link to="/">
-                      <img className="h-8 w-auto" src={Logo} alt="myJumpData" />
+                      <img
+                        className="h-8 scale-150 w-auto"
+                        src={Logo}
+                        alt="myJumpData"
+                      />
                     </Link>
                   </div>
                   <div className="hidden sm:block sm:ml-6">
