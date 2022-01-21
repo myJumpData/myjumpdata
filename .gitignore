@@ -68,6 +68,7 @@ DerivedData
 **/android/**/.gradle
 **/android/**/local.properties
 **/android/**/*.iml
+**/android/**/release/
 
 ## BUCK
 
