@@ -30,7 +30,9 @@ export default function App() {
     <NavigationContainer
       initialState={navigation}
       onStateChange={(state: any) => {
-        setNavigation(state);
+        if (state) {
+          setNavigation(state);
+        }
       }}
     >
       {user.token !== undefined && user.token !== null ? (
