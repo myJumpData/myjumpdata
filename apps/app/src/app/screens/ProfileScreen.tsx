@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
+import capitalize from "../helper/capitalzie";
 import UsersService from "../services/users.service";
 
 export default function ProfileScreen() {
@@ -80,7 +81,7 @@ export default function ProfileScreen() {
         >
           <StyledText style={{ fontWeight: "600" }}>{username}</StyledText>
           <StyledText>
-            {firstname && lastname ? firstname + " " + lastname : username}
+            {capitalize(firstname) + " " + capitalize(lastname)}
           </StyledText>
         </StyledView>
       </StyledView>

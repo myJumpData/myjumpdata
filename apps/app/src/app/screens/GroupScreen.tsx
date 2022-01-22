@@ -5,6 +5,7 @@ import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
+import capitalize from "../helper/capitalzie";
 import GroupsService from "../services/groups.service";
 
 export default function GroupScreen({ route, navigation }) {
@@ -89,15 +90,14 @@ export default function GroupScreen({ route, navigation }) {
                 }}
               >
                 <Text style={{ color: Colors.white }}>
-                  {(item.firstname && item.lastname
-                    ? item.firstname[0] + item.lastname[0]
-                    : item.username[0] + item.username.slice(-1)
-                  ).toUpperCase()}
+                  {(item.firstname[0] + item.lastname[0]).toUpperCase()}
                 </Text>
               </View>
             </View>
           )}
-          <StyledText>{item.username}</StyledText>
+          <StyledText>
+            {capitalize(item.firstname) + " " + capitalize(item.lastname)}
+          </StyledText>
         </View>
         {groupCoaches.some((i: any) => i.id === item.id) && (
           <View
