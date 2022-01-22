@@ -9,6 +9,7 @@ import { LogBox, useColorScheme } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { Colors } from "./Constants";
+import { setNavigation } from "./redux/navigation.action";
 import GroupScreen from "./screens/GroupScreen";
 import GroupSpeedScreen from "./screens/GroupSpeedScreen";
 import GroupsScreen from "./screens/GroupsScreen";
@@ -23,8 +24,15 @@ LogBox.ignoreLogs([
 
 export default function App() {
   const user = useSelector((state: any) => state.user);
+  const navigation = useSelector((state: any) => state.navigation);
+
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      initialState={navigation}
+      onStateChange={(state: any) => {
+        setNavigation(state);
+      }}
+    >
       {user.token !== undefined && user.token !== null ? (
         <MainStackScreen />
       ) : (
