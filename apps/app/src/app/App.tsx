@@ -10,6 +10,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { Colors } from "./Constants";
 import GroupScreen from "./screens/GroupScreen";
+import GroupSpeedScreen from "./screens/GroupSpeedScreen";
 import GroupsScreen from "./screens/GroupsScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -78,6 +79,15 @@ function MainStackScreen() {
       <MainStack.Screen
         name="Group"
         component={GroupScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <MainStack.Screen
+        name="Group Speed"
+        component={GroupSpeedScreen}
         options={{
           gestureEnabled: true,
           gestureResponseDistance: 80,

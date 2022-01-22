@@ -37,9 +37,7 @@ export default function GroupsScreen({ navigation }) {
         paddingBottom: 20,
       }}
       onPress={() => {
-        if (item.coaches.some((i: any) => i._id === user.id)) {
-          navigation.navigate("Group", { id: item._id });
-        }
+        navigation.navigate("Group", { id: item._id });
       }}
     >
       <View
@@ -50,14 +48,25 @@ export default function GroupsScreen({ navigation }) {
         }}
       >
         <StyledText>{item.name}</StyledText>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           {item.coaches.some((i: any) => i._id === user.id) && (
-            <Ionicons
-              name="chevron-forward-outline"
-              style={{ color: Colors.white, padding: 5 }}
-              size={18}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Group Speed", { id: item._id });
+              }}
+            >
+              <Ionicons
+                name="timer-outline"
+                style={{ color: Colors.white, padding: 5 }}
+                size={25}
+              />
+            </TouchableOpacity>
           )}
+          <Ionicons
+            name="chevron-forward-outline"
+            style={{ color: Colors.white, padding: 5 }}
+            size={25}
+          />
         </View>
       </View>
     </TouchableOpacity>
