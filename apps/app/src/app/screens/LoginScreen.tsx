@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image } from "react-native";
-import Logo from "../assets/skipping-rope.png";
+import Logo from "../assets/Logo.png";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText, StyledTextH1 } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
