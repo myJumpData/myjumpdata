@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { GiSkippingRope } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import Logo from "../assets/Logo.svg";
 
 export default function FooterNav({ social, links }) {
   const { t } = useTranslation();
@@ -10,7 +10,13 @@ export default function FooterNav({ social, links }) {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 py-4 border-b border-gray-600 dark:border-gray-400">
         <div className="flex shrink-0 flex-col space-y-4">
           <div className="text-4xl">
-            <GiSkippingRope />
+            <Link to="/">
+              <img
+                className="h-8 scale-150 w-auto saturate-0"
+                src={Logo}
+                alt="myJumpData"
+              />
+            </Link>
           </div>
           <div className="text-sm">
             <p>{t("common:footer.text")}</p>
