@@ -1,13 +1,10 @@
+import { APP_URL, JWT_SECRET } from "@myjumpdata/const";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import config from "../config/auth.config";
-import { APP_URL } from "../config/host.config";
-import SendMail from "../helper/email";
-import responseHandler, {
-  responseHandlerError,
-} from "../helper/responseHandler";
+import SendMail from "../email";
 import Role from "../models/role.model";
 import User from "../models/user.model";
+import { requestHandler, requestHandlerError } from "../requestHandler";
 
 export const updateUsersRole = (req, res) => {
   if (!req.body.roles) {
@@ -17,13 +14,13 @@ export const updateUsersRole = (req, res) => {
   }
   Role.find({ name: req.body.roles }, (err, roles) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     User.updateOne({ _id: req.userId }, { roles: roles }, (err) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
-      return responseHandler(
+      return requestHandler(
         res,
         200,
         "success.updpdated.user.role",
@@ -39,11 +36,11 @@ export const searchUsers = (req, res) => {
     req.params.search === null ||
     req.params.search === undefined
   ) {
-    return responseHandler(res, 200, "", "", []);
+    return requestHandler(res, 200, "", "", []);
   }
   console.log(req.params.search);
   if (!req.params.search.match(/^[A-Z0-9._-]+$/i)) {
-    return responseHandler(res, 200, "", "", []);
+    return requestHandler(res, 200, "", "", []);
   }
   User.find(
     {
@@ -60,9 +57,9 @@ export const searchUsers = (req, res) => {
     .exec((err, users) => {
       if (err) {
         console.log(err);
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
-      return responseHandler(res, 200, "", "", users);
+      return requestHandler(res, 200, "", "", users);
     });
 };
 
@@ -71,7 +68,7 @@ export const updateUser = (req, res) => {
     .select("-password -__v")
     .exec((err, user) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
       const updatedList: string[] = [];
       if (req.body.username && user.username !== req.body.username) {
@@ -82,7 +79,7 @@ export const updateUser = (req, res) => {
               { username: req.body.username.toLowerCase() }
             ).exec((err) => {
               if (err) {
-                return responseHandlerError(res, err);
+                return requestHandlerError(res, err);
               }
               updatedList.push("Username");
             });
@@ -95,7 +92,7 @@ export const updateUser = (req, res) => {
           { firstname: req.body.firstname.toLowerCase() }
         ).exec((err) => {
           if (err) {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           }
           updatedList.push("Firstname");
         });
@@ -106,7 +103,7 @@ export const updateUser = (req, res) => {
           { lastname: req.body.lastname.toLowerCase() }
         ).exec((err) => {
           if (err) {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           }
           updatedList.push("Lastname");
         });
@@ -117,11 +114,11 @@ export const updateUser = (req, res) => {
           { email: req.body.email.toLowerCase(), active: false }
         ).exec((err) => {
           if (err) {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           }
           const token = jwt.sign(
             { id: user.id, email: req.body.email, timestamp: Date.now() },
-            config.secret
+            JWT_SECRET
           );
           const url = `${APP_URL}/verify/${token}`;
           SendMail({
@@ -129,7 +126,7 @@ export const updateUser = (req, res) => {
             subject: "Please Confirm your E-Mail-Adress",
             html: `<a href="${url}">${url}</a>`,
           }).catch((err) => {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           });
           updatedList.push("Email");
         });
@@ -140,7 +137,7 @@ export const updateUser = (req, res) => {
           { password: bcrypt.hashSync(req.body.password) }
         ).exec((err) => {
           if (err) {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           }
           updatedList.push("Password");
         });
@@ -149,7 +146,7 @@ export const updateUser = (req, res) => {
         User.updateOne({ _id: req.userId }, { picture: req.body.picture }).exec(
           (err) => {
             if (err) {
-              return responseHandlerError(res, err);
+              return requestHandlerError(res, err);
             }
             updatedList.push("Picture");
           }
@@ -161,14 +158,14 @@ export const updateUser = (req, res) => {
           .populate("roles")
           .exec((err, userNew) => {
             if (err) {
-              return responseHandlerError(res, err);
+              return requestHandlerError(res, err);
             }
             let email = "";
             if (req.userId === userNew.id) {
               email = userNew.email;
             }
             const roles = userNew.roles.map((role) => role.name);
-            return responseHandler(
+            return requestHandler(
               res,
               200,
               "success.update.user",

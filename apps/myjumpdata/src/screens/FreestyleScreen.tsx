@@ -1,4 +1,5 @@
 import { Tab } from "@headlessui/react";
+import { getFreestyle } from "@myjumpdata/api-client";
 import { Dispatch, Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -18,9 +19,7 @@ import {
   HiViewList,
 } from "react-icons/hi";
 import AuthVerify from "../common/AuthVerify";
-import randomColorClass from "../helper/randomColorClass";
 import Wrapper from "../parts/Wrapper";
-import FreestyleService from "../services/freestyle.service";
 
 type freestyle_data_group_type = {
   name: string;
@@ -74,7 +73,7 @@ export default function FreestyleScreen() {
   }
 
   function getCurrentData() {
-    FreestyleService.getFreestyle(current).then((response: any) => {
+    getFreestyle(current).then((response: any) => {
       setFreestyleData(response.data);
       setFolderData(response.data);
     });
@@ -110,10 +109,6 @@ export default function FreestyleScreen() {
               {current !== "" &&
                 current.split("_").map((e, index, array) => {
                   let last = false;
-                  let first = false;
-                  if (index === 0) {
-                    first = true;
-                  }
                   if (index + 1 === array.length) {
                     last = true;
                   }
@@ -248,8 +243,7 @@ function Folder({ name, onClick }: { name: string; onClick: (e) => void }) {
   return (
     <div
       className={
-        "p-4 rounded-xl shadow break-words items-center flex font-bold sm:text-lg md:text-xl cursor-pointer " +
-        randomColorClass()
+        "p-4 rounded-xl shadow break-words items-center flex font-bold sm:text-lg md:text-xl cursor-pointer border-2 border-gray-500"
       }
       onClick={() => {
         onClick(name);

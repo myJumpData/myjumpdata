@@ -1,9 +1,11 @@
+import { persistor, store } from "@myjumpdata/store";
 import React, { lazy, Suspense } from "react";
 import * as ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { PersistGate } from "redux-persist/lib/integration/react";
 import "./i18n";
 import Spinner from "./parts/Spinner";
-import StoreProvider from "./store/StoreProvider";
 import "./styles.scss";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
@@ -21,41 +23,46 @@ const TermsScreen = lazy(() => import("./screens/TermsScreen"));
 
 ReactDOM.render(
   <Suspense fallback={<Spinner wrapper />}>
-    <StoreProvider>
-      <BrowserRouter>
-        <Routes>
-          {"Main Pages"}
-          <Route path="/" element={<MainScreen />} />
+    <Provider store={store}>
+      <PersistGate loading={<Spinner />} persistor={persistor}>
+        <BrowserRouter>
+          <Routes>
+            {"Main Pages"}
+            <Route path="/" element={<MainScreen />} />
 
-          <Route path="/terms" element={<TermsScreen />} />
-          <Route path="/legal" element={<LegalScreen />} />
+            <Route path="/terms" element={<TermsScreen />} />
+            <Route path="/legal" element={<LegalScreen />} />
 
-          {"Entry Pages"}
-          <Route path="/register" element={<RegisterScreen />} />
-          <Route path="/login" element={<LoginScreen />} />
+            {"Entry Pages"}
+            <Route path="/register" element={<RegisterScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
 
-          {"Profile Pages"}
-          <Route path="/u/:username" element={<ProfileScreen />} />
-          <Route path="/settings" element={<SettingsScreen />} />
+            {"Profile Pages"}
+            <Route path="/u/:username" element={<ProfileScreen />} />
+            <Route path="/settings" element={<SettingsScreen />} />
 
-          {"Group Pages"}
-          <Route path="/group" element={<GroupScreen />} />
-          <Route path="/group/:id" element={<GroupScreen />} />
-          <Route path="/group/:id/settings" element={<GroupSettingsScreen />} />
+            {"Group Pages"}
+            <Route path="/group" element={<GroupScreen />} />
+            <Route path="/group/:id" element={<GroupScreen />} />
+            <Route
+              path="/group/:id/settings"
+              element={<GroupSettingsScreen />}
+            />
 
-          {"Speeddata"}
-          <Route path="/speeddata">
-            <Route path="own/" element={<SpeedDataOwnScreen />} />
-            <Route path="group/:id" element={<SpeedDataScreen />} />
-          </Route>
+            {"Speeddata"}
+            <Route path="/speeddata">
+              <Route path="own/" element={<SpeedDataOwnScreen />} />
+              <Route path="group/:id" element={<SpeedDataScreen />} />
+            </Route>
 
-          {"Freestyle"}
-          {process.env.NODE_ENV === "development" && (
-            <Route path="/freestyle" element={<FreestyleScreen />} />
-          )}
-        </Routes>
-      </BrowserRouter>
-    </StoreProvider>
+            {"Freestyle"}
+            {process.env.NODE_ENV === "development" && (
+              <Route path="/freestyle" element={<FreestyleScreen />} />
+            )}
+          </Routes>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   </Suspense>,
   document.getElementById("root")
 );

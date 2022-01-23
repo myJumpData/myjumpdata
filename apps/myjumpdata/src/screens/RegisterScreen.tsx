@@ -1,10 +1,10 @@
+import { register } from "@myjumpdata/api-client";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
-import AuthService from "../services/auth.service";
 
 export default function RegisterScreen() {
   const user = useSelector((state: any) => state.user);
@@ -19,7 +19,7 @@ export default function RegisterScreen() {
     const password = e.target.elements.password.value;
     const firstname = e.target.elements.firstname.value;
     const lastname = e.target.elements.lastname.value;
-    AuthService.register(
+    register(
       username.trim(),
       firstname.trim(),
       lastname.trim(),

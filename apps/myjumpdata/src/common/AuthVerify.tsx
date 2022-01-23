@@ -1,5 +1,5 @@
+import { getUser } from "@myjumpdata/store";
 import { Buffer } from "buffer";
-import { getUser } from "../store/user.action";
 import Logout from "./Logout";
 
 export default function AuthVerify() {

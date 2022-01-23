@@ -1,9 +1,9 @@
+import { getUserSearch } from "@myjumpdata/api-client";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import User from "../assets/user.svg";
 import Wrapper from "../parts/Wrapper";
-import { getUserSearch } from "../services/user.service.";
 
 export default function ProfileScreen() {
   const params = useParams();

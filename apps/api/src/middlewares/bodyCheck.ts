@@ -1,8 +1,8 @@
-import responseHandler from "../helper/responseHandler";
+import { requestHandler } from "../requestHandler";
 
 export function bodyCheckNullUsername(req, res, next) {
   if (!req.body.username || req.body.username === "") {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "missing.field.username",
@@ -14,7 +14,7 @@ export function bodyCheckNullUsername(req, res, next) {
 
 export function bodyCheckNullFirstname(req, res, next) {
   if (!req.body.firstname || req.body.firstname === "") {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "missing.field.firstname",
@@ -26,7 +26,7 @@ export function bodyCheckNullFirstname(req, res, next) {
 
 export function bodyCheckNullLastname(req, res, next) {
   if (!req.body.lastname || req.body.lastname === "") {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "missing.field.lastname",
@@ -38,7 +38,7 @@ export function bodyCheckNullLastname(req, res, next) {
 
 export function bodyCheckNullEmail(req, res, next) {
   if (!req.body.email || req.body.email === "") {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "missing.field.email",
@@ -50,7 +50,7 @@ export function bodyCheckNullEmail(req, res, next) {
 
 export function bodyCheckNullPassword(req, res, next) {
   if (!req.body.password || req.body.password === "") {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "missing.field.password",
@@ -62,31 +62,21 @@ export function bodyCheckNullPassword(req, res, next) {
 
 export function bodyCheckNullDate(req, res, next) {
   if (!req.body.date || req.body.date === "") {
-    return responseHandler(
-      res,
-      400,
-      "missing.field.date",
-      "Missing Field Date"
-    );
+    return requestHandler(res, 400, "missing.field.date", "Missing Field Date");
   }
   next();
 }
 
 export function bodyCheckNullType(req, res, next) {
   if (!req.body.type || req.body.type === "") {
-    return responseHandler(
-      res,
-      400,
-      "missing.field.type",
-      "Missing Field Type"
-    );
+    return requestHandler(res, 400, "missing.field.type", "Missing Field Type");
   }
   next();
 }
 
 export function bodyCheckNullScore(req, res, next) {
   if (!req.body.score || req.body.score === "") {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "missing.field.score",
@@ -98,12 +88,7 @@ export function bodyCheckNullScore(req, res, next) {
 
 export function bodyCheckNullUser(req, res, next) {
   if (!req.body.user || req.body.user === "") {
-    return responseHandler(
-      res,
-      400,
-      "missing.field.user",
-      "Missing Field User"
-    );
+    return requestHandler(res, 400, "missing.field.user", "Missing Field User");
   }
   next();
 }

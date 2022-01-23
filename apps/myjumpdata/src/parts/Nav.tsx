@@ -1,9 +1,9 @@
+import { getUserSearch } from "@myjumpdata/api-client";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCog, HiUser } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
-import { getUserSearch } from "../services/user.service.";
 
 export function Nav({
   current,

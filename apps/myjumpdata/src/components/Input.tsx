@@ -1,4 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
+import { classNames } from "@myjumpdata/util";
 import { t } from "i18next";
 import {
   createElement,
@@ -17,7 +18,6 @@ import {
   HiChevronRight,
   HiSelector,
 } from "react-icons/hi";
-import classNames from "../helper/classNames";
 
 type TextInputProps = {
   name?: string;

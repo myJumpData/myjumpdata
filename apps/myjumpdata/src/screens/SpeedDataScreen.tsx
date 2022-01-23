@@ -1,3 +1,9 @@
+import {
+  getGroup,
+  getScoreDataHigh,
+  getScoreDataTypes,
+  saveScoreData,
+} from "@myjumpdata/api-client";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiPlus } from "react-icons/hi";
@@ -6,8 +12,6 @@ import { v4 as uuidv4 } from "uuid";
 import AuthVerify from "../common/AuthVerify";
 import { DateInput, SelectInput, TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
-import GroupsService from "../services/groups.service";
-import ScoreDataService from "../services/scoredata.service";
 
 export default function SpeedDataScreen() {
   AuthVerify();
@@ -23,19 +27,19 @@ export default function SpeedDataScreen() {
   const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
-    GroupsService.getGroup(params.id).then((response: any) => {
+    getGroup(params.id).then((response: any) => {
       setGroupName(response.data?.name);
     });
-    ScoreDataService.getScoreDataTypes().then((response: any) => {
+    getScoreDataTypes().then((response: any) => {
       setScoreDataTypes(response.data);
       setScoreDataType(response.data[0]._id);
-      getScoreDataHigh(params.id, response.data[0]._id);
+      getScoreDataHighFN(params.id, response.data[0]._id);
     });
   }, [params]);
 
   useEffect(() => {
     if (scoreDataType) {
-      getScoreDataHigh(params.id, scoreDataType);
+      getScoreDataHighFN(params.id, scoreDataType);
     }
   }, [scoreDataType, params]);
 
@@ -46,8 +50,8 @@ export default function SpeedDataScreen() {
     setTypesOptions(options);
   }, [scoreDataTypes]);
 
-  function getScoreDataHigh(id: any, type: any) {
-    ScoreDataService.getScoreDataHigh(id, type).then((response: any) => {
+  function getScoreDataHighFN(id: any, type: any) {
+    getScoreDataHigh(id, type).then((response: any) => {
       setGroupScores(response.data?.scores);
       setGroupHigh(response.data?.high);
     });
@@ -57,9 +61,9 @@ export default function SpeedDataScreen() {
     e.preventDefault();
     const id = e.target.elements.id.value;
     const score = e.target.elements[id].value;
-    ScoreDataService.saveScoreData(id, scoreDataType, score, date);
+    saveScoreData(id, scoreDataType, score, date);
     e.target.elements[id].value = null;
-    getScoreDataHigh(params.id, scoreDataType);
+    getScoreDataHighFN(params.id, scoreDataType);
   }
 
   return (

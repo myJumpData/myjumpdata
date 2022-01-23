@@ -1,9 +1,9 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { classNames } from "@myjumpdata/util";
 import { Fragment, ReactElement } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.svg";
-import classNames from "../helper/classNames";
 
 export default function Navbar({
   navigation,

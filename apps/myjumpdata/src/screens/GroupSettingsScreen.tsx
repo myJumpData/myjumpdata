@@ -1,4 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
+import {
+  addCoachesToGroup,
+  addUsersToGroup,
+  deleteGroup,
+  getGroup,
+  removeCoachesFromGroup,
+  removeUsersFromGroup,
+  searchUsers,
+  updateGroupName,
+} from "@myjumpdata/api-client";
 import { Fragment, ReactChild, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiUserAdd, HiUserRemove } from "react-icons/hi";
@@ -10,8 +20,6 @@ import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Spinner from "../parts/Spinner";
 import Wrapper from "../parts/Wrapper";
-import GroupsService from "../services/groups.service";
-import UsersService from "../services/users.service";
 
 export default function GroupSettingsScreen() {
   AuthVerify();
@@ -38,12 +46,12 @@ export default function GroupSettingsScreen() {
   }, [navigate, user, groupCoaches]);
 
   useEffect(() => {
-    getGroup();
+    getGroupFN();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
-  function getGroup() {
-    GroupsService.getGroup(params.id).then((response: any) => {
+  function getGroupFN() {
+    getGroup(params.id).then((response: any) => {
       setGroupName(response.data.name);
       setGroupCoaches(response.data.coaches);
       setGroupAthletes(response.data.athletes);
@@ -60,7 +68,7 @@ export default function GroupSettingsScreen() {
     setLoading(true);
     const timeoutId = setTimeout(() => {
       if (groupSearch !== "") {
-        UsersService.searchUsers(groupSearch).then((response) => {
+        searchUsers(groupSearch).then((response) => {
           setUsers(response.data);
           setLoading(false);
         });
@@ -72,11 +80,9 @@ export default function GroupSettingsScreen() {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (groupName !== groupUpdateName) {
-        GroupsService.updateGroupName(groupUpdateName, params.id).then(
-          (response: any) => {
-            setGroupName(response.data.name);
-          }
-        );
+        updateGroupName(groupUpdateName, params.id).then((response: any) => {
+          setGroupName(response.data.name);
+        });
       }
     }, 1000);
     return () => clearTimeout(timeoutId);
@@ -186,11 +192,11 @@ export default function GroupSettingsScreen() {
                                     "settings_group.user_action.add_coach"
                                   )}
                                   onClick={() => {
-                                    GroupsService.addCoachesToGroup(params.id, [
-                                      _id,
-                                    ]).then(() => {
-                                      getGroup();
-                                    });
+                                    addCoachesToGroup(params.id, [_id]).then(
+                                      () => {
+                                        getGroupFN();
+                                      }
+                                    );
                                   }}
                                 />
                               )}
@@ -203,12 +209,11 @@ export default function GroupSettingsScreen() {
                                   "settings_group.user_action.remove_coach"
                                 )}
                                 onClick={() => {
-                                  GroupsService.removeCoachesFromGroup(
-                                    params.id,
-                                    [_id]
-                                  ).then(() => {
-                                    getGroup();
-                                  });
+                                  removeCoachesFromGroup(params.id, [_id]).then(
+                                    () => {
+                                      getGroupFN();
+                                    }
+                                  );
                                 }}
                               />
                             )}
@@ -224,11 +229,11 @@ export default function GroupSettingsScreen() {
                                     "settings_group.user_action.add_athlete"
                                   )}
                                   onClick={() => {
-                                    GroupsService.addUsersToGroup(params.id, [
-                                      _id,
-                                    ]).then(() => {
-                                      getGroup();
-                                    });
+                                    addUsersToGroup(params.id, [_id]).then(
+                                      () => {
+                                        getGroupFN();
+                                      }
+                                    );
                                   }}
                                 />
                               )}
@@ -241,12 +246,11 @@ export default function GroupSettingsScreen() {
                                   "settings_group.user_action.remove_athlete"
                                 )}
                                 onClick={() => {
-                                  GroupsService.removeUsersFromGroup(
-                                    params.id,
-                                    [_id]
-                                  ).then(() => {
-                                    getGroup();
-                                  });
+                                  removeUsersFromGroup(params.id, [_id]).then(
+                                    () => {
+                                      getGroupFN();
+                                    }
+                                  );
                                 }}
                               />
                             )}
@@ -289,7 +293,7 @@ export default function GroupSettingsScreen() {
             name={t("settings_group.delete_disclaimer_confirm")}
             design="danger"
             onClick={() => {
-              GroupsService.deleteGroup(params.id).then((response: any) => {
+              deleteGroup(params.id).then((response: any) => {
                 if (response.status === 200) {
                   setDelStep(0);
                   navigate("/groups");

@@ -1,12 +1,12 @@
+import { JWT_SECRET } from "@myjumpdata/const";
 import jwt from "jsonwebtoken";
-import config from "../config/auth.config";
-import responseHandler from "../helper/responseHandler";
+import { requestHandler } from "../requestHandler";
 
 const { TokenExpiredError } = jwt;
 
 const catchError = (err, res) => {
   if (err instanceof TokenExpiredError) {
-    return responseHandler(
+    return requestHandler(
       res,
       401,
       "unauthorized.accesstoken",
@@ -14,14 +14,14 @@ const catchError = (err, res) => {
     );
   }
 
-  return responseHandler(res, 401, "unauthorized", "Unauthorized");
+  return requestHandler(res, 401, "unauthorized", "Unauthorized");
 };
 
 export default function verifyToken(req, res, next) {
   const token = req.headers["x-access-token"];
 
   if (!token) {
-    return responseHandler(
+    return requestHandler(
       res,
       401,
       "unauthorized.accesstoken.not",
@@ -29,7 +29,7 @@ export default function verifyToken(req, res, next) {
     );
   }
 
-  jwt.verify(token, config.secret, {}, (err, decoded) => {
+  jwt.verify(token, JWT_SECRET, {}, (err, decoded) => {
     if (err) {
       return catchError(err, res);
     }

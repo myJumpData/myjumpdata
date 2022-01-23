@@ -1,3 +1,5 @@
+import { createGroup, getGroup, getGroups } from "@myjumpdata/api-client";
+import { classNames } from "@myjumpdata/util";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCog } from "react-icons/hi";
@@ -6,10 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
-import classNames from "../helper/classNames";
-import randomColorClass from "../helper/randomColorClass";
 import Wrapper from "../parts/Wrapper";
-import GroupsService from "../services/groups.service";
 
 export default function GroupScreen() {
   AuthVerify();
@@ -23,30 +22,30 @@ export default function GroupScreen() {
 
   useEffect(() => {
     if (params.id) {
-      getGroup();
+      getGroupFN();
     } else {
-      getGroups();
+      getGroupsFN();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
-  function getGroup() {
-    GroupsService.getGroup(params.id).then((response: any) => {
+  function getGroupFN() {
+    getGroup(params.id).then((response: any) => {
       setGroupName(response?.data?.name);
       setGroupCoaches(response?.data?.coaches);
       setGroupAthletes(response?.data?.athletes);
     });
   }
 
-  function getGroups() {
-    GroupsService.getGroups().then((response: any) => {
+  function getGroupsFN() {
+    getGroups().then((response: any) => {
       setGroups(response.data);
     });
   }
 
   function handleCreateGroup() {
-    GroupsService.createGroup(groupName.trim()).then(() => {
-      getGroups();
+    createGroup(groupName.trim()).then(() => {
+      getGroupsFN();
       setGroupName("");
     });
   }
@@ -66,9 +65,7 @@ export default function GroupScreen() {
       <Link
         to={`/u/${username}`}
         className={classNames(
-          "flex flex-col items-center justify-center w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 group rounded-full shrink-0 relative",
-          picture === null && randomColorClass(),
-          picture === null && "bg-opacity-75"
+          "flex flex-col items-center justify-center w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 group rounded-full shrink-0 relative bg-orange-500"
         )}
       >
         {picture === null ? (

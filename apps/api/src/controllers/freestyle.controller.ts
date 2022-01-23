@@ -1,5 +1,5 @@
-import responseHandler from "../helper/responseHandler";
 import FreestyleDataGroup from "../models/freestyleDataGroup";
+import { requestHandler } from "../requestHandler";
 
 export function getFreestyle(req, res) {
   let count = 0;
@@ -39,9 +39,9 @@ export function getFreestyle(req, res) {
         return { key: e.key, group: true };
       });
       if (parent_key === null) {
-        return responseHandler(res, 200, "", "", [...groups]);
+        return requestHandler(res, 200, "", "", [...groups]);
       } else {
-        return responseHandler(res, 200, "", "", [
+        return requestHandler(res, 200, "", "", [
           { key: parent_key, back: true },
           ...groups,
         ]);

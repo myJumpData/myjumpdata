@@ -1,3 +1,9 @@
+import {
+  deleteUser,
+  updateUser,
+  updateUsersRole,
+} from "@myjumpdata/api-client";
+import { setUser } from "@myjumpdata/store";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck } from "react-icons/hi";
@@ -7,8 +13,6 @@ import Logout from "../common/Logout";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
-import UsersService from "../services/users.service";
-import { setUser } from "../store/user.action";
 
 export default function SettingsScreen() {
   AuthVerify();
@@ -27,7 +31,7 @@ export default function SettingsScreen() {
   const [delStep, setDelStep] = useState(0);
 
   useEffect(() => {
-    UsersService.updateUser({}).then((response) => {
+    updateUser({}).then((response) => {
       setUsername(response.data.username);
       setFirstname(response.data.firstname);
       setLastname(response.data.lastname);
@@ -40,19 +44,19 @@ export default function SettingsScreen() {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (username !== user.username) {
-        UsersService.updateUser({ username }).then((response) => {
+        updateUser({ username }).then((response) => {
           setUsername(response.data.username);
           setUser(response.data);
         });
       }
       if (firstname !== user.firstname) {
-        UsersService.updateUser({ firstname }).then((response) => {
+        updateUser({ firstname }).then((response) => {
           setFirstname(response.data.firstname);
           setUser(response.data);
         });
       }
       if (lastname !== user.lastname) {
-        UsersService.updateUser({ lastname }).then((response) => {
+        updateUser({ lastname }).then((response) => {
           setLastname(response.data.lastname);
           setUser(response.data);
         });
@@ -76,12 +80,12 @@ export default function SettingsScreen() {
   }, [escFunction]);
 
   function emailSubmit() {
-    UsersService.updateUser({ email }).then(() => {
+    updateUser({ email }).then(() => {
       Logout();
     });
   }
   function passwordSubmit() {
-    UsersService.updateUser({ password }).then((response: any) => {
+    updateUser({ password }).then((response: any) => {
       setPassword("");
       setUser(response.data);
     });
@@ -167,12 +171,10 @@ export default function SettingsScreen() {
             <div
               className="flex flex-row items-center hover:outline outline-blue-500 rounded-lg px-2 py-1"
               onClick={() => {
-                UsersService.updateUser({ picture: "gravatar" }).then(
-                  (response) => {
-                    setPicture(response.data.picture);
-                    setUser(response.data);
-                  }
-                );
+                updateUser({ picture: "gravatar" }).then((response) => {
+                  setPicture(response.data.picture);
+                  setUser(response.data);
+                });
               }}
             >
               <input
@@ -191,12 +193,10 @@ export default function SettingsScreen() {
             <div
               className="flex flex-row items-center hover:outline outline-blue-500 rounded-lg px-2 py-1"
               onClick={() => {
-                UsersService.updateUser({ picture: "none" }).then(
-                  (response) => {
-                    setPicture(response.data.picture);
-                    setUser(response.data);
-                  }
-                );
+                updateUser({ picture: "none" }).then((response) => {
+                  setPicture(response.data.picture);
+                  setUser(response.data);
+                });
               }}
             >
               <input
@@ -223,7 +223,7 @@ export default function SettingsScreen() {
                   name={t("settings.reset_coach")}
                   design="warning"
                   onClick={() => {
-                    UsersService.updateUsersRole(["athlete"]).then(() => {
+                    updateUsersRole(["athlete"]).then(() => {
                       Logout();
                     });
                   }}
@@ -233,11 +233,9 @@ export default function SettingsScreen() {
                   name={t("settings.become_coach")}
                   design="warning"
                   onClick={() => {
-                    UsersService.updateUsersRole(["athlete", "coach"]).then(
-                      () => {
-                        Logout();
-                      }
-                    );
+                    updateUsersRole(["athlete", "coach"]).then(() => {
+                      Logout();
+                    });
                   }}
                 />
               ))}
@@ -280,7 +278,7 @@ export default function SettingsScreen() {
             name={t("settings.delete_disclaimer_confirm")}
             design="danger"
             onClick={() => {
-              UsersService.deleteUser().then((response: any) => {
+              deleteUser().then((response: any) => {
                 if (response.status === 200) {
                   setDelStep(0);
                   Logout();

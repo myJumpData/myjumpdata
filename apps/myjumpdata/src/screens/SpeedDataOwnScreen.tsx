@@ -1,10 +1,10 @@
+import { getScoreDataOwn, saveScoreDataOwn } from "@myjumpdata/api-client";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiPlus } from "react-icons/hi";
 import AuthVerify from "../common/AuthVerify";
 import { DateInput, TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
-import ScoreDataService from "../services/scoredata.service";
 
 export default function SpeedDataOwnScreen() {
   AuthVerify();
@@ -18,7 +18,7 @@ export default function SpeedDataOwnScreen() {
   }, []);
 
   function getData() {
-    ScoreDataService.getScoreDataOwn().then((response: any) => {
+    getScoreDataOwn().then((response: any) => {
       setScoreData(response.data);
     });
   }
@@ -28,7 +28,7 @@ export default function SpeedDataOwnScreen() {
     const type = e.target.elements.id.value;
     const score = e.target.elements[type].value;
     if (score !== "") {
-      ScoreDataService.saveScoreDataOwn(type, score, date);
+      saveScoreDataOwn(type, score, date);
       e.target.elements[type].value = null;
       getData();
     }

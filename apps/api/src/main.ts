@@ -1,6 +1,5 @@
+import { API_PORT, CONNECT_STRING_DEFAULT } from "@myjumpdata/const";
 import mongoose from "mongoose";
-import { CONNECT_STRING_DEFAULT } from "./config/db.config";
-import { API_PORT } from "./config/host.config";
 import createServer from "./server";
 
 mongoose

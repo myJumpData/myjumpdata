@@ -1,10 +1,10 @@
+import { login } from "@myjumpdata/api-client";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
-import AuthService from "../services/auth.service";
 
 export default function LoginScreen() {
   const user = useSelector((state: any) => state.user);
@@ -15,7 +15,7 @@ export default function LoginScreen() {
     e.preventDefault();
     const username = e.target.elements.username.value;
     const password = e.target.elements.password.value;
-    const response: any = await AuthService.login(username.trim(), password);
+    const response: any = await login(username.trim(), password);
     if (response.key === "success.login.user") {
       navigate(`/u/${response.data.username}`);
     }

@@ -1,11 +1,9 @@
 import mongoose, { Query } from "mongoose";
-import responseHandler, {
-  responseHandlerError,
-} from "../helper/responseHandler";
 import Group from "../models/group.model";
 import ScoreDataRecord from "../models/scoreDataRecord.model";
 import ScoreDataRecordOwn from "../models/scoreDataRecordOwn.model";
 import ScoreDataType from "../models/scoreDataType.model";
+import { requestHandler, requestHandlerError } from "../requestHandler";
 
 export function saveScoreData(req, res) {
   const scoreData = new ScoreDataRecord({
@@ -18,9 +16,9 @@ export function saveScoreData(req, res) {
 
   scoreData.save((err, scoredata) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
-    return responseHandler(
+    return requestHandler(
       res,
       200,
       "success.save.scoredata",
@@ -33,15 +31,9 @@ export function saveScoreData(req, res) {
 export function getScoreDataTypes(req, res) {
   ScoreDataType.find({}, (err, scoreDataTypes) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
-    return responseHandler(
-      res,
-      200,
-      "",
-      "",
-      scoreDataTypes
-    );
+    return requestHandler(res, 200, "", "", scoreDataTypes);
   });
 }
 
@@ -52,10 +44,10 @@ export function getScoreDataHigh(req, res) {
     .populate("athletes", "-password -roles -email")
     .exec((err, group) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
       if (!group) {
-        return responseHandler(res, 404, "notfound.group", "Can't find group!");
+        return requestHandler(res, 404, "notfound.group", "Can't find group!");
       }
       const athletes = group.athletes.map((athlete) => athlete._id);
       ScoreDataRecord.find(
@@ -73,7 +65,7 @@ export function getScoreDataHigh(req, res) {
         .populate("user", "-password -email -roles")
         .exec((err, records) => {
           if (err) {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           }
           const response: { user; score: number }[] = [];
           records.forEach((item) => {
@@ -112,13 +104,10 @@ export function getScoreDataHigh(req, res) {
           });
           const high = Math.max(...highs);
 
-          return responseHandler(
-            res,
-            200,
-            "",
-            "",
-            { high: high, scores: response }
-          );
+          return requestHandler(res, 200, "", "", {
+            high: high,
+            scores: response,
+          });
         });
     });
 }
@@ -139,7 +128,7 @@ export function getScoreDataOwn(req, res) {
     .then((data) => {
       ScoreDataType.find({}, (err, scoreDataTypes) => {
         if (err) {
-          return responseHandlerError(res, err);
+          return requestHandlerError(res, err);
         }
         const response = data;
         scoreDataTypes.forEach((item) => {
@@ -147,17 +136,11 @@ export function getScoreDataOwn(req, res) {
             response.push({ type: item, score: 0 });
           }
         });
-        return responseHandler(
-          res,
-          200,
-          "",
-          "",
-          response
-        );
+        return requestHandler(res, 200, "", "", response);
       });
     })
     .catch((err) => {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     });
 }
 
@@ -171,9 +154,9 @@ export function saveScoreDataOwn(req, res) {
 
   scoreDataOwn.save((err, scoredata) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
-    return responseHandler(
+    return requestHandler(
       res,
       200,
       "success.save.scoredata.own",

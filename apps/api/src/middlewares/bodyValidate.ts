@@ -1,11 +1,11 @@
-import responseHandler from "../helper/responseHandler";
+import { requestHandler } from "../requestHandler";
 
 export function bodyValidateUsername(req, res, next) {
   if (!req.body.username) {
     return next();
   }
   if (req.body.username.length < 4) {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "notenoughcharacter.field.username",
@@ -13,7 +13,7 @@ export function bodyValidateUsername(req, res, next) {
     );
   }
   if (!req.body.username.match(/^[A-Z0-9._-]+$/i)) {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "notallowedcharacter.field.username",
@@ -28,7 +28,7 @@ export function bodyValidateFirstname(req, res, next) {
     return next();
   }
   if (!req.body.firstname.match(/^[A-Z-]+$/i)) {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "notallowedcharacter.field.firstname",
@@ -43,7 +43,7 @@ export function bodyValidateLastname(req, res, next) {
     return next();
   }
   if (!req.body.lastname.match(/^[A-Z-]+$/i)) {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "notallowedcharacter.field.lastname",
@@ -58,7 +58,7 @@ export function bodyValidateEmail(req, res, next) {
     return next();
   }
   if (!req.body.email.match(/^\w+([.-]?\w+)*@\w+([.]?\w+)*(\.\w{2,3})+$/i)) {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "notallowedcharacter.field.email",
@@ -73,7 +73,7 @@ export function bodyValidatePassword(req, res, next) {
     return next();
   }
   if (req.body.password.length < 4) {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "notenoughcharacter.field.password",

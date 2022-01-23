@@ -1,28 +1,26 @@
 import crypto from "crypto";
-import responseHandler, {
-  responseHandlerError,
-} from "../helper/responseHandler";
 import Group from "../models/group.model";
 import User from "../models/user.model";
+import { requestHandler, requestHandlerError } from "../requestHandler";
 
 export function createGroup(req, res) {
   if (!req.body.name) {
-    return responseHandler(res, 400, "missing.field.name", "No name provided!");
+    return requestHandler(res, 400, "missing.field.name", "No name provided!");
   }
   const group = new Group({
     name: req.body.name,
   });
   group.save((err, group) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     User.find({ _id: req.userId }, (err, coaches) => {
       group.coaches = coaches.map((coach) => coach._id);
       group.save((err) => {
         if (err) {
-          return responseHandlerError(res, err);
+          return requestHandlerError(res, err);
         }
-        return responseHandler(
+        return requestHandler(
           res,
           201,
           "success.create.group",
@@ -39,7 +37,7 @@ export function updateGroupName(req, res) {
     .select("-coaches -athletes -_id -__v")
     .exec((err, group) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
       if (req.body.name && group.name !== req.body.name) {
         Group.updateOne(
@@ -47,15 +45,15 @@ export function updateGroupName(req, res) {
           { name: req.body.name.toLowerCase() }
         ).exec((err) => {
           if (err) {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           }
           Group.findOne({ _id: req.params.id })
             .select("-coaches -athletes -_id -__v")
             .exec((err, new_group) => {
               if (err) {
-                return responseHandlerError(res, err);
+                return requestHandlerError(res, err);
               }
-              return responseHandler(
+              return requestHandler(
                 res,
                 200,
                 "success.update.group.name",
@@ -65,7 +63,7 @@ export function updateGroupName(req, res) {
             });
         });
       } else {
-        return responseHandler(
+        return requestHandler(
           res,
           200,
           "success.update.group.name",
@@ -81,7 +79,7 @@ export function getGroup(req, res) {
     .populate("coaches athletes", "-password -roles -__v")
     .exec((err, group) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
       if (group) {
         const athletes = group.athletes.map((d) => {
@@ -116,14 +114,14 @@ export function getGroup(req, res) {
             picture,
           };
         });
-        return responseHandler(res, 200, "", "", {
+        return requestHandler(res, 200, "", "", {
           name: group.name,
           _id: group._id,
           athletes,
           coaches,
         });
       } else {
-        return responseHandler(res, 404, "", "");
+        return requestHandler(res, 404, "", "");
       }
     });
 }
@@ -135,25 +133,25 @@ export function getGroups(req, res) {
     .populate("coaches athletes", "-password")
     .exec((err, groups) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
-      return responseHandler(res, 200, "", "", groups);
+      return requestHandler(res, 200, "", "", groups);
     });
 }
 
 export function addAthletesToGroup(req, res) {
   User.find({ _id: req.body.users }, (err, users) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     Group.updateOne(
       { _id: req.params.id },
       { $addToSet: { athletes: users.map((user) => user._id) } },
       (err) => {
         if (err) {
-          return responseHandlerError(res, err);
+          return requestHandlerError(res, err);
         }
-        return responseHandler(
+        return requestHandler(
           res,
           200,
           "success.group.athletes.update",
@@ -167,16 +165,16 @@ export function addAthletesToGroup(req, res) {
 export function removeAthletesFromGroup(req, res) {
   User.find({ _id: req.body.users }, (err, users) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     Group.updateOne(
       { _id: req.params.id },
       { $pullAll: { athletes: users.map((user) => user._id) } },
       (err) => {
         if (err) {
-          return responseHandlerError(res, err);
+          return requestHandlerError(res, err);
         }
-        return responseHandler(
+        return requestHandler(
           res,
           200,
           "success.group.athletes.update",
@@ -190,16 +188,16 @@ export function removeAthletesFromGroup(req, res) {
 export function addCoachesToGroup(req, res) {
   User.find({ _id: req.body.coach }, (err, users) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     Group.updateOne(
       { _id: req.params.id },
       { $addToSet: { coaches: users.map((user) => user._id) } },
       (err) => {
         if (err) {
-          return responseHandlerError(res, err);
+          return requestHandlerError(res, err);
         }
-        return responseHandler(
+        return requestHandler(
           res,
           200,
           "success.group.coaches.update",
@@ -213,16 +211,16 @@ export function addCoachesToGroup(req, res) {
 export function removeCoachesFromGroup(req, res) {
   User.find({ _id: req.body.coach }, (err, users) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     Group.updateOne(
       { _id: req.params.id },
       { $pullAll: { coaches: users.map((user) => user._id) } },
       (err) => {
         if (err) {
-          return responseHandlerError(res, err);
+          return requestHandlerError(res, err);
         }
-        return responseHandler(
+        return requestHandler(
           res,
           200,
           "success.group.coaches.update",
@@ -236,9 +234,9 @@ export function removeCoachesFromGroup(req, res) {
 export function deleteGroup(req, res) {
   Group.deleteOne({ _id: req.params.id }).exec((err) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
-    return responseHandler(
+    return requestHandler(
       res,
       200,
       "success.group.delete",

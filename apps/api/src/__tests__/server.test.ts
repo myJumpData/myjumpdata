@@ -1,5 +1,5 @@
+import { CONNECT_STRING_TEST } from "@myjumpdata/const";
 import mongoose from "mongoose";
-import { CONNECT_STRING_TEST } from "../config/db.config";
 import Role from "../models/role.model";
 import ScoreDataType from "../models/scoreDataType.model";
 import createServer from "../server";

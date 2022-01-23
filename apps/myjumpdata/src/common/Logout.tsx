@@ -1,4 +1,4 @@
-import { clearUser } from "../store/user.action";
+import { clearUser } from "@myjumpdata/store";
 
 export default function Logout() {
   clearUser();

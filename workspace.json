@@ -2,7 +2,11 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "api-client": "libs/api-client",
     "app": "apps/app",
-    "myjumpdata": "apps/myjumpdata"
+    "const": "libs/const",
+    "myjumpdata": "apps/myjumpdata",
+    "store": "libs/store",
+    "util": "libs/util"
   }
 }

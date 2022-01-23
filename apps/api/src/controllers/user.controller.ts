@@ -1,19 +1,21 @@
+import {
+  API_URL,
+  APP_URL,
+  JWT_EXPIRATION,
+  JWT_SECRET,
+} from "@myjumpdata/const";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { Query } from "mongoose";
-import config from "../config/auth.config";
-import { API_URL, APP_URL } from "../config/host.config";
-import SendMail from "../helper/email";
-import responseHandler, {
-  responseHandlerError,
-} from "../helper/responseHandler";
+import SendMail from "../email";
 import Group from "../models/group.model";
 import Role from "../models/role.model";
 import ScoreDataRecord from "../models/scoreDataRecord.model";
 import ScoreDataRecordOwn from "../models/scoreDataRecordOwn.model";
 import ScoreDataType from "../models/scoreDataType.model";
 import User from "../models/user.model";
+import { requestHandler, requestHandlerError } from "../requestHandler";
 
 export function signup(req, res) {
   // Initiate Variables
@@ -24,10 +26,10 @@ export function signup(req, res) {
     username: username,
   }).exec((err, user_username_check) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     if (user_username_check.length > 0) {
-      return responseHandler(
+      return requestHandler(
         res,
         409,
         "duplicate.field.username",
@@ -48,25 +50,25 @@ export function signup(req, res) {
 
     user.save((err, user) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
       // Add Roles
       Role.find({
         name: { $in: ["athlete"] },
       }).exec((err, roles) => {
         if (err) {
-          return responseHandlerError(res, err);
+          return requestHandlerError(res, err);
         }
 
         user.roles = roles.map((role) => role._id);
         user.save((err) => {
           if (err) {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           }
 
           const token = jwt.sign(
             { id: user.id, email: user.email, timestamp: Date.now() },
-            config.secret
+            JWT_SECRET
           );
           const url = `${API_URL}/verify/${token}`;
           SendMail({
@@ -75,7 +77,7 @@ export function signup(req, res) {
             html: `<a href="${url}">${url}</a>`,
           })
             .then(() => {
-              return responseHandler(
+              return requestHandler(
                 res,
                 201,
                 "success.create.user",
@@ -83,7 +85,7 @@ export function signup(req, res) {
               );
             })
             .catch((err) => {
-              return responseHandlerError(res, err);
+              return requestHandlerError(res, err);
             });
         });
       });
@@ -104,11 +106,11 @@ export function signin(req, res) {
     .populate("roles", "-__v")
     .exec(async (err, user) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
 
       if (!user) {
-        return responseHandler(
+        return requestHandler(
           res,
           404,
           "notfound.field.username",
@@ -117,7 +119,7 @@ export function signin(req, res) {
       }
 
       if (!bcrypt.compareSync(password, user.password)) {
-        return responseHandler(
+        return requestHandler(
           res,
           400,
           "wrong.field.password",
@@ -128,7 +130,7 @@ export function signin(req, res) {
       if (user.active !== true) {
         const token = jwt.sign(
           { id: user.id, email: user.email, timestamp: Date.now() },
-          config.secret
+          JWT_SECRET
         );
         const url = `${API_URL}/verify/${token}`;
         SendMail({
@@ -137,7 +139,7 @@ export function signin(req, res) {
           html: `<a href="${url}">${url}</a>`,
         })
           .then(() => {
-            return responseHandler(
+            return requestHandler(
               res,
               403,
               "wrong.field.active",
@@ -145,16 +147,16 @@ export function signin(req, res) {
             );
           })
           .catch((err) => {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           });
       } else {
-        const token = jwt.sign({ id: user.id }, config.secret, {
-          expiresIn: config.jwtExpiration,
+        const token = jwt.sign({ id: user.id }, JWT_SECRET, {
+          expiresIn: JWT_EXPIRATION,
         });
 
         const roles = user.roles.map((role) => role.name);
 
-        return responseHandler(
+        return requestHandler(
           res,
           201,
           "success.login.user",
@@ -177,20 +179,20 @@ export function signin(req, res) {
 export function verify(req, res) {
   const token = req.params.token;
   if (token.lenght < 1) {
-    return responseHandler(
+    return requestHandler(
       res,
       400,
       "missing.field.token",
       "Missing Field Token"
     );
   }
-  jwt.verify(token, config.secret, (err, data) => {
+  jwt.verify(token, JWT_SECRET, (err, data) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     User.updateMany({ email: data.email }, { active: true }).exec((err) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
       return res.redirect(`${APP_URL}/login`);
     });
@@ -204,7 +206,7 @@ export async function getUser(req, res) {
     .select("-password -__v")
     .populate("roles", "-__v -_id");
   if (request === null) {
-    return responseHandler(res, 404, "notfound.user", "User not Found");
+    return requestHandler(res, 404, "notfound.user", "User not Found");
   }
 
   const scoreDataTypesList = await ScoreDataType.find({});
@@ -256,7 +258,7 @@ export async function getUser(req, res) {
       .digest("hex")}?size=300&d=404`;
   }
   highdata.then((highdata) => {
-    return responseHandler(res, 200, "", "", {
+    return requestHandler(res, 200, "", "", {
       id: request.id,
       username: request.username,
       firstname: request.firstname,
@@ -284,25 +286,25 @@ export function deleteUser(req, res) {
     }
   ).exec((err) => {
     if (err) {
-      return responseHandlerError(res, err);
+      return requestHandlerError(res, err);
     }
     Group.deleteMany({ coaches: [] }).exec((err) => {
       if (err) {
-        return responseHandlerError(res, err);
+        return requestHandlerError(res, err);
       }
       ScoreDataRecordOwn.deleteMany({ user: req.userId }).exec((err) => {
         if (err) {
-          return responseHandlerError(res, err);
+          return requestHandlerError(res, err);
         }
         ScoreDataRecord.deleteMany({ user: req.userId }).exec((err) => {
           if (err) {
-            return responseHandlerError(res, err);
+            return requestHandlerError(res, err);
           }
           User.deleteOne({ _id: req.userId }).exec((err) => {
             if (err) {
-              return responseHandlerError(res, err);
+              return requestHandlerError(res, err);
             }
-            return responseHandler(
+            return requestHandler(
               res,
               200,
               "success.user.delete",
