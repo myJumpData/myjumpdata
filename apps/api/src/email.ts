@@ -1,4 +1,4 @@
-import { EMAIL_PSWD, EMAIL_USER } from "@myjumpdata/const";
+import { EMAIL_PSWD, EMAIL_USER } from "@myjumpdata/consts";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport(

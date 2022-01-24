@@ -1,4 +1,4 @@
-import { getScoreDataOwn, saveScoreDataOwn } from "@myjumpdata/api-client";
+import { getScoreDataOwn, saveScoreDataOwn } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiPlus } from "react-icons/hi";

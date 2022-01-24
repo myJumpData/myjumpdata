@@ -1,4 +1,4 @@
-import { CONNECT_STRING_TEST } from "@myjumpdata/const";
+import { CONNECT_STRING_TEST } from "@myjumpdata/consts";
 import mongoose from "mongoose";
 import Role from "../models/role.model";
 import ScoreDataType from "../models/scoreDataType.model";

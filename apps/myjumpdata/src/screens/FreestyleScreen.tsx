@@ -1,5 +1,5 @@
 import { Tab } from "@headlessui/react";
-import { getFreestyle } from "@myjumpdata/api-client";
+import { getFreestyle } from "@myjumpdata/service";
 import { Dispatch, Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {

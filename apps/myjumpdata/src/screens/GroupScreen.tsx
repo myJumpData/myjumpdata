@@ -1,5 +1,5 @@
-import { createGroup, getGroup, getGroups } from "@myjumpdata/api-client";
-import { classNames } from "@myjumpdata/util";
+import { createGroup, getGroup, getGroups } from "@myjumpdata/service";
+import { classNames } from "@myjumpdata/utils";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCog } from "react-icons/hi";
@@ -30,7 +30,7 @@ export default function GroupScreen() {
   }, [params]);
 
   function getGroupFN() {
-    getGroup(params.id).then((response: any) => {
+    getGroup(params.id as string).then((response: any) => {
       setGroupName(response?.data?.name);
       setGroupCoaches(response?.data?.coaches);
       setGroupAthletes(response?.data?.athletes);

@@ -1,4 +1,4 @@
-import { APP_URL, JWT_SECRET } from "@myjumpdata/const";
+import { APP_URL, JWT_SECRET } from "@myjumpdata/consts";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import SendMail from "../email";

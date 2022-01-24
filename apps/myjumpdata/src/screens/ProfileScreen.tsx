@@ -1,4 +1,4 @@
-import { getUserSearch } from "@myjumpdata/api-client";
+import { getUserSearch } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";

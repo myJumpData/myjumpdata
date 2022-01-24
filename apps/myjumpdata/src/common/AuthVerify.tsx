@@ -1,4 +1,4 @@
-import { getUser } from "@myjumpdata/store";
+import { getUser } from "@myjumpdata/redux";
 import { Buffer } from "buffer";
 import Logout from "./Logout";
 

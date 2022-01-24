@@ -1,4 +1,4 @@
-import { APP_URL } from "@myjumpdata/const";
+import { APP_URL } from "@myjumpdata/consts";
 import cors from "cors";
 import express from "express";
 import * as fs from "fs";

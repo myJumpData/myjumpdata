@@ -3,7 +3,7 @@ import {
   APP_URL,
   JWT_EXPIRATION,
   JWT_SECRET,
-} from "@myjumpdata/const";
+} from "@myjumpdata/consts";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";

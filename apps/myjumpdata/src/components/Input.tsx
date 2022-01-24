@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { classNames } from "@myjumpdata/util";
+import { classNames } from "@myjumpdata/utils";
 import { t } from "i18next";
 import {
   createElement,

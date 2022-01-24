@@ -1,4 +1,4 @@
-import { register } from "@myjumpdata/api-client";
+import { register } from "@myjumpdata/service";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";

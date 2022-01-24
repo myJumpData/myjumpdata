@@ -1,4 +1,4 @@
-import { API_PORT, CONNECT_STRING_DEFAULT } from "@myjumpdata/const";
+import { API_PORT, CONNECT_STRING_DEFAULT } from "@myjumpdata/consts";
 import mongoose from "mongoose";
 import createServer from "./server";
 

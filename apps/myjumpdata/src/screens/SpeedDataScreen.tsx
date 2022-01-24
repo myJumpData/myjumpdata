@@ -3,7 +3,7 @@ import {
   getScoreDataHigh,
   getScoreDataTypes,
   saveScoreData,
-} from "@myjumpdata/api-client";
+} from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiPlus } from "react-icons/hi";
@@ -27,7 +27,7 @@ export default function SpeedDataScreen() {
   const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
-    getGroup(params.id).then((response: any) => {
+    getGroup(params.id as string).then((response: any) => {
       setGroupName(response.data?.name);
     });
     getScoreDataTypes().then((response: any) => {

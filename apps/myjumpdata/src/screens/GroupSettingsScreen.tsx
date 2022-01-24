@@ -8,7 +8,7 @@ import {
   removeUsersFromGroup,
   searchUsers,
   updateGroupName,
-} from "@myjumpdata/api-client";
+} from "@myjumpdata/service";
 import { Fragment, ReactChild, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiUserAdd, HiUserRemove } from "react-icons/hi";
@@ -51,7 +51,7 @@ export default function GroupSettingsScreen() {
   }, [params]);
 
   function getGroupFN() {
-    getGroup(params.id).then((response: any) => {
+    getGroup(params.id as string).then((response: any) => {
       setGroupName(response.data.name);
       setGroupCoaches(response.data.coaches);
       setGroupAthletes(response.data.athletes);
@@ -80,9 +80,11 @@ export default function GroupSettingsScreen() {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (groupName !== groupUpdateName) {
-        updateGroupName(groupUpdateName, params.id).then((response: any) => {
-          setGroupName(response.data.name);
-        });
+        updateGroupName(groupUpdateName, params.id as string).then(
+          (response: any) => {
+            setGroupName(response.data.name);
+          }
+        );
       }
     }, 1000);
     return () => clearTimeout(timeoutId);
@@ -192,11 +194,11 @@ export default function GroupSettingsScreen() {
                                     "settings_group.user_action.add_coach"
                                   )}
                                   onClick={() => {
-                                    addCoachesToGroup(params.id, [_id]).then(
-                                      () => {
-                                        getGroupFN();
-                                      }
-                                    );
+                                    addCoachesToGroup(params.id as string, [
+                                      _id,
+                                    ]).then(() => {
+                                      getGroupFN();
+                                    });
                                   }}
                                 />
                               )}
@@ -209,11 +211,11 @@ export default function GroupSettingsScreen() {
                                   "settings_group.user_action.remove_coach"
                                 )}
                                 onClick={() => {
-                                  removeCoachesFromGroup(params.id, [_id]).then(
-                                    () => {
-                                      getGroupFN();
-                                    }
-                                  );
+                                  removeCoachesFromGroup(params.id as string, [
+                                    _id,
+                                  ]).then(() => {
+                                    getGroupFN();
+                                  });
                                 }}
                               />
                             )}
@@ -229,11 +231,11 @@ export default function GroupSettingsScreen() {
                                     "settings_group.user_action.add_athlete"
                                   )}
                                   onClick={() => {
-                                    addUsersToGroup(params.id, [_id]).then(
-                                      () => {
-                                        getGroupFN();
-                                      }
-                                    );
+                                    addUsersToGroup(params.id as string, [
+                                      _id,
+                                    ]).then(() => {
+                                      getGroupFN();
+                                    });
                                   }}
                                 />
                               )}
@@ -246,11 +248,11 @@ export default function GroupSettingsScreen() {
                                   "settings_group.user_action.remove_athlete"
                                 )}
                                 onClick={() => {
-                                  removeUsersFromGroup(params.id, [_id]).then(
-                                    () => {
-                                      getGroupFN();
-                                    }
-                                  );
+                                  removeUsersFromGroup(params.id as string, [
+                                    _id,
+                                  ]).then(() => {
+                                    getGroupFN();
+                                  });
                                 }}
                               />
                             )}
@@ -293,7 +295,7 @@ export default function GroupSettingsScreen() {
             name={t("settings_group.delete_disclaimer_confirm")}
             design="danger"
             onClick={() => {
-              deleteGroup(params.id).then((response: any) => {
+              deleteGroup(params.id as string).then((response: any) => {
                 if (response.status === 200) {
                   setDelStep(0);
                   navigate("/groups");

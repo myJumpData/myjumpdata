@@ -2,11 +2,11 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "api-client": "libs/api-client",
     "app": "apps/app",
-    "const": "libs/const",
+    "consts": "libs/consts",
     "myjumpdata": "apps/myjumpdata",
-    "store": "libs/store",
-    "util": "libs/util"
+    "redux": "libs/redux",
+    "service": "libs/service",
+    "utils": "libs/utils"
   }
 }

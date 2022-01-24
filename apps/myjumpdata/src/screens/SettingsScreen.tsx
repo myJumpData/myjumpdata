@@ -1,9 +1,5 @@
-import {
-  deleteUser,
-  updateUser,
-  updateUsersRole,
-} from "@myjumpdata/api-client";
-import { setUser } from "@myjumpdata/store";
+import { deleteUser, updateUser, updateUsersRole } from "@myjumpdata/service";
+import { setUser } from "@myjumpdata/redux";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck } from "react-icons/hi";

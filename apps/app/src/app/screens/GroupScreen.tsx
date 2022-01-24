@@ -1,4 +1,4 @@
-import { capitalize } from "@myjumpdata/util";
+import { capitalize } from "@myjumpdata/utils";
 import * as React from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { useSelector } from "react-redux";

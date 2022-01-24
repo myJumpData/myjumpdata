@@ -1,4 +1,4 @@
-import { JWT_SECRET } from "@myjumpdata/const";
+import { JWT_SECRET } from "@myjumpdata/consts";
 import jwt from "jsonwebtoken";
 import { requestHandler } from "../requestHandler";
 

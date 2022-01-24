@@ -1,5 +1,5 @@
-import { clearMessage } from "@myjumpdata/store";
-import { classNames } from "@myjumpdata/util";
+import { clearMessage } from "@myjumpdata/redux";
+import { classNames } from "@myjumpdata/utils";
 import { useEffect } from "react";
 import {
   HiCheckCircle,

@@ -1,4 +1,4 @@
-import { persistor, store } from "@myjumpdata/store";
+import { persistor, store } from "@myjumpdata/redux";
 import React, { lazy, Suspense } from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
