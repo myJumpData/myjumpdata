@@ -1,3 +1,4 @@
+import { capitalize } from "@myjumpdata/util";
 import * as React from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { useSelector } from "react-redux";
@@ -5,7 +6,6 @@ import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
-import capitalize from "../helper/capitalzie";
 import GroupsService from "../services/groups.service";
 
 export default function GroupScreen({ route, navigation }) {

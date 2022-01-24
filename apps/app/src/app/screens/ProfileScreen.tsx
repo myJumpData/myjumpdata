@@ -1,10 +1,10 @@
+import { capitalize } from "@myjumpdata/util";
 import * as React from "react";
 import { Image, RefreshControl, View } from "react-native";
 import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
-import capitalize from "../helper/capitalzie";
 import UsersService from "../services/users.service";
 
 export default function ProfileScreen() {
