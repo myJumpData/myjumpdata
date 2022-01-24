@@ -1,5 +1,7 @@
 import { AxiosResponse } from "axios";
 import i18next from "i18next";
+import { ToastAndroid } from "react-native";
+import { clearUser } from "../redux/user.action";
 
 export interface responseHandlerType {
   status: number;
@@ -19,7 +21,12 @@ export default async function responseHandler(
       : response?.data?.message?.text;
 
   if (message_text) {
-    console.log({ text: message_text });
+    ToastAndroid.show(message_text, ToastAndroid.SHORT);
+  }
+
+  if (message_key === "unauthorized.accesstoken") {
+    clearUser();
+    return;
   }
 
   return {

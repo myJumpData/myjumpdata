@@ -35,7 +35,10 @@ export default function App() {
         }
       }}
     >
-      {user.token !== undefined && user.token !== null ? (
+      {user.token !== undefined &&
+      user.token !== null &&
+      user.active === true &&
+      Object.keys(user).length !== 0 ? (
         <MainStackScreen />
       ) : (
         <EntryStackScreen />
