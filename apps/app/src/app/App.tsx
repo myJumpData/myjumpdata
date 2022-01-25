@@ -10,6 +10,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { Colors } from "./Constants";
 import { setNavigation } from "./redux/navigation.action";
+import GroupCreateScreen from "./screens/GroupCreateScreen";
 import GroupScreen from "./screens/GroupScreen";
 import GroupSpeedScreen from "./screens/GroupSpeedScreen";
 import GroupsScreen from "./screens/GroupsScreen";
@@ -107,6 +108,15 @@ function MainStackScreen() {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       />
+      <MainStack.Screen
+        name="Group Create"
+        component={GroupCreateScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
     </MainStack.Navigator>
   );
 }
@@ -146,7 +156,21 @@ function MainTabScreen({ navigation }) {
       })}
       detachInactiveScreens={true}
     >
-      <MainTab.Screen name="Gruppen" component={GroupsScreen} />
+      <MainTab.Screen
+        name="Gruppen"
+        component={GroupsScreen}
+        options={{
+          headerRight: () => (
+            <Ionicons
+              name="add-outline"
+              size={30}
+              color={Colors.white}
+              style={{ paddingRight: 10 }}
+              onPress={() => navigation.navigate("Group Create")}
+            />
+          ),
+        }}
+      />
       <MainTab.Screen name="Speed Werte" component={SpeedDataOwnScreen} />
       <MainTab.Screen
         name="Profil"
