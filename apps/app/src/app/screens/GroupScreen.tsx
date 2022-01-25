@@ -1,16 +1,14 @@
 import { capitalize } from "@myjumpdata/utils";
 import * as React from "react";
-import { useTranslation } from "react-i18next";
 import { FlatList, Image, Text, View } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 
 export default function GroupScreen({ route, navigation }) {
-  const { t } = useTranslation();
   const { id } = route.params;
   const user = useSelector((state: any) => state.user);
 
@@ -26,7 +24,22 @@ export default function GroupScreen({ route, navigation }) {
 
   function getGroup() {
     GroupsService.getGroup(id).then((response: any) => {
-      navigation.setOptions({ title: response.data.name });
+      navigation.setOptions({
+        title: response.data.name,
+        headerRight: () => {
+          if (response?.data?.coaches.some((i: any) => i.id === user.id)) {
+            return (
+              <Ionicons
+                name="timer-outline"
+                size={30}
+                color={Colors.white}
+                style={{ paddingRight: 10 }}
+                onPress={() => navigation.navigate("group_speed", { id })}
+              />
+            );
+          }
+        },
+      });
       setGroupCoaches(response?.data?.coaches);
       setGroupAthletes(response?.data?.athletes);
       setRefreshing(false);
@@ -137,15 +150,6 @@ export default function GroupScreen({ route, navigation }) {
 
   return (
     <StyledView style={{ padding: 10 }}>
-      {groupCoaches.some((i: any) => i.id === user.id) && (
-        <StyledButton
-          title={t("common:action.speeddata")}
-          onPress={() => {
-            navigation.navigate("group_speed", { id });
-          }}
-        />
-      )}
-
       <FlatList
         renderItem={renderItem}
         data={[...groupCoaches, ...groupAthletes]}
