@@ -8,6 +8,7 @@
     "start_app": "nx run app:serve",
     "start_app_android": "nx run app:run-android",
     "build_api": "nx run api:build",
+    "postbuild_api": "pm2 restart myJumpData_API",
     "build_web": "nx run myjumpdata:build"
   },
   "private": true,
