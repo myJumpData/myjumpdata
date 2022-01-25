@@ -18,7 +18,10 @@
     "profile": "Profil",
     "settings": "Einstellungen",
     "speeddata": "Speed Werte",
-    "freestyle": "Freestyle"
+    "freestyle": "Freestyle",
+    "group": "Grup",
+    "group_speed": "Speed Werte für Gruppe",
+    "group_create": "Gruppe Erstelle"
   },
   "action": {
     "train_own": "Alleine trainieren",

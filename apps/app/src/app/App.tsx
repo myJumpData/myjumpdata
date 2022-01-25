@@ -5,6 +5,7 @@ import {
   createStackNavigator,
 } from "@react-navigation/stack";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { LogBox, useColorScheme } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
@@ -51,6 +52,7 @@ export default function App() {
 const MainStack = createStackNavigator();
 function MainStackScreen() {
   const isDarkMode = useColorScheme() === "dark";
+  const { t } = useTranslation();
   return (
     <MainStack.Navigator
       detachInactiveScreens={true}
@@ -88,6 +90,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav.settings"),
         }}
       />
       <MainStack.Screen
@@ -97,6 +100,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav.group"),
         }}
       />
       <MainStack.Screen
@@ -106,6 +110,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav.group_speed"),
         }}
       />
       <MainStack.Screen
@@ -115,6 +120,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav.group_create"),
         }}
       />
     </MainStack.Navigator>
@@ -124,6 +130,7 @@ function MainStackScreen() {
 const MainTab = createBottomTabNavigator();
 function MainTabScreen({ navigation }) {
   const isDarkMode = useColorScheme() === "dark";
+  const { t } = useTranslation();
   return (
     <MainTab.Navigator
       screenOptions={({ route }) => ({
@@ -169,9 +176,16 @@ function MainTabScreen({ navigation }) {
               onPress={() => navigation.navigate("group_create")}
             />
           ),
+          title: t("common:nav.groups"),
         }}
       />
-      <MainTab.Screen name="speed_data" component={SpeedDataOwnScreen} />
+      <MainTab.Screen
+        name="speed_data"
+        component={SpeedDataOwnScreen}
+        options={{
+          title: t("common:nav.speeddata"),
+        }}
+      />
       <MainTab.Screen
         name="profile"
         component={ProfileScreen}
@@ -185,6 +199,7 @@ function MainTabScreen({ navigation }) {
               onPress={() => navigation.navigate("settings")}
             />
           ),
+          title: t("common:nav.profile"),
         }}
       />
     </MainTab.Navigator>

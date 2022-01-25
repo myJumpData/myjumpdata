@@ -18,7 +18,10 @@
     "profile": "Profile",
     "settings": "Settings",
     "speeddata": "Speed Data",
-    "freestyle": "Freestyle"
+    "freestyle": "Freestyle",
+    "group": "Group",
+    "group_speed": "Speed Data for Groups",
+    "group_create": "Create Group"
   },
   "action": {
     "train_own": "Train on your own",
