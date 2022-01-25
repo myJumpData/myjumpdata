@@ -1,5 +1,6 @@
 import { capitalize } from "@myjumpdata/utils";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, RefreshControl, View } from "react-native";
 import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
@@ -8,6 +9,7 @@ import { borderRadius, Colors } from "../Constants";
 import UsersService from "../services/users.service";
 
 export default function ProfileScreen() {
+  const { t } = useTranslation();
   const user = useSelector((state: any) => state.user);
 
   const [username, setUsername] = React.useState("");
@@ -93,7 +95,9 @@ export default function ProfileScreen() {
           paddingRight: 10,
         }}
       >
-        <StyledText style={{ fontWeight: "600" }}>Rekorde</StyledText>
+        <StyledText style={{ fontWeight: "600" }}>
+          {t("common:stats.highscores")}
+        </StyledText>
         <StyledView>
           {userOverviewScoreData.map(
             (score: { type: string; score: number; scoreOwn: number }) => (
@@ -124,7 +128,7 @@ export default function ProfileScreen() {
                       justifyContent: "space-between",
                     }}
                   >
-                    <StyledText>Gruppe</StyledText>
+                    <StyledText>{t("common:stats.group")}</StyledText>
                     <StyledText>{score.score}</StyledText>
                   </View>
                   <StyledView
@@ -133,7 +137,7 @@ export default function ProfileScreen() {
                       justifyContent: "space-between",
                     }}
                   >
-                    <StyledText>Eigene</StyledText>
+                    <StyledText>{t("common:stats.own")}</StyledText>
                     <StyledText>{score.scoreOwn}</StyledText>
                   </StyledView>
                 </View>

@@ -1,6 +1,7 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { RefreshControl, useColorScheme, View } from "react-native";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
@@ -11,6 +12,7 @@ import GroupsService from "../services/groups.service";
 import ScoreDataService from "../services/scoredata.service";
 
 export default function GroupSpeedScreen({ route, navigation }) {
+  const { t } = useTranslation();
   const { id } = route.params;
 
   const [groupScores, setGroupScores] = React.useState([]);
@@ -72,7 +74,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
       .toString()
       .padStart(2, "0")}.${selected.getFullYear()}`;
     if (selected.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)) {
-      setDateText(`Today (${format})`);
+      setDateText(`${t("common:stats.today")} (${format})`);
     } else {
       setDateText(`${format}`);
     }
@@ -134,7 +136,9 @@ export default function GroupSpeedScreen({ route, navigation }) {
             />
           ))}
         </Picker>
-        <StyledText>HIGH: {groupHigh}</StyledText>
+        <StyledText>
+          {t("common:stats.high")}: {groupHigh}
+        </StyledText>
       </View>
 
       <StyledView style={{ flex: 1 }}>
@@ -165,7 +169,9 @@ export default function GroupSpeedScreen({ route, navigation }) {
                   ? score.user.firstname + " " + score.user.lastname
                   : score.user.username}
               </StyledText>
-              <StyledText>HIGH: {score.score}</StyledText>
+              <StyledText>
+                {t("common:stats.high")}: {score.score}
+              </StyledText>
             </StyledView>
             <StyledView
               style={{

@@ -82,7 +82,7 @@ function MainStackScreen() {
         options={{ headerShown: false }}
       />
       <MainStack.Screen
-        name="Einstellungen"
+        name="settings"
         component={SettingsScreen}
         options={{
           gestureEnabled: true,
@@ -91,7 +91,7 @@ function MainStackScreen() {
         }}
       />
       <MainStack.Screen
-        name="Group"
+        name="group"
         component={GroupScreen}
         options={{
           gestureEnabled: true,
@@ -100,7 +100,7 @@ function MainStackScreen() {
         }}
       />
       <MainStack.Screen
-        name="Group Speed"
+        name="group_speed"
         component={GroupSpeedScreen}
         options={{
           gestureEnabled: true,
@@ -109,7 +109,7 @@ function MainStackScreen() {
         }}
       />
       <MainStack.Screen
-        name="Group Create"
+        name="group_create"
         component={GroupCreateScreen}
         options={{
           gestureEnabled: true,
@@ -129,11 +129,11 @@ function MainTabScreen({ navigation }) {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "Gruppen") {
+          if (route.name === "groups") {
             iconName = focused ? "people" : "people-outline";
-          } else if (route.name === "Speed Werte") {
+          } else if (route.name === "speed_data") {
             iconName = focused ? "timer" : "timer-outline";
-          } else if (route.name === "Profil") {
+          } else if (route.name === "profile") {
             iconName = focused ? "person" : "person-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -157,7 +157,7 @@ function MainTabScreen({ navigation }) {
       detachInactiveScreens={true}
     >
       <MainTab.Screen
-        name="Gruppen"
+        name="groups"
         component={GroupsScreen}
         options={{
           headerRight: () => (
@@ -166,14 +166,14 @@ function MainTabScreen({ navigation }) {
               size={30}
               color={Colors.white}
               style={{ paddingRight: 10 }}
-              onPress={() => navigation.navigate("Group Create")}
+              onPress={() => navigation.navigate("group_create")}
             />
           ),
         }}
       />
-      <MainTab.Screen name="Speed Werte" component={SpeedDataOwnScreen} />
+      <MainTab.Screen name="speed_data" component={SpeedDataOwnScreen} />
       <MainTab.Screen
-        name="Profil"
+        name="profile"
         component={ProfileScreen}
         options={{
           headerRight: () => (
@@ -182,7 +182,7 @@ function MainTabScreen({ navigation }) {
               size={30}
               color={Colors.white}
               style={{ paddingRight: 10 }}
-              onPress={() => navigation.navigate("Einstellungen")}
+              onPress={() => navigation.navigate("settings")}
             />
           ),
         }}
@@ -195,7 +195,7 @@ const EntryStack = createStackNavigator();
 function EntryStackScreen() {
   return (
     <EntryStack.Navigator screenOptions={{ headerShown: false }}>
-      <EntryStack.Screen name="Login" component={LoginScreen} />
+      <EntryStack.Screen name="login" component={LoginScreen} />
     </EntryStack.Navigator>
   );
 }

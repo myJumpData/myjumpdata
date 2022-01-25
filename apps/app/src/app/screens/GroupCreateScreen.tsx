@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
@@ -7,11 +8,12 @@ import GroupsService from "../services/groups.service";
 
 export default function GroupCreateScreen({ navigation }) {
   const [groupname, setGroupname] = React.useState<string>("");
+  const { t } = useTranslation();
 
   function handleCreateGroup() {
     GroupsService.createGroup(groupname.trim()).then(() => {
       setGroupname("");
-      navigation.navigate("Gruppen");
+      navigation.navigate("Groups");
     });
   }
 
@@ -26,7 +28,7 @@ export default function GroupCreateScreen({ navigation }) {
           paddingVertical: 10,
         }}
       >
-        <StyledText>Gruppen Name:</StyledText>
+        <StyledText>{t("common:fields.group_name")}:</StyledText>
         <StyledTextInput
           onChangeText={setGroupname}
           value={groupname}
@@ -38,7 +40,10 @@ export default function GroupCreateScreen({ navigation }) {
           paddingVertical: 10,
         }}
       >
-        <StyledButton title="Gruppe erstellen" onPress={handleCreateGroup} />
+        <StyledButton
+          title={t("common:action.create_group")}
+          onPress={handleCreateGroup}
+        />
       </StyledView>
     </StyledScrollView>
   );

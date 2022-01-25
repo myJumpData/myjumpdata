@@ -5,6 +5,7 @@ import { enableScreens } from "react-native-screens";
 import App from "./app/App";
 import { Colors } from "./app/Constants";
 import StoreProvider from "./app/redux/StoreProvider";
+import "./i18n";
 
 enableScreens();
 
@@ -17,9 +18,11 @@ function Main() {
         backgroundColor: isDarkMode ? Colors.black : Colors.white,
       }}
     >
-      <StoreProvider>
-        <App />
-      </StoreProvider>
+      <React.Suspense fallback={null}>
+        <StoreProvider>
+          <App />
+        </StoreProvider>
+      </React.Suspense>
     </GestureHandlerRootView>
   );
 }

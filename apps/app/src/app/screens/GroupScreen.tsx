@@ -1,5 +1,6 @@
 import { capitalize } from "@myjumpdata/utils";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, Image, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { StyledButton } from "../components/StyledButton";
@@ -9,6 +10,7 @@ import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 
 export default function GroupScreen({ route, navigation }) {
+  const { t } = useTranslation();
   const { id } = route.params;
   const user = useSelector((state: any) => state.user);
 
@@ -137,9 +139,9 @@ export default function GroupScreen({ route, navigation }) {
     <StyledView style={{ padding: 10 }}>
       {groupCoaches.some((i: any) => i.id === user.id) && (
         <StyledButton
-          title="Speed"
+          title={t("common:action.speeddata")}
           onPress={() => {
-            navigation.navigate("Group Speed", { id });
+            navigation.navigate("group_speed", { id });
           }}
         />
       )}

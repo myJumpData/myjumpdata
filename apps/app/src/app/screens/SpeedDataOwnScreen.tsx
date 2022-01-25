@@ -1,5 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { RefreshControl } from "react-native";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
@@ -9,7 +10,7 @@ import { Colors } from "../Constants";
 import ScoreDataService from "../services/scoredata.service";
 
 export default function SpeedDataOwnScreen() {
-  //const user = useSelector((state: any) => state.user);
+  const { t } = useTranslation();
 
   const [scoreData, setScoreData] = React.useState<any>([]);
   const [date, setDate] = React.useState<Date>(new Date());
@@ -29,7 +30,7 @@ export default function SpeedDataOwnScreen() {
       .toString()
       .padStart(2, "0")}.${selected.getFullYear()}`;
     if (selected.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)) {
-      setDateText(`Today (${format})`);
+      setDateText(`${t("common:stats.today")} (${format})`);
     } else {
       setDateText(`${format}`);
     }
@@ -106,7 +107,9 @@ export default function SpeedDataOwnScreen() {
               }}
             >
               <StyledText>{item.type.name}</StyledText>
-              <StyledText>HIGH: {item.score}</StyledText>
+              <StyledText>
+                {t("common:stats.high")}: {item.score}
+              </StyledText>
             </StyledView>
             <StyledView
               style={{

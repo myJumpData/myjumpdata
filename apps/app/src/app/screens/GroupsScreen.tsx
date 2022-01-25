@@ -37,7 +37,7 @@ export default function GroupsScreen({ navigation }) {
         paddingBottom: 20,
       }}
       onPress={() => {
-        navigation.navigate("Group", { id: item._id });
+        navigation.navigate("group", { id: item._id });
       }}
     >
       <View
@@ -52,7 +52,7 @@ export default function GroupsScreen({ navigation }) {
           {item.coaches.some((i: any) => i._id === user.id) && (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("Group Speed", { id: item._id });
+                navigation.navigate("group_speed", { id: item._id });
               }}
             >
               <Ionicons
