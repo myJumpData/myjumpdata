@@ -9,7 +9,8 @@
     "start_app_android": "nx run app:run-android",
     "build_api": "nx run api:build",
     "postbuild_api": "pm2 restart myJumpData_API",
-    "build_web": "nx run myjumpdata:build"
+    "build_web": "nx run myjumpdata:build",
+    "update": "git pull && npm install && npm run build_api && npm run build_web"
   },
   "private": true,
   "dependencies": {
