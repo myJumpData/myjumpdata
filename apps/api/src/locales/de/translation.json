@@ -22,7 +22,8 @@
     "delete_disclaimer_text": "Alle verbundenen Daten gehen verloren und sind nicht wiederherstellbar.",
     "delete_disclaimer_confirm": "Trotzdem löschen",
     "image_gravatar": "Gravatar nutzen",
-    "image_none": "Kein Bild"
+    "image_none": "Kein Bild",
+    "app_disclaimer": "Für mehr Einstellungen benutze bitte die Webversion von myJumpData"
   },
   "speeddata": {
     "title": "Speed Werte für"

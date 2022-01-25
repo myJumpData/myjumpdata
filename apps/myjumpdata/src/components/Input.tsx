@@ -1,6 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { classNames } from "@myjumpdata/utils";
-import { t } from "i18next";
 import {
   createElement,
   forwardRef,
@@ -125,7 +124,7 @@ export function DateInput({
   setDate: (d: Date) => void;
   date: Date;
 }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const customInput = forwardRef(({ value, onClick }: any, ref: any) => {
     const i18n_lang = i18n.language;
     const options: any = {
@@ -138,7 +137,7 @@ export function DateInput({
     let text = selected;
     const input = new Date(value).setHours(0, 0, 0, 0);
     if (input === new Date().setHours(0, 0, 0, 0)) {
-      text = `Today (${selected})`;
+      text = `${t("common:stats.today")} (${selected})`;
     }
     return (
       <button

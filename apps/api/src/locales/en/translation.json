@@ -22,7 +22,8 @@
     "delete_disclaimer_text": "All associated Date will be lost and cannot be restored.",
     "delete_disclaimer_confirm": "Delete Anyway",
     "image_gravatar": "Use Gravatar",
-    "image_none": "No Picture"
+    "image_none": "No Picture",
+    "app_disclaimer": "For more Settings please use the Webversion of myJumpData"
   },
   "speeddata": {
     "title": "Speed Data for"
