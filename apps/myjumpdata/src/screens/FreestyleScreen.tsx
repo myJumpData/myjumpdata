@@ -185,7 +185,6 @@ export default function FreestyleScreen() {
                   <Element name={e.key} level={e.level} key={e.key} id={e.id} />
                 );
               } else if (e.back) {
-                console.log(e);
                 return <Back onClick={() => setFreestyle(e.key)} key="back" />;
               } else {
                 return (
