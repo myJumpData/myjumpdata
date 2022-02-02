@@ -1,17 +1,16 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const FreestyleDataElement = mongoose.model(
-  'FreestyleDataElement',
+  "FreestyleDataElement",
   new mongoose.Schema({
     key: {
       type: String,
-      unique: true,
     },
     level: String,
     groups: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'FreestyleDataGroup',
+        ref: "FreestyleDataGroup",
       },
     ],
   })

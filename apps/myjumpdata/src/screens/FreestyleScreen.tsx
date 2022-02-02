@@ -112,21 +112,14 @@ export default function FreestyleScreen() {
         <div className="mr-auto">
           {viewStyle === "grid" && (
             <div className="flex h-full items-center bg-gray-200 dark:bg-gray-700 rounded-xl px-4 space-x-2 py-2 mr-2 flex-wrap">
-              {freestyle === "" ? (
-                <HiHome
-                  className={"text-xl cursor-pointer"}
-                  onClick={() => {
-                    setFreestyle("");
-                  }}
-                />
-              ) : (
-                <HiOutlineHome
-                  className={"text-xl cursor-pointer"}
-                  onClick={() => {
-                    setFreestyle("");
-                  }}
-                />
-              )}
+              <span
+                onClick={() => {
+                  setFreestyle("");
+                }}
+                className="text-xl cursor-pointer"
+              >
+                {freestyle === "" ? <HiHome /> : <HiOutlineHome />}
+              </span>
 
               {freestyle !== "" &&
                 freestyle.split("_").map((e, index, array) => {
@@ -135,7 +128,18 @@ export default function FreestyleScreen() {
                     last = true;
                   }
                   return (
-                    <span className="inline-flex" key={index}>
+                    <span
+                      className="inline-flex cursor-pointer"
+                      key={index}
+                      onClick={() => {
+                        setFreestyle(
+                          freestyle
+                            .split("_")
+                            .splice(0, index + 1)
+                            .join("_")
+                        );
+                      }}
+                    >
                       <HiChevronRight className="text-2xl" />
                       <span
                         className={"whitespace-nowrap " + (last && "font-bold")}
@@ -236,11 +240,14 @@ export default function FreestyleScreen() {
       <Tab.Group
         defaultIndex={2}
         onChange={(index) => {
-          if (index === 0) {
+          /* if (index === 0) {
             state("board");
           } else if (index === 1) {
             state("list");
           } else if (index === 2) {
+            state("grid");
+          } */
+          if (index === 0 || index > 0) {
             state("grid");
           }
         }}
