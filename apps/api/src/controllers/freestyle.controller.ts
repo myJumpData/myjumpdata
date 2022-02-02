@@ -7,26 +7,19 @@ import { requestHandler, requestHandlerError } from "../requestHandler";
 export function getFreestyle(req, res) {
   let count = 0;
   const path = req.params.path;
-  let pathSplit = "";
+  let pathSplit = [""];
   if (path) {
-    pathSplit = path.split("/").filter((e: string) => e);
+    pathSplit = path.split("_").filter((e: string) => e);
   }
-  process(pathSplit[0]);
-  async function process(key) {
+  process(pathSplit[0], pathSplit[0]);
+  async function process(key, name) {
     let id = null;
-    let parent_key: string | null = null;
     if (key) {
       const findGroupCurrent = await FreestyleDataGroup.findOne({
-        key: key,
+        key: name,
       }).exec();
-      id = findGroupCurrent._id;
-      if (findGroupCurrent.parent) {
-        const findGroupParent = await FreestyleDataGroup.findOne({
-          id: findGroupCurrent.parent,
-        }).exec();
-        parent_key = findGroupParent.key;
-      } else {
-        parent_key = "";
+      if (findGroupCurrent) {
+        id = findGroupCurrent._id;
       }
     }
     const findGroupChilds = await FreestyleDataGroup.find({
@@ -37,7 +30,7 @@ export function getFreestyle(req, res) {
     });
     count = count + 1;
     if (pathSplit.length > count) {
-      return process(pathSplit[count]);
+      return process(pathSplit[count], name + "_" + pathSplit[count]);
     } else {
       const groups = findGroupChilds.map((e) => {
         return { key: e.key, group: true };
@@ -45,11 +38,11 @@ export function getFreestyle(req, res) {
       const elements = findGroupElements.map((e) => {
         return { id: e._id, key: e.key, level: e.level, element: true };
       });
-      if (parent_key === null) {
+      if (key === "") {
         return requestHandler(res, 200, "", "", [...groups, ...elements]);
       } else {
         return requestHandler(res, 200, "", "", [
-          { key: parent_key, back: true },
+          { key: pathSplit.slice(0, -1).join("_"), back: true },
           ...groups,
           ...elements,
         ]);

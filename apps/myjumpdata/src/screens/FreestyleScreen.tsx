@@ -179,12 +179,13 @@ export default function FreestyleScreen() {
       ) : (
         viewStyle === "grid" && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {folderData.map((e: freestyle_folder_data) => {
+            {folderData?.map((e: freestyle_folder_data) => {
               if (e.element) {
                 return (
                   <Element name={e.key} level={e.level} key={e.key} id={e.id} />
                 );
               } else if (e.back) {
+                console.log(e);
                 return <Back onClick={() => setFreestyle(e.key)} key="back" />;
               } else {
                 return (
