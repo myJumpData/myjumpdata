@@ -39,5 +39,8 @@
       "add_athlete": "Als Sportler hinzufügen",
       "add_coach": "Als Trainer hinzufügen"
     }
+  },
+  "freestyle": {
+    "title": "Freestyle für"
   }
 }

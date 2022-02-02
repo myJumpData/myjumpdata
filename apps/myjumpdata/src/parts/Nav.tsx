@@ -48,35 +48,16 @@ export function Nav({
         current: current === "speeddata",
       },
       {
+        name: t("common:nav.freestyle"),
+        to: "/freestyle/own",
+        current: current === "freestyle",
+      },
+      {
         name: t("common:nav.groups"),
         to: "/group",
         current: current === "group",
       },
     ];
-    if (process.env.NODE_ENV === "development") {
-      navigation = [
-        {
-          name: t("common:nav.home"),
-          to: "/",
-          current: current === "home",
-        },
-        {
-          name: t("common:nav.speeddata"),
-          to: "/speeddata/own",
-          current: current === "speeddata",
-        },
-        {
-          name: t("common:nav.freestyle"),
-          to: "/freestyle",
-          current: current === "freestyle",
-        },
-        {
-          name: t("common:nav.groups"),
-          to: "/group",
-          current: current === "group",
-        },
-      ];
-    }
   } else {
     navigation = [
       {

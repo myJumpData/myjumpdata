@@ -39,5 +39,8 @@
       "add_athlete": "Add as athlete",
       "add_coach": "Add as coach"
     }
+  },
+  "freestyle": {
+    "title": "Freestyle for"
   }
 }

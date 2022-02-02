@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import "./i18n";
 import Spinner from "./parts/Spinner";
+import FreestyleGroupScreen from "./screens/FreestyleGroupScreen";
 import "./styles.scss";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
@@ -68,9 +69,10 @@ ReactDOM.render(
             {
               //"Freestyle"
             }
-            {process.env.NODE_ENV === "development" && (
-              <Route path="/freestyle" element={<FreestyleScreen />} />
-            )}
+            <Route path="/freestyle">
+              <Route path="own/" element={<FreestyleScreen />} />
+              <Route path="group/:id" element={<FreestyleGroupScreen />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </PersistGate>

@@ -98,7 +98,7 @@ export function saveFreestyleDataOwn(req, res) {
       if (err) {
         return requestHandlerError(res, err);
       }
-      if (response) {
+      if (response.length > 0) {
         FreestyleDataUser.findOneAndUpdate(
           {
             user: req.userId,
@@ -137,4 +137,62 @@ export function saveFreestyleDataOwn(req, res) {
       }
     }
   );
+}
+
+export function getFreestyleData(req, res) {
+  FreestyleDataUser.find({ user: req.params.id })
+    .select("-createdAt -updatedAt -_id -__v")
+    .exec((err, data) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "", data);
+    });
+}
+export function saveFreestyleData(req, res) {
+  FreestyleDataUser.find({
+    user: req.params.id,
+    element: req.body.element,
+  }).exec((err, response) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    if (response.length > 0) {
+      FreestyleDataUser.findOneAndUpdate(
+        {
+          user: req.params.id,
+          element: req.body.element,
+        },
+        { stateCoach: req.body.state }
+      ).exec((err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.save.freestyle.group",
+          "Successfully saved freestyle group!"
+        );
+      });
+    } else {
+      const freestyleData = new FreestyleDataUser({
+        user: new mongoose.Types.ObjectId(req.params.id),
+        element: new mongoose.Types.ObjectId(req.body.element),
+        stateCoach: req.body.state,
+      });
+
+      freestyleData.save((err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.save.freestyle.group",
+          "Successfully saved freestyle group!"
+        );
+      });
+    }
+  });
 }

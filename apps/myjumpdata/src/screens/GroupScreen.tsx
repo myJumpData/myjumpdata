@@ -125,14 +125,21 @@ export default function GroupScreen() {
           <UserRow name={t("common:role.coaches")} list={groupCoaches} />
           <UserRow name={t("common:role.athletes")} list={groupAthletes} />
         </div>
-        {groupCoaches?.some((i: any) => i.id === user.id) && (
-          <Link to={`/speeddata/group/${params.id}`}>
-            <Button name={t("common:action.speeddata")} design="primary" />
+        <div>
+          {groupCoaches?.some((i: any) => i.id === user.id) && (
+            <div className="mb-4">
+              <Link to={`/speeddata/group/${params.id}`}>
+                <Button name={t("common:action.speeddata")} design="primary" />
+              </Link>
+              <Link to={`/freestyle/group/${params.id}`}>
+                <Button name={t("common:action.freestyle")} design="primary" />
+              </Link>
+            </div>
+          )}
+          <Link to={`/group`}>
+            <Button name={t("common:interact.back")} design="link" />
           </Link>
-        )}
-        <Link to={`/group`}>
-          <Button name={t("common:interact.back")} design="link" />
-        </Link>
+        </div>
       </Wrapper>
     );
   } else {

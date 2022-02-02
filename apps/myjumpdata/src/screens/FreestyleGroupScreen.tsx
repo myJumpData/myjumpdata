@@ -2,8 +2,9 @@ import { Tab } from "@headlessui/react";
 import { setFreestyle } from "@myjumpdata/redux";
 import {
   getFreestyle,
-  getFreestyleDataOwn,
-  saveFreestyleDataOwn,
+  getFreestyleData,
+  getGroup,
+  saveFreestyleData,
 } from "@myjumpdata/service";
 import { Dispatch, Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,7 +23,9 @@ import {
   HiViewGrid,
 } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
+import { SelectInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
 
 type freestyle_data_group_type = {
@@ -46,20 +49,45 @@ type freestyle_folder_data = {
   group?: boolean;
   element?: boolean;
 };
-export default function FreestyleScreen() {
+
+export default function FreestyleGroupScreen() {
   AuthVerify();
+  const params = useParams();
+
+  const [groupName, setGroupName] = useState("");
+  const [userSelect, setUserSelect] = useState([]);
+  const [userSelected, setUserSelected] = useState("");
 
   const freestyle = useSelector((state: any) => state.freestyle);
 
   const [freestyleData, setFreestyleData] = useState<freestyle_data_type[]>([]);
-  const [freestyleDataOwn, setFreestyleDataOwn] = useState<any[]>([]);
+  const [freestyleDataUser, setFreestyleDataUser] = useState<any[]>([]);
   const [viewStyle, setViewStyle] = useState<"list" | "grid" | "board">("grid");
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
+    getGroup(params.id as string).then((response: any) => {
+      setGroupName(response.data?.name);
+      const tmp = response.data?.athletes.map((e) => {
+        return {
+          name:
+            e.firstname && e.lastname
+              ? `${e.firstname} ${e.lastname}`
+              : e.username,
+          value: e.id,
+        };
+      });
+      setUserSelect(tmp);
+      setUserSelected(tmp[0].value);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
+
+  useEffect(() => {
     getUserData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userSelected]);
 
   useEffect(() => {
     getCurrentData();
@@ -89,9 +117,11 @@ export default function FreestyleScreen() {
   }
 
   function getUserData() {
-    getFreestyleDataOwn().then((response: any) => {
-      setFreestyleDataOwn(response.data);
-    });
+    if (userSelected) {
+      getFreestyleData(userSelected).then((response: any) => {
+        setFreestyleDataUser(response.data);
+      });
+    }
   }
 
   function getCurrentData() {
@@ -105,8 +135,17 @@ export default function FreestyleScreen() {
     <Wrapper current="freestyle">
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
-          {t("common:action:freestyle")}
+          {t("freestyle.title") + " " + groupName}
         </span>
+      </div>
+      <div className="flex items-center space-x-2 mb-2">
+        <div className="w-full">
+          <SelectInput
+            options={userSelect}
+            current={userSelected}
+            stateChange={setUserSelected}
+          />
+        </div>
       </div>
       <div className="flex mb-4 items-end">
         <div className="mr-auto">
@@ -349,12 +388,16 @@ export default function FreestyleScreen() {
     name: string;
     level?: string;
   }) {
-    const element = freestyleDataOwn?.find((e) => e.element === id);
+    const element = freestyleDataUser?.find((e) => e.element === id);
     return (
       <div
         className="flex justify-between items-center border rounded-lg p-2 cursor-pointer hover:bg-gray-500/50 relative "
         onClick={() => {
-          saveFreestyleDataOwn(id as string, !element?.stateUser).then(() => {
+          saveFreestyleData(
+            userSelected,
+            id as string,
+            !element?.stateCoach
+          ).then(() => {
             getUserData();
           });
         }}
