@@ -144,7 +144,7 @@ export default function GroupScreen() {
     );
   } else {
     return (
-      <Wrapper current="groups">
+      <Wrapper current="group">
         <div className="w-full space-y-2">
           <span className="font-bold text-xl">
             {t("common:action.train_group")}

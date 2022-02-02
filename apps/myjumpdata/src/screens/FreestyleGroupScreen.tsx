@@ -132,7 +132,7 @@ export default function FreestyleGroupScreen() {
   }
 
   return (
-    <Wrapper current="freestyle">
+    <Wrapper current="group">
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
           {t("freestyle.title") + " " + groupName}
