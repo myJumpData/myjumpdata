@@ -27,21 +27,29 @@ ReactDOM.render(
       <PersistGate loading={<Spinner />} persistor={persistor}>
         <BrowserRouter>
           <Routes>
-            {"Main Pages"}
+            {
+              //"Main Pages"
+            }
             <Route path="/" element={<MainScreen />} />
 
             <Route path="/terms" element={<TermsScreen />} />
             <Route path="/legal" element={<LegalScreen />} />
 
-            {"Entry Pages"}
+            {
+              //"Entry Pages"
+            }
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/login" element={<LoginScreen />} />
 
-            {"Profile Pages"}
+            {
+              //"Profile Pages"
+            }
             <Route path="/u/:username" element={<ProfileScreen />} />
             <Route path="/settings" element={<SettingsScreen />} />
 
-            {"Group Pages"}
+            {
+              //"Group Pages"
+            }
             <Route path="/group" element={<GroupScreen />} />
             <Route path="/group/:id" element={<GroupScreen />} />
             <Route
@@ -49,13 +57,17 @@ ReactDOM.render(
               element={<GroupSettingsScreen />}
             />
 
-            {"Speeddata"}
+            {
+              //"Speeddata"
+            }
             <Route path="/speeddata">
               <Route path="own/" element={<SpeedDataOwnScreen />} />
               <Route path="group/:id" element={<SpeedDataScreen />} />
             </Route>
 
-            {"Freestyle"}
+            {
+              //"Freestyle"
+            }
             {process.env.NODE_ENV === "development" && (
               <Route path="/freestyle" element={<FreestyleScreen />} />
             )}

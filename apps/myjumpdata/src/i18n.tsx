@@ -10,7 +10,7 @@ i18n
   .init({
     fallbackLng: "en",
     supportedLngs: ["en", "de"],
-    ns: ["translation", "common", "main", "footermain"],
+    ns: ["translation", "common", "main", "footermain", "freestyle"],
     defaultNS: "translation",
     lowerCaseLng: true,
     cleanCode: true,
