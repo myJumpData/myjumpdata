@@ -7,7 +7,10 @@ import { requestHandler, requestHandlerError } from "../requestHandler";
 export function getFreestyle(req, res) {
   let count = 0;
   const path = req.params.path;
-  const pathSplit = path.split("/").filter((e: string) => e);
+  let pathSplit = "";
+  if (path) {
+    pathSplit = path.split("/").filter((e: string) => e);
+  }
   process(pathSplit[0]);
   async function process(key) {
     let id = null;
