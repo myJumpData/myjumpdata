@@ -45,6 +45,7 @@ type freestyle_folder_data = {
   level?: string;
   group?: boolean;
   element?: boolean;
+  compiled?: boolean;
 };
 export default function FreestyleScreen() {
   AuthVerify();
@@ -186,7 +187,13 @@ export default function FreestyleScreen() {
             {folderData?.map((e: freestyle_folder_data) => {
               if (e.element) {
                 return (
-                  <Element name={e.key} level={e.level} key={e.key} id={e.id} />
+                  <Element
+                    name={e.key}
+                    level={e.level}
+                    key={e.key}
+                    id={e.id}
+                    compiled={e.compiled}
+                  />
                 );
               } else if (e.back) {
                 return <Back onClick={() => setFreestyle(e.key)} key="back" />;
@@ -344,10 +351,12 @@ export default function FreestyleScreen() {
     id,
     name,
     level,
+    compiled,
   }: {
     id?: string;
     name: string;
     level?: string;
+    compiled?: boolean;
   }) {
     const element = freestyleDataOwn?.find((e) => e.element === id);
     return (
@@ -360,7 +369,12 @@ export default function FreestyleScreen() {
         }}
       >
         <span className="break-word overflow-hidden overflow-ellipsis text-sm xs:text-base">
-          {t(`freestyle:${name}`)}
+          {compiled
+            ? name
+                .split("_")
+                .map((item) => t(`freestyle:${item}`))
+                .join(" ")
+            : t(`freestyle:${name}`)}
         </span>
         <div className="flex flex-col xs:flex-row">
           {level && (

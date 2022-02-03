@@ -7,6 +7,7 @@ const FreestyleDataElement = mongoose.model(
       type: String,
     },
     level: String,
+    compiled: Boolean,
     groups: [
       {
         type: mongoose.Schema.Types.ObjectId,

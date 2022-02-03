@@ -17,10 +17,11 @@ export function createFreestyle(req, res) {
     });
   } else if (req.body.type === "e") {
     const parent = req.body.parent;
-    req.body.data.map(({ key, level }) => {
+    req.body.data.map(({ key, level, compiled }) => {
       const tmp = new FreestyleDataElement({
         key,
         level,
+        compiled,
         groups: [new mongoose.Types.ObjectId(parent)],
       });
       tmp.save((err, data) => {
@@ -72,7 +73,13 @@ export function getFreestyle(req, res) {
         return { key: e.key, group: true };
       });
       const elements = findGroupElements.map((e) => {
-        return { id: e._id, key: e.key, level: e.level, element: true };
+        return {
+          id: e._id,
+          key: e.key,
+          level: e.level,
+          element: true,
+          compiled: e.compiled,
+        };
       });
       if (key === "") {
         return requestHandler(res, 200, "", "", [...groups, ...elements]);
