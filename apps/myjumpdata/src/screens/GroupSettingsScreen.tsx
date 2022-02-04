@@ -298,7 +298,7 @@ export default function GroupSettingsScreen() {
               deleteGroup(params.id as string).then((response: any) => {
                 if (response.status === 200) {
                   setDelStep(0);
-                  navigate("/groups");
+                  navigate("/group");
                 }
               });
             }}
