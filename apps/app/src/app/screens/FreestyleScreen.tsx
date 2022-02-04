@@ -75,6 +75,7 @@ export default function FreestyleScreen() {
             alignItems: "center",
           }}
           onPress={() => {
+            setRefreshing(true);
             saveFreestyleDataOwn(item.id as string, !element?.stateUser).then(
               () => {
                 getUserData();
