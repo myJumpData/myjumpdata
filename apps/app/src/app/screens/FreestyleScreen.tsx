@@ -88,6 +88,7 @@ export default function FreestyleScreen() {
               width: 40,
               height: 40,
               justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <FontAwesome
@@ -98,7 +99,7 @@ export default function FreestyleScreen() {
                   ? "check-square"
                   : "square-o"
               }
-              size={40}
+              size={element?.stateCoach ? 40 : element?.stateUser ? 35 : 40}
               color={Colors.main}
             />
           </View>
@@ -139,11 +140,12 @@ export default function FreestyleScreen() {
               width: 40,
               height: 40,
               justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Ionicons
               name={item.back ? "return-up-back" : "folder-outline"}
-              size={30}
+              size={item.back ? 30 : 40}
               color={Colors.main}
             />
           </View>
