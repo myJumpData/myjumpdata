@@ -11,6 +11,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { Colors } from "./Constants";
 import { setNavigation } from "./redux/navigation.action";
+import FreestyleScreen from "./screens/FreestyleScreen";
 import GroupCreateScreen from "./screens/GroupCreateScreen";
 import GroupScreen from "./screens/GroupScreen";
 import GroupSpeedScreen from "./screens/GroupSpeedScreen";
@@ -138,6 +139,8 @@ function MainTabScreen({ navigation }) {
           let iconName;
           if (route.name === "groups") {
             iconName = focused ? "people" : "people-outline";
+          } else if (route.name === "freestyle") {
+            iconName = focused ? "list" : "list-outline";
           } else if (route.name === "speed_data") {
             iconName = focused ? "timer" : "timer-outline";
           } else if (route.name === "profile") {
@@ -177,6 +180,13 @@ function MainTabScreen({ navigation }) {
             />
           ),
           title: t("common:nav.groups"),
+        }}
+      />
+      <MainTab.Screen
+        name="freestyle"
+        component={FreestyleScreen}
+        options={{
+          title: t("common:nav.freestyle"),
         }}
       />
       <MainTab.Screen
