@@ -50,17 +50,30 @@ export default function GroupsScreen({ navigation }) {
         <StyledText>{item.name}</StyledText>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           {item.coaches.some((i: any) => i._id === user.id) && (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("group_speed", { id: item._id });
-              }}
-            >
-              <Ionicons
-                name="timer-outline"
-                style={{ color: Colors.white, padding: 5 }}
-                size={25}
-              />
-            </TouchableOpacity>
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("group_freestyle", { id: item._id });
+                }}
+              >
+                <Ionicons
+                  name="list-outline"
+                  style={{ color: Colors.white, padding: 5 }}
+                  size={25}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("group_speed", { id: item._id });
+                }}
+              >
+                <Ionicons
+                  name="timer-outline"
+                  style={{ color: Colors.white, padding: 5 }}
+                  size={25}
+                />
+              </TouchableOpacity>
+            </>
           )}
           <Ionicons
             name="chevron-forward-outline"

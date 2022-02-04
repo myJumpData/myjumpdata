@@ -1,6 +1,6 @@
 import { capitalize } from "@myjumpdata/utils";
 import * as React from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
@@ -29,13 +29,28 @@ export default function GroupScreen({ route, navigation }) {
         headerRight: () => {
           if (response?.data?.coaches.some((i: any) => i.id === user.id)) {
             return (
-              <Ionicons
-                name="timer-outline"
-                size={30}
-                color={Colors.white}
-                style={{ paddingRight: 10 }}
-                onPress={() => navigation.navigate("group_speed", { id })}
-              />
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  style={{ paddingRight: 10 }}
+                  onPress={() => navigation.navigate("group_freestyle", { id })}
+                >
+                  <Ionicons
+                    name="list-outline"
+                    size={30}
+                    color={Colors.white}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{ paddingRight: 10 }}
+                  onPress={() => navigation.navigate("group_speed", { id })}
+                >
+                  <Ionicons
+                    name="timer-outline"
+                    size={30}
+                    color={Colors.white}
+                  />
+                </TouchableOpacity>
+              </View>
             );
           }
         },

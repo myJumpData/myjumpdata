@@ -13,6 +13,7 @@ import { Colors } from "./Constants";
 import { setNavigation } from "./redux/navigation.action";
 import FreestyleScreen from "./screens/FreestyleScreen";
 import GroupCreateScreen from "./screens/GroupCreateScreen";
+import GroupFreestyleScreen from "./screens/GroupFreestyleScreen";
 import GroupScreen from "./screens/GroupScreen";
 import GroupSpeedScreen from "./screens/GroupSpeedScreen";
 import GroupsScreen from "./screens/GroupsScreen";
@@ -112,6 +113,16 @@ function MainStackScreen() {
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           title: t("common:nav.group_speed"),
+        }}
+      />
+      <MainStack.Screen
+        name="group_freestyle"
+        component={GroupFreestyleScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav.freestyle"),
         }}
       />
       <MainStack.Screen
