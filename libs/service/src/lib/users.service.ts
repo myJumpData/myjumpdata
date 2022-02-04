@@ -13,11 +13,11 @@ export const searchUsers = (search: string) => {
 };
 
 export const updateUser = (userData) => {
-  return api.put("/user", userData);
+  return api.post("/user_edit", userData);
 };
 
 export const deleteUser = () => {
-  return api.delete("/user");
+  return api.post("/user_del");
 };
 export function getUserSearch(search: string) {
   return api.get(`/user/${search}`);

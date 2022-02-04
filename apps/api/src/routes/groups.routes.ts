@@ -38,6 +38,10 @@ export default function GroupsRoutes(app: Express) {
     [verifyToken, verifyGroupCoach],
     removeCoachesFromGroup
   );
-  app.put("/groups/:id", [verifyToken, verifyGroupCoach], updateGroupName);
-  app.delete("/group/:id", [verifyToken, verifyGroupCoach], deleteGroup);
+  app.post(
+    "/groups_name/:id",
+    [verifyToken, verifyGroupCoach],
+    updateGroupName
+  );
+  app.post("/group_del/:id", [verifyToken, verifyGroupCoach], deleteGroup);
 }

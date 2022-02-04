@@ -1,39 +1,30 @@
 import api from "./api";
-
 const createGroup = (name: string) => {
   return api.post("/groups", { name });
 };
-
 const getGroups = () => {
   return api.get("/groups");
 };
-
-const getGroup = (id: any) => {
+const getGroup = (id: string) => {
   return api.get(`/groups/${id}`);
 };
-
-const addUsersToGroup = (id: any, users: any) => {
-  return api.put(`/groups/${id}/athletes/add`, { users });
+const addUsersToGroup = (id: string, users) => {
+  return api.post(`/groups/${id}/athletes/add`, { users });
 };
-
-const removeUsersFromGroup = (id: any, users: any) => {
-  return api.put(`/groups/${id}/athletes/remove`, { users });
+const removeUsersFromGroup = (id: string, users) => {
+  return api.post(`/groups/${id}/athletes/remove`, { users });
 };
-
-const addCoachesToGroup = (id: any, coach: any) => {
-  return api.put(`/groups/${id}/coaches/add`, { coach });
+const addCoachesToGroup = (id: string, coach) => {
+  return api.post(`/groups/${id}/coaches/add`, { coach });
 };
-
-const removeCoachesFromGroup = (id: any, coach: any) => {
-  return api.put(`/groups/${id}/coaches/remove`, { coach });
+const removeCoachesFromGroup = (id: string, coach) => {
+  return api.post(`/groups/${id}/coaches/remove`, { coach });
 };
-
-const updateGroupName = (name: string, id: any) => {
-  return api.put(`/groups/${id}`, { name });
+const updateGroupName = (name: string, id: string) => {
+  return api.post(`/groups_name/${id}`, { name });
 };
-
-const deleteGroup = (id: any) => {
-  return api.delete(`/group/${id}`);
+const deleteGroup = (id: string) => {
+  return api.post(`/group_del/${id}`);
 };
 
 const GroupsService = {

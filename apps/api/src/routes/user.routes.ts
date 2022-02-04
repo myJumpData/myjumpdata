@@ -1,37 +1,37 @@
-import { Express } from 'express-serve-static-core';
+import { Express } from "express-serve-static-core";
 import {
   deleteUser,
   getUser,
   signin,
   signup,
   verify,
-} from '../controllers/user.controller';
-import verifyToken from '../middlewares/authJwt';
+} from "../controllers/user.controller";
+import verifyToken from "../middlewares/authJwt";
 import {
   bodyCheckNullEmail,
   bodyCheckNullFirstname,
   bodyCheckNullLastname,
   bodyCheckNullPassword,
   bodyCheckNullUsername,
-} from '../middlewares/bodyCheck';
+} from "../middlewares/bodyCheck";
 import {
   bodySanitizeEmail,
   bodySanitizeFirstname,
   bodySanitizeLastname,
   bodySanitizePassword,
   bodySanitizeUsername,
-} from '../middlewares/bodySanitize';
+} from "../middlewares/bodySanitize";
 import {
   bodyValidateEmail,
   bodyValidateFirstname,
   bodyValidateLastname,
   bodyValidatePassword,
   bodyValidateUsername,
-} from '../middlewares/bodyValidate';
+} from "../middlewares/bodyValidate";
 
 export default function UserRoutes(app: Express) {
   app.post(
-    '/auth/signup',
+    "/auth/signup",
     [
       bodyCheckNullUsername,
       bodyCheckNullFirstname,
@@ -55,7 +55,7 @@ export default function UserRoutes(app: Express) {
   );
 
   app.post(
-    '/auth/signin',
+    "/auth/signin",
     [
       bodyCheckNullUsername,
       bodyCheckNullPassword,
@@ -68,7 +68,7 @@ export default function UserRoutes(app: Express) {
     signin
   );
 
-  app.get('/verify/:token', verify);
-  app.get('/user/:search', getUser);
-  app.delete('/user', [verifyToken], deleteUser);
+  app.get("/verify/:token", verify);
+  app.get("/user/:search", getUser);
+  app.post("/user_del", [verifyToken], deleteUser);
 }

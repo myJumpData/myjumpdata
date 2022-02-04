@@ -29,9 +29,9 @@ export const removeCoachesFromGroup = (id: string, coach) => {
 };
 
 export const updateGroupName = (name: string, id: string) => {
-  return api.put(`/groups/${id}`, { name });
+  return api.post(`/groups_name/${id}`, { name });
 };
 
 export const deleteGroup = (id: string) => {
-  return api.delete(`/group/${id}`);
+  return api.post(`/group_del/${id}`);
 };

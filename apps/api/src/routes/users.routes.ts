@@ -1,9 +1,5 @@
 import { Express } from "express-serve-static-core";
-import {
-  searchUsers,
-  updateUser,
-  updateUsersRole,
-} from "../controllers/users.controller";
+import { searchUsers, updateUser } from "../controllers/users.controller";
 import verifyToken from "../middlewares/authJwt";
 import {
   bodySanitizeEmail,
@@ -21,10 +17,9 @@ import {
 } from "../middlewares/bodyValidate";
 
 export default function UsersRoutes(app: Express) {
-  app.put("/users/role", [verifyToken], updateUsersRole);
   app.get("/users/:search", [verifyToken], searchUsers);
-  app.put(
-    "/user",
+  app.post(
+    "/user_edit",
     [
       verifyToken,
 
