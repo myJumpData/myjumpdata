@@ -5,6 +5,7 @@ import {
   getFreestyleDataOwn,
   saveFreestyleDataOwn,
 } from "@myjumpdata/service";
+import { classNames } from "@myjumpdata/utils";
 import { Dispatch, Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -359,9 +360,16 @@ export default function FreestyleScreen() {
     compiled?: boolean;
   }) {
     const element = freestyleDataOwn?.find((e) => e.element === id);
+    const { i18n } = useTranslation();
     return (
       <div
-        className="flex justify-between items-center border rounded-lg p-2 cursor-pointer hover:bg-gray-500/50 relative "
+        className={classNames(
+          "flex justify-between items-center border rounded-lg p-2 cursor-pointer hover:bg-gray-500/50 relative ",
+          name
+            .split("_")
+            .map((item) => i18n.exists(`freestyle:${item}`))
+            .some((item) => item === false) && "border border-red-500"
+        )}
         onClick={() => {
           saveFreestyleDataOwn(id as string, !element?.stateUser).then(() => {
             getUserData();

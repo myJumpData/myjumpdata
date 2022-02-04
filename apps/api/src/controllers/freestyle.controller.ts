@@ -58,12 +58,12 @@ export function getFreestyle(req, res) {
     const findGroupChilds = await FreestyleDataGroup.find({
       parent: id,
     })
-      .sort("level key")
+      //.sort("level key")
       .exec();
     const findGroupElements = await FreestyleDataElement.find({
       groups: { $in: id },
     })
-      .sort("level key")
+      //.sort("level key")
       .exec();
     count = count + 1;
     if (pathSplit.length > count) {
