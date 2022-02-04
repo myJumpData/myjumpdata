@@ -99,7 +99,7 @@ export default function FreestyleScreen() {
                   ? "check-square"
                   : "square-o"
               }
-              size={element?.stateCoach ? 40 : element?.stateUser ? 35 : 40}
+              size={element?.stateCoach ? 35 : element?.stateUser ? 35 : 40}
               color={Colors.main}
             />
           </View>
