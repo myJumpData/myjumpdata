@@ -14,15 +14,6 @@ import {
   saveFreestyleDataOwn,
 } from "../services/freestyle.service";
 
-type freestyle_data_group_type = {
-  name: string;
-  elements?: freestyle_data_element_type[];
-  groups?: freestyle_data_group_type[];
-};
-type freestyle_data_element_type = {
-  name: string;
-  level?: string;
-};
 type freestyle_folder_data = {
   id: string;
   key: string;
@@ -37,7 +28,6 @@ export default function FreestyleScreen() {
   const { t } = useTranslation();
 
   const freestyle = useSelector((state: any) => state.freestyle);
-  const user = useSelector((state: any) => state.user);
 
   const [freestyleDataOwn, setFreestyleDataOwn] = React.useState<any[]>([]);
   const [folderData, setFolderData] = React.useState<freestyle_folder_data[]>(
@@ -86,7 +76,7 @@ export default function FreestyleScreen() {
           }}
           onPress={() => {
             saveFreestyleDataOwn(item.id as string, !element?.stateUser).then(
-              (response) => {
+              () => {
                 getUserData();
               }
             );
