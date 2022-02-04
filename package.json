@@ -1,6 +1,6 @@
 {
   "name": "myjumpdata",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "license": "MIT",
   "scripts": {
     "start_web": "nx run myjumpdata:serve",
