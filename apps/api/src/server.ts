@@ -17,6 +17,7 @@ export default function createServer() {
   );
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", APP_URL);
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
     next();
   });
   app.use(express.json());
