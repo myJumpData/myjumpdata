@@ -4,39 +4,6 @@ import FreestyleDataGroup from "../models/freestyleDataGroup.model";
 import FreestyleDataUser from "../models/freestyleDataUser.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
 
-export function createFreestyle(req, res) {
-  if (req.body.type === "g") {
-    const { key, parent } = req.body;
-    const tmp = new FreestyleDataGroup({
-      key: key,
-      parent: new mongoose.Types.ObjectId(parent),
-    });
-    tmp.save((err, data) => {
-      console.log(err);
-      return res.send({ key, parent, data });
-    });
-  } else if (req.body.type === "e") {
-    const parent = req.body.parent;
-    req.body.data.map(({ key, level, compiled }) => {
-      const tmp = new FreestyleDataElement({
-        key,
-        level,
-        compiled,
-        groups: [new mongoose.Types.ObjectId(parent)],
-      });
-      tmp.save((err, data) => {
-        if (err) {
-          console.warn(err);
-          return res.status(500).send();
-        }
-        console.log(data);
-      });
-    });
-    return res.status(200).send();
-  } else {
-    return res.status(404).send();
-  }
-}
 export function getFreestyle(req, res) {
   let count = 0;
   const path = req.params.path;

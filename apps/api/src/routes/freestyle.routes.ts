@@ -1,6 +1,5 @@
 import { Express } from "express-serve-static-core";
 import {
-  createFreestyle,
   getFreestyle,
   getFreestyleData,
   getFreestyleDataOwn,
@@ -16,5 +15,4 @@ export default function FreestyleRoutes(app: Express) {
   app.post("/freestyle_own", [verifyToken], saveFreestyleDataOwn);
   app.get("/freestyle_group/:id", [verifyToken], getFreestyleData);
   app.post("/freestyle_group/:id", [verifyToken], saveFreestyleData);
-  app.post("/fs", createFreestyle);
 }
