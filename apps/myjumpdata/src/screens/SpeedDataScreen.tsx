@@ -6,11 +6,10 @@ import {
 } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { HiPlus } from "react-icons/hi";
 import { useParams } from "react-router";
-import { v4 as uuidv4 } from "uuid";
 import AuthVerify from "../common/AuthVerify";
-import { DateInput, SelectInput, TextInput } from "../components/Input";
+import { DateInput, SelectInput } from "../components/Input";
+import { SpeedDataInput } from "../parts/SpeedData";
 import Wrapper from "../parts/Wrapper";
 
 export default function SpeedDataScreen() {
@@ -91,44 +90,18 @@ export default function SpeedDataScreen() {
       </div>
       {groupScores &&
         groupScores.map((score: any) => {
-          const rand = uuidv4();
           return (
-            <div
-              key={score.id + rand}
-              className="border-t border-gray-300 dark:border-gray-700 py-2"
-            >
-              <div className="flex items-center space-x-2">
-                <label
-                  className="text-xl font-bold mr-auto leading-none translate-y-2 truncate capitalize"
-                  htmlFor={score.user._id}
-                >
-                  {score.user.firstname && score.user.lastname
-                    ? score.user.firstname + " " + score.user.lastname
-                    : score.user.username}
-                </label>
-                <span className="text-xs whitespace-nowrap uppercase">
-                  {t("common:stats.high")}: {score.score}
-                </span>
-              </div>
-              <form onSubmit={handleRecordDataSubmit}>
-                <input type="hidden" name="id" value={score.user._id} />
-                <div className="flex items-center space-x-2">
-                  <TextInput
-                    type="number"
-                    inline
-                    min="0"
-                    inputName={score.user._id}
-                  />
-                  <button
-                    className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
-                    type="submit"
-                    aria-label="submit"
-                  >
-                    <HiPlus />
-                  </button>
-                </div>
-              </form>
-            </div>
+            <SpeedDataInput
+              key={score.user._id}
+              id={score.user._id}
+              name={
+                score.user.firstname && score.user.lastname
+                  ? `${score.user.firstname} ${score.user.lastname}`
+                  : score.user.username
+              }
+              score={score.score}
+              onSubmit={handleRecordDataSubmit}
+            />
           );
         })}
     </Wrapper>

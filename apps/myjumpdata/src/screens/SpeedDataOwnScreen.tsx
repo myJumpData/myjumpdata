@@ -1,9 +1,9 @@
 import { getScoreDataOwn, saveScoreDataOwn } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { HiPlus } from "react-icons/hi";
 import AuthVerify from "../common/AuthVerify";
-import { DateInput, TextInput } from "../components/Input";
+import { DateInput } from "../components/Input";
+import { SpeedDataInput } from "../parts/SpeedData";
 import Wrapper from "../parts/Wrapper";
 
 export default function SpeedDataOwnScreen() {
@@ -50,40 +50,13 @@ export default function SpeedDataOwnScreen() {
           scoreData.map((score: any) => {
             return (
               score !== null && (
-                <div
+                <SpeedDataInput
                   key={score.type._id}
-                  className="border-t border-gray-300 dark:border-gray-700 py-2"
-                >
-                  <div className="flex items-end space-x-2">
-                    <label
-                      className="text-xl font-bold mr-auto leading-none translate-y-2"
-                      htmlFor={score.type._id}
-                    >
-                      {score.type.name}
-                    </label>
-                    <span className="text-xs whitespace-nowrap uppercase leading-none">
-                      {t("common:stats.high")}: {score.score}
-                    </span>
-                  </div>
-                  <form onSubmit={handleRecordDataSubmit}>
-                    <input type="hidden" name="id" value={score.type._id} />
-                    <div className="flex items-center space-x-2">
-                      <TextInput
-                        type="number"
-                        inline
-                        min="0"
-                        inputName={score.type._id}
-                      />
-                      <button
-                        className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
-                        type="submit"
-                        aria-label="submit"
-                      >
-                        <HiPlus />
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                  id={score.type._id}
+                  name={score.type.name}
+                  score={score.score}
+                  onSubmit={handleRecordDataSubmit}
+                />
               )
             );
           })}
