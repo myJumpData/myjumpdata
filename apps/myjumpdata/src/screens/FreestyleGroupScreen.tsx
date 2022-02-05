@@ -1,23 +1,13 @@
 import { setFreestyle } from "@myjumpdata/redux";
-import {
-  getFreestyle,
-  getFreestyleData,
-  getGroup,
-  saveFreestyleData,
-} from "@myjumpdata/service";
+import { getFreestyle, getFreestyleData, getGroup } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
-import {
-  HiArrowLeft,
-  HiChevronRight,
-  HiHome,
-  HiOutlineHome,
-} from "react-icons/hi";
+import { HiChevronRight, HiHome, HiOutlineHome } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import { SelectInput } from "../components/Input";
+import { Back, Element, Folder } from "../parts/Freestyle";
 import Wrapper from "../parts/Wrapper";
 
 type freestyle_folder_data = {
@@ -156,10 +146,14 @@ export default function FreestyleGroupScreen() {
                 key={e.key}
                 id={e.id}
                 compiled={e.compiled}
+                element={freestyleDataUser?.find((e) => e.element === e.id)}
+                onRefresh={() => {
+                  getUserData();
+                }}
               />
             );
           } else if (e.back) {
-            return <Back onClick={() => setFreestyle(e.key)} key="back" />;
+            return <Back to={e.key} key="back" state={setFreestyle} />;
           } else {
             return (
               <Folder
@@ -173,88 +167,4 @@ export default function FreestyleGroupScreen() {
       </div>
     </Wrapper>
   );
-
-  function Back({ onClick }: { onClick: () => void }) {
-    return (
-      <div
-        className="p-4 rounded-xl shadow break-words items-center flex font-bold sm:text-lg md:text-xl cursor-pointer bg-gray-500/50"
-        onClick={() => {
-          onClick();
-        }}
-      >
-        <HiArrowLeft className="mr-2 text-xl" />
-        {t("common:action.back")}
-      </div>
-    );
-  }
-
-  function Folder({ name, onClick }: { name: string; onClick: any }) {
-    return (
-      <div
-        className={
-          "p-4 rounded-xl shadow break-words items-center flex font-bold sm:text-lg md:text-xl cursor-pointer border-2 border-gray-500"
-        }
-        onClick={() => {
-          onClick(name);
-        }}
-      >
-        <span className="truncate">
-          {t(`freestyle:${name.split("_")[name.split("_").length - 1]}`)}
-        </span>
-      </div>
-    );
-  }
-
-  function Element({
-    id,
-    name,
-    level,
-    compiled,
-  }: {
-    id?: string;
-    name: string;
-    level?: string;
-    compiled?: boolean;
-  }) {
-    const element = freestyleDataUser?.find((e) => e.element === id);
-    return (
-      <div
-        className="flex justify-between items-center border rounded-lg p-2 cursor-pointer hover:bg-gray-500/50 relative "
-        onClick={() => {
-          saveFreestyleData(
-            userSelected,
-            id as string,
-            !element?.stateCoach
-          ).then(() => {
-            getUserData();
-          });
-        }}
-      >
-        <span className="break-word overflow-hidden overflow-ellipsis text-sm xs:text-base">
-          {compiled
-            ? name
-                .split("_")
-                .map((item) => t(`freestyle:${item}`))
-                .join(" ")
-            : t(`freestyle:${name}`)}
-        </span>
-        <div className="flex flex-col xs:flex-row">
-          {level && (
-            <span className="text-[0.6rem] xs:text-xs opacity-80 whitespace-nowrap absolute top-0 right-2">
-              Lvl. {level}
-            </span>
-          )}
-          <span className="xs:text-2xl self-end xs:self-center ml-2 py-2">
-            {element?.stateCoach ? (
-              <FaSquare />
-            ) : element?.stateUser ? (
-              <FaRegCheckSquare />
-            ) : (
-              <FaRegSquare />
-            )}
-          </span>
-        </div>
-      </div>
-    );
-  }
 }
