@@ -18,7 +18,7 @@ import { setFreestyle } from "../redux/freestyle.action";
 import {
   getFreestyle,
   getFreestyleData,
-  saveFreestyleDataOwn,
+  saveFreestyleData,
 } from "../services/freestyle.service";
 import GroupsService from "../services/groups.service";
 
@@ -124,11 +124,13 @@ export default function GroupFreestyleScreen({ route, navigation }) {
           }}
           onPress={() => {
             setRefreshing(true);
-            saveFreestyleDataOwn(item.id as string, !element?.stateUser).then(
-              () => {
-                getUserData();
-              }
-            );
+            saveFreestyleData(
+              userSelected,
+              item.id as string,
+              !element?.stateCoach
+            ).then(() => {
+              getUserData();
+            });
           }}
         >
           <View
