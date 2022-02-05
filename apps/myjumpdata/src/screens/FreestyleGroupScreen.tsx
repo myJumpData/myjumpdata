@@ -32,7 +32,7 @@ export default function FreestyleGroupScreen() {
 
   const [freestyleDataUser, setFreestyleDataUser] = useState<any[]>([]);
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     getGroup(params.id as string).then((response: any) => {

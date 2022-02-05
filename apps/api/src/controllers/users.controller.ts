@@ -38,7 +38,6 @@ export const searchUsers = (req, res) => {
   ) {
     return requestHandler(res, 200, "", "", []);
   }
-  console.log(req.params.search);
   if (!req.params.search.match(/^[A-Z0-9._-]+$/i)) {
     return requestHandler(res, 200, "", "", []);
   }
@@ -56,7 +55,6 @@ export const searchUsers = (req, res) => {
     .limit(5)
     .exec((err, users) => {
       if (err) {
-        console.log(err);
         return requestHandlerError(res, err);
       }
       return requestHandler(res, 200, "", "", users);
