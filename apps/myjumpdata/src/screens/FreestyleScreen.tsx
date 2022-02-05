@@ -1,4 +1,3 @@
-import { Tab } from "@headlessui/react";
 import { setFreestyle } from "@myjumpdata/redux";
 import {
   getFreestyle,
@@ -6,39 +5,19 @@ import {
   saveFreestyleDataOwn,
 } from "@myjumpdata/service";
 import { classNames } from "@myjumpdata/utils";
-import { Dispatch, Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  FaCaretDown,
-  FaCaretRight,
-  FaRegCheckSquare,
-  FaRegSquare,
-  FaSquare,
-} from "react-icons/fa";
+import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
 import {
   HiArrowLeft,
   HiChevronRight,
   HiHome,
   HiOutlineHome,
-  HiViewGrid,
 } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import AuthVerify from "../common/AuthVerify";
 import Wrapper from "../parts/Wrapper";
 
-type freestyle_data_group_type = {
-  name: string;
-  elements?: freestyle_data_element_type[];
-  groups?: freestyle_data_group_type[];
-};
-type freestyle_data_element_type = {
-  name: string;
-  level?: string;
-};
-type freestyle_data_type = {
-  name: string;
-  groups?: freestyle_data_group_type[];
-};
 type freestyle_folder_data = {
   id: string;
   key: string;
@@ -53,9 +32,7 @@ export default function FreestyleScreen() {
 
   const freestyle = useSelector((state: any) => state.freestyle);
 
-  const [freestyleData, setFreestyleData] = useState<freestyle_data_type[]>([]);
   const [freestyleDataOwn, setFreestyleDataOwn] = useState<any[]>([]);
-  const [viewStyle, setViewStyle] = useState<"list" | "grid" | "board">("grid");
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
   const { t, i18n } = useTranslation();
 
@@ -68,28 +45,6 @@ export default function FreestyleScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [freestyle]);
 
-  function readGroup(e: freestyle_data_group_type, id: string) {
-    return e.groups?.map((e: freestyle_data_group_type) => {
-      return (
-        <Group
-          name={e.name}
-          key={e.name}
-          onClick={() => {
-            setFreestyle(id + "_" + e.name);
-          }}
-        >
-          {e.elements && readElement(e)}
-          {e.groups && readGroup(e, id + "_" + e.name)}
-        </Group>
-      );
-    });
-  }
-  function readElement(e: freestyle_data_group_type) {
-    return e.elements?.map((e: freestyle_data_element_type) => {
-      return <Element name={e.name} key={e.name} level={e.level} />;
-    });
-  }
-
   function getUserData() {
     getFreestyleDataOwn().then((response: any) => {
       setFreestyleDataOwn(response.data);
@@ -98,7 +53,6 @@ export default function FreestyleScreen() {
 
   function getCurrentData() {
     getFreestyle(freestyle).then((response: any) => {
-      setFreestyleData(response.data);
       setFolderData(response.data);
     });
   }
@@ -112,166 +66,75 @@ export default function FreestyleScreen() {
       </div>
       <div className="flex mb-4 items-end">
         <div className="mr-auto">
-          {viewStyle === "grid" && (
-            <div className="flex h-full items-center bg-gray-200 dark:bg-gray-700 rounded-xl px-4 space-x-2 py-2 mr-2 flex-wrap">
-              <span
-                onClick={() => {
-                  setFreestyle("");
-                }}
-                className="text-xl cursor-pointer"
-              >
-                {freestyle === "" ? <HiHome /> : <HiOutlineHome />}
-              </span>
+          <div className="flex h-full items-center bg-gray-200 dark:bg-gray-700 rounded-xl px-4 space-x-2 py-2 mr-2 flex-wrap">
+            <span
+              onClick={() => {
+                setFreestyle("");
+              }}
+              className="text-xl cursor-pointer"
+            >
+              {freestyle === "" ? <HiHome /> : <HiOutlineHome />}
+            </span>
 
-              {freestyle !== "" &&
-                freestyle.split("_").map((e, index, array) => {
-                  let last = false;
-                  if (index + 1 === array.length) {
-                    last = true;
-                  }
-                  return (
+            {freestyle !== "" &&
+              freestyle.split("_").map((e, index, array) => {
+                let last = false;
+                if (index + 1 === array.length) {
+                  last = true;
+                }
+                return (
+                  <span
+                    className="inline-flex cursor-pointer"
+                    key={index}
+                    onClick={() => {
+                      setFreestyle(
+                        freestyle
+                          .split("_")
+                          .splice(0, index + 1)
+                          .join("_")
+                      );
+                    }}
+                  >
+                    <HiChevronRight className="text-2xl" />
                     <span
-                      className="inline-flex cursor-pointer"
-                      key={index}
-                      onClick={() => {
-                        setFreestyle(
-                          freestyle
-                            .split("_")
-                            .splice(0, index + 1)
-                            .join("_")
-                        );
-                      }}
+                      className={"whitespace-nowrap " + (last && "font-bold")}
                     >
-                      <HiChevronRight className="text-2xl" />
-                      <span
-                        className={"whitespace-nowrap " + (last && "font-bold")}
-                      >
-                        {i18n.exists(`freestyle:${e}`)
-                          ? t(`freestyle:${e}`)
-                          : e}
-                      </span>
+                      {i18n.exists(`freestyle:${e}`) ? t(`freestyle:${e}`) : e}
                     </span>
-                  );
-                })}
-            </div>
-          )}
+                  </span>
+                );
+              })}
+          </div>
         </div>
-        <ViewSelect state={setViewStyle} />
       </div>
 
-      {viewStyle === "list" || viewStyle === "board" ? (
-        <div
-          className={`${
-            viewStyle === "list" && " flex flex-col max-w-prose mx-auto"
-          } ${
-            viewStyle === "board" &&
-            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-          }`}
-        >
-          {freestyleData.map((e: freestyle_data_group_type) => (
-            <Group
-              name={e.name}
-              key={e.name}
-              uncollapsed
-              cardStyle={viewStyle === "board" ? true : false}
-              onClick={() => {
-                setFreestyle(e.name);
-              }}
-            >
-              {readGroup(e, e.name)}
-            </Group>
-          ))}
-        </div>
-      ) : (
-        viewStyle === "grid" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {folderData?.map((e: freestyle_folder_data) => {
-              if (e.element) {
-                return (
-                  <Element
-                    name={e.key}
-                    level={e.level}
-                    key={e.key}
-                    id={e.id}
-                    compiled={e.compiled}
-                  />
-                );
-              } else if (e.back) {
-                return <Back onClick={() => setFreestyle(e.key)} key="back" />;
-              } else {
-                return (
-                  <Folder
-                    key={e.key}
-                    name={e.key}
-                    onClick={(el) => setFreestyle(el)}
-                  />
-                );
-              }
-            })}
-          </div>
-        )
-      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {folderData?.map((e: freestyle_folder_data) => {
+          if (e.element) {
+            return (
+              <Element
+                name={e.key}
+                level={e.level}
+                key={e.key}
+                id={e.id}
+                compiled={e.compiled}
+              />
+            );
+          } else if (e.back) {
+            return <Back onClick={() => setFreestyle(e.key)} key="back" />;
+          } else {
+            return (
+              <Folder
+                key={e.key}
+                name={e.key}
+                onClick={(el) => setFreestyle(el)}
+              />
+            );
+          }
+        })}
+      </div>
     </Wrapper>
   );
-
-  function ViewSelect({
-    state,
-  }: {
-    state: Dispatch<"list" | "grid" | "board">;
-  }) {
-    function StyledTab({
-      icon,
-      hideSmall,
-    }: {
-      icon: object;
-      hideSmall?: boolean;
-    }) {
-      return (
-        <Tab as={Fragment}>
-          {({ selected }) => (
-            <button
-              className={`${
-                selected
-                  ? "bg-white dark:bg-gray-100 shadow text-yellow-500"
-                  : "hover:bg-black/10 hover:text-gray-700 dark:hover:text-gray-400 text-gray-500 dark:text-gray-400"
-              } p-2.5 text-sm leading-5 font-medium rounded-lg focus:outline-none fouces:ring-2 ring-offset-2 ring-offset-yellow-500 ring-white ring-opacity-60${
-                hideSmall && "hidden xs:block"
-              }`}
-            >
-              {icon}
-            </button>
-          )}
-        </Tab>
-      );
-    }
-    return (
-      <Tab.Group
-        defaultIndex={2}
-        onChange={(index) => {
-          /* if (index === 0) {
-            state("board");
-          } else if (index === 1) {
-            state("list");
-          } else if (index === 2) {
-            state("grid");
-          } */
-          if (index === 0 || index > 0) {
-            state("grid");
-          }
-        }}
-      >
-        <Tab.List className="flex p-1 space-x-1 rounded-xl bg-gray-200 dark:bg-gray-700 h-fit ">
-          {
-            //"<StyledTab icon={<HiViewBoards />} hideSmall />"
-          }
-          {
-            //"<StyledTab icon={<HiViewList />} />"
-          }
-          <StyledTab icon={<HiViewGrid />} />
-        </Tab.List>
-      </Tab.Group>
-    );
-  }
 
   function Back({ onClick }: { onClick: () => void }) {
     return (
@@ -300,50 +163,6 @@ export default function FreestyleScreen() {
         <span className="truncate">
           {t(`freestyle:${name.split("_")[name.split("_").length - 1]}`)}
         </span>
-      </div>
-    );
-  }
-
-  function Group({
-    children,
-    name,
-    uncollapsed,
-    cardStyle,
-    onClick,
-  }: {
-    children?: any;
-    name: string;
-    uncollapsed?: boolean;
-    cardStyle?: boolean;
-    onClick: () => void;
-  }) {
-    const [isCollapsed, setIsCollapsed] = useState(!uncollapsed);
-
-    return (
-      <div
-        className={`border-l border-gray-300 flex flex-col ${
-          cardStyle && "rounded-xl p-4 shadow border-none"
-        }`}
-      >
-        {cardStyle ? (
-          <span className="text-xl font-bold border-b w-full mb-2">{name}</span>
-        ) : (
-          <div
-            className="flex items-center cursor-pointer"
-            onClick={() => {
-              setIsCollapsed(!isCollapsed);
-              onClick();
-            }}
-          >
-            <span className="text-xl w-6">
-              {isCollapsed ? <FaCaretRight /> : <FaCaretDown />}
-            </span>
-            <span className="font-bold">{name}</span>
-          </div>
-        )}
-        <div className={`${!cardStyle && "pl-6"} flex flex-col space-y-2`}>
-          {!isCollapsed && children}
-        </div>
       </div>
     );
   }
