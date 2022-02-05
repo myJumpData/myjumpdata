@@ -11,6 +11,7 @@ import "./styles.scss";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
 const GroupScreen = lazy(() => import("./screens/GroupScreen"));
+const GroupsScreen = lazy(() => import("./screens/GroupsScreen"));
 const GroupSettingsScreen = lazy(() => import("./screens/GroupSettingsScreen"));
 const LegalScreen = lazy(() => import("./screens/LegalScreen"));
 const LoginScreen = lazy(() => import("./screens/LoginScreen"));
@@ -51,7 +52,7 @@ ReactDOM.render(
             {
               //"Group Pages"
             }
-            <Route path="/group" element={<GroupScreen />} />
+            <Route path="/group" element={<GroupsScreen />} />
             <Route path="/group/:id" element={<GroupScreen />} />
             <Route
               path="/group/:id/settings"

@@ -1,4 +1,4 @@
-import { createGroup, getGroup, getGroups } from "@myjumpdata/service";
+import { getGroup } from "@myjumpdata/service";
 import { classNames } from "@myjumpdata/utils";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
-import { TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
 
 export default function GroupScreen() {
@@ -15,17 +14,12 @@ export default function GroupScreen() {
   const params = useParams();
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
-  const [groups, setGroups] = useState([]);
   const [groupName, setGroupName] = useState("");
   const [groupCoaches, setGroupCoaches] = useState([]);
   const [groupAthletes, setGroupAthletes] = useState([]);
 
   useEffect(() => {
-    if (params.id) {
-      getGroupFN();
-    } else {
-      getGroupsFN();
-    }
+    getGroupFN();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
@@ -34,19 +28,6 @@ export default function GroupScreen() {
       setGroupName(response?.data?.name);
       setGroupCoaches(response?.data?.coaches);
       setGroupAthletes(response?.data?.athletes);
-    });
-  }
-
-  function getGroupsFN() {
-    getGroups().then((response: any) => {
-      setGroups(response.data);
-    });
-  }
-
-  function handleCreateGroup() {
-    createGroup(groupName.trim()).then(() => {
-      getGroupsFN();
-      setGroupName("");
     });
   }
 
@@ -105,85 +86,40 @@ export default function GroupScreen() {
     );
   }
 
-  if (params.id) {
-    return (
-      <Wrapper current="group">
-        <div className="flex">
-          <div className="w-full space-y-2">
-            <span className="font-bold text-xl">{groupName}</span>
-          </div>
-          {groupCoaches?.some((i: any) => i.id === user.id) && (
-            <Link
-              to={`/group/${params.id}/settings`}
-              className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full flex items-center justify-center text-2xl aspect-square h-8 w-8"
-            >
-              <HiCog />
-            </Link>
-          )}
-        </div>
-        <div className="space-y-4">
-          <UserRow name={t("common:role.coaches")} list={groupCoaches} />
-          <UserRow name={t("common:role.athletes")} list={groupAthletes} />
-        </div>
-        <div>
-          {groupCoaches?.some((i: any) => i.id === user.id) && (
-            <div className="mb-4">
-              <Link to={`/speeddata/group/${params.id}`}>
-                <Button name={t("common:action.speeddata")} design="primary" />
-              </Link>
-              <Link to={`/freestyle/group/${params.id}`}>
-                <Button name={t("common:action.freestyle")} design="primary" />
-              </Link>
-            </div>
-          )}
-          <Link to={`/group`}>
-            <Button name={t("common:interact.back")} design="link" />
-          </Link>
-        </div>
-      </Wrapper>
-    );
-  } else {
-    return (
-      <Wrapper current="group">
+  return (
+    <Wrapper current="group">
+      <div className="flex">
         <div className="w-full space-y-2">
-          <span className="font-bold text-xl">
-            {t("common:action.train_group")}
-          </span>
+          <span className="font-bold text-xl">{groupName}</span>
         </div>
-        <div className="flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 space-y-4 sm:space-y-0">
-          {groups?.map((group: any) => (
-            <Link
-              to={`/group/${group._id}`}
-              key={group._id}
-              className="w-full bg-gray-300 px-4 py-2 md:px-8 md:py-4 rounded-lg shadow overflow-ellipsis overflow-hidden items-center flex md:justify-center hover:bg-gray-200 dark:hover:bg-gray-800 outline-gray-700 dark:outline-gray-200 dark:outline dark:bg-transparent"
-            >
-              <span className="font-bold text-lg md:text-xl">{group.name}</span>
-            </Link>
-          ))}
-        </div>
-        {user.roles.includes("coach") && (
-          <>
-            <div className="w-full space-y-2">
-              <span className="font-bold text-xl">
-                {t("common:action.create_group")}
-              </span>
-            </div>
-            <div className="max-w-screen-sm">
-              <TextInput
-                name={t("common:fields.group_name") + ":"}
-                type="text"
-                value={groupName}
-                stateChange={setGroupName}
-              />
-              <Button
-                name={t("common:action.create_group")}
-                onClick={handleCreateGroup}
-                design="success"
-              />
-            </div>
-          </>
+        {groupCoaches?.some((i: any) => i.id === user.id) && (
+          <Link
+            to={`/group/${params.id}/settings`}
+            className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full flex items-center justify-center text-2xl aspect-square h-8 w-8"
+          >
+            <HiCog />
+          </Link>
         )}
-      </Wrapper>
-    );
-  }
+      </div>
+      <div className="space-y-4">
+        <UserRow name={t("common:role.coaches")} list={groupCoaches} />
+        <UserRow name={t("common:role.athletes")} list={groupAthletes} />
+      </div>
+      <div>
+        {groupCoaches?.some((i: any) => i.id === user.id) && (
+          <div className="mb-4">
+            <Link to={`/speeddata/group/${params.id}`}>
+              <Button name={t("common:action.speeddata")} design="primary" />
+            </Link>
+            <Link to={`/freestyle/group/${params.id}`}>
+              <Button name={t("common:action.freestyle")} design="primary" />
+            </Link>
+          </div>
+        )}
+        <Link to={`/group`}>
+          <Button name={t("common:interact.back")} design="link" />
+        </Link>
+      </div>
+    </Wrapper>
+  );
 }
