@@ -1,5 +1,5 @@
-import { deleteUser, updateUser, updateUsersRole } from "@myjumpdata/service";
 import { setUser } from "@myjumpdata/redux";
+import { deleteUser, updateUser, updateUsersRole } from "@myjumpdata/service";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck } from "react-icons/hi";
@@ -7,14 +7,14 @@ import { useSelector } from "react-redux";
 import AuthVerify from "../common/AuthVerify";
 import Logout from "../common/Logout";
 import Button from "../components/Button";
-import { TextInput } from "../components/Input";
+import { SelectInput, TextInput } from "../components/Input";
 import Wrapper from "../parts/Wrapper";
 
 export default function SettingsScreen() {
   AuthVerify();
 
   const user = useSelector((state: any) => state.user);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [username, setUsername] = useState(user.username);
   const [firstname, setFirstname] = useState(user.firstname);
@@ -209,6 +209,16 @@ export default function SettingsScreen() {
               </label>
             </div>
           </div>
+        </div>
+        <div className="flex flex-col space-y-4">
+          <span className="text-base font-bold">{t("settings.language")}:</span>
+          <SelectInput
+            options={i18n.languages.map((lang) => {
+              return { name: lang, value: lang };
+            })}
+            stateChange={i18n.changeLanguage}
+            current={i18n.language}
+          />
         </div>
         <div className="flex flex-col">
           <span className="text-base font-bold">{t("settings.danger")}: </span>

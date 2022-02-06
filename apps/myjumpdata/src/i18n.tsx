@@ -25,7 +25,7 @@ i18n
       }/locales/{{lng}}/{{ns}}`,
     },
     detection: {
-      order: ["navigator"],
-      caches: [],
+      order: ["localStorage", "cookie", "navigator"],
+      caches: ["localStorage", "cookie"],
     },
   });

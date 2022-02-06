@@ -23,7 +23,8 @@
     "delete_disclaimer_confirm": "Delete Anyway",
     "image_gravatar": "Use Gravatar",
     "image_none": "No Picture",
-    "app_disclaimer": "For more Settings please use the Webversion of myJumpData"
+    "app_disclaimer": "For more Settings please use the Webversion of myJumpData",
+    "language": "Language"
   },
   "speeddata": {
     "title": "Speed Data for"

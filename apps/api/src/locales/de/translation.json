@@ -23,7 +23,8 @@
     "delete_disclaimer_confirm": "Trotzdem löschen",
     "image_gravatar": "Gravatar nutzen",
     "image_none": "Kein Bild",
-    "app_disclaimer": "Für mehr Einstellungen benutze bitte die Webversion von myJumpData"
+    "app_disclaimer": "Für mehr Einstellungen benutze bitte die Webversion von myJumpData",
+    "language": "Sprache"
   },
   "speeddata": {
     "title": "Speed Werte für"
