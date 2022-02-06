@@ -1,5 +1,5 @@
 import { setUser } from "@myjumpdata/redux";
-import { deleteUser, updateUser, updateUsersRole } from "@myjumpdata/service";
+import { deleteUser, updateUser } from "@myjumpdata/service";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck } from "react-icons/hi";
@@ -224,28 +224,6 @@ export default function SettingsScreen() {
         <div className="flex flex-col">
           <span className="text-base font-bold">{t("settings.danger")}: </span>
           <div className="flex flex-col space-y-4">
-            {process.env.NODE_ENV === "development" &&
-              (user.roles.includes("coach") ? (
-                <Button
-                  name={t("settings.reset_coach")}
-                  design="warning"
-                  onClick={() => {
-                    updateUsersRole(["athlete"]).then(() => {
-                      Logout();
-                    });
-                  }}
-                />
-              ) : (
-                <Button
-                  name={t("settings.become_coach")}
-                  design="warning"
-                  onClick={() => {
-                    updateUsersRole(["athlete", "coach"]).then(() => {
-                      Logout();
-                    });
-                  }}
-                />
-              ))}
             <Button
               name={t("settings.logout")}
               design="danger"
