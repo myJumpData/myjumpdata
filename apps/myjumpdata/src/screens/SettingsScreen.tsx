@@ -213,9 +213,10 @@ export default function SettingsScreen() {
         <div className="flex flex-col space-y-4">
           <span className="text-base font-bold">{t("settings.language")}:</span>
           <SelectInput
-            options={i18n.languages.map((lang) => {
-              return { name: lang, value: lang };
-            })}
+            options={[
+              { name: "de", value: "de" },
+              { name: "en", value: "en" },
+            ]}
             stateChange={i18n.changeLanguage}
             current={i18n.language}
           />
