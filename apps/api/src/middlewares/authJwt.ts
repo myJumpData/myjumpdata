@@ -1,5 +1,6 @@
 import { JWT_SECRET } from "@myjumpdata/consts";
 import jwt from "jsonwebtoken";
+import User from "../models/user.model";
 import { requestHandler } from "../requestHandler";
 
 const { TokenExpiredError } = jwt;
@@ -34,6 +35,15 @@ export default function verifyToken(req, res, next) {
       return catchError(err, res);
     }
     req.userId = decoded?.id;
-    next();
+    if (decoded?.id) {
+      User.findOne({ id: decoded.id }).then((response: any) => {
+        if (response.active !== true) {
+          return catchError(undefined, res);
+        }
+        return next();
+      });
+    } else {
+      return catchError(undefined, res);
+    }
   });
 }
