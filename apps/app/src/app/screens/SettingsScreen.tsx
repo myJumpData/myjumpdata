@@ -236,15 +236,17 @@ export default function SettingsScreen({ navigation }) {
           />
         </Picker>
       </View>
-      <StyledText style={{ marginBottom: 40, marginTop: 40 }}>
-        {t("settings.app_disclaimer")}
-      </StyledText>
-      <StyledButton
-        onPress={() => {
-          clearUser();
-        }}
-        title={t("settings.logout")}
-      />
+      <View style={{ marginBottom: 20 }}>
+        <StyledText style={{ fontWeight: "900" }}>
+          {t("settings.danger")}:
+        </StyledText>
+        <StyledButton
+          onPress={() => {
+            clearUser();
+          }}
+          title={t("settings.logout")}
+        />
+      </View>
     </StyledScrollView>
   );
 }
