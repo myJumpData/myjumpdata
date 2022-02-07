@@ -5,7 +5,6 @@
   "scripts": {
     "start_web": "nx run myjumpdata:serve",
     "start_api": "nx run api:serve",
-    "start_app": "nx run app:serve",
     "start_app_android": "nx run app:run-android",
     "build_api": "nx run api:build",
     "postbuild_api": "pm2 restart myJumpData_API",
