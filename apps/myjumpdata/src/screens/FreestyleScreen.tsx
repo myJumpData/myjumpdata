@@ -69,7 +69,8 @@ export default function FreestyleScreen() {
                 key={e.key}
                 id={e.id}
                 compiled={e.compiled}
-                element={freestyleDataOwn?.find((e) => e.element === e.id)}
+                user="own"
+                element={freestyleDataOwn?.find((i) => i.element === e.id)}
                 onRefresh={() => {
                   getUserData();
                 }}

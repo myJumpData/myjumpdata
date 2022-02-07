@@ -102,12 +102,13 @@ export default function FreestyleGroupScreen() {
           if (e.element) {
             return (
               <Element
+                user={userSelected}
                 name={e.key}
                 level={e.level}
                 key={e.key}
                 id={e.id}
                 compiled={e.compiled}
-                element={freestyleDataUser?.find((e) => e.element === e.id)}
+                element={freestyleDataUser?.find((i) => i.element === e.id)}
                 onRefresh={() => {
                   getUserData();
                 }}

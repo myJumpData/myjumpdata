@@ -1,4 +1,4 @@
-import { saveFreestyleDataOwn } from "@myjumpdata/service";
+import { saveFreestyleData, saveFreestyleDataOwn } from "@myjumpdata/service";
 import { classNames } from "@myjumpdata/utils";
 import { useTranslation } from "react-i18next";
 import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
@@ -25,6 +25,7 @@ export function Element({
   compiled,
   element,
   onRefresh,
+  user,
 }: {
   id?: string;
   name: string;
@@ -32,6 +33,7 @@ export function Element({
   compiled?: boolean;
   element?: { stateUser?: boolean; stateCoach?: boolean };
   onRefresh: () => void;
+  user: "own" | string;
 }) {
   const { i18n, t } = useTranslation();
   return (
@@ -44,9 +46,17 @@ export function Element({
           .some((item) => item === false) && "border border-red-500"
       )}
       onClick={() => {
-        saveFreestyleDataOwn(id as string, !element?.stateUser).then(() => {
-          onRefresh();
-        });
+        if (user === "own") {
+          saveFreestyleDataOwn(id as string, !element?.stateUser).then(() => {
+            onRefresh();
+          });
+        } else {
+          saveFreestyleData(user, id as string, !element?.stateCoach).then(
+            () => {
+              onRefresh();
+            }
+          );
+        }
       }}
     >
       <span className="break-word overflow-hidden overflow-ellipsis text-sm xs:text-base">
