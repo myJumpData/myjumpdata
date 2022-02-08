@@ -1,4 +1,4 @@
-import { setUser } from "@myjumpdata/redux";
+import { setRoute, setUser } from "@myjumpdata/redux";
 import { deleteUser, updateUser } from "@myjumpdata/service";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,9 +8,12 @@ import AuthVerify from "../common/AuthVerify";
 import Logout from "../common/Logout";
 import Button from "../components/Button";
 import { SelectInput, TextInput } from "../components/Input";
-import Wrapper from "../parts/Wrapper";
 
 export default function SettingsScreen() {
+  useEffect(() => {
+    setRoute("settings");
+  }, []);
+
   AuthVerify();
 
   const user = useSelector((state: any) => state.user);
@@ -87,7 +90,7 @@ export default function SettingsScreen() {
     });
   }
   return (
-    <Wrapper current="profile">
+    <>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">{t("common:nav.settings")}</span>
       </div>
@@ -241,7 +244,7 @@ export default function SettingsScreen() {
         </div>
       </div>
       <DelOverlay />
-    </Wrapper>
+    </>
   );
   function DelOverlay() {
     return (

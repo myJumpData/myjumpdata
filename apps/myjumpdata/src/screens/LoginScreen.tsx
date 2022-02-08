@@ -1,12 +1,17 @@
+import { setRoute } from "@myjumpdata/redux";
 import { login } from "@myjumpdata/service";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
-import Wrapper from "../parts/Wrapper";
 
 export default function LoginScreen() {
+  useEffect(() => {
+    setRoute("login");
+  }, []);
+
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -26,29 +31,23 @@ export default function LoginScreen() {
   }
 
   return (
-    <Wrapper current="login">
-      <div className="max-w-screen-sm">
-        <div className="w-full space-y-2">
-          <span className="font-bold text-xl">{t("common:entry.login")}</span>
-        </div>
-        <form onSubmit={handleLoginSubmit} className="w-full">
-          <TextInput
-            type="text"
-            name={t("common:fields.username") + ":"}
-            inputName="username"
-          />
-          <TextInput
-            name={t("common:fields.password") + ":"}
-            type="password"
-            inputName="password"
-          />
-          <Button
-            name={t("common:entry.login")}
-            type="submit"
-            design="success"
-          />
-        </form>
+    <div className="max-w-screen-sm">
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">{t("common:entry.login")}</span>
       </div>
-    </Wrapper>
+      <form onSubmit={handleLoginSubmit} className="w-full">
+        <TextInput
+          type="text"
+          name={t("common:fields.username") + ":"}
+          inputName="username"
+        />
+        <TextInput
+          name={t("common:fields.password") + ":"}
+          type="password"
+          inputName="password"
+        />
+        <Button name={t("common:entry.login")} type="submit" design="success" />
+      </form>
+    </div>
   );
 }

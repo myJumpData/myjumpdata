@@ -1,4 +1,4 @@
-import { setFreestyle } from "@myjumpdata/redux";
+import { setFreestyle, setRoute } from "@myjumpdata/redux";
 import { getFreestyle, getFreestyleDataOwn } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 import { Back, Element, Folder } from "../parts/Freestyle";
-import Wrapper from "../parts/Wrapper";
 
 type freestyle_folder_data = {
   id: string;
@@ -18,6 +17,9 @@ type freestyle_folder_data = {
   compiled?: boolean;
 };
 export default function FreestyleScreen() {
+  useEffect(() => {
+    setRoute("freestyle");
+  }, []);
   AuthVerify();
 
   const freestyle = useSelector((state: any) => state.freestyle);
@@ -48,7 +50,7 @@ export default function FreestyleScreen() {
   }
 
   return (
-    <Wrapper current="freestyle">
+    <>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
           {t("common:action:freestyle")}
@@ -89,6 +91,6 @@ export default function FreestyleScreen() {
           }
         })}
       </div>
-    </Wrapper>
+    </>
   );
 }

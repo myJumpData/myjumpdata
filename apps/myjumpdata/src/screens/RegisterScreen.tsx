@@ -1,12 +1,17 @@
+import { setRoute } from "@myjumpdata/redux";
 import { register } from "@myjumpdata/service";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
-import Wrapper from "../parts/Wrapper";
 
 export default function RegisterScreen() {
+  useEffect(() => {
+    setRoute("register");
+  }, []);
+
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
 
@@ -35,44 +40,42 @@ export default function RegisterScreen() {
   }
 
   return (
-    <Wrapper current="register">
-      <div className="max-w-screen-sm">
-        <div className="w-full space-y-2">
-          <span className="font-bold text-xl">{t("common:entry.signup")}</span>
-        </div>
-        <form onSubmit={handleRegisterSubmit}>
-          <TextInput
-            type="text"
-            name={t("common:fields.username") + ":"}
-            inputName="username"
-          />
-          <TextInput
-            type="text"
-            name={t("common:fields.firstname") + ":"}
-            inputName="firstname"
-          />
-          <TextInput
-            type="text"
-            name={t("common:fields.lastname") + ":"}
-            inputName="lastname"
-          />
-          <TextInput
-            name={t("common:fields.email") + ":"}
-            type="text"
-            inputName="email"
-          />
-          <TextInput
-            name={t("common:fields.password") + ":"}
-            type="password"
-            inputName="password"
-          />
-          <Button
-            name={t("common:entry.signup")}
-            type="submit"
-            design="success"
-          />
-        </form>
+    <div className="max-w-screen-sm">
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">{t("common:entry.signup")}</span>
       </div>
-    </Wrapper>
+      <form onSubmit={handleRegisterSubmit}>
+        <TextInput
+          type="text"
+          name={t("common:fields.username") + ":"}
+          inputName="username"
+        />
+        <TextInput
+          type="text"
+          name={t("common:fields.firstname") + ":"}
+          inputName="firstname"
+        />
+        <TextInput
+          type="text"
+          name={t("common:fields.lastname") + ":"}
+          inputName="lastname"
+        />
+        <TextInput
+          name={t("common:fields.email") + ":"}
+          type="text"
+          inputName="email"
+        />
+        <TextInput
+          name={t("common:fields.password") + ":"}
+          type="password"
+          inputName="password"
+        />
+        <Button
+          name={t("common:entry.signup")}
+          type="submit"
+          design="success"
+        />
+      </form>
+    </div>
   );
 }

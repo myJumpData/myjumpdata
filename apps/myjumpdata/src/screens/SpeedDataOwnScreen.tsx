@@ -1,12 +1,16 @@
+import { setRoute } from "@myjumpdata/redux";
 import { getScoreDataOwn, saveScoreDataOwn } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AuthVerify from "../common/AuthVerify";
 import { DateInput } from "../components/Input";
 import { SpeedDataInput } from "../parts/SpeedData";
-import Wrapper from "../parts/Wrapper";
 
 export default function SpeedDataOwnScreen() {
+  useEffect(() => {
+    setRoute("speeddata");
+  }, []);
+
   AuthVerify();
 
   const [scoreData, setScoreData] = useState([]);
@@ -35,32 +39,30 @@ export default function SpeedDataOwnScreen() {
   }
 
   return (
-    <Wrapper current="speeddata">
-      <div className="w-full space-y-2">
-        <span className="font-bold text-xl">
-          {t("common:action.speeddataown")}
-        </span>
-        <DateInput
-          setDate={(e) => {
-            setDate(e);
-          }}
-          date={date}
-        />
-        {scoreData &&
-          scoreData.map((score: any) => {
-            return (
-              score !== null && (
-                <SpeedDataInput
-                  key={score.type._id}
-                  id={score.type._id}
-                  name={score.type.name}
-                  score={score.score}
-                  onSubmit={handleRecordDataSubmit}
-                />
-              )
-            );
-          })}
-      </div>
-    </Wrapper>
+    <div className="w-full space-y-2">
+      <span className="font-bold text-xl">
+        {t("common:action.speeddataown")}
+      </span>
+      <DateInput
+        setDate={(e) => {
+          setDate(e);
+        }}
+        date={date}
+      />
+      {scoreData &&
+        scoreData.map((score: any) => {
+          return (
+            score !== null && (
+              <SpeedDataInput
+                key={score.type._id}
+                id={score.type._id}
+                name={score.type.name}
+                score={score.score}
+                onSubmit={handleRecordDataSubmit}
+              />
+            )
+          );
+        })}
+    </div>
   );
 }

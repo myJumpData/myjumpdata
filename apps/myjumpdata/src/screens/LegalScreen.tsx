@@ -1,13 +1,18 @@
+import { setRoute } from "@myjumpdata/redux";
+import { useEffect } from "react";
 import undraw_terms from "../assets/undraw_terms_re_6ak4.svg";
-import Wrapper from "../parts/Wrapper";
 import { TermsSection, TermsText } from "./TermsScreen";
 
 export default function LegalScreen() {
+  useEffect(() => {
+    setRoute("");
+  }, []);
+
   return (
-    <Wrapper current="legal">
+    <>
       <Jumbotron />
       <Main />
-    </Wrapper>
+    </>
   );
 
   function Jumbotron() {

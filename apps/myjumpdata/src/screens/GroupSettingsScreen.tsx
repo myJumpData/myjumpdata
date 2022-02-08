@@ -1,4 +1,5 @@
 import { Menu, Transition } from "@headlessui/react";
+import { setRoute } from "@myjumpdata/redux";
 import {
   addCoachesToGroup,
   addUsersToGroup,
@@ -19,9 +20,12 @@ import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Spinner from "../parts/Spinner";
-import Wrapper from "../parts/Wrapper";
 
 export default function GroupSettingsScreen() {
+  useEffect(() => {
+    setRoute("group");
+  }, []);
+
   AuthVerify();
   const params = useParams();
   const navigate = useNavigate();
@@ -91,7 +95,7 @@ export default function GroupSettingsScreen() {
   }, [groupName, groupUpdateName, params]);
 
   return (
-    <Wrapper current="group_settings">
+    <>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
           {groupName + " " + t("common:nav.settings")}
@@ -308,7 +312,7 @@ export default function GroupSettingsScreen() {
       <Link to={`/group/${params.id}/`}>
         <Button name={t("common:interact.back")} design="link" />
       </Link>
-    </Wrapper>
+    </>
   );
 
   function MenuItem({

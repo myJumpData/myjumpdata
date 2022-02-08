@@ -1,3 +1,4 @@
+import { setRoute } from "@myjumpdata/redux";
 import { getGroup } from "@myjumpdata/service";
 import { classNames } from "@myjumpdata/utils";
 import { useEffect, useState } from "react";
@@ -7,9 +8,11 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
-import Wrapper from "../parts/Wrapper";
 
 export default function GroupScreen() {
+  useEffect(() => {
+    setRoute("group");
+  }, []);
   AuthVerify();
   const params = useParams();
   const user = useSelector((state: any) => state.user);
@@ -87,7 +90,7 @@ export default function GroupScreen() {
   }
 
   return (
-    <Wrapper current="group">
+    <>
       <div className="flex">
         <div className="w-full space-y-2">
           <span className="font-bold text-xl">{groupName}</span>
@@ -120,6 +123,6 @@ export default function GroupScreen() {
           <Button name={t("common:interact.back")} design="link" />
         </Link>
       </div>
-    </Wrapper>
+    </>
   );
 }

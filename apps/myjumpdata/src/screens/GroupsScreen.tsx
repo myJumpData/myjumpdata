@@ -1,3 +1,4 @@
+import { setRoute } from "@myjumpdata/redux";
 import { createGroup, getGroups } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -5,9 +6,12 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
-import Wrapper from "../parts/Wrapper";
 
 export default function GroupsScreen() {
+  useEffect(() => {
+    setRoute("group");
+  }, []);
+
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
 
@@ -32,7 +36,7 @@ export default function GroupsScreen() {
   }
 
   return (
-    <Wrapper current="group">
+    <>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
           {t("common:action.train_group")}
@@ -71,6 +75,6 @@ export default function GroupsScreen() {
           </div>
         </>
       )}
-    </Wrapper>
+    </>
   );
 }

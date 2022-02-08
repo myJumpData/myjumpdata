@@ -21,7 +21,8 @@
     "freestyle": "Freestyle",
     "group": "Group",
     "group_speed": "Speed Data for Groups",
-    "group_create": "Create Group"
+    "group_create": "Create Group",
+    "admin": "Admin"
   },
   "action": {
     "train_own": "Train on your own",

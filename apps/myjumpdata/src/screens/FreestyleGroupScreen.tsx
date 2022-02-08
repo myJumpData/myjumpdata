@@ -1,4 +1,4 @@
-import { setFreestyle } from "@myjumpdata/redux";
+import { setFreestyle, setRoute } from "@myjumpdata/redux";
 import { getFreestyle, getFreestyleData, getGroup } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,7 +8,6 @@ import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 import { SelectInput } from "../components/Input";
 import { Back, Element, Folder } from "../parts/Freestyle";
-import Wrapper from "../parts/Wrapper";
 
 type freestyle_folder_data = {
   id: string;
@@ -21,6 +20,9 @@ type freestyle_folder_data = {
 };
 
 export default function FreestyleGroupScreen() {
+  useEffect(() => {
+    setRoute("group");
+  }, []);
   AuthVerify();
   const params = useParams();
 
@@ -77,7 +79,7 @@ export default function FreestyleGroupScreen() {
   }
 
   return (
-    <Wrapper current="group">
+    <>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
           {t("freestyle.title") + " " + groupName}
@@ -127,6 +129,6 @@ export default function FreestyleGroupScreen() {
           }
         })}
       </div>
-    </Wrapper>
+    </>
   );
 }

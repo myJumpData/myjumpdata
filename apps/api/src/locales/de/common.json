@@ -21,7 +21,8 @@
     "freestyle": "Freestyle",
     "group": "Gruppe",
     "group_speed": "Speed Werte für Gruppe",
-    "group_create": "Gruppe Erstelle"
+    "group_create": "Gruppe Erstelle",
+    "admin": "Admin"
   },
   "action": {
     "train_own": "Alleine trainieren",

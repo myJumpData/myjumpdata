@@ -1,3 +1,4 @@
+import { setRoute } from "@myjumpdata/redux";
 import {
   getGroup,
   getScoreDataHigh,
@@ -10,9 +11,12 @@ import { useParams } from "react-router";
 import AuthVerify from "../common/AuthVerify";
 import { DateInput, SelectInput } from "../components/Input";
 import { SpeedDataInput } from "../parts/SpeedData";
-import Wrapper from "../parts/Wrapper";
 
 export default function SpeedDataScreen() {
+  useEffect(() => {
+    setRoute("group");
+  }, []);
+
   AuthVerify();
   const params = useParams();
 
@@ -66,7 +70,7 @@ export default function SpeedDataScreen() {
   }
 
   return (
-    <Wrapper current="speeddata_group">
+    <>
       <span className="font-bold text-xl">
         {t("speeddata.title") + " " + groupName}
       </span>
@@ -104,6 +108,6 @@ export default function SpeedDataScreen() {
             />
           );
         })}
-    </Wrapper>
+    </>
   );
 }

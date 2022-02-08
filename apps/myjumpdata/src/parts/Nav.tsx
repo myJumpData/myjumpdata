@@ -5,18 +5,22 @@ import { HiCog, HiUser } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 
-export function Nav({
-  current,
-}: {
-  current: "login" | "register" | "home" | "speeddata" | "group" | string;
-}) {
+export function Nav() {
   const { t } = useTranslation();
 
   const user = useSelector((state: any) => state.user);
+  const route = useSelector((state: any) => state.route);
+
   const [image, setImage] = useState("");
   let dropdown;
   let dropdownButton;
-  let navigation;
+  let navigation: any[] = [
+    {
+      name: t("common:nav.home"),
+      to: "/",
+      current: route === "home",
+    },
+  ];
   if (Object.keys(user).length !== 0) {
     dropdown = [
       {
@@ -37,43 +41,45 @@ export function Nav({
         />
       );
     navigation = [
-      {
-        name: t("common:nav.home"),
-        to: "/",
-        current: current === "home",
-      },
+      ...navigation,
       {
         name: t("common:nav.speeddata"),
         to: "/speeddata/own",
-        current: current === "speeddata",
+        current: route === "speeddata",
       },
       {
         name: t("common:nav.freestyle"),
         to: "/freestyle/own",
-        current: current === "freestyle",
+        current: route === "freestyle",
       },
       {
         name: t("common:nav.groups"),
         to: "/group",
-        current: current === "group",
+        current: route === "group",
       },
     ];
   } else {
     navigation = [
-      {
-        name: t("common:nav.home"),
-        to: "/",
-        current: current === "home",
-      },
+      ...navigation,
       {
         name: t("common:entry.login"),
         to: "/login",
-        current: current === "login",
+        current: route === "login",
       },
       {
         name: t("common:entry.signup"),
         to: "/register",
-        current: current === "register",
+        current: route === "register",
+      },
+    ];
+  }
+  if (user.roles.includes("admin")) {
+    navigation = [
+      ...navigation,
+      {
+        name: t("common:nav.admin"),
+        to: "/admin",
+        current: route === "admin",
       },
     ];
   }

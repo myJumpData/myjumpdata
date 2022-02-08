@@ -1,23 +1,26 @@
+import { setRoute } from "@myjumpdata/redux";
+import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import markofediv from "../assets/markofediv.jpg";
 import undraw_code_review from "../assets/undraw_code_review_re_woeb.svg";
 import undraw_collaborators from "../assets/undraw_collaborators_re_hont.svg";
 import undraw_work_in_progress from "../assets/undraw_work_in_progress_uhmv.svg";
-import Wrapper from "../parts/Wrapper";
 
 export default function MainScreen() {
+  useEffect(() => {
+    setRoute("home");
+  }, []);
+
   const { t } = useTranslation();
 
   return (
-    <Wrapper current="home">
-      <div className="flex flex-col space-y-12">
-        <Jumbotron />
-        <BySkippersForSkippers />
-        <OpenDevelopment />
-        <Action />
-      </div>
-    </Wrapper>
+    <div className="flex flex-col space-y-12">
+      <Jumbotron />
+      <BySkippersForSkippers />
+      <OpenDevelopment />
+      <Action />
+    </div>
   );
 
   function Jumbotron() {

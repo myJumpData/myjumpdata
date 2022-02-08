@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import "./i18n";
 import Spinner from "./parts/Spinner";
+import Wrapper from "./parts/Wrapper";
 import FreestyleGroupScreen from "./screens/FreestyleGroupScreen";
 import "./styles.scss";
 
@@ -22,59 +23,67 @@ const SettingsScreen = lazy(() => import("./screens/SettingsScreen"));
 const SpeedDataOwnScreen = lazy(() => import("./screens/SpeedDataOwnScreen"));
 const SpeedDataScreen = lazy(() => import("./screens/SpeedDataScreen"));
 const TermsScreen = lazy(() => import("./screens/TermsScreen"));
+const AdminScreen = lazy(() => import("./screens/AdminScreen"));
 
 ReactDOM.render(
   <Suspense fallback={<Spinner wrapper />}>
     <Provider store={store}>
       <PersistGate loading={<Spinner />} persistor={persistor}>
         <BrowserRouter>
-          <Routes>
-            {
-              //"Main Pages"
-            }
-            <Route path="/" element={<MainScreen />} />
+          <Wrapper>
+            <Routes>
+              {
+                //"Main Pages"
+              }
+              <Route path="/" element={<MainScreen />} />
 
-            <Route path="/terms" element={<TermsScreen />} />
-            <Route path="/legal" element={<LegalScreen />} />
+              <Route path="/terms" element={<TermsScreen />} />
+              <Route path="/legal" element={<LegalScreen />} />
 
-            {
-              //"Entry Pages"
-            }
-            <Route path="/register" element={<RegisterScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
+              {
+                //"Entry Pages"
+              }
+              <Route path="/register" element={<RegisterScreen />} />
+              <Route path="/login" element={<LoginScreen />} />
 
-            {
-              //"Profile Pages"
-            }
-            <Route path="/u/:username" element={<ProfileScreen />} />
-            <Route path="/settings" element={<SettingsScreen />} />
+              {
+                //"Profile Pages"
+              }
+              <Route path="/u/:username" element={<ProfileScreen />} />
+              <Route path="/settings" element={<SettingsScreen />} />
 
-            {
-              //"Group Pages"
-            }
-            <Route path="/group" element={<GroupsScreen />} />
-            <Route path="/group/:id" element={<GroupScreen />} />
-            <Route
-              path="/group/:id/settings"
-              element={<GroupSettingsScreen />}
-            />
+              {
+                //"Group Pages"
+              }
+              <Route path="/group" element={<GroupsScreen />} />
+              <Route path="/group/:id" element={<GroupScreen />} />
+              <Route
+                path="/group/:id/settings"
+                element={<GroupSettingsScreen />}
+              />
 
-            {
-              //"Speeddata"
-            }
-            <Route path="/speeddata">
-              <Route path="own/" element={<SpeedDataOwnScreen />} />
-              <Route path="group/:id" element={<SpeedDataScreen />} />
-            </Route>
+              {
+                //"Speeddata"
+              }
+              <Route path="/speeddata">
+                <Route path="own/" element={<SpeedDataOwnScreen />} />
+                <Route path="group/:id" element={<SpeedDataScreen />} />
+              </Route>
 
-            {
-              //"Freestyle"
-            }
-            <Route path="/freestyle">
-              <Route path="own/" element={<FreestyleScreen />} />
-              <Route path="group/:id" element={<FreestyleGroupScreen />} />
-            </Route>
-          </Routes>
+              {
+                //"Freestyle"
+              }
+              <Route path="/freestyle">
+                <Route path="own/" element={<FreestyleScreen />} />
+                <Route path="group/:id" element={<FreestyleGroupScreen />} />
+              </Route>
+
+              {
+                //"Admin"
+              }
+              <Route path="/admin" element={<AdminScreen />} />
+            </Routes>
+          </Wrapper>
         </BrowserRouter>
       </PersistGate>
     </Provider>
