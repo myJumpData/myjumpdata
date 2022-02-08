@@ -2,33 +2,8 @@ import { APP_URL, JWT_SECRET } from "@myjumpdata/consts";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import SendMail from "../email";
-import Role from "../models/role.model";
 import User from "../models/user.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
-
-export const updateUsersRole = (req, res) => {
-  if (!req.body.roles) {
-    return res
-      .status(400)
-      .send({ message: { text: "No Roles selected" }, body: req.body });
-  }
-  Role.find({ name: req.body.roles }, (err, roles) => {
-    if (err) {
-      return requestHandlerError(res, err);
-    }
-    User.updateOne({ _id: req.userId }, { roles: roles }, (err) => {
-      if (err) {
-        return requestHandlerError(res, err);
-      }
-      return requestHandler(
-        res,
-        200,
-        "success.updpdated.user.role",
-        "User Roles have been updated successfully!"
-      );
-    });
-  });
-};
 
 export const searchUsers = (req, res) => {
   if (
