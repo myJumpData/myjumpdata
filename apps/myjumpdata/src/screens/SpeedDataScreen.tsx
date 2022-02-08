@@ -72,7 +72,7 @@ export default function SpeedDataScreen() {
   return (
     <>
       <span className="font-bold text-xl">
-        {t("speeddata.title") + " " + groupName}
+        {t("speeddata_title") + " " + groupName}
       </span>
       <DateInput
         setDate={(e) => {

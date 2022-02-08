@@ -101,7 +101,7 @@ export default function GroupSettingsScreen() {
           {groupName + " " + t("common:nav_settings")}
         </span>
       </div>
-      <span className="text-2xl font-bold">{t("settings.data")}: </span>
+      <span className="text-2xl font-bold">{t("settings_data")}: </span>
       <TextInput
         type="text"
         name={t("common:group_name") + ":"}
@@ -195,7 +195,7 @@ export default function GroupSettingsScreen() {
                                 <MenuItem
                                   icon={<HiUserAdd />}
                                   name={t(
-                                    "settings_group.user_action.add_coach"
+                                    "settings_group_user_action_add_coach"
                                   )}
                                   onClick={() => {
                                     addCoachesToGroup(params.id as string, [
@@ -212,7 +212,7 @@ export default function GroupSettingsScreen() {
                               <MenuItem
                                 icon={<HiUserRemove />}
                                 name={t(
-                                  "settings_group.user_action.remove_coach"
+                                  "settings_group_user_action_remove_coach"
                                 )}
                                 onClick={() => {
                                   removeCoachesFromGroup(params.id as string, [
@@ -232,7 +232,7 @@ export default function GroupSettingsScreen() {
                                 <MenuItem
                                   icon={<HiUserAdd />}
                                   name={t(
-                                    "settings_group.user_action.add_athlete"
+                                    "settings_group_user_action_add_athlete"
                                   )}
                                   onClick={() => {
                                     addUsersToGroup(params.id as string, [
@@ -249,7 +249,7 @@ export default function GroupSettingsScreen() {
                               <MenuItem
                                 icon={<HiUserRemove />}
                                 name={t(
-                                  "settings_group.user_action.remove_athlete"
+                                  "settings_group_user_action_remove_athlete"
                                 )}
                                 onClick={() => {
                                   removeUsersFromGroup(params.id as string, [
@@ -272,10 +272,10 @@ export default function GroupSettingsScreen() {
       </div>
 
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("settings.danger")}</span>
+        <span className="font-bold text-xl">{t("settings_danger")}</span>
       </div>
       <Button
-        name={t("settings_group.delete")}
+        name={t("settings_group_delete")}
         design="danger"
         onClick={() => {
           setDelStep(1);
@@ -292,11 +292,11 @@ export default function GroupSettingsScreen() {
       >
         <div className="max-w-prose p-4 bg-gray-300 rounded-lg bg-opacity-50 mx-auto flex flex-col space-y-4">
           <span className="font-bold text-xl">
-            {t("settings_group.delete_disclaimer_title")}
+            {t("settings_group_delete_disclaimer_title")}
           </span>
-          <span>{t("settings_group.delete_disclaimer_text")}</span>
+          <span>{t("settings_group_delete_disclaimer_text")}</span>
           <Button
-            name={t("settings_group.delete_disclaimer_confirm")}
+            name={t("settings_group_delete_disclaimer_confirm")}
             design="danger"
             onClick={() => {
               deleteGroup(params.id as string).then((response: any) => {

@@ -31,7 +31,6 @@ export default function createServer() {
   app.get("/locales/:lng/:ns", (req, res) => {
     const lng = req.params.lng;
     const ns = req.params.ns;
-    console.log({ lng, ns });
     Translation.find({ language: lng, namespace: ns })
       .select("-_id -__v -language -namespace")
       .exec((err, translation_data) => {

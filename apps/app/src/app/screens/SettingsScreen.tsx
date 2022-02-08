@@ -136,7 +136,7 @@ export default function SettingsScreen({ navigation }) {
     >
       <View style={{ marginBottom: 20 }}>
         <StyledText style={{ fontWeight: "900" }}>
-          {t("settings.data")}:
+          {t("settings_data")}:
         </StyledText>
         <View style={{ marginVertical: 10 }}>
           <StyledText>{t("common:username")}:</StyledText>
@@ -196,10 +196,10 @@ export default function SettingsScreen({ navigation }) {
       </View>
       <View style={{ marginBottom: 20 }}>
         <StyledText style={{ fontWeight: "900" }}>
-          {t("settings.image")}:
+          {t("settings_image")}:
         </StyledText>
         <StyledText style={{ fontSize: 12 }}>
-          {t("settings.image_text")}
+          {t("settings_image_text")}
         </StyledText>
         <TouchableOpacity
           onPress={() => {
@@ -213,7 +213,7 @@ export default function SettingsScreen({ navigation }) {
               textDecorationLine: "underline",
             }}
           >
-            {t("settings.image_action")}
+            {t("settings_image_action")}
           </Text>
         </TouchableOpacity>
         <Picker
@@ -229,22 +229,22 @@ export default function SettingsScreen({ navigation }) {
           dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
           mode="dropdown"
         >
-          <Picker.Item label={t("settings.image_none")} value={"none"} />
+          <Picker.Item label={t("settings_image_none")} value={"none"} />
           <Picker.Item
-            label={t("settings.image_gravatar")}
+            label={t("settings_image_gravatar")}
             value={"gravatar"}
           />
         </Picker>
       </View>
       <View style={{ marginBottom: 20 }}>
         <StyledText style={{ fontWeight: "900" }}>
-          {t("settings.danger")}:
+          {t("settings_danger")}:
         </StyledText>
         <StyledButton
           onPress={() => {
             clearUser();
           }}
-          title={t("settings.logout")}
+          title={t("settings_logout")}
         />
       </View>
     </StyledScrollView>

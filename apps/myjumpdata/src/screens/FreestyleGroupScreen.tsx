@@ -82,7 +82,7 @@ export default function FreestyleGroupScreen() {
     <>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
-          {t("freestyle.title") + " " + groupName}
+          {t("freestyle_title") + " " + groupName}
         </span>
       </div>
       <div className="flex items-center space-x-2 mb-2">

@@ -96,7 +96,7 @@ export default function SettingsScreen() {
       </div>
       <div className="flex flex-col space-y-4">
         <div className="flex flex-col space-y-4">
-          <span className="text-base font-bold">{t("settings.data")}: </span>
+          <span className="text-base font-bold">{t("settings_data")}: </span>
           <TextInput
             type="text"
             name={t("common:username") + ":"}
@@ -158,11 +158,11 @@ export default function SettingsScreen() {
         </div>
         <div className="flex flex-col sm:flex-row">
           <div className="flex flex-col">
-            <span className="text-base font-bold">{t("settings.image")}: </span>
-            <span className="text-left">{t("settings.image_text")}</span>
+            <span className="text-base font-bold">{t("settings_image")}: </span>
+            <span className="text-left">{t("settings_image_text")}</span>
             <span className="text-blue-800 dark:text-blue-300 hover:text-blue-500 underline hover:no-underline py-2">
               <a href="https://gravatar.com/" target="_blank" rel="noreferrer">
-                {t("settings.image_action")}
+                {t("settings_image_action")}
               </a>
             </span>
           </div>
@@ -186,7 +186,7 @@ export default function SettingsScreen() {
                 onChange={() => {}}
               />
               <label className="ml-1" htmlFor="select-gravatar">
-                {t("settings.image_gravatar")}
+                {t("settings_image_gravatar")}
               </label>
             </div>
             <div
@@ -208,13 +208,13 @@ export default function SettingsScreen() {
                 onChange={() => {}}
               />
               <label className="ml-1" htmlFor="select-none">
-                {t("settings.image_none")}
+                {t("settings_image_none")}
               </label>
             </div>
           </div>
         </div>
         <div className="flex flex-col space-y-4">
-          <span className="text-base font-bold">{t("settings.language")}:</span>
+          <span className="text-base font-bold">{t("settings_language")}:</span>
           <SelectInput
             options={[
               { name: "de", value: "de" },
@@ -225,16 +225,16 @@ export default function SettingsScreen() {
           />
         </div>
         <div className="flex flex-col">
-          <span className="text-base font-bold">{t("settings.danger")}: </span>
+          <span className="text-base font-bold">{t("settings_danger")}: </span>
           <div className="flex flex-col space-y-4">
             <Button
-              name={t("settings.logout")}
+              name={t("settings_logout")}
               design="danger"
               onClick={() => Logout()}
             />
             <span className="block h-16" />
             <Button
-              name={t("settings.delete")}
+              name={t("settings_delete")}
               design="danger"
               onClick={() => {
                 setDelStep(1);
@@ -259,11 +259,11 @@ export default function SettingsScreen() {
       >
         <div className="max-w-prose p-4 bg-gray-300/75 dark:bg-gray-600/75 rounded-lg mx-auto flex flex-col space-y-4">
           <span className="font-bold text-xl">
-            {t("settings.delete_disclaimer_title")}
+            {t("settings_delete_disclaimer_title")}
           </span>
-          <span>{t("settings.delete_disclaimer_text")}</span>
+          <span>{t("settings_delete_disclaimer_text")}</span>
           <Button
-            name={t("settings.delete_disclaimer_confirm")}
+            name={t("settings_delete_disclaimer_confirm")}
             design="danger"
             onClick={() => {
               deleteUser().then((response: any) => {
