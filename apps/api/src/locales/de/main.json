@@ -1,31 +1,17 @@
 {
-  "jumbotron": {
-    "top": "Was ist myJumpData?",
-    "title": "Eine Plattform für deine Rope Skipping Fortschritte!",
-    "bottom": "Wenn ihr ein Verein seid, seid ihr hier genau richtig!"
-  },
-  "open_development": {
-    "work_in_progress": {
-      "title": "In Arbeit",
-      "text": "myJumpData wird in einem Open-Source-Modell entwickelt. Dies bedeutet, dass jeder den Quellcode lesen kann. Auch ermöglicht es jedem, bei der Entwicklung dieses Projekts mitzuhelfen."
-    },
-    "title": "Offene Entwicklung",
-    "open_source": {
-      "title": "Quelloffen",
-      "text": "Da die Entwicklung Mitte Oktober angefangen hat, ist dieses Projekt immer noch eine beta Version und unter aktiver Entwicklung."
-    },
-    "user_focused": {
-      "title": "Benutzerorientiert",
-      "text": "Du hast einen Fehler gefunden? Oder hast Feature Idee oder anfrage? Kontaktiere uns und wir versuchen deine Vorschläge umzusetzen."
-    }
-  },
-  "cta": {
-    "title": "Ready, Set, Go!",
-    "text": "Hole dir jetzt dein Zugang bei myJumpData!"
-  },
-  "by": {
-    "title": "Von Skippern für Skipper",
-    "position": "Entwickler und Gründer",
-    "text": "Rope Skipper bei <0>Jumping Swans Hanau</0>, wo auch die Idee für myJumpData mit einer Trainerin enstanden ist."
-  }
+  "jumbotron_top": "Was ist myJumpData?",
+  "jumbotron_title": "Eine Plattform für deine Rope Skipping Fortschritte!",
+  "jumbotron_bottom": "Wenn ihr ein Verein seid, seid ihr hier genau richtig!",
+  "open_development_work_in_progress_title": "In Arbeit",
+  "open_development_work_in_progress_text": "myJumpData wird in einem Open-Source-Modell entwickelt. Dies bedeutet, dass jeder den Quellcode lesen kann. Auch ermöglicht es jedem, bei der Entwicklung dieses Projekts mitzuhelfen.",
+  "open_development_title": "Offene Entwicklung",
+  "open_development_open_source_title": "Quelloffen",
+  "open_development_open_source_text": "Da die Entwicklung Mitte Oktober angefangen hat, ist dieses Projekt immer noch eine beta Version und unter aktiver Entwicklung.",
+  "open_development_user_focused_title": "Benutzerorientiert",
+  "open_development_user_focused_text": "Du hast einen Fehler gefunden? Oder hast Feature Idee oder anfrage? Kontaktiere uns und wir versuchen deine Vorschläge umzusetzen.",
+  "cta_title": "Ready, Set, Go!",
+  "cta_text": "Hole dir jetzt dein Zugang bei myJumpData!",
+  "by_title": "Von Skippern für Skipper",
+  "by_position": "Entwickler und Gründer",
+  "by_text": "Rope Skipper bei <0>Jumping Swans Hanau</0>, wo auch die Idee für myJumpData mit einer Trainerin enstanden ist."
 }

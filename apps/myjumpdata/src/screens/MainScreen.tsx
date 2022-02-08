@@ -26,12 +26,12 @@ export default function MainScreen() {
   function Jumbotron() {
     return (
       <div>
-        <p className="tracking-loose w-full">{t("main:jumbotron.top")}</p>
+        <p className="tracking-loose w-full">{t("main:jumbotron_top")}</p>
         <h1 className="my-4 lg:text-4xl text-2xl font-bold leading-tight w-full">
-          {t("main:jumbotron.title")}
+          {t("main:jumbotron_title")}
         </h1>
         <p className="leading-normal lg:text-2xl text-xl mb-8 w-full">
-          {t("main:jumbotron.bottom")}
+          {t("main:jumbotron_bottom")}
         </p>
 
         <Link
@@ -48,7 +48,7 @@ export default function MainScreen() {
     return (
       <div>
         <div className="w-full space-y-2 mb-2">
-          <span className="font-bold text-xl">{t("main:by.title")}</span>
+          <span className="font-bold text-xl">{t("main:by_title")}</span>
         </div>
         <div className="flex items-center flex-col sm:flex-row justify-center">
           <div className="md:w-1/5 sm:w-2/5 max-w-xs">
@@ -56,11 +56,11 @@ export default function MainScreen() {
           </div>
           <div className="mt-8 ml-0 sm:ml-8 sm:mt-0 text-center sm:text-left max-w-prose">
             <p className="text-gray-600 dark:text-gray-400 text-sm lg:text-lg">
-              {t("main:by.position")}
+              {t("main:by_position")}
             </p>
             <div className="font-bold text-xl lg:text-4xl">Marko Fediv</div>
             <p className="text-base lg:text-xl mb-6">
-              <Trans i18nKey="main:by.text">
+              <Trans i18nKey="main:by_text">
                 {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
                 <a
                   href="https://tg-hanau.de/rope-skipping/ueber-uns"
@@ -136,32 +136,32 @@ export default function MainScreen() {
       <div>
         <div className="w-full space-y-2 mb-2">
           <span className="font-bold text-xl">
-            {t("main:open_development.title")}
+            {t("main:open_development_title")}
           </span>
         </div>
 
         <Part
           img={undraw_work_in_progress}
-          heading={t("main:open_development.work_in_progress.title")}
+          heading={t("main:open_development_work_in_progress_title")}
         >
-          {t("main:open_development.work_in_progress.text")}
+          {t("main:open_development_work_in_progress_text")}
         </Part>
         <Part
           img={undraw_code_review}
-          heading={t("main:open_development.open_source.title")}
+          heading={t("main:open_development_open_source_title")}
           link="GitHub"
           to="https://github.com/myJumpData"
           swap
         >
-          {t("main:open_development.open_source.text")}
+          {t("main:open_development_open_source_text")}
         </Part>
         <Part
           img={undraw_collaborators}
-          heading={t("main:open_development.user_focused.title")}
+          heading={t("main:open_development_user_focused_title")}
           link="myJumpData@gmail.com"
           to="mailto:myjumpdata@gmail.com"
         >
-          {t("main:open_development.user_focused.text")}
+          {t("main:open_development_user_focused_text")}
         </Part>
       </div>
     );
@@ -171,9 +171,9 @@ export default function MainScreen() {
     return (
       <div>
         <div className="w-full space-y-2 mb-2">
-          <span className="font-bold text-xl">{t("main:cta.title")}</span>
+          <span className="font-bold text-xl">{t("main:cta_title")}</span>
         </div>
-        <h3 className="my-4 leading-tight">{t("main:cta.text")}</h3>
+        <h3 className="my-4 leading-tight">{t("main:cta_text")}</h3>
         <div className="py-6">
           <Link
             to="/register"
