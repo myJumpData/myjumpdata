@@ -92,7 +92,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          title: t("common:nav.settings"),
+          title: t("common:nav_settings"),
         }}
       />
       <MainStack.Screen
@@ -102,7 +102,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          title: t("common:nav.group"),
+          title: t("common:nav_group"),
         }}
       />
       <MainStack.Screen
@@ -112,7 +112,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          title: t("common:nav.group_speed"),
+          title: t("common:nav_group_speed"),
         }}
       />
       <MainStack.Screen
@@ -122,7 +122,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          title: t("common:nav.freestyle"),
+          title: t("common:nav_freestyle"),
         }}
       />
       <MainStack.Screen
@@ -132,7 +132,7 @@ function MainStackScreen() {
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          title: t("common:nav.group_create"),
+          title: t("common:nav_group_create"),
         }}
       />
     </MainStack.Navigator>
@@ -190,21 +190,21 @@ function MainTabScreen({ navigation }) {
               onPress={() => navigation.navigate("group_create")}
             />
           ),
-          title: t("common:nav.groups"),
+          title: t("common:nav_groups"),
         }}
       />
       <MainTab.Screen
         name="freestyle"
         component={FreestyleScreen}
         options={{
-          title: t("common:nav.freestyle"),
+          title: t("common:nav_freestyle"),
         }}
       />
       <MainTab.Screen
         name="speed_data"
         component={SpeedDataOwnScreen}
         options={{
-          title: t("common:nav.speeddata"),
+          title: t("common:nav_speeddata"),
         }}
       />
       <MainTab.Screen
@@ -220,7 +220,7 @@ function MainTabScreen({ navigation }) {
               onPress={() => navigation.navigate("settings")}
             />
           ),
-          title: t("common:nav.profile"),
+          title: t("common:nav_profile"),
         }}
       />
     </MainTab.Navigator>

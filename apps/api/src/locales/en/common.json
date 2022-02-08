@@ -1,64 +1,34 @@
 {
-  "entry": {
-    "signup": "Sign up",
-    "login": "Log in"
-  },
-  "roadmap": {
-    "planned": "Planned",
-    "released": "Released"
-  },
-  "interact": {
-    "open": "Open",
-    "back": "Back"
-  },
-  "nav": {
-    "home": "Home",
-    "train": "Train",
-    "groups": "Groups",
-    "profile": "Profile",
-    "settings": "Settings",
-    "speeddata": "Speed Data",
-    "freestyle": "Freestyle",
-    "group": "Group",
-    "group_speed": "Speed Data for Groups",
-    "group_create": "Create Group",
-    "admin": "Admin"
-  },
-  "action": {
-    "train_own": "Train on your own",
-    "train_group": "Train in Groups",
-    "speeddata": "Speed Data",
-    "speeddataown": "Speed Data for your own",
-    "create_group": "Create Group",
-    "freestyle": "Freestyle",
-    "search": "Search",
-    "back": "Back"
-  },
-  "stats": {
-    "high": "High",
-    "highscores": "Highscores",
-    "own": "Own",
-    "group": "Group",
-    "today": "Today"
-  },
-  "role": {
-    "coach": "Coach",
-    "athlete": "Athlete",
-    "coaches": "Coaches",
-    "athletes": "Athletes"
-  },
-  "fields": {
-    "username": "Username",
-    "password": "Password",
-    "firstname": "Firstname",
-    "lastname": "Lastname",
-    "email": "E-Mail",
-    "group_name": "Group name"
-  },
-  "footer": {
-    "text": "The Plattform for your Rope Skipping achievments!"
-  },
-  "date_picker": {
-    "today": "Today"
-  }
+  "back": "Back",
+  "nav_home": "Home",
+  "nav_groups": "Groups",
+  "nav_profile": "Profile",
+  "nav_settings": "Settings",
+  "nav_speeddata": "Speed Data",
+  "nav_freestyle": "Freestyle",
+  "nav_group": "Group",
+  "nav_group_speed": "Speed Data for Groups",
+  "nav_group_create": "Create Group",
+  "nav_admin": "Admin",
+  "nav_signup": "Sign up",
+  "nav_login": "Log in",
+  "nav_trust_legal": "Trust & Legal",
+  "nav_terms": "Terms",
+  "nav_legal": "Legal",
+  "nav_speeddataown": "Speed Data for your own",
+  "search": "Search",
+  "create_group": "Create Group",
+  "high": "High",
+  "highscores": "Highscores",
+  "own": "Own",
+  "coaches": "Coaches",
+  "athletes": "Athletes",
+  "username": "Username",
+  "password": "Password",
+  "firstname": "Firstname",
+  "lastname": "Lastname",
+  "email": "E-Mail",
+  "group_name": "Group name",
+  "footer_text": "The Plattform for your Rope Skipping achievments!",
+  "today": "Today"
 }

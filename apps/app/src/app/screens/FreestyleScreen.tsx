@@ -155,7 +155,7 @@ export default function FreestyleScreen() {
           <View style={{ flexGrow: 1 }}>
             <StyledText>
               {item.back
-                ? t("common:action.back")
+                ? t("common:back")
                 : t(
                     `freestyle:${
                       item.key.split("_")[item.key.split("_").length - 1]

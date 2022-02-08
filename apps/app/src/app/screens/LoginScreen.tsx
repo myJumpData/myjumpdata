@@ -52,7 +52,7 @@ export default function LoginScreen() {
           paddingVertical: 10,
         }}
       >
-        <StyledText>{t("common:fields.username")}:</StyledText>
+        <StyledText>{t("common:username")}:</StyledText>
         <StyledTextInput
           onChangeText={onChangeUsername}
           value={username}
@@ -67,7 +67,7 @@ export default function LoginScreen() {
           paddingVertical: 10,
         }}
       >
-        <StyledText>{t("common:fields.password")}:</StyledText>
+        <StyledText>{t("common:password")}:</StyledText>
         <StyledTextInput
           onChangeText={onChangePassword}
           value={password}
@@ -83,7 +83,7 @@ export default function LoginScreen() {
         }}
       >
         <StyledButton
-          title={t("common:entry.login")}
+          title={t("common:nav_login")}
           onPress={handleLoginSubmit}
         />
       </StyledView>

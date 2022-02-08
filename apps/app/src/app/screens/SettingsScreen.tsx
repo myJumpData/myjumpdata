@@ -139,7 +139,7 @@ export default function SettingsScreen({ navigation }) {
           {t("settings.data")}:
         </StyledText>
         <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:fields.username")}:</StyledText>
+          <StyledText>{t("common:username")}:</StyledText>
           <StyledTextInput
             onChangeText={(e) => {
               setEditing(true);
@@ -150,7 +150,7 @@ export default function SettingsScreen({ navigation }) {
           />
         </View>
         <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:fields.firstname")}:</StyledText>
+          <StyledText>{t("common:firstname")}:</StyledText>
           <StyledTextInput
             onChangeText={(e: string) => {
               setEditing(true);
@@ -161,7 +161,7 @@ export default function SettingsScreen({ navigation }) {
           />
         </View>
         <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:fields.lastname")}:</StyledText>
+          <StyledText>{t("common:lastname")}:</StyledText>
           <StyledTextInput
             onChangeText={(e: string) => {
               setEditing(true);
@@ -172,7 +172,7 @@ export default function SettingsScreen({ navigation }) {
           />
         </View>
         <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:fields.email")}:</StyledText>
+          <StyledText>{t("common:email")}:</StyledText>
           <StyledTextInput
             onChangeText={(e: string) => {
               setEditing(true);
@@ -183,7 +183,7 @@ export default function SettingsScreen({ navigation }) {
           />
         </View>
         <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:fields.password")}:</StyledText>
+          <StyledText>{t("common:password")}:</StyledText>
           <StyledTextInput
             onChangeText={(e: string) => {
               setEditing(true);

@@ -98,13 +98,13 @@ export default function GroupSettingsScreen() {
     <>
       <div className="w-full space-y-2">
         <span className="font-bold text-xl">
-          {groupName + " " + t("common:nav.settings")}
+          {groupName + " " + t("common:nav_settings")}
         </span>
       </div>
       <span className="text-2xl font-bold">{t("settings.data")}: </span>
       <TextInput
         type="text"
-        name={t("common:fields.group_name") + ":"}
+        name={t("common:group_name") + ":"}
         stateChange={setGroupUpdateName}
         value={groupUpdateName}
       />
@@ -113,7 +113,7 @@ export default function GroupSettingsScreen() {
         <div className="mt-4">
           <TextInput
             type="text"
-            name={t("common:action.search") + ":"}
+            name={t("common:search") + ":"}
             stateChange={setGroupSearch}
             value={groupSearch}
           />
@@ -310,7 +310,7 @@ export default function GroupSettingsScreen() {
         </div>
       </div>
       <Link to={`/group/${params.id}/`}>
-        <Button name={t("common:interact.back")} design="link" />
+        <Button name={t("common:back")} design="link" />
       </Link>
     </>
   );

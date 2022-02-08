@@ -74,7 +74,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
       .toString()
       .padStart(2, "0")}.${selected.getFullYear()}`;
     if (selected.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)) {
-      setDateText(`${t("common:stats.today")} (${format})`);
+      setDateText(`${t("common:today")} (${format})`);
     } else {
       setDateText(`${format}`);
     }
@@ -137,7 +137,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
           ))}
         </Picker>
         <StyledText>
-          {t("common:stats.high")}: {groupHigh}
+          {t("common:high")}: {groupHigh}
         </StyledText>
       </View>
 
@@ -170,7 +170,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
                   : score.user.username}
               </StyledText>
               <StyledText>
-                {t("common:stats.high")}: {score.score}
+                {t("common:high")}: {score.score}
               </StyledText>
             </StyledView>
             <StyledView

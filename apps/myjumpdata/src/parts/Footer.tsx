@@ -14,14 +14,14 @@ export default function Footer() {
   ];
   const links = [
     {
-      heading: t("footermain:trust_legal"),
+      heading: t("common:nav_trust_legal"),
       links: [
         {
-          name: t("footermain:terms"),
+          name: t("common:nav_terms"),
           to: "/terms",
         },
         {
-          name: t("footermain:legal"),
+          name: t("common:nav_legal"),
           to: "/legal",
         },
       ],

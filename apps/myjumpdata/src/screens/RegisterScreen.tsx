@@ -42,39 +42,35 @@ export default function RegisterScreen() {
   return (
     <div className="max-w-screen-sm">
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("common:entry.signup")}</span>
+        <span className="font-bold text-xl">{t("common:nav_signup")}</span>
       </div>
       <form onSubmit={handleRegisterSubmit}>
         <TextInput
           type="text"
-          name={t("common:fields.username") + ":"}
+          name={t("common:username") + ":"}
           inputName="username"
         />
         <TextInput
           type="text"
-          name={t("common:fields.firstname") + ":"}
+          name={t("common:firstname") + ":"}
           inputName="firstname"
         />
         <TextInput
           type="text"
-          name={t("common:fields.lastname") + ":"}
+          name={t("common:lastname") + ":"}
           inputName="lastname"
         />
         <TextInput
-          name={t("common:fields.email") + ":"}
+          name={t("common:email") + ":"}
           type="text"
           inputName="email"
         />
         <TextInput
-          name={t("common:fields.password") + ":"}
+          name={t("common:password") + ":"}
           type="password"
           inputName="password"
         />
-        <Button
-          name={t("common:entry.signup")}
-          type="submit"
-          design="success"
-        />
+        <Button name={t("common:nav_signup")} type="submit" design="success" />
       </form>
     </div>
   );

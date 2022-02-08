@@ -179,7 +179,7 @@ export default function MainScreen() {
             to="/register"
             className="mx-auto lg:mx-0 hover:underline bg-yellow-500 font-bold rounded-full my-6 py-2 px-4 lg:py-4 lg:px-8 shadow-lg text-gray-800"
           >
-            {t("common:entry.signup")}
+            {t("common:nav_signup")}
           </Link>
         </div>
       </div>

@@ -96,7 +96,7 @@ export default function ProfileScreen() {
         }}
       >
         <StyledText style={{ fontWeight: "600" }}>
-          {t("common:stats.highscores")}
+          {t("common:highscores")}
         </StyledText>
         <StyledView>
           {userOverviewScoreData.map(
@@ -128,7 +128,7 @@ export default function ProfileScreen() {
                       justifyContent: "space-between",
                     }}
                   >
-                    <StyledText>{t("common:stats.group")}</StyledText>
+                    <StyledText>{t("common:nav_group")}</StyledText>
                     <StyledText>{score.score}</StyledText>
                   </View>
                   <StyledView
@@ -137,7 +137,7 @@ export default function ProfileScreen() {
                       justifyContent: "space-between",
                     }}
                   >
-                    <StyledText>{t("common:stats.own")}</StyledText>
+                    <StyledText>{t("common:own")}</StyledText>
                     <StyledText>{score.scoreOwn}</StyledText>
                   </StyledView>
                 </View>

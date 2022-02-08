@@ -89,7 +89,7 @@ export default function SpeedDataScreen() {
           />
         </div>
         <span className="text-xs whitespace-nowrap uppercase">
-          {t("common:stats.high")}: {groupHigh}
+          {t("common:high")}: {groupHigh}
         </span>
       </div>
       {groupScores &&

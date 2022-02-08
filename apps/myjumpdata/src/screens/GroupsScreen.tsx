@@ -38,9 +38,7 @@ export default function GroupsScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">
-          {t("common:action.train_group")}
-        </span>
+        <span className="font-bold text-xl">{t("common:nav_group")}</span>
       </div>
       <div className="flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 space-y-4 sm:space-y-0">
         {groups?.map((group: any) => (
@@ -57,18 +55,18 @@ export default function GroupsScreen() {
         <>
           <div className="w-full space-y-2">
             <span className="font-bold text-xl">
-              {t("common:action.create_group")}
+              {t("common:create_group")}
             </span>
           </div>
           <div className="max-w-screen-sm">
             <TextInput
-              name={t("common:fields.group_name") + ":"}
+              name={t("common:group_name") + ":"}
               type="text"
               value={groupName}
               stateChange={setGroupName}
             />
             <Button
-              name={t("common:action.create_group")}
+              name={t("common:create_group")}
               onClick={handleCreateGroup}
               design="success"
             />

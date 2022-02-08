@@ -30,7 +30,7 @@ export default function SpeedDataOwnScreen() {
       .toString()
       .padStart(2, "0")}.${selected.getFullYear()}`;
     if (selected.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)) {
-      setDateText(`${t("common:stats.today")} (${format})`);
+      setDateText(`${t("common:today")} (${format})`);
     } else {
       setDateText(`${format}`);
     }
@@ -108,7 +108,7 @@ export default function SpeedDataOwnScreen() {
             >
               <StyledText>{item.type.name}</StyledText>
               <StyledText>
-                {t("common:stats.high")}: {item.score}
+                {t("common:high")}: {item.score}
               </StyledText>
             </StyledView>
             <StyledView

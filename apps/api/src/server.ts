@@ -55,24 +55,24 @@ export default function createServer() {
               return res.status(500).send(err);
             }
             const parse = JSON.parse(data);
-            /* if (ns === "freestyle") {
-          Object.keys(parse).map((key) => {
-            const t = parse[key];
-            console.log(key, t);
-            const tmp = new Translation({
-              language: lng,
-              namespace: ns,
-              key: key,
-              translation: t,
-            });
-            tmp.save((err, response) => {
-              if (err) {
-                return requestHandlerError(res, err);
-              }
-              console.log(response);
-            });
-          });
-        } */
+            /* if (ns === "common") {
+              Object.keys(parse).map((key) => {
+                const t = parse[key];
+                console.log(key, t);
+                const tmp = new Translation({
+                  language: lng,
+                  namespace: ns,
+                  key: key,
+                  translation: t,
+                });
+                tmp.save((err, response) => {
+                  if (err) {
+                    return requestHandlerError(res, err);
+                  }
+                  console.log(response);
+                });
+              });
+            } */
             return res.status(200).send(parse);
           }
         );

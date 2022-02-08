@@ -105,22 +105,22 @@ export default function GroupScreen() {
         )}
       </div>
       <div className="space-y-4">
-        <UserRow name={t("common:role.coaches")} list={groupCoaches} />
-        <UserRow name={t("common:role.athletes")} list={groupAthletes} />
+        <UserRow name={t("common:coaches")} list={groupCoaches} />
+        <UserRow name={t("common:athletes")} list={groupAthletes} />
       </div>
       <div>
         {groupCoaches?.some((i: any) => i.id === user.id) && (
           <div className="mb-4">
             <Link to={`/speeddata/group/${params.id}`}>
-              <Button name={t("common:action.speeddata")} design="primary" />
+              <Button name={t("common:nav_speeddata")} design="primary" />
             </Link>
             <Link to={`/freestyle/group/${params.id}`}>
-              <Button name={t("common:action.freestyle")} design="primary" />
+              <Button name={t("common:nav_freestyle")} design="primary" />
             </Link>
           </div>
         )}
         <Link to={`/group`}>
-          <Button name={t("common:interact.back")} design="link" />
+          <Button name={t("common:back")} design="link" />
         </Link>
       </div>
     </>

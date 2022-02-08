@@ -71,7 +71,7 @@ export default function ProfileScreen() {
       </div>
       <div>
         <span className="font-bold text-lg md:text-xl">
-          {t("common:stats.highscores")}:
+          {t("common:highscores")}:
         </span>
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {userOverviewScoreData?.map(
@@ -83,11 +83,11 @@ export default function ProfileScreen() {
                 <span className="font-bold text-base w-full">{score.type}</span>
                 <div className="flex-col flex whitespace-nowrap text-sm">
                   <div className="flex justify-between space-x-2">
-                    <span>{t("common:stats.group")}</span>
+                    <span>{t("common:nav_group")}</span>
                     <span>{score.score}</span>
                   </div>
                   <div className="flex justify-between space-x-2">
-                    <span>{t("common:stats.own")}</span>
+                    <span>{t("common:own")}</span>
                     <span>{score.scoreOwn}</span>
                   </div>
                 </div>

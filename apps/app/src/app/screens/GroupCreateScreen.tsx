@@ -28,7 +28,7 @@ export default function GroupCreateScreen({ navigation }) {
           paddingVertical: 10,
         }}
       >
-        <StyledText>{t("common:fields.group_name")}:</StyledText>
+        <StyledText>{t("common:group_name")}:</StyledText>
         <StyledTextInput
           onChangeText={setGroupname}
           value={groupname}
@@ -41,7 +41,7 @@ export default function GroupCreateScreen({ navigation }) {
         }}
       >
         <StyledButton
-          title={t("common:action.create_group")}
+          title={t("common:create_group")}
           onPress={handleCreateGroup}
         />
       </StyledView>

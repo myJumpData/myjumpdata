@@ -14,7 +14,7 @@ export function Back({ to, state }: { to: string; state: any }) {
       }}
     >
       <HiArrowLeft className="mr-2 text-xl" />
-      {t("common:action.back")}
+      {t("common:back")}
     </div>
   );
 }

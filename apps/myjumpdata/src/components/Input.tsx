@@ -137,7 +137,7 @@ export function DateInput({
     let text = selected;
     const input = new Date(value).setHours(0, 0, 0, 0);
     if (input === new Date().setHours(0, 0, 0, 0)) {
-      text = `${t("common:stats.today")} (${selected})`;
+      text = `${t("common:today")} (${selected})`;
     }
     return (
       <button
@@ -161,7 +161,7 @@ export function DateInput({
         fixedHeight
         customInput={createElement(customInput)}
         calendarStartDay={1}
-        todayButton={t("common:date_picker.today")}
+        todayButton={t("common:today")}
         renderCustomHeader={({
           date,
           decreaseMonth,

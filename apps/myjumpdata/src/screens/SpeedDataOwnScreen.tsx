@@ -40,9 +40,7 @@ export default function SpeedDataOwnScreen() {
 
   return (
     <div className="w-full space-y-2">
-      <span className="font-bold text-xl">
-        {t("common:action.speeddataown")}
-      </span>
+      <span className="font-bold text-xl">{t("common:nav_speeddataown")}</span>
       <DateInput
         setDate={(e) => {
           setDate(e);

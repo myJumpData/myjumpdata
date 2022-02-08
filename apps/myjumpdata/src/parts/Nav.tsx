@@ -16,7 +16,7 @@ export function Nav() {
   let dropdownButton;
   let navigation: any[] = [
     {
-      name: t("common:nav.home"),
+      name: t("common:nav_home"),
       to: "/",
       current: route === "home",
     },
@@ -25,10 +25,10 @@ export function Nav() {
     dropdown = [
       {
         icon: <HiUser />,
-        name: t("common:nav.profile"),
+        name: t("common:nav_profile"),
         to: `/u/${user.username}`,
       },
-      { icon: <HiCog />, name: t("common:nav:settings"), to: "/settings" },
+      { icon: <HiCog />, name: t("common:nav_settings"), to: "/settings" },
     ];
     dropdownButton =
       image === "" ? (
@@ -43,17 +43,17 @@ export function Nav() {
     navigation = [
       ...navigation,
       {
-        name: t("common:nav.speeddata"),
+        name: t("common:nav_speeddata"),
         to: "/speeddata/own",
         current: route === "speeddata",
       },
       {
-        name: t("common:nav.freestyle"),
+        name: t("common:nav_freestyle"),
         to: "/freestyle/own",
         current: route === "freestyle",
       },
       {
-        name: t("common:nav.groups"),
+        name: t("common:nav_groups"),
         to: "/group",
         current: route === "group",
       },
@@ -62,12 +62,12 @@ export function Nav() {
     navigation = [
       ...navigation,
       {
-        name: t("common:entry.login"),
+        name: t("common:nav_login"),
         to: "/login",
         current: route === "login",
       },
       {
-        name: t("common:entry.signup"),
+        name: t("common:nav_signup"),
         to: "/register",
         current: route === "register",
       },
@@ -77,7 +77,7 @@ export function Nav() {
     navigation = [
       ...navigation,
       {
-        name: t("common:nav.admin"),
+        name: t("common:nav_admin"),
         to: "/admin",
         current: route.match(new RegExp("admin(.*)")),
       },

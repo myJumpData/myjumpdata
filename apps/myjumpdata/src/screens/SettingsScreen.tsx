@@ -92,27 +92,27 @@ export default function SettingsScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("common:nav.settings")}</span>
+        <span className="font-bold text-xl">{t("common:nav_settings")}</span>
       </div>
       <div className="flex flex-col space-y-4">
         <div className="flex flex-col space-y-4">
           <span className="text-base font-bold">{t("settings.data")}: </span>
           <TextInput
             type="text"
-            name={t("common:fields.username") + ":"}
+            name={t("common:username") + ":"}
             stateChange={setUsername}
             value={username}
           />
           <div className="flex space-x-4">
             <TextInput
               type="text"
-              name={t("common:fields.firstname") + ":"}
+              name={t("common:firstname") + ":"}
               stateChange={setFirstname}
               value={firstname}
             />
             <TextInput
               type="text"
-              name={t("common:fields.lastname") + ":"}
+              name={t("common:lastname") + ":"}
               stateChange={setLastname}
               value={lastname}
             />
@@ -121,7 +121,7 @@ export default function SettingsScreen() {
             <span className="w-full">
               <TextInput
                 type="text"
-                name={t("common:fields.email") + ":"}
+                name={t("common:email") + ":"}
                 stateChange={setEmail}
                 value={email}
               />
@@ -140,7 +140,7 @@ export default function SettingsScreen() {
             <span className="w-full">
               <TextInput
                 type="password"
-                name={t("common:fields.password") + ":"}
+                name={t("common:password") + ":"}
                 stateChange={setPassword}
                 value={password}
               />

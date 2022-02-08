@@ -146,7 +146,7 @@ function AdminFreestyleScreen() {
                   <td>
                     <HiArrowLeft />
                   </td>
-                  <td>{t("common:action.back")}</td>
+                  <td>{t("common:back")}</td>
                   <td></td>
                   <td></td>
                 </>

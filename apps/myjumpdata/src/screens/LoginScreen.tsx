@@ -33,20 +33,20 @@ export default function LoginScreen() {
   return (
     <div className="max-w-screen-sm">
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("common:entry.login")}</span>
+        <span className="font-bold text-xl">{t("common:nav_login")}</span>
       </div>
       <form onSubmit={handleLoginSubmit} className="w-full">
         <TextInput
           type="text"
-          name={t("common:fields.username") + ":"}
+          name={t("common:username") + ":"}
           inputName="username"
         />
         <TextInput
-          name={t("common:fields.password") + ":"}
+          name={t("common:password") + ":"}
           type="password"
           inputName="password"
         />
-        <Button name={t("common:entry.login")} type="submit" design="success" />
+        <Button name={t("common:nav_login")} type="submit" design="success" />
       </form>
     </div>
   );
