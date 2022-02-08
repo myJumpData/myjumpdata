@@ -88,6 +88,7 @@ export function Nav({
                 setImage(response.data.picture);
               }
             })
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             .catch(() => {});
         }
       });
