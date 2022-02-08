@@ -32,7 +32,7 @@ export function Element({
   level?: string;
   compiled?: boolean;
   element?: { stateUser?: boolean; stateCoach?: boolean };
-  onRefresh: () => void;
+  onRefresh?: () => void;
   user: "own" | string;
 }) {
   const { i18n, t } = useTranslation();
@@ -46,16 +46,18 @@ export function Element({
           .some((item) => item === false) && "border border-red-500"
       )}
       onClick={() => {
-        if (user === "own") {
-          saveFreestyleDataOwn(id as string, !element?.stateUser).then(() => {
-            onRefresh();
-          });
-        } else {
-          saveFreestyleData(user, id as string, !element?.stateCoach).then(
-            () => {
+        if (onRefresh !== undefined) {
+          if (user === "own") {
+            saveFreestyleDataOwn(id as string, !element?.stateUser).then(() => {
               onRefresh();
-            }
-          );
+            });
+          } else {
+            saveFreestyleData(user, id as string, !element?.stateCoach).then(
+              () => {
+                onRefresh();
+              }
+            );
+          }
         }
       }}
     >
@@ -73,15 +75,17 @@ export function Element({
             Lvl. {level}
           </span>
         )}
-        <span className="xs:text-2xl self-end xs:self-center ml-2 py-2">
-          {element?.stateCoach ? (
-            <FaSquare />
-          ) : element?.stateUser ? (
-            <FaRegCheckSquare />
-          ) : (
-            <FaRegSquare />
-          )}
-        </span>
+        {element && (
+          <span className="xs:text-2xl self-end xs:self-center ml-2 py-2">
+            {element?.stateCoach ? (
+              <FaSquare />
+            ) : element?.stateUser ? (
+              <FaRegCheckSquare />
+            ) : (
+              <FaRegSquare />
+            )}
+          </span>
+        )}
       </div>
     </div>
   );
