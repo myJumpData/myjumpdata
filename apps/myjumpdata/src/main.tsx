@@ -81,7 +81,7 @@ ReactDOM.render(
               {
                 //"Admin"
               }
-              <Route path="/admin" element={<AdminScreen />} />
+              <Route path="/admin/*" element={<AdminScreen />} />
             </Routes>
           </Wrapper>
         </BrowserRouter>

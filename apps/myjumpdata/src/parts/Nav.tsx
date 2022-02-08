@@ -79,7 +79,7 @@ export function Nav() {
       {
         name: t("common:nav.admin"),
         to: "/admin",
-        current: route === "admin",
+        current: route.match(new RegExp("admin(.*)")),
       },
     ];
   }
