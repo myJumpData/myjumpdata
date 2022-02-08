@@ -1,7 +1,6 @@
 import { APP_URL } from "@myjumpdata/consts";
 import cors from "cors";
 import express from "express";
-import * as fs from "fs";
 import Translation from "./models/translation.model";
 import { requestHandlerError } from "./requestHandler";
 import FreestyleRoutes from "./routes/freestyle.routes";
@@ -46,36 +45,6 @@ export default function createServer() {
           );
           return res.status(200).send(map_data);
         }
-        fs.readFile(
-          "./apps/api/src/locales/" + lng + "/" + ns + ".json",
-          "utf-8",
-          (err, data) => {
-            if (err) {
-              console.log(err);
-              return res.status(500).send(err);
-            }
-            const parse = JSON.parse(data);
-            /* if (ns === "main") {
-              Object.keys(parse).map((key) => {
-                const t = parse[key];
-                console.log(key, t);
-                const tmp = new Translation({
-                  language: lng,
-                  namespace: ns,
-                  key: key,
-                  translation: t,
-                });
-                tmp.save((err, response) => {
-                  if (err) {
-                    return requestHandlerError(res, err);
-                  }
-                  console.log(response);
-                });
-              });
-            } */
-            return res.status(200).send(parse);
-          }
-        );
       });
   });
   return app;
