@@ -32,8 +32,8 @@ export default function ProfileScreen() {
               if (r.status === 200) {
                 setImage(response.data.picture);
               }
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
             })
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             .catch(() => {});
         }
       });
