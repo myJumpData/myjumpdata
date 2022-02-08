@@ -21,6 +21,7 @@ export default function AdminScreen() {
       <Route path="/users" element={<AdminUsersScreen />} />
       <Route path="/groups" element={<AdminGroupsScreen />} />
       <Route path="/freestyle" element={<AdminFreestyleScreen />} />
+      <Route path="/localization" element={<AdminLocalizationScreen />} />
       <Route path="*" element={<Navigate to="/admin/home" />} />
     </Routes>
   );
@@ -184,4 +185,17 @@ function AddBottom() {
       </div>
     </div>
   );
+}
+
+function AdminLocalizationScreen() {
+  useEffect(() => {
+    setRoute("admin/localization");
+  }, []);
+  AuthVerify();
+  const user = useSelector((state: any) => state.freestyle);
+  if (user.roles?.includes("admin")) {
+    return <Navigate to="/" />;
+  }
+
+  return <div>Localization</div>;
 }

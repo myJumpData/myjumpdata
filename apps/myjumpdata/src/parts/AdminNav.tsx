@@ -10,6 +10,7 @@ export default function AdminNav() {
     { name: "users", current: route === "admin/users" },
     { name: "groups", current: route === "admin/groups" },
     { name: "freestyle", current: route === "admin/freestyle" },
+    { name: "localization", current: route === "admin/localization" },
   ];
 
   return (
