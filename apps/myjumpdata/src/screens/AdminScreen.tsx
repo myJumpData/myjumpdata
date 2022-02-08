@@ -2,7 +2,7 @@ import { setFreestyle, setRoute } from "@myjumpdata/redux";
 import { getFreestyle } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaFolder } from "react-icons/fa";
+import { FaFolder, FaFolderPlus, FaPlus } from "react-icons/fa";
 import { HiArrowLeft } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -170,5 +170,18 @@ function AdminFreestyleScreen() {
         </tbody>
       </table>
     </>
+  );
+}
+
+function AddBottom() {
+  return (
+    <div className="rounded-lg bg-gray-500/50 flex h-12 items-center px-4 py-2 space-x-4 justify-end">
+      <div className="opacity-50 hover:opacity-100 hover:scale-125 transition">
+        <FaPlus className="text-lg" />
+      </div>
+      <div className="opacity-50 hover:opacity-100 hover:scale-125 transition">
+        <FaFolderPlus className="text-lg" />
+      </div>
+    </div>
   );
 }
