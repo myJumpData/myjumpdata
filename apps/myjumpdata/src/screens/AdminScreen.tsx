@@ -96,9 +96,7 @@ function AdminFreestyleScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">
-          {t("common:action:freestyle")}
-        </span>
+        <span className="font-bold text-xl">{t("common:nav_freestyle")}</span>
       </div>
       <Breadcrumb
         data={freestyle ? freestyle.split("_") : []}
