@@ -27,11 +27,14 @@ export default function ProfileScreen() {
         setLastname(response.data?.lastname);
         setUserOverviewScoreData(response.data?.highdata);
         if (response.data?.picture) {
-          fetch(response.data.picture).then((r) => {
-            if (r.status === 200) {
-              setImage(response.data.picture);
-            }
-          });
+          fetch(response.data.picture)
+            .then((r) => {
+              if (r.status === 200) {
+                setImage(response.data.picture);
+              }
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+            })
+            .catch(() => {});
         }
       });
     }
