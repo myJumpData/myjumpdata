@@ -73,7 +73,7 @@ export function Nav() {
       },
     ];
   }
-  if (user.roles.includes("admin")) {
+  if (user?.roles?.includes("admin")) {
     navigation = [
       ...navigation,
       {
