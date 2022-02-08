@@ -38,7 +38,7 @@ export default function MainScreen() {
           to="/register"
           className="hover:underline text-gray-800 bg-yellow-500 font-bold rounded-full md:py-4 md:px-8 py-2 px-4 shadow-lg"
         >
-          {t("common:entry:signup")}
+          {t("common:nav_signup")}
         </Link>
       </div>
     );
