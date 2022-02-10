@@ -110,7 +110,9 @@ export default function FreestyleGroupScreen() {
                 key={e.key}
                 id={e.id}
                 compiled={e.compiled}
-                element={freestyleDataUser?.find((i) => i.element === e.id)}
+                element={
+                  freestyleDataUser?.find((i) => i.element === e.id) || {}
+                }
                 onRefresh={() => {
                   getUserData();
                 }}
