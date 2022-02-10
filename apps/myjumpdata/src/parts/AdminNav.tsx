@@ -22,6 +22,7 @@ export default function AdminNav() {
         <div className="flex flex-row md:flex-col overflow-y-auto">
           {adminRoutes.map((item: any) => (
             <Link
+              key={item.name}
               to={`/admin/${item.name}`}
               className={classNames(
                 "py-2 px-4 rounded-t-2xl md:rounded-tr-none md:rounded-l-2xl",
