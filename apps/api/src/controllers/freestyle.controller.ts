@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Query } from "mongoose";
 import FreestyleDataElement from "../models/freestyleDataElement.model";
 import FreestyleDataGroup from "../models/freestyleDataGroup.model";
 import FreestyleDataUser from "../models/freestyleDataUser.model";
+import Translation from "../models/translation.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
 
 export function getFreestyle(req, res) {
@@ -60,6 +61,44 @@ export function getFreestyle(req, res) {
     }
   }
 }
+export function getFreestyleElement(req, res) {
+  const elementId = req.params.id;
+  FreestyleDataElement.findOne({ _id: elementId })
+    .select("-__v")
+    .populate("groups", "-__v -parent")
+    .exec((err, elementData) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      const jobQueries: Query<object, object>[] = [];
+      elementData.key.split("_").forEach((element) => {
+        jobQueries.push(
+          Translation.find({ key: element, namespace: "freestyle" }).select(
+            "-_id -__v -namespace"
+          )
+        );
+      });
+      Promise.all(jobQueries).then((translationData) => {
+        const translation = {};
+        translationData.flat().forEach((item: any) => {
+          if (translation[item.language]) {
+            translation[item.language][item.key] = item.translation;
+          } else {
+            translation[item.language] = {};
+            translation[item.language][item.key] = item.translation;
+          }
+        });
+        return requestHandler(res, 200, "", "", {
+          id: elementData._id,
+          key: elementData.key,
+          translation,
+          level: elementData.level,
+          groups: elementData.groups,
+        });
+      });
+    });
+}
+
 export function getFreestyleDataOwn(req, res) {
   FreestyleDataUser.find({ user: req.userId })
     .select("-createdAt -updatedAt -_id -__v")

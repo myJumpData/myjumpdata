@@ -1,11 +1,18 @@
 import { setFreestyle, setRoute } from "@myjumpdata/redux";
-import { getFreestyle } from "@myjumpdata/service";
+import { getFreestyle, getFreestyleElement } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaFolder, FaFolderPlus, FaPlus } from "react-icons/fa";
-import { HiArrowLeft } from "react-icons/hi";
+import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { Navigate, Route, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import Flag from "react-world-flags";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -20,7 +27,10 @@ export default function AdminScreen() {
       <Route path="/home" element={<AdminHomeScreen />} />
       <Route path="/users" element={<AdminUsersScreen />} />
       <Route path="/groups" element={<AdminGroupsScreen />} />
-      <Route path="/freestyle" element={<AdminFreestyleScreen />} />
+      <Route path="/freestyle">
+        <Route index element={<AdminFreestyleScreen />} />
+        <Route path="element/:id" element={<AdminFreestyleElementScreen />} />
+      </Route>
       <Route path="/localization" element={<AdminLocalizationScreen />} />
       <Route path="*" element={<Navigate to="/admin/home" />} />
     </Routes>
@@ -78,6 +88,7 @@ function AdminFreestyleScreen() {
     setRoute("admin/freestyle");
   }, []);
   AuthVerify();
+  const navigate = useNavigate();
   const user = useSelector((state: any) => state.freestyle);
   const freestyle = useSelector((state: any) => state.freestyle);
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
@@ -109,24 +120,20 @@ function AdminFreestyleScreen() {
             <th>Name</th>
             <th>Key</th>
             <th className="text-right">Level</th>
+            <th className="w-6"></th>
           </tr>
         </thead>
         <tbody>
-          {folderData?.map((e: freestyle_folder_data) => (
-            <tr
-              className="border-y border-gray-500 hover:bg-gray-500/50 cursor-pointer h-6"
-              onClick={() => {
-                if (e.element) {
-                  return;
-                } else if (e.back) {
-                  setFreestyle(e.key);
-                } else {
-                  setFreestyle(e.key);
-                }
-              }}
-            >
-              {e.element ? (
-                <>
+          {folderData?.map((e: freestyle_folder_data) => {
+            if (e.element) {
+              return (
+                <tr
+                  className="border-y border-gray-500 hover:bg-gray-500/50 hover:h-8 transition-all duration-1000 hover:duration-500 ease-out cursor-pointer h-6"
+                  key={e.key}
+                  onClick={() => {
+                    navigate("/admin/freestyle/element/" + e.id);
+                  }}
+                >
                   <td></td>
                   <td>
                     {e.compiled
@@ -138,18 +145,40 @@ function AdminFreestyleScreen() {
                   </td>
                   <td>{e.compiled ? e.key.split("_").join(" ") : e.key}</td>
                   <td className="text-right">{e.level && `Lvl. ${e.level}`}</td>
-                </>
-              ) : e.back ? (
-                <>
+                  <td>
+                    <HiArrowRight />
+                  </td>
+                </tr>
+              );
+            }
+            if (e.back) {
+              return (
+                <tr
+                  className="border-y border-gray-500 hover:bg-gray-500/50 hover:h-8 transition-all duration-1000 hover:duration-500 ease-out cursor-pointer h-6"
+                  key={e.key}
+                  onClick={() => {
+                    setFreestyle(e.key);
+                  }}
+                >
                   <td>
                     <HiArrowLeft />
                   </td>
                   <td>{t("common:back")}</td>
                   <td></td>
                   <td></td>
-                </>
-              ) : (
-                <>
+                  <td></td>
+                </tr>
+              );
+            }
+            if (e.group) {
+              return (
+                <tr
+                  className="border-y border-gray-500 hover:bg-gray-500/50 hover:h-8 transition-all duration-1000 hover:duration-500 ease-out  cursor-pointer h-6"
+                  key={e.key}
+                  onClick={() => {
+                    setFreestyle(e.key);
+                  }}
+                >
                   <td>
                     <FaFolder />
                   </td>
@@ -162,26 +191,115 @@ function AdminFreestyleScreen() {
                   </td>
                   <td>{e.key.split("_")[e.key.split("_").length - 1]}</td>
                   <td></td>
-                </>
-              )}
-            </tr>
-          ))}
+                  <td></td>
+                </tr>
+              );
+            }
+            return <span key={e.key}></span>;
+          })}
         </tbody>
       </table>
     </>
   );
+  function AddBottom() {
+    return (
+      <div className="rounded-lg bg-gray-500/50 flex h-12 items-center px-4 py-2 space-x-4 justify-end">
+        <div className="opacity-50 hover:opacity-100 hover:scale-125 transition">
+          <FaPlus className="text-lg" />
+        </div>
+        <div className="opacity-50 hover:opacity-100 hover:scale-125 transition">
+          <FaFolderPlus className="text-lg" />
+        </div>
+      </div>
+    );
+  }
 }
 
-function AddBottom() {
+function AdminFreestyleElementScreen() {
+  const params = useParams();
+  const { t } = useTranslation();
+  const [freestyleElementData, setFreestyleElementData] = useState<
+    | {
+        id: string;
+        key: string;
+        translation: any;
+        level: string;
+        groups: { _id: string; key: string; parent: string }[];
+      }
+    | undefined
+  >();
+  useEffect(() => {
+    getFreestyleElement(params.id as string).then((response) => {
+      setFreestyleElementData(response.data);
+    });
+  }, [params.id]);
+
   return (
-    <div className="rounded-lg bg-gray-500/50 flex h-12 items-center px-4 py-2 space-x-4 justify-end">
-      <div className="opacity-50 hover:opacity-100 hover:scale-125 transition">
-        <FaPlus className="text-lg" />
+    <>
+      <div className="w-full space-y-2">
+        <span className="font-bold text-xl">
+          {t("common:nav_freestyle")}
+          {freestyleElementData &&
+            ` - ${freestyleElementData.key
+              .split("_")
+              .map((item) => t(`freestyle:${item}`))
+              .join(" ")}`}
+        </span>
       </div>
-      <div className="opacity-50 hover:opacity-100 hover:scale-125 transition">
-        <FaFolderPlus className="text-lg" />
-      </div>
-    </div>
+      {freestyleElementData && (
+        <>
+          <table>
+            <tbody>
+              <tr>
+                <td className="font-bold">id</td>
+                <td>{freestyleElementData.id}</td>
+              </tr>
+              <tr>
+                <td className="font-bold">key</td>
+                <td>{freestyleElementData.key}</td>
+              </tr>
+              <tr>
+                <td className="font-bold">level</td>
+                <td>{freestyleElementData.level}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <span className="font-bold">Groups</span>
+            {freestyleElementData.groups.map((group) => (
+              <div className="my-2" key={group.key}>
+                <Breadcrumb
+                  data={group.key.split("_")}
+                  setState={() => {
+                    return;
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+          <div>
+            <span className="font-bold">Translations</span>
+            {Object.keys(freestyleElementData.translation).map((key) => (
+              <div
+                className="my-2 rounded-lg bg-gray-500/50 flex h-8 items-center space-x-2 overflow-hidden px-4 py-2"
+                key={key}
+              >
+                <span className="w-12 h-full flex items-center">
+                  <Flag code={key === "en" ? "gb" : key} />
+                </span>
+
+                <span className="px-4 py-2">
+                  {freestyleElementData.key
+                    .split("_")
+                    .map((item) => freestyleElementData.translation[key][item])
+                    .join(" ")}
+                </span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </>
   );
 }
 

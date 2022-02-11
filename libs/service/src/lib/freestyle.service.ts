@@ -3,6 +3,9 @@ import api from "./api";
 export const getFreestyle = (params: string) => {
   return api.get("/freestyle/" + params);
 };
+export const getFreestyleElement = (id: string) => {
+  return api.get("/freestyle/element/" + id);
+};
 
 export const getFreestyleDataOwn = () => {
   return api.get("/freestyle_own");

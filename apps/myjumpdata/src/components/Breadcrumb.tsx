@@ -10,7 +10,7 @@ export default function Breadcrumb({
 }) {
   const { t, i18n } = useTranslation();
   return (
-    <div className="flex h-full items-center bg-gray-200 dark:bg-gray-700 rounded-xl px-4 space-x-2 py-2 flex-wrap">
+    <div className="flex h-full items-center bg-gray-500/50 rounded-xl px-4 space-x-2 py-2 flex-wrap">
       <span
         onClick={() => {
           setState("");
