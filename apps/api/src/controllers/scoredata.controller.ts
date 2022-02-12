@@ -175,7 +175,6 @@ export function resetScoreDataOwn(req, res) {
     if (err) {
       return requestHandlerError(res, err);
     }
-    console.log(data);
     return requestHandler(res, 200, "", "", data);
   });
 }
