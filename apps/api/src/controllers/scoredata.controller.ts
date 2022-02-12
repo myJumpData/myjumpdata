@@ -165,3 +165,18 @@ export function saveScoreDataOwn(req, res) {
     );
   });
 }
+
+export function resetScoreDataOwn(req, res) {
+  console.log(req.body);
+  ScoreDataRecordOwn.deleteMany({
+    user: req.userId,
+    type: req.body.type,
+    score: { $gte: req.body.score },
+  }).exec((err, data) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    console.log(data);
+    return requestHandler(res, 200, "", "", data);
+  });
+}
