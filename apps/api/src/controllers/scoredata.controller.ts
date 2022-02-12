@@ -167,7 +167,6 @@ export function saveScoreDataOwn(req, res) {
 }
 
 export function resetScoreDataOwn(req, res) {
-  console.log(req.body);
   ScoreDataRecordOwn.deleteMany({
     user: req.userId,
     type: req.body.type,
