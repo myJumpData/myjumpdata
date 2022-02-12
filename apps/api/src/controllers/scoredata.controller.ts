@@ -178,3 +178,16 @@ export function resetScoreDataOwn(req, res) {
     return requestHandler(res, 200, "", "", data);
   });
 }
+
+export function resetScoreData(req, res) {
+  ScoreDataRecord.deleteMany({
+    user: req.body.user,
+    type: req.body.type,
+    score: { $gte: req.body.score },
+  }).exec((err, data) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    return requestHandler(res, 200, "", "", data);
+  });
+}

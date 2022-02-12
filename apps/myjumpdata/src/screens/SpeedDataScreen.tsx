@@ -3,13 +3,16 @@ import {
   getGroup,
   getScoreDataHigh,
   getScoreDataTypes,
+  resetScoreData,
   saveScoreData,
 } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { HiX } from "react-icons/hi";
 import { useParams } from "react-router";
 import AuthVerify from "../common/AuthVerify";
-import { DateInput, SelectInput } from "../components/Input";
+import Button from "../components/Button";
+import { DateInput, SelectInput, TextInput } from "../components/Input";
 import { SpeedDataInput } from "../parts/SpeedData";
 
 export default function SpeedDataScreen() {
@@ -28,6 +31,7 @@ export default function SpeedDataScreen() {
   const [typesOptions, setTypesOptions] = useState([]);
   const [scoreDataType, setScoreDataType] = useState("");
   const [date, setDate] = useState<Date>(new Date());
+  const [showResetDialog, setShowResetDialog] = useState<any>();
 
   useEffect(() => {
     getGroup(params.id as string).then((response: any) => {
@@ -105,9 +109,67 @@ export default function SpeedDataScreen() {
               }
               score={score.score}
               onSubmit={handleRecordDataSubmit}
+              dropdown={[
+                {
+                  name: t("scoredata_dropdown_reset"),
+                  props: {
+                    onClick: () => {
+                      setShowResetDialog({
+                        type: score.type,
+                        user: score.user._id,
+                        username:
+                          score.user.firstname && score.user.lastname
+                            ? `${score.user.firstname} ${score.user.lastname}`
+                            : score.user.username,
+                      });
+                    },
+                  },
+                },
+              ]}
             />
           );
         })}
+      <div
+        className={
+          "top-0 left-0 h-full w-full backdrop-filter backdrop-blur p-4 flex flex-col justify-center " +
+          (showResetDialog ? "fixed z-50" : "hidden z-0")
+        }
+      >
+        <div className="max-w-prose min-w-[16rem] p-4 bg-gray-500/25 rounded-lg mx-auto flex flex-col space-y-2 relative">
+          <span
+            className="absolute -right-12 -top-12 p-8 cursor-pointer"
+            onClick={() => {
+              setShowResetDialog(undefined);
+            }}
+          >
+            <HiX />
+          </span>
+          <span className="font-bold text-xl">
+            {t("scoredata_reset_title") + " | " + showResetDialog?.username}
+          </span>
+          <span>{t("scoredata_reset_text")}</span>
+          <span className="font-bold">{t("scoredata_reset_warning")}</span>
+          <form
+            onSubmit={(e: any) => {
+              e.preventDefault();
+              resetScoreData(
+                showResetDialog?.user,
+                scoreDataType,
+                e.target.elements.score.value
+              ).then(() => {
+                setShowResetDialog(undefined);
+                getScoreDataHighFN(params.id, scoreDataType);
+              });
+            }}
+          >
+            <input type="hidden" name="id" value={showResetDialog?.type._id} />
+            <div className="flex items-center space-x-2">
+              <TextInput type="number" min="0" inputName="score" />
+            </div>
+            <Button type="submit" name={"Zurücksetzen"} design="danger" />
+          </form>
+        </div>
+      </div>
     </>
   );
 }

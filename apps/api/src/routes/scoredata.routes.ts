@@ -3,6 +3,7 @@ import {
   getScoreDataHigh,
   getScoreDataOwn,
   getScoreDataTypes,
+  resetScoreData,
   resetScoreDataOwn,
   saveScoreData,
   saveScoreDataOwn,
@@ -26,6 +27,11 @@ export default function ScoredataRoutes(app: Express) {
       bodyCheckNullUser,
     ],
     saveScoreData
+  );
+  app.post(
+    "/scoredata/reset",
+    [verifyToken, bodyCheckNullType, bodyCheckNullScore, bodyCheckNullUser],
+    resetScoreData
   );
   app.get("/scoredata/types", [verifyToken], getScoreDataTypes);
   app.get("/scoredata/own", [verifyToken], getScoreDataOwn);

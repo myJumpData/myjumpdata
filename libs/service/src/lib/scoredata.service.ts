@@ -25,6 +25,10 @@ export const resetScoreDataOwn = (type: string, score: number) => {
   return api.post("/scoredata/own/reset", { type, score });
 };
 
+export const resetScoreData = (user: string, type: string, score: number) => {
+  return api.post("/scoredata/reset", { user, type, score });
+};
+
 export const saveScoreDataOwn = (type: string, score: number, date: Date) => {
   return api.post("/scoredata/own", { type, score, date });
 };
