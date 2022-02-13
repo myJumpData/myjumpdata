@@ -3,6 +3,7 @@
   "projects": {
     "api": "apps/api",
     "app": "apps/app",
+    "const": "libs/const",
     "consts": "libs/consts",
     "myjumpdata": "apps/myjumpdata",
     "redux": "libs/redux",

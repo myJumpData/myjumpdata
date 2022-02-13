@@ -1,3 +1,4 @@
+import { LANGUAGES } from "@myjumpdata/const";
 import i18n from "i18next";
 import i18nHttpLoader from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
@@ -8,7 +9,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    supportedLngs: ["en", "de"],
+    supportedLngs: LANGUAGES,
     ns: ["translation", "common", "main", "freestyle"],
     defaultNS: "translation",
     lowerCaseLng: true,

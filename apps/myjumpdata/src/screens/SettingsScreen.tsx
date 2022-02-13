@@ -1,3 +1,4 @@
+import { LANGUAGES } from "@myjumpdata/const";
 import { setRoute, setUser } from "@myjumpdata/redux";
 import { deleteUser, updateUser } from "@myjumpdata/service";
 import { useCallback, useEffect, useState } from "react";
@@ -216,10 +217,9 @@ export default function SettingsScreen() {
         <div className="flex flex-col space-y-4">
           <span className="text-base font-bold">{t("settings_language")}:</span>
           <SelectInput
-            options={[
-              { name: "de", value: "de" },
-              { name: "en", value: "en" },
-            ]}
+            options={LANGUAGES.map((value) => {
+              return { name: value, value: value };
+            })}
             stateChange={i18n.changeLanguage}
             current={i18n.language}
           />

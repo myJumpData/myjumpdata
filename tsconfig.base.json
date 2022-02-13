@@ -24,12 +24,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@myjumpdata/api-client": [
-        "libs/api-client/src/index.ts"
-      ],
-      "@myjumpdata/api-interfaces": [
-        "libs/api-interfaces/src/index.ts"
-      ],
       "@myjumpdata/const": [
         "libs/const/src/index.ts"
       ],
@@ -41,12 +35,6 @@
       ],
       "@myjumpdata/service": [
         "libs/service/src/index.ts"
-      ],
-      "@myjumpdata/store": [
-        "libs/store/src/index.ts"
-      ],
-      "@myjumpdata/util": [
-        "libs/util/src/index.ts"
       ],
       "@myjumpdata/utils": [
         "libs/utils/src/index.ts"
