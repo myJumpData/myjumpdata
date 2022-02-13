@@ -60,6 +60,7 @@ export default function LoginScreen() {
           autoCompleteType="username"
           autoFocus
           textContentType="username"
+          accessibilityLabel="username"
         />
       </StyledView>
       <StyledView
@@ -75,6 +76,7 @@ export default function LoginScreen() {
           autoCompleteType="password"
           secureTextEntry
           textContentType="password"
+          accessibilityLabel="password"
         />
       </StyledView>
       <StyledView
