@@ -86,10 +86,13 @@ export default function GroupScreen({ route, navigation }) {
       picture: undefined | null | boolean | string;
     };
   }) => (
-    <StyledView
+    <TouchableOpacity
       style={{
         paddingTop: 20,
         paddingBottom: 20,
+      }}
+      onPress={() => {
+        navigation.navigate("user_profile", { username: item.username });
       }}
     >
       <View
@@ -168,7 +171,7 @@ export default function GroupScreen({ route, navigation }) {
           </View>
         )}
       </View>
-    </StyledView>
+    </TouchableOpacity>
   );
 
   return (

@@ -21,6 +21,7 @@ import LoginScreen from "./screens/LoginScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
+import UserProfileScreen from "./screens/UserProfileScreen";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -136,6 +137,16 @@ function MainStackScreen() {
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           title: t("common:nav_group_create"),
+        }}
+      />
+      <MainStack.Screen
+        name="user_profile"
+        component={UserProfileScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:profile"),
         }}
       />
     </MainStack.Navigator>
