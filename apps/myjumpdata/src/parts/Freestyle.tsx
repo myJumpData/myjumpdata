@@ -8,7 +8,7 @@ export function Back({ to, state }: { to: string; state: any }) {
   const { t } = useTranslation();
   return (
     <div
-      className="p-4 rounded-xl shadow break-words items-center flex font-bold sm:text-lg md:text-xl cursor-pointer bg-gray-500/50"
+      className="flex cursor-pointer items-center break-words rounded-xl bg-gray-500/50 p-4 font-bold shadow sm:text-lg md:text-xl"
       onClick={() => {
         state(to);
       }}
@@ -39,7 +39,7 @@ export function Element({
   return (
     <div
       className={classNames(
-        "flex justify-between items-center border rounded-lg p-2 cursor-pointer hover:bg-gray-500/50 relative ",
+        "relative flex cursor-pointer items-center justify-between rounded-lg border p-2 hover:bg-gray-500/50 ",
         name
           .split("_")
           .map((item) => i18n.exists(`freestyle:${item}`))
@@ -61,7 +61,7 @@ export function Element({
         }
       }}
     >
-      <span className="break-word overflow-hidden overflow-ellipsis text-sm xs:text-base">
+      <span className="break-word xs:text-base overflow-hidden overflow-ellipsis text-sm">
         {compiled
           ? name
               .split("_")
@@ -69,14 +69,14 @@ export function Element({
               .join(" ")
           : t(`freestyle:${name}`)}
       </span>
-      <div className="flex flex-col xs:flex-row">
+      <div className="xs:flex-row flex flex-col">
         {level && (
-          <span className="text-[0.6rem] xs:text-xs opacity-80 whitespace-nowrap absolute top-0 right-2">
+          <span className="xs:text-xs absolute top-0 right-2 whitespace-nowrap text-[0.6rem] opacity-80">
             Lvl. {level}
           </span>
         )}
         {element && (
-          <span className="xs:text-2xl self-end xs:self-center ml-2 py-2">
+          <span className="xs:text-2xl xs:self-center ml-2 self-end py-2">
             {element?.stateCoach ? (
               <FaSquare />
             ) : element?.stateUser ? (
@@ -95,7 +95,7 @@ export function Folder({ name, onClick }: { name: string; onClick: any }) {
   return (
     <div
       className={
-        "p-4 rounded-xl shadow break-words items-center flex font-bold sm:text-lg md:text-xl cursor-pointer border-2 border-gray-500"
+        "flex cursor-pointer items-center break-words rounded-xl border-2 border-gray-500 p-4 font-bold shadow sm:text-lg md:text-xl"
       }
       onClick={() => {
         onClick(name);

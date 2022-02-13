@@ -78,7 +78,7 @@ export function TextInput({
   }, [passwordShown]);
 
   return (
-    <div className="w-full relative py-2">
+    <div className="relative w-full py-2">
       <input
         type={
           type === "password" ? (passwordShown ? "text" : "password") : type
@@ -86,7 +86,7 @@ export function TextInput({
         value={value}
         onChange={(e) => stateChange && stateChange(e.target.value)}
         className={
-          "peer h-10 w-full border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-yellow-500 placeholder-transparent transition bg-transparent  " +
+          "peer h-10 w-full border-b-2 border-gray-300 bg-transparent text-gray-900 placeholder-transparent transition focus:border-yellow-500 focus:outline-none dark:border-gray-700 dark:text-gray-100  " +
           inlineClass
         }
         min={min}
@@ -97,7 +97,7 @@ export function TextInput({
       {name && (
         <label
           htmlFor={inputName}
-          className="absolute left-0 -top-2 text-gray-600 dark:text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 transition-all pointer-events-none"
+          className="pointer-events-none absolute left-0 -top-2 text-sm text-gray-600 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 dark:text-gray-300"
         >
           {name}
         </label>
@@ -141,7 +141,7 @@ export function DateInput({
     }
     return (
       <button
-        className="w-full flex flex-row justify-between items-center"
+        className="flex w-full flex-row items-center justify-between"
         onClick={onClick}
         ref={ref}
       >
@@ -169,7 +169,7 @@ export function DateInput({
           prevMonthButtonDisabled,
           nextMonthButtonDisabled,
         }: any) => (
-          <div className="m-2 justify-around flex">
+          <div className="m-2 flex justify-around">
             <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
               <HiChevronLeft />
             </button>
@@ -223,11 +223,11 @@ export function SelectInput({
       <div className="relative">
         <Listbox.Button
           className={classNames(
-            "relative w-full py-2 pl-3 pr-10 text-left rounded-lg cursor-default sm:text-sm",
+            "relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left sm:text-sm",
             "border border-gray-200 dark:border-gray-500",
             "bg-transparent",
-            "focus-visible:ring-2 focus-visible:ring-transparent focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2",
-            "focus:ring-2 focus:ring-transparent focus:ring-offset-orange-300 focus:ring-offset-2"
+            "focus-visible:ring-2 focus-visible:ring-transparent focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300",
+            "focus:ring-2 focus:ring-transparent focus:ring-offset-2 focus:ring-offset-orange-300"
           )}
         >
           <span className="block truncate">
@@ -237,8 +237,8 @@ export function SelectInput({
               })?.name
             }
           </span>
-          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <HiSelector className="w-5 h-5 text-gray-400" aria-hidden="true" />
+          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+            <HiSelector className="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
         </Listbox.Button>
         <Transition
@@ -247,16 +247,16 @@ export function SelectInput({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white dark:bg-black rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-20">
+          <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-black sm:text-sm">
             {options.map((e: SelectOptionProps, i) => (
               <Listbox.Option
                 key={i}
                 className={({ active }) =>
                   classNames(
                     active
-                      ? "text-dark dark:text-white bg-yellow-100 dark:bg-yellow-900"
+                      ? "text-dark bg-yellow-100 dark:bg-yellow-900 dark:text-white"
                       : "text-gray-900 dark:text-gray-100",
-                    "cursor-default select-none relative py-2 pl-10 pr-4"
+                    "relative cursor-default select-none py-2 pl-10 pr-4"
                   )
                 }
                 value={e.value}
@@ -273,10 +273,10 @@ export function SelectInput({
                     {selected ? (
                       <span
                         className={classNames(
-                          "text-yellow-500 absolute inset-y-0 left-0 flex items-center pl-3"
+                          "absolute inset-y-0 left-0 flex items-center pl-3 text-yellow-500"
                         )}
                       >
-                        <HiCheck className="w-5 h-5" aria-hidden="true" />
+                        <HiCheck className="h-5 w-5" aria-hidden="true" />
                       </span>
                     ) : null}
                   </>

@@ -20,18 +20,18 @@ export default function AdminNav() {
   ];
 
   return (
-    <div className="text-black dark:text-white min-w-[10rem]  pl-2">
+    <div className="min-w-[10rem] pl-2 text-black  dark:text-white">
       <div className="flex flex-row md:flex-col">
-        <Link to="/admin" className="py-2 px-4 font-bold text-lg">
+        <Link to="/admin" className="py-2 px-4 text-lg font-bold">
           admin
         </Link>
-        <div className="flex flex-row md:flex-col overflow-y-auto">
+        <div className="flex flex-row overflow-y-auto md:flex-col">
           {adminRoutes.map((item: any) => (
             <Link
               key={item.name}
               to={`/admin/${item.name}`}
               className={classNames(
-                "py-2 px-4 rounded-t-2xl md:rounded-tr-none md:rounded-l-2xl",
+                "rounded-t-2xl py-2 px-4 md:rounded-l-2xl md:rounded-tr-none",
                 item.current && "bg-white dark:bg-black"
               )}
             >

@@ -11,13 +11,13 @@ export default function Wrapper({ children }: { children: ReactNode }) {
   const route = useSelector((state: any) => state.route);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden flex flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden bg-gray-100 dark:bg-gray-900">
       <Nav />
-      <div className="w-full h-full grow flex flex-col md:flex-row">
+      <div className="flex h-full w-full grow flex-col md:flex-row">
         {user?.roles?.includes("admin") &&
           route.match(new RegExp("admin(.*)")) && <AdminNav />}
-        <div className="bg-white text-black dark:bg-black dark:text-white rounded-tl-3xl p-4 sm:p-8 grow">
-          <div className="mb-auto space-y-8 flex flex-col">
+        <div className="grow rounded-tl-3xl bg-white p-4 text-black dark:bg-black dark:text-white sm:p-8">
+          <div className="mb-auto flex flex-col space-y-8">
             <Alert />
             {children}
           </div>

@@ -49,7 +49,7 @@ export default function GroupScreen() {
       <Link
         to={`/u/${username}`}
         className={classNames(
-          "flex flex-col items-center justify-center w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 group rounded-full shrink-0 relative bg-orange-500"
+          "group relative flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full bg-orange-500 sm:h-14 sm:w-14 md:h-16 md:w-16"
         )}
       >
         {picture === null ? (
@@ -62,7 +62,7 @@ export default function GroupScreen() {
           <img className="rounded-full" src={picture} alt={username} />
         )}
         <div className="absolute hidden group-hover:block group-focus:block">
-          <span className="backdrop-filter backdrop-blur bg-gray-800 bg-opacity-75 text-white text-xs rounded-lg py-1 px-2 right-0 bottom-full m-4 capitalize whitespace-nowrap">
+          <span className="right-0 bottom-full m-4 whitespace-nowrap rounded-lg bg-gray-800 bg-opacity-75 py-1 px-2 text-xs capitalize text-white backdrop-blur backdrop-filter">
             {firstname && lastname ? firstname + " " + lastname : username}
           </span>
         </div>
@@ -73,8 +73,8 @@ export default function GroupScreen() {
   function UserRow({ list, name }: { list: any; name: string }) {
     return (
       <div className="flex items-center">
-        <span className="text-base font-bold pr-4">{name}</span>
-        <div className="w-full overflow-x-auto flex space-x-4 sm:overflow-x-visible sm:flex-wrap">
+        <span className="pr-4 text-base font-bold">{name}</span>
+        <div className="flex w-full space-x-4 overflow-x-auto sm:flex-wrap sm:overflow-x-visible">
           {list?.map((item: any) => (
             <UserBlock
               username={item.username}
@@ -93,12 +93,12 @@ export default function GroupScreen() {
     <>
       <div className="flex">
         <div className="w-full space-y-2">
-          <span className="font-bold text-xl">{groupName}</span>
+          <span className="text-xl font-bold">{groupName}</span>
         </div>
         {groupCoaches?.some((i: any) => i.id === user.id) && (
           <Link
             to={`/group/${params.id}/settings`}
-            className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full flex items-center justify-center text-2xl aspect-square h-8 w-8"
+            className="flex aspect-square h-8 w-8 items-center justify-center rounded-full text-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-gray-800 dark:focus:ring-offset-white"
           >
             <HiCog />
           </Link>

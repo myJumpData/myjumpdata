@@ -107,7 +107,7 @@ function AdminFreestyleScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("common:nav_freestyle")}</span>
+        <span className="text-xl font-bold">{t("common:nav_freestyle")}</span>
       </div>
       <Breadcrumb
         data={freestyle ? freestyle.split("_") : []}
@@ -128,7 +128,7 @@ function AdminFreestyleScreen() {
             if (e.element) {
               return (
                 <tr
-                  className="border-y border-gray-500 hover:bg-gray-500/50 hover:h-8 transition-all duration-1000 hover:duration-500 ease-out cursor-pointer h-6"
+                  className="h-6 cursor-pointer border-y border-gray-500 transition-all duration-1000 ease-out hover:h-8 hover:bg-gray-500/50 hover:duration-500"
                   key={e.key}
                   onClick={() => {
                     navigate("/admin/freestyle/element/" + e.id);
@@ -154,7 +154,7 @@ function AdminFreestyleScreen() {
             if (e.back) {
               return (
                 <tr
-                  className="border-y border-gray-500 hover:bg-gray-500/50 hover:h-8 transition-all duration-1000 hover:duration-500 ease-out cursor-pointer h-6"
+                  className="h-6 cursor-pointer border-y border-gray-500 transition-all duration-1000 ease-out hover:h-8 hover:bg-gray-500/50 hover:duration-500"
                   key={e.key}
                   onClick={() => {
                     setFreestyle(e.key);
@@ -173,7 +173,7 @@ function AdminFreestyleScreen() {
             if (e.group) {
               return (
                 <tr
-                  className="border-y border-gray-500 hover:bg-gray-500/50 hover:h-8 transition-all duration-1000 hover:duration-500 ease-out  cursor-pointer h-6"
+                  className="h-6 cursor-pointer border-y border-gray-500 transition-all duration-1000 ease-out hover:h-8  hover:bg-gray-500/50 hover:duration-500"
                   key={e.key}
                   onClick={() => {
                     setFreestyle(e.key);
@@ -203,11 +203,11 @@ function AdminFreestyleScreen() {
   );
   function AddBottom() {
     return (
-      <div className="rounded-lg bg-gray-500/50 flex h-12 items-center px-4 py-2 space-x-4 justify-end">
-        <div className="opacity-50 hover:opacity-100 hover:scale-125 transition">
+      <div className="flex h-12 items-center justify-end space-x-4 rounded-lg bg-gray-500/50 px-4 py-2">
+        <div className="opacity-50 transition hover:scale-125 hover:opacity-100">
           <FaPlus className="text-lg" />
         </div>
-        <div className="opacity-50 hover:opacity-100 hover:scale-125 transition">
+        <div className="opacity-50 transition hover:scale-125 hover:opacity-100">
           <FaFolderPlus className="text-lg" />
         </div>
       </div>
@@ -237,7 +237,7 @@ function AdminFreestyleElementScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">
+        <span className="text-xl font-bold">
           {t("common:nav_freestyle")}
           {freestyleElementData &&
             ` - ${freestyleElementData.key
@@ -281,10 +281,10 @@ function AdminFreestyleElementScreen() {
             <span className="font-bold">Translations</span>
             {Object.keys(freestyleElementData.translation).map((key) => (
               <div
-                className="my-2 rounded-lg bg-gray-500/50 flex h-8 items-center space-x-2 overflow-hidden px-4 py-2"
+                className="my-2 flex h-8 items-center space-x-2 overflow-hidden rounded-lg bg-gray-500/50 px-4 py-2"
                 key={key}
               >
-                <span className="w-12 h-full flex items-center">
+                <span className="flex h-full w-12 items-center">
                   <Flag code={key === "en" ? "gb" : key} />
                 </span>
 

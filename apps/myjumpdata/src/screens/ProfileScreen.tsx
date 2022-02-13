@@ -48,7 +48,7 @@ export default function ProfileScreen() {
     <div className="w-full space-y-2">
       <div className="flex justify-start space-x-4">
         {image !== "" ? (
-          <div className="aspect-square h-24 sm:h-32 md:h-48 flex justify-center">
+          <div className="flex aspect-square h-24 justify-center sm:h-32 md:h-48">
             <img
               src={image}
               className="rounded-full object-cover"
@@ -56,32 +56,32 @@ export default function ProfileScreen() {
             />
           </div>
         ) : (
-          <div className="bg-gray-300 aspect-square h-24 sm:h-32 md:h-48 flex items-center justify-center text-gray-700 rounded-full text-3xl sm:text-5xl md:text-9xl p-4 md:p-8">
+          <div className="flex aspect-square h-24 items-center justify-center rounded-full bg-gray-300 p-4 text-3xl text-gray-700 sm:h-32 sm:text-5xl md:h-48 md:p-8 md:text-9xl">
             <img src={User} alt="user" />
           </div>
         )}
-        <div className="flex flex-col justify-center w-full min-w-0">
-          <span className="font-bold text-xl md:text-2xl w-full truncate">
+        <div className="flex w-full min-w-0 flex-col justify-center">
+          <span className="w-full truncate text-xl font-bold md:text-2xl">
             {username}
           </span>
-          <div className="text-lg md:text-2xl capitalize truncate">
+          <div className="truncate text-lg capitalize md:text-2xl">
             {firstname && lastname ? firstname + " " + lastname : username}
           </div>
         </div>
       </div>
       <div>
-        <span className="font-bold text-lg md:text-xl">
+        <span className="text-lg font-bold md:text-xl">
           {t("common:highscores")}:
         </span>
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {userOverviewScoreData?.map(
             (score: { type: string; score: number; scoreOwn: number }) => (
               <div
-                className="w-full bg-gray-200 dark:bg-gray-800 px-4 py-2 rounded-lg shadow space-x-4 flex items-center justify-between"
+                className="flex w-full items-center justify-between space-x-4 rounded-lg bg-gray-200 px-4 py-2 shadow dark:bg-gray-800"
                 key={score.type}
               >
-                <span className="font-bold text-base w-full">{score.type}</span>
-                <div className="flex-col flex whitespace-nowrap text-sm">
+                <span className="w-full text-base font-bold">{score.type}</span>
+                <div className="flex flex-col whitespace-nowrap text-sm">
                   <div className="flex justify-between space-x-2">
                     <span>{t("common:nav_group")}</span>
                     <span>{score.score}</span>

@@ -38,23 +38,23 @@ export default function GroupsScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("common:nav_group")}</span>
+        <span className="text-xl font-bold">{t("common:nav_group")}</span>
       </div>
-      <div className="flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 space-y-4 sm:space-y-0">
+      <div className="flex flex-col space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0 md:grid-cols-3 lg:grid-cols-4">
         {groups?.map((group: any) => (
           <Link
             to={`/group/${group._id}`}
             key={group._id}
-            className="w-full bg-gray-300 px-4 py-2 md:px-8 md:py-4 rounded-lg shadow overflow-ellipsis overflow-hidden items-center flex md:justify-center hover:bg-gray-200 dark:hover:bg-gray-800 outline-gray-700 dark:outline-gray-200 dark:outline dark:bg-transparent"
+            className="flex w-full items-center overflow-hidden overflow-ellipsis rounded-lg bg-gray-300 px-4 py-2 shadow outline-gray-700 hover:bg-gray-200 dark:bg-transparent dark:outline dark:outline-gray-200 dark:hover:bg-gray-800 md:justify-center md:px-8 md:py-4"
           >
-            <span className="font-bold text-lg md:text-xl">{group.name}</span>
+            <span className="text-lg font-bold md:text-xl">{group.name}</span>
           </Link>
         ))}
       </div>
       {user.roles.includes("coach") && (
         <>
           <div className="w-full space-y-2">
-            <span className="font-bold text-xl">
+            <span className="text-xl font-bold">
               {t("common:create_group")}
             </span>
           </div>

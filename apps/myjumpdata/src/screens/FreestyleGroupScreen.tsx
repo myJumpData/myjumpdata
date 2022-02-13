@@ -81,11 +81,11 @@ export default function FreestyleGroupScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">
+        <span className="text-xl font-bold">
           {t("freestyle_title") + " " + groupName}
         </span>
       </div>
-      <div className="flex items-center space-x-2 mb-2">
+      <div className="mb-2 flex items-center space-x-2">
         <div className="w-full">
           <SelectInput
             options={userSelect}
@@ -99,7 +99,7 @@ export default function FreestyleGroupScreen() {
         setState={setFreestyle}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {folderData?.map((e: freestyle_folder_data) => {
           if (e.element) {
             return (

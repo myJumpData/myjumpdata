@@ -42,7 +42,7 @@ export default function RegisterScreen() {
   return (
     <div className="max-w-screen-sm">
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("common:nav_signup")}</span>
+        <span className="text-xl font-bold">{t("common:nav_signup")}</span>
       </div>
       <form onSubmit={handleRegisterSubmit}>
         <TextInput

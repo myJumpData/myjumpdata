@@ -17,14 +17,14 @@ export default function LegalScreen() {
 
   function Jumbotron() {
     return (
-      <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-        <div className="flex flex-col w-full md:w-3/5 justify-center items-start text-center md:text-left">
+      <div className="container mx-auto flex flex-col flex-wrap items-center px-3 md:flex-row">
+        <div className="flex w-full flex-col items-start justify-center text-center md:w-3/5 md:text-left">
           <p className="tracking-loose w-full">Trust & Legal</p>
-          <h1 className="my-4 lg:text-4xl text-2xl font-bold leading-tight w-full">
+          <h1 className="my-4 w-full text-2xl font-bold leading-tight lg:text-4xl">
             Legal Notice
           </h1>
         </div>
-        <div className="text-center w-full md:w-2/5">
+        <div className="w-full text-center md:w-2/5">
           <img src={undraw_terms} alt="Terms" />
         </div>
       </div>

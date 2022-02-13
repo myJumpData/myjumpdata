@@ -92,7 +92,7 @@ export default function SettingsScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("common:nav_settings")}</span>
+        <span className="text-xl font-bold">{t("common:nav_settings")}</span>
       </div>
       <div className="flex flex-col space-y-4">
         <div className="flex flex-col space-y-4">
@@ -126,9 +126,9 @@ export default function SettingsScreen() {
                 value={email}
               />
             </span>
-            <span className="self-end mb-4">
+            <span className="mb-4 self-end">
               <button
-                className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
+                className="flex h-10 w-10 items-center justify-center rounded bg-yellow-500 text-xl dark:bg-yellow-700"
                 onClick={emailSubmit}
                 aria-label="submit"
               >
@@ -145,9 +145,9 @@ export default function SettingsScreen() {
                 value={password}
               />
             </span>
-            <span className="self-end mb-4">
+            <span className="mb-4 self-end">
               <button
-                className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
+                className="flex h-10 w-10 items-center justify-center rounded bg-yellow-500 text-xl dark:bg-yellow-700"
                 onClick={passwordSubmit}
                 aria-label="submit"
               >
@@ -160,7 +160,7 @@ export default function SettingsScreen() {
           <div className="flex flex-col">
             <span className="text-base font-bold">{t("settings_image")}: </span>
             <span className="text-left">{t("settings_image_text")}</span>
-            <span className="text-blue-800 dark:text-blue-300 hover:text-blue-500 underline hover:no-underline py-2">
+            <span className="py-2 text-blue-800 underline hover:text-blue-500 hover:no-underline dark:text-blue-300">
               <a href="https://gravatar.com/" target="_blank" rel="noreferrer">
                 {t("settings_image_action")}
               </a>
@@ -168,7 +168,7 @@ export default function SettingsScreen() {
           </div>
           <div className="flex flex-col whitespace-nowrap">
             <div
-              className="flex flex-row items-center hover:outline outline-blue-500 rounded-lg px-2 py-1"
+              className="flex flex-row items-center rounded-lg px-2 py-1 outline-blue-500 hover:outline"
               onClick={() => {
                 updateUser({ picture: "gravatar" }).then((response) => {
                   setPicture(response.data.picture);
@@ -190,7 +190,7 @@ export default function SettingsScreen() {
               </label>
             </div>
             <div
-              className="flex flex-row items-center hover:outline outline-blue-500 rounded-lg px-2 py-1"
+              className="flex flex-row items-center rounded-lg px-2 py-1 outline-blue-500 hover:outline"
               onClick={() => {
                 updateUser({ picture: "none" }).then((response) => {
                   setPicture(response.data.picture);
@@ -250,15 +250,15 @@ export default function SettingsScreen() {
     return (
       <div
         className={
-          "top-0 left-0 h-full w-full backdrop-filter backdrop-blur p-4 flex flex-col justify-center " +
-          (delStep === 1 ? "fixed z-50" : "hidden z-0")
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (delStep === 1 ? "fixed z-50" : "z-0 hidden")
         }
         onClick={() => {
           setDelStep(0);
         }}
       >
-        <div className="max-w-prose p-4 bg-gray-300/75 dark:bg-gray-600/75 rounded-lg mx-auto flex flex-col space-y-4">
-          <span className="font-bold text-xl">
+        <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">
+          <span className="text-xl font-bold">
             {t("settings_delete_disclaimer_title")}
           </span>
           <span>{t("settings_delete_disclaimer_text")}</span>

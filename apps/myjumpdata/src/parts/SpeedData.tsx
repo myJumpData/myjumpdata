@@ -20,16 +20,16 @@ export function SpeedDataInput({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="border-t border-gray-300 dark:border-gray-700 py-2">
-      <div className="flex justify-between space-x-2 -mb-4">
+    <div className="border-t border-gray-300 py-2 dark:border-gray-700">
+      <div className="-mb-4 flex justify-between space-x-2">
         <div className="flex items-center">
           <label className="text-xl font-bold leading-none" htmlFor={id}>
             {name}
           </label>
           {dropdown && (
             <Menu as="div" className="relative ml-2">
-              <div className="inset-y-0 ring-0 flex items-center">
-                <Menu.Button className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full h-8 w-8 flex items-center justify-center">
+              <div className="inset-y-0 flex items-center ring-0">
+                <Menu.Button className="flex h-8 w-8 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-gray-800 dark:focus:ring-offset-white">
                   <HiDotsVertical />
                 </Menu.Button>
               </div>
@@ -42,14 +42,14 @@ export function SpeedDataInput({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute origin-top max-w-48 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-500/50">
+                <Menu.Items className="max-w-48 absolute z-20 origin-top rounded-md border border-gray-500/50 bg-white py-1 text-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-black dark:text-gray-200">
                   {dropdown.map((e: any) => (
                     <Menu.Item key={e.name}>
                       {({ active }) => (
                         <span
                           className={classNames(
                             active && "bg-gray-100 dark:bg-gray-900",
-                            "flex items-center justify-start px-4 py-2 text-sm leading-none cursor-pointer"
+                            "flex cursor-pointer items-center justify-start px-4 py-2 text-sm leading-none"
                           )}
                           {...e.props}
                         >
@@ -63,7 +63,7 @@ export function SpeedDataInput({
             </Menu>
           )}
         </div>
-        <span className="text-xs whitespace-nowrap uppercase leading-none">
+        <span className="whitespace-nowrap text-xs uppercase leading-none">
           {t("common:high")}: {score}
         </span>
       </div>
@@ -72,7 +72,7 @@ export function SpeedDataInput({
         <div className="flex items-center space-x-2">
           <TextInput type="number" inline min="0" inputName={id} />
           <button
-            className="h-10 w-10 bg-yellow-500 dark:bg-yellow-700 flex justify-center items-center text-xl rounded"
+            className="flex h-10 w-10 items-center justify-center rounded bg-yellow-500 text-xl dark:bg-yellow-700"
             type="submit"
             aria-label="submit"
           >

@@ -97,7 +97,7 @@ export default function GroupSettingsScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">
+        <span className="text-xl font-bold">
           {groupName + " " + t("common:nav_settings")}
         </span>
       </div>
@@ -142,11 +142,11 @@ export default function GroupSettingsScreen() {
               }) => {
                 return (
                   <div
-                    className="bg-gray-500/50 flex flex-row py-2 px-4 rounded-lg items-center justify-between"
+                    className="flex flex-row items-center justify-between rounded-lg bg-gray-500/50 py-2 px-4"
                     key={_id}
                   >
                     <div>
-                      <span className="truncate capitalize mr-2">
+                      <span className="mr-2 truncate capitalize">
                         {firstname && lastname
                           ? `${firstname} ${lastname}`
                           : username}
@@ -163,19 +163,19 @@ export default function GroupSettingsScreen() {
                       {groupCoaches.some(
                         (athlete: any) => athlete.id === _id
                       ) && (
-                        <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-blue-500 text-sm">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-lg border-2 border-blue-500 text-sm">
                           C
                         </span>
                       )}
                       {groupAthletes.some(
                         (athlete: any) => athlete.id === _id
                       ) && (
-                        <span className="flex justify-center items-center h-6 w-6 rounded-lg border-2 border-orange-500 text-sm">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-lg border-2 border-orange-500 text-sm">
                           A
                         </span>
                       )}
                       <Menu as="div" className="relative">
-                        <Menu.Button className="flex justify-center items-center h-8 w-8 rounded-full hover:outline outline-gray-500">
+                        <Menu.Button className="flex h-8 w-8 items-center justify-center rounded-full outline-gray-500 hover:outline">
                           <HiDotsVertical />
                         </Menu.Button>
                         <Transition
@@ -187,7 +187,7 @@ export default function GroupSettingsScreen() {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="origin-top-right absolute right-0 mt-4 top-4 max-w-36 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                          <Menu.Items className="max-w-36 absolute right-0 top-4 z-10 mt-4 origin-top-right rounded-md bg-white py-1 text-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-black dark:text-gray-200">
                             {roles.some((e: any) => e.name === "coach") &&
                               !groupCoaches.some(
                                 (athlete: any) => athlete.id === _id
@@ -272,7 +272,7 @@ export default function GroupSettingsScreen() {
       </div>
 
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("settings_danger")}</span>
+        <span className="text-xl font-bold">{t("settings_danger")}</span>
       </div>
       <Button
         name={t("settings_group_delete")}
@@ -283,15 +283,15 @@ export default function GroupSettingsScreen() {
       />
       <div
         className={
-          "top-0 left-0 h-full w-full backdrop-filter backdrop-blur p-4 flex flex-col justify-center " +
-          (delStep === 1 ? "fixed z-50" : "hidden z-0")
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (delStep === 1 ? "fixed z-50" : "z-0 hidden")
         }
         onClick={() => {
           setDelStep(0);
         }}
       >
-        <div className="max-w-prose p-4 bg-gray-300 rounded-lg bg-opacity-50 mx-auto flex flex-col space-y-4">
-          <span className="font-bold text-xl">
+        <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300 bg-opacity-50 p-4">
+          <span className="text-xl font-bold">
             {t("settings_group_delete_disclaimer_title")}
           </span>
           <span>{t("settings_group_delete_disclaimer_text")}</span>
@@ -327,12 +327,12 @@ export default function GroupSettingsScreen() {
     return (
       <Menu.Item
         as="span"
-        className="flex items-center justify-start px-4 py-2 text-sm leading-none hover:bg-gray-500/50 cursor-pointer"
+        className="flex cursor-pointer items-center justify-start px-4 py-2 text-sm leading-none hover:bg-gray-500/50"
         onClick={() => {
           onClick();
         }}
       >
-        <span className="text-lg mr-2">{icon}</span>
+        <span className="mr-2 text-lg">{icon}</span>
         <span className="whitespace-nowrap">{name}</span>
       </Menu.Item>
     );

@@ -32,12 +32,12 @@ export function Nav() {
     ];
     dropdownButton =
       image === "" ? (
-        <HiUser className="h-8 w-8 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 p-1.5 rounded-full" />
+        <HiUser className="h-8 w-8 rounded-full bg-gray-200 p-1.5 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700" />
       ) : (
         <img
           src={image}
           alt="Profile"
-          className="object-cover h-8 w-8 rounded-full"
+          className="h-8 w-8 rounded-full object-cover"
         />
       );
     navigation = [

@@ -10,12 +10,12 @@ export default function Breadcrumb({
 }) {
   const { t, i18n } = useTranslation();
   return (
-    <div className="flex h-full items-center bg-gray-500/50 rounded-xl px-4 space-x-2 py-2 flex-wrap">
+    <div className="flex h-full flex-wrap items-center space-x-2 rounded-xl bg-gray-500/50 px-4 py-2">
       <span
         onClick={() => {
           setState("");
         }}
-        className="text-xl cursor-pointer"
+        className="cursor-pointer text-xl"
       >
         {data.length < 1 ? <HiHome /> : <HiOutlineHome />}
       </span>

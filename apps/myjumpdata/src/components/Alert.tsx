@@ -24,7 +24,7 @@ export default function Alert() {
     return (
       <div
         className={classNames(
-          "outline outline-2 outline-offset-2 rounded-lg flex py-1 px-2 items-center justify-between transition w-full",
+          "flex w-full items-center justify-between rounded-lg py-1 px-2 outline outline-2 outline-offset-2 transition",
           message.design === "primary" && "outline-yellow-500",
           message.design === "secondary" && "outline-gray-500",
           message.design === "success" && "outline-green-500",
@@ -55,9 +55,9 @@ export default function Alert() {
           </div>
         )}
 
-        <div className="leading-none w-full">{message.text}</div>
+        <div className="w-full leading-none">{message.text}</div>
         <div
-          className="text-gray-600 dark:Text-gray-400 hover:text-black dark:hover:text-white transition ml-2 self-start"
+          className="dark:Text-gray-400 ml-2 self-start text-gray-600 transition hover:text-black dark:hover:text-white"
           onClick={() => {
             clearMessage();
           }}

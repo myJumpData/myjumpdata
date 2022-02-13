@@ -27,16 +27,16 @@ export default function MainScreen() {
     return (
       <div>
         <p className="tracking-loose w-full">{t("main:jumbotron_top")}</p>
-        <h1 className="my-4 lg:text-4xl text-2xl font-bold leading-tight w-full">
+        <h1 className="my-4 w-full text-2xl font-bold leading-tight lg:text-4xl">
           {t("main:jumbotron_title")}
         </h1>
-        <p className="leading-normal lg:text-2xl text-xl mb-8 w-full">
+        <p className="mb-8 w-full text-xl leading-normal lg:text-2xl">
           {t("main:jumbotron_bottom")}
         </p>
 
         <Link
           to="/register"
-          className="hover:underline text-gray-800 bg-yellow-500 font-bold rounded-full md:py-4 md:px-8 py-2 px-4 shadow-lg"
+          className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-gray-800 shadow-lg hover:underline md:py-4 md:px-8"
         >
           {t("common:nav_signup")}
         </Link>
@@ -47,24 +47,24 @@ export default function MainScreen() {
   function BySkippersForSkippers() {
     return (
       <div>
-        <div className="w-full space-y-2 mb-2">
-          <span className="font-bold text-xl">{t("main:by_title")}</span>
+        <div className="mb-2 w-full space-y-2">
+          <span className="text-xl font-bold">{t("main:by_title")}</span>
         </div>
-        <div className="flex items-center flex-col sm:flex-row justify-center">
-          <div className="md:w-1/5 sm:w-2/5 max-w-xs">
+        <div className="flex flex-col items-center justify-center sm:flex-row">
+          <div className="max-w-xs sm:w-2/5 md:w-1/5">
             <img src={markofediv} alt="Marko Fediv" className="rounded-full" />
           </div>
-          <div className="mt-8 ml-0 sm:ml-8 sm:mt-0 text-center sm:text-left max-w-prose">
-            <p className="text-gray-600 dark:text-gray-400 text-sm lg:text-lg">
+          <div className="mt-8 ml-0 max-w-prose text-center sm:ml-8 sm:mt-0 sm:text-left">
+            <p className="text-sm text-gray-600 dark:text-gray-400 lg:text-lg">
               {t("main:by_position")}
             </p>
-            <div className="font-bold text-xl lg:text-4xl">Marko Fediv</div>
-            <p className="text-base lg:text-xl mb-6">
+            <div className="text-xl font-bold lg:text-4xl">Marko Fediv</div>
+            <p className="mb-6 text-base lg:text-xl">
               <Trans i18nKey="main:by_text">
                 {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
                 <a
                   href="https://tg-hanau.de/rope-skipping/ueber-uns"
-                  className="hover:text-yellow-900 text-yellow-600"
+                  className="text-yellow-600 hover:text-yellow-900"
                   rel="noreferrer"
                   target="_blank"
                 />
@@ -74,7 +74,7 @@ export default function MainScreen() {
               target="_blank"
               rel="noreferrer"
               href="https://marko.fediv.me"
-              className="hover:underline bg-yellow-500 text-black font-bold rounded-full py-2 px-4 lg:py-4 lg:px-8 shadow-lg"
+              className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-black shadow-lg hover:underline lg:py-4 lg:px-8"
             >
               marko.fediv.me
             </a>
@@ -103,25 +103,25 @@ export default function MainScreen() {
       return (
         <div
           className={
-            "flex flex-wrap items-center mb-8 " +
+            "mb-8 flex flex-wrap items-center " +
             (swap && "sm:flex-row-reverse")
           }
         >
-          <div className="w-full sm:w-1/3 mb-4 sm:mb-0 px-0 sm:px-4">
+          <div className="mb-4 w-full px-0 sm:mb-0 sm:w-1/3 sm:px-4">
             <img src={img} alt="" />
           </div>
           <div className="w-full sm:w-2/3">
-            <h3 className="text-xl lg:text-2xl font-bold leading-none mb-3">
+            <h3 className="mb-3 text-xl font-bold leading-none lg:text-2xl">
               {heading}
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-8 text-base">
+            <p className="mb-8 text-base text-gray-600 dark:text-gray-400">
               {children}
             </p>
             {link && (
               <a
                 target="_blank"
                 rel="noreferrer"
-                className="hover:underline bg-yellow-500 text-black font-bold rounded-full py-2 px-4 lg:py-4 lg:px-8 shadow-lg"
+                className="rounded-full bg-yellow-500 py-2 px-4 font-bold text-black shadow-lg hover:underline lg:py-4 lg:px-8"
                 href={to}
               >
                 {link}
@@ -134,8 +134,8 @@ export default function MainScreen() {
 
     return (
       <div>
-        <div className="w-full space-y-2 mb-2">
-          <span className="font-bold text-xl">
+        <div className="mb-2 w-full space-y-2">
+          <span className="text-xl font-bold">
             {t("main:open_development_title")}
           </span>
         </div>
@@ -170,14 +170,14 @@ export default function MainScreen() {
   function Action() {
     return (
       <div>
-        <div className="w-full space-y-2 mb-2">
-          <span className="font-bold text-xl">{t("main:cta_title")}</span>
+        <div className="mb-2 w-full space-y-2">
+          <span className="text-xl font-bold">{t("main:cta_title")}</span>
         </div>
         <h3 className="my-4 leading-tight">{t("main:cta_text")}</h3>
         <div className="py-6">
           <Link
             to="/register"
-            className="mx-auto lg:mx-0 hover:underline bg-yellow-500 font-bold rounded-full my-6 py-2 px-4 lg:py-4 lg:px-8 shadow-lg text-gray-800"
+            className="mx-auto my-6 rounded-full bg-yellow-500 py-2 px-4 font-bold text-gray-800 shadow-lg hover:underline lg:mx-0 lg:py-4 lg:px-8"
           >
             {t("common:nav_signup")}
           </Link>

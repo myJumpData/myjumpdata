@@ -33,7 +33,7 @@ export default function LoginScreen() {
   return (
     <div className="max-w-screen-sm">
       <div className="w-full space-y-2">
-        <span className="font-bold text-xl">{t("common:nav_login")}</span>
+        <span className="text-xl font-bold">{t("common:nav_login")}</span>
       </div>
       <form onSubmit={handleLoginSubmit} className="w-full">
         <TextInput

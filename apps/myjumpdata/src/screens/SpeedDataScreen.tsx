@@ -75,7 +75,7 @@ export default function SpeedDataScreen() {
 
   return (
     <>
-      <span className="font-bold text-xl">
+      <span className="text-xl font-bold">
         {t("speeddata_title") + " " + groupName}
       </span>
       <DateInput
@@ -84,7 +84,7 @@ export default function SpeedDataScreen() {
         }}
         date={date}
       />
-      <div className="flex items-center space-x-2 mb-2">
+      <div className="mb-2 flex items-center space-x-2">
         <div className="w-full">
           <SelectInput
             options={typesOptions}
@@ -92,7 +92,7 @@ export default function SpeedDataScreen() {
             stateChange={setScoreDataType}
           />
         </div>
-        <span className="text-xs whitespace-nowrap uppercase">
+        <span className="whitespace-nowrap text-xs uppercase">
           {t("common:high")}: {groupHigh}
         </span>
       </div>
@@ -131,20 +131,20 @@ export default function SpeedDataScreen() {
         })}
       <div
         className={
-          "top-0 left-0 h-full w-full backdrop-filter backdrop-blur p-4 flex flex-col justify-center " +
-          (showResetDialog ? "fixed z-50" : "hidden z-0")
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (showResetDialog ? "fixed z-50" : "z-0 hidden")
         }
       >
-        <div className="max-w-prose min-w-[16rem] p-4 bg-gray-500/25 rounded-lg mx-auto flex flex-col space-y-2 relative">
+        <div className="relative mx-auto flex min-w-[16rem] max-w-prose flex-col space-y-2 rounded-lg bg-gray-500/25 p-4">
           <span
-            className="absolute -right-12 -top-12 p-8 cursor-pointer"
+            className="absolute -right-12 -top-12 cursor-pointer p-8"
             onClick={() => {
               setShowResetDialog(undefined);
             }}
           >
             <HiX />
           </span>
-          <span className="font-bold text-xl">
+          <span className="text-xl font-bold">
             {t("scoredata_reset_title") + " | " + showResetDialog?.username}
           </span>
           <span>{t("scoredata_reset_text")}</span>

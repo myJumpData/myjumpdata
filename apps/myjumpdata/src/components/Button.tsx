@@ -62,7 +62,7 @@ export default function Button({ onClick, name, design, type }: ButtonProps) {
       type={type}
       className={classNames(
         className,
-        "w-full rounded shadow dark:shadow-none h-8 outline-none dark:outline-1 my-2"
+        "my-2 h-8 w-full rounded shadow outline-none dark:shadow-none dark:outline-1"
       )}
     >
       {name}
@@ -99,7 +99,7 @@ export function ButtonIcon({
       onClick={onClick}
       type={type}
       className={
-        className + " h-10 w-10 flex justify-center items-center rounded shadow"
+        className + " flex h-10 w-10 items-center justify-center rounded shadow"
       }
     >
       {component}

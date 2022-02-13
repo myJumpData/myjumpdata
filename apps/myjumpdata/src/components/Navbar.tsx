@@ -18,16 +18,16 @@ export default function Navbar({
     <div className="pb-16">
       <Disclosure
         as="nav"
-        className="fixed bg-gray-100 dark:bg-gray-900 w-full z-20"
+        className="fixed z-20 w-full bg-gray-100 dark:bg-gray-900"
       >
         {({ open }) => (
           <>
-            <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-              <div className="relative flex items-center justify-between h-16">
+            <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12">
+              <div className="relative flex h-16 items-center justify-between">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button*/}
                   <Disclosure.Button
-                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-500/25 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-500/25 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white dark:text-gray-200"
                     aria-label="menu button"
                   >
                     {open ? (
@@ -37,17 +37,17 @@ export default function Navbar({
                     )}
                   </Disclosure.Button>
                 </div>
-                <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                  <div className="flex-shrink-0 flex items-center">
+                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                  <div className="flex flex-shrink-0 items-center">
                     <Link to="/">
                       <img
-                        className="h-8 scale-150 w-auto"
+                        className="h-8 w-auto scale-150"
                         src={Logo}
                         alt="myJumpData"
                       />
                     </Link>
                   </div>
-                  <div className="hidden sm:block sm:ml-6">
+                  <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
                       {navigation.map((item) => (
                         <Link
@@ -56,8 +56,8 @@ export default function Navbar({
                           className={classNames(
                             item.current
                               ? "bg-gray-500/50 text-black  hover:bg-gray-500/25 dark:text-white"
-                              : "text-gray-700 dark:text-gray-200 hover:bg-gray-500/25 hover:text-gray-800 dark:hover:text-gray-100",
-                            "px-3 py-2 rounded-md text-sm font-medium"
+                              : "text-gray-700 hover:bg-gray-500/25 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100",
+                            "rounded-md px-3 py-2 text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
                         >
@@ -70,9 +70,9 @@ export default function Navbar({
                 {dropdownButton && dropdown && (
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     {/* Profile dropdown */}
-                    <Menu as="div" className="ml-3 relative">
-                      <div className="inset-y-0 ring-0 flex items-center">
-                        <Menu.Button className="focus:ring-white dark:focus:ring-offset-white focus:ring-offset-gray-800 dark:focus:ring-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-full">
+                    <Menu as="div" className="relative ml-3">
+                      <div className="inset-y-0 flex items-center ring-0">
+                        <Menu.Button className="rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-gray-800 dark:focus:ring-offset-white">
                           {dropdownButton}
                         </Menu.Button>
                       </div>
@@ -85,7 +85,7 @@ export default function Navbar({
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="origin-top-right absolute right-0 mt-2 max-w-48 rounded-md shadow-lg py-1 bg-white text-gray-800 dark:bg-black dark:text-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="max-w-48 absolute right-0 mt-2 origin-top-right rounded-md bg-white py-1 text-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-black dark:text-gray-200">
                           {dropdown.map((e) => (
                             <Menu.Item key={e.name}>
                               {({ active }) => (
@@ -113,7 +113,7 @@ export default function Navbar({
             </div>
 
             <Disclosure.Panel className="sm:hidden">
-              <div className="px-2 pt-2 pb-3 space-y-1">
+              <div className="space-y-1 px-2 pt-2 pb-3">
                 {navigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
@@ -121,9 +121,9 @@ export default function Navbar({
                     to={item.to}
                     className={classNames(
                       item.current
-                        ? "bg-gray-300/50 text-black dark:bg-gray-500/50 hover:bg-gray-300/75 dark:hover:bg-gray-500/75 dark:text-white"
-                        : "text-gray-700 dark:text-gray-200 hover:bg-gray-300/30 hover:text-gray-800 dark:hover:bg-gray-500/30 dark:hover:text-gray-100",
-                      "block px-3 py-2 rounded-md text-base font-medium"
+                        ? "bg-gray-300/50 text-black hover:bg-gray-300/75 dark:bg-gray-500/50 dark:text-white dark:hover:bg-gray-500/75"
+                        : "text-gray-700 hover:bg-gray-300/30 hover:text-gray-800 dark:text-gray-200 dark:hover:bg-gray-500/30 dark:hover:text-gray-100",
+                      "block rounded-md px-3 py-2 text-base font-medium"
                     )}
                     aria-current={item.current ? "page" : undefined}
                   >
