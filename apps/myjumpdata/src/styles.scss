@@ -17,10 +17,10 @@ input:-webkit-autofill:active {
 
 .react-datepicker {
   &-popper {
-    @apply bg-white dark:bg-black z-10 border-2 border-gray-500 rounded-lg relative;
+    @apply relative z-10 rounded-lg border-2 border-gray-500 bg-white dark:bg-black;
   }
   &__triangle {
-    @apply h-3 w-3 absolute top-0 -mt-3 border-[0.5rem] border-t-0 border-l-transparent border-r-transparent border-b-gray-500;
+    @apply absolute top-0 -mt-3 h-3 w-3 border-[0.5rem] border-t-0 border-l-transparent border-r-transparent border-b-gray-500;
   }
   &__month {
     @apply flex flex-col;
@@ -33,9 +33,9 @@ input:-webkit-autofill:active {
       @apply flex flex-row justify-between p-2 text-gray-500;
     }
     &-name {
-      @apply text-right rounded-lg py-1 px-2 m-[.1rem] h-8 w-8 flex justify-end items-center leading-none;
+      @apply m-[.1rem] flex h-8 w-8 items-center justify-end rounded-lg py-1 px-2 text-right leading-none;
     }
-    @apply text-right rounded-lg py-1 px-2 m-[.1rem] h-8 w-8 flex justify-end items-center leading-none;
+    @apply m-[.1rem] flex h-8 w-8 items-center justify-end rounded-lg py-1 px-2 text-right leading-none;
     &:hover {
       @apply bg-gray-500/50;
     }
@@ -51,19 +51,19 @@ input:-webkit-autofill:active {
   }
   &__today {
     &-button {
-      @apply px-2 py-1 border-t border-gray-500 mt-2 text-center hover:bg-gray-500/25 cursor-pointer;
+      @apply mt-2 cursor-pointer border-t border-gray-500 px-2 py-1 text-center hover:bg-gray-500/25;
     }
   }
 }
 
 ::-webkit-scrollbar {
-  @apply w-2 h-2;
+  @apply h-2 w-2;
 }
 ::-webkit-scrollbar-track {
   @apply rounded-full bg-gray-500/50;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 rounded-full border-2 border-red-500;
+  @apply rounded-full border-2 border-red-500 bg-gray-400;
 }
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-white;
