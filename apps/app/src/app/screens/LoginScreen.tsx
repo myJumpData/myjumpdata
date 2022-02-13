@@ -54,6 +54,7 @@ export default function LoginScreen() {
       >
         <StyledText>{t("common:username")}:</StyledText>
         <StyledTextInput
+          testId="login_username"
           onChangeText={onChangeUsername}
           value={username}
           autoCapitalize="none"
@@ -70,6 +71,7 @@ export default function LoginScreen() {
       >
         <StyledText>{t("common:password")}:</StyledText>
         <StyledTextInput
+          testId="login_password"
           onChangeText={onChangePassword}
           value={password}
           autoCapitalize="none"
