@@ -1,3 +1,4 @@
+import { LANGUAGES } from "@myjumpdata/const";
 import { setFreestyle, setRoute } from "@myjumpdata/redux";
 import { getFreestyle, getFreestyleElement } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
@@ -279,19 +280,19 @@ function AdminFreestyleElementScreen() {
           </div>
           <div>
             <span className="font-bold">Translations</span>
-            {Object.keys(freestyleElementData.translation).map((key) => (
+            {LANGUAGES.map((lang) => (
               <div
                 className="my-2 flex h-8 items-center space-x-2 overflow-hidden rounded-lg bg-gray-500/50 px-4 py-2"
-                key={key}
+                key={lang}
               >
                 <span className="flex h-full w-12 items-center">
-                  <Flag code={key === "en" ? "gb" : key} />
+                  <Flag code={lang === "en" ? "gb" : lang} />
                 </span>
 
                 <span className="px-4 py-2">
                   {freestyleElementData.key
                     .split("_")
-                    .map((item) => freestyleElementData.translation[key][item])
+                    .map((item) => freestyleElementData.translation[lang][item])
                     .join(" ")}
                 </span>
               </div>
