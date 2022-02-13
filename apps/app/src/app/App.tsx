@@ -29,7 +29,6 @@ LogBox.ignoreLogs([
 export default function App() {
   const user = useSelector((state: any) => state.user);
   const navigation = useSelector((state: any) => state.navigation);
-  const isDarkMode = useColorScheme() === "dark";
 
   return (
     <NavigationContainer
