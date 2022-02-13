@@ -6,7 +6,7 @@ export default function AdminNav() {
   const route = useSelector((state: any) => state.route);
 
   const adminRoutes = [
-    { name: "home", current: route.match(new RegExp("admin/users(.*)")) },
+    { name: "home", current: route.match(new RegExp("admin/home(.*)")) },
     { name: "users", current: route.match(new RegExp("admin/users(.*)")) },
     { name: "groups", current: route.match(new RegExp("admin/groups(.*)")) },
     {
