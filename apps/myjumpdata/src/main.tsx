@@ -8,7 +8,7 @@ import "./i18n";
 import Spinner from "./parts/Spinner";
 import Wrapper from "./parts/Wrapper";
 import FreestyleGroupScreen from "./screens/FreestyleGroupScreen";
-import "./styles.scss";
+import "./styles.css";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
 const GroupScreen = lazy(() => import("./screens/GroupScreen"));
