@@ -1,6 +1,12 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
@@ -26,6 +32,7 @@ type freestyle_folder_data = {
 
 export default function FreestyleScreen() {
   const { t } = useTranslation();
+  const isDarkMode = useColorScheme() === "dark";
 
   const freestyle = useSelector((state: any) => state.freestyle);
 
@@ -189,7 +196,7 @@ export default function FreestyleScreen() {
           <Ionicons
             name={freestyle === "" ? "home" : "home"}
             size={20}
-            color={Colors.grey}
+            color={isDarkMode ? Colors.grey : Colors.black}
           />
         </TouchableOpacity>
         {freestyle !== "" &&
@@ -205,7 +212,7 @@ export default function FreestyleScreen() {
                   <Ionicons
                     name="chevron-forward"
                     size={20}
-                    color={Colors.grey}
+                    color={isDarkMode ? Colors.grey : Colors.black}
                   />
                 </View>
                 <TouchableOpacity
@@ -226,7 +233,7 @@ export default function FreestyleScreen() {
                   <Text
                     style={{
                       fontSize: 12,
-                      color: Colors.grey,
+                      color: isDarkMode ? Colors.grey : Colors.black,
                       fontWeight: last ? "900" : "400",
                       transform: [
                         { scale: last ? 1.2 : 1 },

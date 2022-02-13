@@ -1,6 +1,13 @@
 import { capitalize } from "@myjumpdata/utils";
 import * as React from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
@@ -11,6 +18,7 @@ import GroupsService from "../services/groups.service";
 export default function GroupScreen({ route, navigation }) {
   const { id } = route.params;
   const user = useSelector((state: any) => state.user);
+  const isDarkMode = useColorScheme() === "dark";
 
   const [groupCoaches, setGroupCoaches] = React.useState([]);
   const [groupAthletes, setGroupAthletes] = React.useState([]);
@@ -37,7 +45,7 @@ export default function GroupScreen({ route, navigation }) {
                   <Ionicons
                     name="list-outline"
                     size={30}
-                    color={Colors.white}
+                    color={isDarkMode ? Colors.white : Colors.black}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -47,7 +55,7 @@ export default function GroupScreen({ route, navigation }) {
                   <Ionicons
                     name="timer-outline"
                     size={30}
-                    color={Colors.white}
+                    color={isDarkMode ? Colors.white : Colors.black}
                   />
                 </TouchableOpacity>
               </View>

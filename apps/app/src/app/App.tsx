@@ -66,8 +66,6 @@ function MainStackScreen() {
       screenOptions={({ navigation }) => ({
         headerStyle: {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          borderTopWidth: 1,
-          borderTopColor: Colors.grey,
         },
         headerTitleStyle: {
           color: isDarkMode ? Colors.white : Colors.black,
@@ -79,7 +77,7 @@ function MainStackScreen() {
               navigation.goBack();
             }}
             size={30}
-            color={Colors.white}
+            color={isDarkMode ? Colors.white : Colors.black}
             style={{ paddingLeft: 10 }}
           />
         ),
@@ -165,16 +163,14 @@ function MainTabScreen({ navigation }) {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: Colors.main,
-        tabBarInactiveTintColor: Colors.grey,
+        tabBarInactiveTintColor: isDarkMode ? Colors.grey : Colors.black,
         tabBarStyle: {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
           borderTopWidth: 1,
-          borderTopColor: Colors.grey,
+          borderTopColor: isDarkMode ? Colors.grey : Colors.black,
         },
         headerStyle: {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          borderTopWidth: 1,
-          borderTopColor: Colors.grey,
         },
         headerTitleStyle: {
           color: isDarkMode ? Colors.white : Colors.black,
@@ -190,7 +186,7 @@ function MainTabScreen({ navigation }) {
             <Ionicons
               name="add-outline"
               size={30}
-              color={Colors.white}
+              color={isDarkMode ? Colors.white : Colors.black}
               style={{ paddingRight: 10 }}
               onPress={() => navigation.navigate("group_create")}
             />
@@ -220,7 +216,7 @@ function MainTabScreen({ navigation }) {
             <Ionicons
               name="settings-outline"
               size={30}
-              color={Colors.white}
+              color={isDarkMode ? Colors.white : Colors.black}
               style={{ paddingRight: 10 }}
               onPress={() => navigation.navigate("settings")}
             />

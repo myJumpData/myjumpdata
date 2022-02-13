@@ -7,7 +7,7 @@ import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView, StyledView } from "../components/StyledView";
-import { borderRadius, Colors } from "../Constants";
+import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 import ScoreDataService from "../services/scoredata.service";
 
@@ -113,8 +113,6 @@ export default function GroupSpeedScreen({ route, navigation }) {
           flexDirection: "row",
           alignItems: "center",
           margin: 10,
-          borderBottomColor: Colors.grey,
-          borderWidth: 2,
         }}
       >
         <Picker
@@ -123,7 +121,6 @@ export default function GroupSpeedScreen({ route, navigation }) {
           style={{
             flex: 1,
             color: isDarkMode ? Colors.white : Colors.black,
-            borderRadius: borderRadius,
           }}
           dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
           mode="dropdown"
@@ -147,9 +144,6 @@ export default function GroupSpeedScreen({ route, navigation }) {
             key={score.user._id}
             style={{
               width: "100%",
-              borderWidth: 1,
-              borderColorBottom: Colors.grey,
-              borderColorTop: Colors.grey,
               paddingLeft: 10,
               paddingRight: 10,
               paddingTop: 5,

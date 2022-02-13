@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, useColorScheme, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import GroupsService from "../services/groups.service";
 export default function GroupsScreen({ navigation }) {
   const user = useSelector((state: any) => state.user);
   const [groups, setGroups] = React.useState([]);
+  const isDarkMode = useColorScheme() === "dark";
 
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -58,7 +59,10 @@ export default function GroupsScreen({ navigation }) {
               >
                 <Ionicons
                   name="list-outline"
-                  style={{ color: Colors.white, padding: 5 }}
+                  style={{
+                    color: isDarkMode ? Colors.white : Colors.black,
+                    padding: 5,
+                  }}
                   size={25}
                 />
               </TouchableOpacity>
@@ -69,7 +73,10 @@ export default function GroupsScreen({ navigation }) {
               >
                 <Ionicons
                   name="timer-outline"
-                  style={{ color: Colors.white, padding: 5 }}
+                  style={{
+                    color: isDarkMode ? Colors.white : Colors.black,
+                    padding: 5,
+                  }}
                   size={25}
                 />
               </TouchableOpacity>
@@ -77,7 +84,10 @@ export default function GroupsScreen({ navigation }) {
           )}
           <Ionicons
             name="chevron-forward-outline"
-            style={{ color: Colors.white, padding: 5 }}
+            style={{
+              color: isDarkMode ? Colors.white : Colors.black,
+              padding: 5,
+            }}
             size={25}
           />
         </View>

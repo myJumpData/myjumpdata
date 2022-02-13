@@ -6,7 +6,6 @@ import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView, StyledView } from "../components/StyledView";
-import { Colors } from "../Constants";
 import ScoreDataService from "../services/scoredata.service";
 
 export default function SpeedDataOwnScreen() {
@@ -89,9 +88,6 @@ export default function SpeedDataOwnScreen() {
             key={item.type._id}
             style={{
               width: "100%",
-              borderWidth: 1,
-              borderColorBottom: Colors.grey,
-              borderColorTop: Colors.grey,
               paddingLeft: 10,
               paddingRight: 10,
               paddingTop: 5,
