@@ -7,10 +7,12 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import "./i18n";
 import Spinner from "./parts/Spinner";
 import Wrapper from "./parts/Wrapper";
-import FreestyleGroupScreen from "./screens/FreestyleGroupScreen";
 import "./styles.css";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
+const FreestyleGroupScreen = lazy(
+  () => import("./screens/FreestyleGroupScreen")
+);
 const GroupScreen = lazy(() => import("./screens/GroupScreen"));
 const GroupsScreen = lazy(() => import("./screens/GroupsScreen"));
 const GroupSettingsScreen = lazy(() => import("./screens/GroupSettingsScreen"));

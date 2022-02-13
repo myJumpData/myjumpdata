@@ -15,6 +15,8 @@ export default function FooterNav({ social, links }) {
                 className="h-8 w-auto scale-150 saturate-0"
                 src={Logo}
                 alt="myJumpData"
+                height="2rem"
+                width="2rem"
               />
             </Link>
           </div>

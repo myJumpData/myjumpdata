@@ -44,6 +44,8 @@ export default function Navbar({
                         className="h-8 w-auto scale-150"
                         src={Logo}
                         alt="myJumpData"
+                        height="2rem"
+                        width="2rem"
                       />
                     </Link>
                   </div>
@@ -57,7 +59,7 @@ export default function Navbar({
                             item.current
                               ? "bg-gray-500/50 text-black  hover:bg-gray-500/25 dark:text-white"
                               : "text-gray-700 hover:bg-gray-500/25 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100",
-                            "rounded-md px-3 py-2 text-sm font-medium"
+                            "whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
                         >

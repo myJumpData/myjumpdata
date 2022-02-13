@@ -29,7 +29,10 @@ export function SpeedDataInput({
           {dropdown && (
             <Menu as="div" className="relative ml-2">
               <div className="inset-y-0 flex items-center ring-0">
-                <Menu.Button className="flex h-8 w-8 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-gray-800 dark:focus:ring-offset-white">
+                <Menu.Button
+                  className="flex h-8 w-8 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-gray-800 dark:focus:ring-offset-white"
+                  aria-label="more-action"
+                >
                   <HiDotsVertical />
                 </Menu.Button>
               </div>

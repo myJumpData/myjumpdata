@@ -111,9 +111,9 @@ export default function MainScreen() {
             <img src={img} alt="" />
           </div>
           <div className="w-full sm:w-2/3">
-            <h3 className="mb-3 text-xl font-bold leading-none lg:text-2xl">
+            <span className="mb-3 text-xl font-bold leading-none lg:text-2xl">
               {heading}
-            </h3>
+            </span>
             <p className="mb-8 text-base text-gray-600 dark:text-gray-400">
               {children}
             </p>
@@ -173,7 +173,7 @@ export default function MainScreen() {
         <div className="mb-2 w-full space-y-2">
           <span className="text-xl font-bold">{t("main:cta_title")}</span>
         </div>
-        <h3 className="my-4 leading-tight">{t("main:cta_text")}</h3>
+        <span className="my-4 leading-tight">{t("main:cta_text")}</span>
         <div className="py-6">
           <Link
             to="/register"

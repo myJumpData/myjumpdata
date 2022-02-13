@@ -38,6 +38,8 @@ export function Nav() {
           src={image}
           alt="Profile"
           className="h-8 w-8 rounded-full object-cover"
+          height="2rem"
+          width="2rem"
         />
       );
     navigation = [
