@@ -209,7 +209,7 @@ export async function getUser(req, res) {
     return requestHandler(res, 404, "notfound.user", "User not Found");
   }
 
-  const scoreDataTypesList = await ScoreDataType.find({});
+  const scoreDataTypesList = await ScoreDataType.find({}).sort("name");
   const jobQueries: Query<object, object>[] = [];
   scoreDataTypesList.forEach((type) => {
     jobQueries.push(

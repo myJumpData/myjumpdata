@@ -29,12 +29,14 @@ export function saveScoreData(req, res) {
 }
 
 export function getScoreDataTypes(req, res) {
-  ScoreDataType.find({}, (err, scoreDataTypes) => {
-    if (err) {
-      return requestHandlerError(res, err);
-    }
-    return requestHandler(res, 200, "", "", scoreDataTypes);
-  });
+  ScoreDataType.find({})
+    .sort("name")
+    .exec((err, scoreDataTypes) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "", scoreDataTypes);
+    });
 }
 
 export function getScoreDataHigh(req, res) {
@@ -126,18 +128,20 @@ export function getScoreDataOwn(req, res) {
       return Promise.all(jobQueries);
     })
     .then((data) => {
-      ScoreDataType.find({}, (err, scoreDataTypes) => {
-        if (err) {
-          return requestHandlerError(res, err);
-        }
-        const response = data;
-        scoreDataTypes.forEach((item) => {
-          if (!response.some((r: any) => r?.type.name === item.name)) {
-            response.push({ type: item, score: 0 });
+      ScoreDataType.find({})
+        .sort("name")
+        .exec((err, scoreDataTypes) => {
+          if (err) {
+            return requestHandlerError(res, err);
           }
+          const response = data;
+          scoreDataTypes.forEach((item) => {
+            if (!response.some((r: any) => r?.type.name === item.name)) {
+              response.push({ type: item, score: 0 });
+            }
+          });
+          return requestHandler(res, 200, "", "", response);
         });
-        return requestHandler(res, 200, "", "", response);
-      });
     })
     .catch((err) => {
       return requestHandlerError(res, err);
