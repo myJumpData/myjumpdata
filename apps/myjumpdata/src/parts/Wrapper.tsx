@@ -16,7 +16,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
       <div className="flex h-full w-full grow flex-col md:flex-row">
         {user?.roles?.includes("admin") &&
           route.match(new RegExp("admin(.*)")) && <AdminNav />}
-        <div className="grow rounded-tl-3xl bg-white p-4 text-black dark:bg-black dark:text-white sm:p-8">
+        <div className="min-w-0 grow rounded-tl-3xl bg-white p-4 text-black dark:bg-black dark:text-white sm:p-8">
           <div className="mb-auto flex flex-col space-y-8">
             <Alert />
             {children}
