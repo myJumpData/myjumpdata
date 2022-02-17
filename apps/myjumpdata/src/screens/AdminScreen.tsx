@@ -1,5 +1,5 @@
 import { LANGUAGES } from "@myjumpdata/const";
-import { setFreestyle, setRoute } from "@myjumpdata/redux";
+import { setRoute } from "@myjumpdata/redux";
 import { getFreestyle, getFreestyleElement } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -91,8 +91,8 @@ function AdminFreestyleScreen() {
   AuthVerify();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.freestyle);
-  const freestyle = useSelector((state: any) => state.freestyle);
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
+  const [freestyle, setFreestyle] = useState<string>("");
   const { t } = useTranslation();
 
   useEffect(() => {
