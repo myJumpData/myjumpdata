@@ -136,8 +136,8 @@ android {
         applicationId "me.fediv.myjumpdata"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "v0.6.4"
+        versionCode 10
+        versionName "v0.6.5"
 
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
