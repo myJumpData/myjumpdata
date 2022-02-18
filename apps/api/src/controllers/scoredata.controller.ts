@@ -100,7 +100,7 @@ export function getScoreDataHigh(req, res) {
                 )
               ) {
                 let picture: null | string = null;
-                if (item.picture === "gravatar") {
+                if (item.picture === "gravatar" && item.email) {
                   picture = `https://secure.gravatar.com/avatar/${crypto
                     .createHash("md5")
                     .update(item.email)

@@ -38,7 +38,7 @@ export default function GroupScreen({ route, navigation }) {
   }, []);
 
   React.useEffect(() => {
-    const options: any = scoreDataTypes.map((type: any) => {
+    const options: any = scoreDataTypes?.map((type: any) => {
       return { value: type._id, name: type.name };
     });
     setTypesOptions(options);
@@ -47,7 +47,7 @@ export default function GroupScreen({ route, navigation }) {
   function getGroup() {
     GroupsService.getGroup(id).then((response: any) => {
       navigation.setOptions({
-        title: response.data.name,
+        title: response.data?.name,
         headerRight: () => {
           if (response?.data?.coaches.some((i: any) => i.id === user.id)) {
             return (
@@ -96,6 +96,7 @@ export default function GroupScreen({ route, navigation }) {
 
   function getScoreDataHigh(id: any, type: any) {
     ScoreDataService.getScoreDataHigh(id, type).then((response: any) => {
+      console.log(response);
       setRefreshing(false);
       setGroupScores(response.data?.scores.sort((a, b) => a.score < b.score));
     });
@@ -207,7 +208,7 @@ export default function GroupScreen({ route, navigation }) {
           dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
           mode="dropdown"
         >
-          {typesOptions.map((type: any) => (
+          {typesOptions?.map((type: any) => (
             <Picker.Item
               key={type.value}
               label={type.name}
