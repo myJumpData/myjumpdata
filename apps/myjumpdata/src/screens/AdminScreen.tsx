@@ -411,7 +411,12 @@ function AdminFreestyleElementScreen() {
                 <span className="px-4 py-2">
                   {freestyleElementData.key
                     .split("_")
-                    .map((item) => freestyleElementData.translation[lang][item])
+                    .map((item) => {
+                      if (freestyleElementData.translation[lang]) {
+                        return freestyleElementData.translation[lang][item];
+                      }
+                      return null;
+                    })
                     .join(" ")}
                 </span>
               </div>
