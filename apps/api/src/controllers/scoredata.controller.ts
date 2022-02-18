@@ -140,7 +140,7 @@ export function getScoreDataOwn(req, res) {
               response.push({ type: item, score: 0 });
             } else {
               response.push(
-                data.find((value: any) => value.type.name === item.name)
+                data.find((value: any) => value?.type.name === item.name)
               );
             }
           });
