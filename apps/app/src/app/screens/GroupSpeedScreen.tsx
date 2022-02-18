@@ -92,7 +92,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
     } else {
       setDateText(`${format}`);
     }
-  }, [date]);
+  }, [date, t]);
 
   return (
     <StyledScrollView
