@@ -1,7 +1,7 @@
 import api from "./api";
 
-export const updateUsersRole = (roles: string[]) => {
-  return api.put("/users/role", { roles: roles });
+export const getUsers = (page: number, limit: number) => {
+  return api.get(`/users?page=${page}&limit=${limit}`);
 };
 
 export const searchUsers = (search: string) => {

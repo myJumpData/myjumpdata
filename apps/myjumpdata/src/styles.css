@@ -56,15 +56,19 @@ input:-webkit-autofill:active {
   }
 }
 
+html {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
 ::-webkit-scrollbar {
   @apply h-2 w-2;
 }
 ::-webkit-scrollbar-track {
-  @apply rounded-full bg-gray-500/50;
+  @apply rounded-full bg-gray-200 dark:bg-gray-800;
 }
 ::-webkit-scrollbar-thumb {
-  @apply rounded-full border-2 border-red-500 bg-gray-400;
+  @apply rounded-full border-2 bg-gray-500/50;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-white;
+  @apply bg-gray-500/75;
 }

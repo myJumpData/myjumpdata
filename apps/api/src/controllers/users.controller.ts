@@ -1,5 +1,6 @@
 import { APP_URL, JWT_SECRET } from "@myjumpdata/consts";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import SendMail from "../email";
 import User from "../models/user.model";
@@ -154,5 +155,59 @@ export const updateUser = (req, res) => {
             );
           });
       }, 500);
+    });
+};
+
+export const getUsers = (req, res) => {
+  if (!req.userRoles?.includes("admin")) {
+    return requestHandler(
+      res,
+      401,
+      "unauthorized.admin.not",
+      "Need Admin Role"
+    );
+  }
+  const page = req.query.page - 1 || 0;
+  const limit = req.query.limit || 5;
+  User.find({})
+    .limit(limit)
+    .skip(page * limit)
+    .populate("roles")
+    .exec((err, users) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      const data = users.map((user) => {
+        const roles = user.roles.map((role) => role.name);
+        let picture: null | string = null;
+        if (user.picture === "gravatar") {
+          picture = `https://secure.gravatar.com/avatar/${crypto
+            .createHash("md5")
+            .update(user.email)
+            .digest("hex")}?size=300&d=404`;
+        }
+        return {
+          id: user._id,
+          username: user.username,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email,
+          active: user.active,
+          picture,
+          roles,
+        };
+      });
+      User.countDocuments().exec((err, items) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(res, 200, "", "", {
+          items,
+          data,
+          page,
+          pages: Math.ceil(items / limit),
+          count: data.length,
+        });
+      });
     });
 };

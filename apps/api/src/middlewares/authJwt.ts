@@ -36,12 +36,15 @@ export default function verifyToken(req, res, next) {
     }
     req.userId = decoded?.id;
     if (decoded?.id) {
-      User.findOne({ id: decoded.id }).then((response: any) => {
-        if (response.active !== true) {
-          return catchError(undefined, res);
-        }
-        return next();
-      });
+      User.findOne({ id: decoded.id })
+        .populate("roles")
+        .then((response: any) => {
+          req.userRoles = response.roles.map((role) => role.name);
+          if (response.active !== true) {
+            return catchError(undefined, res);
+          }
+          return next();
+        });
     } else {
       return catchError(undefined, res);
     }
