@@ -65,7 +65,7 @@ export default function Table({
           </tbody>
         </table>
       </div>
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row items-center justify-between">
         <span>Total data: {total}</span>
         <div className="w-24">
           <SelectInput
