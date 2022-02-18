@@ -4,9 +4,9 @@ import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PersistGate } from "redux-persist/lib/integration/react";
+import Spinner from "./components/Spinner";
+import Wrapper from "./components/Wrapper";
 import "./i18n";
-import Spinner from "./parts/Spinner";
-import Wrapper from "./parts/Wrapper";
 import "./styles.css";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));

@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
-import Spinner from "../parts/Spinner";
+import Spinner from "../components/Spinner";
 
 export default function GroupSettingsScreen() {
   useEffect(() => {

@@ -13,7 +13,7 @@ import { useParams } from "react-router";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { DateInput, SelectInput, TextInput } from "../components/Input";
-import { SpeedDataInput } from "../parts/SpeedData";
+import { SpeedDataInput } from "../components/SpeedData";
 
 export default function SpeedDataScreen() {
   useEffect(() => {

@@ -3,7 +3,7 @@ import { classNames } from "@myjumpdata/utils";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiPlus } from "react-icons/hi";
-import { TextInput } from "../components/Input";
+import { TextInput } from "./Input";
 
 export function SpeedDataInput({
   id,

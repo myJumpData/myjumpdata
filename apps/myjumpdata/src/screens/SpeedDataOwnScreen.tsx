@@ -10,7 +10,7 @@ import { HiX } from "react-icons/hi";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { DateInput, TextInput } from "../components/Input";
-import { SpeedDataInput } from "../parts/SpeedData";
+import { SpeedDataInput } from "../components/SpeedData";
 
 export default function SpeedDataOwnScreen() {
   useEffect(() => {

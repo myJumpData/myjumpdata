@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
+import { Back, Element, Folder } from "../components/Freestyle";
 import { SelectInput } from "../components/Input";
-import { Back, Element, Folder } from "../parts/Freestyle";
 
 type freestyle_folder_data = {
   id: string;
