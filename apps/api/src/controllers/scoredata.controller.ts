@@ -134,10 +134,14 @@ export function getScoreDataOwn(req, res) {
           if (err) {
             return requestHandlerError(res, err);
           }
-          const response = data;
+          const response: any[] = [];
           scoreDataTypes.forEach((item) => {
-            if (!response.some((r: any) => r?.type.name === item.name)) {
+            if (!data.some((r: any) => r?.type.name === item.name)) {
               response.push({ type: item, score: 0 });
+            } else {
+              response.push(
+                data.find((value: any) => value.type.name === item.name)
+              );
             }
           });
           return requestHandler(res, 200, "", "", response);
