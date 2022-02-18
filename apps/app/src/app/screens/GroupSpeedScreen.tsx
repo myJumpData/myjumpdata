@@ -2,13 +2,20 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshControl, useColorScheme, View } from "react-native";
+import {
+  RefreshControl,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
+import BottomSheet from "react-native-gesture-bottom-sheet";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView, StyledView } from "../components/StyledView";
-import { Colors } from "../Constants";
+import { borderRadius, Colors } from "../Constants";
 import { setScoredatatype } from "../redux/scoredatatype.action";
 import GroupsService from "../services/groups.service";
 import ScoreDataService from "../services/scoredata.service";
@@ -26,6 +33,9 @@ export default function GroupSpeedScreen({ route, navigation }) {
   const [dateText, setDateText] = React.useState<string>("");
   const [dateShow, setDateShow] = React.useState<boolean>(false);
   const isDarkMode = useColorScheme() === "dark";
+  const [currentUser, setCurrentUser] = React.useState<any>({});
+
+  const bottomSheet = React.useRef<any>();
 
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -162,11 +172,31 @@ export default function GroupSpeedScreen({ route, navigation }) {
                 justifyContent: "space-between",
               }}
             >
-              <StyledText>
-                {score.user.firstname && score.user.lastname
-                  ? score.user.firstname + " " + score.user.lastname
-                  : score.user.username}
-              </StyledText>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <StyledText>
+                  {score.user.firstname && score.user.lastname
+                    ? score.user.firstname + " " + score.user.lastname
+                    : score.user.username}
+                </StyledText>
+                <TouchableOpacity
+                  onPress={() => {
+                    setCurrentUser(score.user);
+                    bottomSheet.current.show();
+                  }}
+                >
+                  <Ionicons
+                    name="ellipsis-vertical"
+                    size={24}
+                    color={isDarkMode ? Colors.white : Colors.black}
+                  />
+                </TouchableOpacity>
+              </View>
               <StyledText>
                 {t("common:high")}: {score.score}
               </StyledText>
@@ -187,8 +217,9 @@ export default function GroupSpeedScreen({ route, navigation }) {
                     scoredatatype,
                     nativeEvent.text,
                     date
-                  );
-                  getScoreDataHigh(id, scoredatatype);
+                  ).then(() => {
+                    getScoreDataHigh(id, scoredatatype);
+                  });
                   target.clear();
                 }}
               />
@@ -196,6 +227,49 @@ export default function GroupSpeedScreen({ route, navigation }) {
           </StyledView>
         ))}
       </StyledView>
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        height={400}
+        radius={borderRadius}
+        sheetBackgroundColor={isDarkMode ? Colors.black : Colors.white}
+      >
+        <View style={{ padding: 20 }}>
+          <StyledText
+            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+          >
+            {t("scoredata_reset_title")}
+          </StyledText>
+          <StyledText
+            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+          >
+            {currentUser.firstname && currentUser.lastname
+              ? currentUser.firstname + " " + currentUser.lastname
+              : currentUser.username}
+          </StyledText>
+          <StyledText style={{ marginBottom: 8 }}>
+            {t("scoredata_reset_text")}
+          </StyledText>
+          <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
+            {t("scoredata_reset_warning")}
+          </StyledText>
+          <StyledTextInput
+            style={{ marginBottom: 8 }}
+            keyboardType="numeric"
+            onSubmitEditing={({ nativeEvent, target }) => {
+              ScoreDataService.resetScoreData(
+                currentUser._id,
+                scoredatatype,
+                nativeEvent.text
+              ).then(() => {
+                bottomSheet.current.close();
+                getScoreDataHigh(id, scoredatatype);
+              });
+              target.clear();
+            }}
+          />
+        </View>
+      </BottomSheet>
     </StyledScrollView>
   );
 }
