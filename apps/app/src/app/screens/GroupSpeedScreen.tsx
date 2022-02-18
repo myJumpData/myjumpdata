@@ -3,23 +3,25 @@ import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, useColorScheme, View } from "react-native";
+import { useSelector } from "react-redux";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView, StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
+import { setScoredatatype } from "../redux/scoredatatype.action";
 import GroupsService from "../services/groups.service";
 import ScoreDataService from "../services/scoredata.service";
 
 export default function GroupSpeedScreen({ route, navigation }) {
   const { t } = useTranslation();
   const { id } = route.params;
+  const scoredatatype = useSelector((state: any) => state.scoredatatype);
 
   const [groupScores, setGroupScores] = React.useState([]);
   const [groupHigh, setGroupHigh] = React.useState([]);
   const [scoreDataTypes, setScoreDataTypes] = React.useState([]);
   const [typesOptions, setTypesOptions] = React.useState([]);
-  const [scoreDataType, setScoreDataType] = React.useState("");
   const [date, setDate] = React.useState<Date>(new Date());
   const [dateText, setDateText] = React.useState<string>("");
   const [dateShow, setDateShow] = React.useState<boolean>(false);
@@ -33,17 +35,19 @@ export default function GroupSpeedScreen({ route, navigation }) {
     });
     ScoreDataService.getScoreDataTypes().then((response: any) => {
       setScoreDataTypes(response.data);
-      setScoreDataType(response.data[0]._id);
-      getScoreDataHigh(id, response.data[0]._id);
+      if (scoredatatype === "") {
+        setScoredatatype(response.data[0]._id);
+        getScoreDataHigh(id, response.data[0]._id);
+      }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   React.useEffect(() => {
-    if (scoreDataType) {
-      getScoreDataHigh(id, scoreDataType);
+    if (scoredatatype !== "") {
+      getScoreDataHigh(id, scoredatatype);
     }
-  }, [scoreDataType, id]);
+  }, [scoredatatype, id]);
 
   React.useEffect(() => {
     const options: any = scoreDataTypes.map((type: any) => {
@@ -62,7 +66,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    getScoreDataHigh(id, scoreDataType);
+    getScoreDataHigh(id, scoredatatype);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -116,8 +120,8 @@ export default function GroupSpeedScreen({ route, navigation }) {
         }}
       >
         <Picker
-          selectedValue={scoreDataType}
-          onValueChange={(e) => setScoreDataType(e)}
+          selectedValue={scoredatatype}
+          onValueChange={(e) => setScoredatatype(e)}
           style={{
             flex: 1,
             color: isDarkMode ? Colors.white : Colors.black,
@@ -180,11 +184,11 @@ export default function GroupSpeedScreen({ route, navigation }) {
                 onSubmitEditing={({ nativeEvent, target }) => {
                   ScoreDataService.saveScoreData(
                     score.user._id,
-                    scoreDataType,
+                    scoredatatype,
                     nativeEvent.text,
                     date
                   );
-                  getScoreDataHigh(id, scoreDataType);
+                  getScoreDataHigh(id, scoredatatype);
                   target.clear();
                 }}
               />
