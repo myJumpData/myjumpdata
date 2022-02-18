@@ -2,7 +2,7 @@ import { getUser } from "@myjumpdata/redux";
 import { Buffer } from "buffer";
 import Logout from "./Logout";
 
-export default function AuthVerify() {
+export default function AuthVerify(options?: { isAdmin?: boolean }) {
   const user = getUser();
   if (Object.keys(user).length === 0) {
     return Logout();
@@ -18,6 +18,9 @@ export default function AuthVerify() {
     const exp = payload.exp * 1000;
     const now = Date.now();
     if (exp > now) {
+      if (options?.isAdmin && user.roles.includes("admin") === false) {
+        window.location.href = "/";
+      }
       return;
     }
   }

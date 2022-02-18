@@ -25,11 +25,10 @@ import Breadcrumb from "../components/Breadcrumb";
 import Table from "../components/Table";
 
 export default function AdminScreen() {
-  AuthVerify();
+  AuthVerify({
+    isAdmin: true,
+  });
   const user = useSelector((state: any) => state.freestyle);
-  if (user.roles?.includes("admin")) {
-    return <Navigate to="/" />;
-  }
   return (
     <Routes>
       <Route path="/home" element={<AdminHomeScreen />} />
@@ -49,23 +48,19 @@ function AdminHomeScreen() {
   useEffect(() => {
     setRoute("admin/home");
   }, []);
-  AuthVerify();
-
-  const user = useSelector((state: any) => state.freestyle);
-
-  if (user.roles?.includes("admin")) {
-    return <Navigate to="/" />;
-  }
-
+  AuthVerify({
+    isAdmin: true,
+  });
   return <div>Home</div>;
 }
 function AdminUsersScreen() {
   useEffect(() => {
     setRoute("admin/users");
   }, []);
-  AuthVerify();
+  AuthVerify({
+    isAdmin: true,
+  });
 
-  const user = useSelector((state: any) => state.freestyle);
   const [usersData, setUsersData] = useState<
     | {
         items: number;
@@ -137,10 +132,6 @@ function AdminUsersScreen() {
     });
   }, [page, limit]);
 
-  if (user.roles?.includes("admin")) {
-    return <Navigate to="/" />;
-  }
-
   return (
     <>
       <div className="w-full space-y-2">
@@ -185,11 +176,9 @@ function AdminGroupsScreen() {
   useEffect(() => {
     setRoute("admin/groups");
   }, []);
-  AuthVerify();
-  const user = useSelector((state: any) => state.freestyle);
-  if (user.roles?.includes("admin")) {
-    return <Navigate to="/" />;
-  }
+  AuthVerify({
+    isAdmin: true,
+  });
 
   return <div>Groups</div>;
 }
@@ -207,9 +196,10 @@ function AdminFreestyleScreen() {
   useEffect(() => {
     setRoute("admin/freestyle");
   }, []);
-  AuthVerify();
+  AuthVerify({
+    isAdmin: true,
+  });
   const navigate = useNavigate();
-  const user = useSelector((state: any) => state.freestyle);
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
   const [freestyle, setFreestyle] = useState<string>("");
   const { t } = useTranslation();
@@ -219,10 +209,6 @@ function AdminFreestyleScreen() {
       setFolderData(response.data);
     });
   }, [freestyle]);
-
-  if (user.roles?.includes("admin")) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <>
@@ -336,6 +322,9 @@ function AdminFreestyleScreen() {
 }
 
 function AdminFreestyleElementScreen() {
+  AuthVerify({
+    isAdmin: true,
+  });
   const params = useParams();
   const { t } = useTranslation();
   const [freestyleElementData, setFreestyleElementData] = useState<
@@ -432,11 +421,9 @@ function AdminLocalizationScreen() {
   useEffect(() => {
     setRoute("admin/localization");
   }, []);
-  AuthVerify();
-  const user = useSelector((state: any) => state.freestyle);
-  if (user.roles?.includes("admin")) {
-    return <Navigate to="/" />;
-  }
+  AuthVerify({
+    isAdmin: true,
+  });
 
   return <div>Localization</div>;
 }
