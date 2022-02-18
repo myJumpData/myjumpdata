@@ -2,7 +2,7 @@ import { persistor, store } from "@myjumpdata/redux";
 import React, { lazy, Suspense } from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import Spinner from "./components/Spinner";
 import Wrapper from "./components/Wrapper";
@@ -25,7 +25,19 @@ const SettingsScreen = lazy(() => import("./screens/SettingsScreen"));
 const SpeedDataOwnScreen = lazy(() => import("./screens/SpeedDataOwnScreen"));
 const SpeedDataScreen = lazy(() => import("./screens/SpeedDataScreen"));
 const TermsScreen = lazy(() => import("./screens/TermsScreen"));
-const AdminScreen = lazy(() => import("./screens/AdminScreen"));
+
+const AdminHomeScreen = lazy(() => import("./screens/AdminHomeScreen"));
+const AdminUsersScreen = lazy(() => import("./screens/AdminUsersScreen"));
+const AdminGroupsScreen = lazy(() => import("./screens/AdminGroupsScreen"));
+const AdminFreestyleScreen = lazy(
+  () => import("./screens/AdminFreestyleScreen")
+);
+const AdminFreestyleElementScreen = lazy(
+  () => import("./screens/AdminFreestyleElementScreen")
+);
+const AdminLocalizationScreen = lazy(
+  () => import("./screens/AdminLocalizationScreen")
+);
 
 ReactDOM.render(
   <Suspense fallback={<Spinner wrapper />}>
@@ -83,7 +95,24 @@ ReactDOM.render(
               {
                 //"Admin"
               }
-              <Route path="/admin/*" element={<AdminScreen />} />
+              <Route path="/admin">
+                <Route index element={<AdminHomeScreen />} />
+                <Route path="users" element={<AdminUsersScreen />} />
+                <Route path="groups" element={<AdminGroupsScreen />} />
+                <Route path="freestyle">
+                  <Route index element={<AdminFreestyleScreen />} />
+                  <Route
+                    path="element/:id"
+                    element={<AdminFreestyleElementScreen />}
+                  />
+                </Route>
+                <Route
+                  path="localization"
+                  element={<AdminLocalizationScreen />}
+                />
+                <Route path="*" element={<Navigate to="/admin" />} />
+              </Route>
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </Wrapper>
         </BrowserRouter>
