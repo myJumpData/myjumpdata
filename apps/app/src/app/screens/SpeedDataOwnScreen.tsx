@@ -1,21 +1,29 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshControl } from "react-native";
+import { RefreshControl, useColorScheme, View } from "react-native";
+import BottomSheet from "react-native-gesture-bottom-sheet";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { StyledScrollView, StyledView } from "../components/StyledView";
+import { StyledView } from "../components/StyledView";
+import { borderRadius, Colors } from "../Constants";
 import ScoreDataService from "../services/scoredata.service";
 
 export default function SpeedDataOwnScreen() {
   const { t } = useTranslation();
+  const isDarkMode = useColorScheme() === "dark";
 
   const [scoreData, setScoreData] = React.useState<any>([]);
   const [date, setDate] = React.useState<Date>(new Date());
   const [dateShow, setDateShow] = React.useState<boolean>(false);
   const [dateText, setDateText] = React.useState<string>("");
   const [refreshing, setRefreshing] = React.useState(false);
+  const [currentType, setCurrentType] = React.useState<any>({});
+
+  const bottomSheet = React.useRef<any>();
 
   React.useEffect(() => {
     getData();
@@ -49,10 +57,7 @@ export default function SpeedDataOwnScreen() {
   }, []);
 
   return (
-    <StyledScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+    <StyledView
       style={{
         paddingTop: 10,
         paddingBottom: 10,
@@ -82,55 +87,131 @@ export default function SpeedDataOwnScreen() {
         />
       )}
 
-      <StyledView style={{ flex: 1 }}>
-        {scoreData.map((item) => (
-          <StyledView
-            key={item.type._id}
-            style={{
-              width: "100%",
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingTop: 5,
-              paddingBottom: 5,
-              marginBottom: 10,
-            }}
-          >
+      <ScrollView
+        style={{ flex: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {scoreData.map((item) => {
+          return (
             <StyledView
+              key={item.type._id}
               style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "space-between",
+                width: "100%",
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingTop: 5,
+                paddingBottom: 5,
+                marginBottom: 10,
               }}
             >
-              <StyledText>{item.type.name}</StyledText>
-              <StyledText>
-                {t("common:high")}: {item.score}
-              </StyledText>
-            </StyledView>
-            <StyledView
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                marginTop: 10,
-              }}
-            >
-              <StyledTextInput
-                style={{ width: "auto", flexGrow: 1 }}
-                keyboardType="numeric"
-                onSubmitEditing={({ nativeEvent, target }) => {
-                  ScoreDataService.saveScoreDataOwn(
-                    item.type._id,
-                    nativeEvent.text,
-                    date
-                  );
-                  getData();
-                  target.clear();
+              <StyledView
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "flex-end",
                 }}
-              />
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <StyledText
+                    style={{
+                      fontSize: 24,
+                      fontWeight: "900",
+                      marginRight: 4,
+                    }}
+                  >
+                    {item.type.name}
+                  </StyledText>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setCurrentType(item.type);
+                      bottomSheet.current.show();
+                    }}
+                  >
+                    <Ionicons
+                      name="ellipsis-vertical"
+                      size={24}
+                      color={isDarkMode ? Colors.white : Colors.black}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <StyledText>
+                  {t("common:high")}: {item.score}
+                </StyledText>
+              </StyledView>
+              <StyledView
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  marginTop: 10,
+                }}
+              >
+                <StyledTextInput
+                  style={{ width: "auto", flexGrow: 1 }}
+                  keyboardType="numeric"
+                  onSubmitEditing={({ nativeEvent, target }) => {
+                    ScoreDataService.saveScoreDataOwn(
+                      item.type._id,
+                      nativeEvent.text,
+                      date
+                    );
+                    getData();
+                    target.clear();
+                  }}
+                />
+              </StyledView>
             </StyledView>
-          </StyledView>
-        ))}
-      </StyledView>
-    </StyledScrollView>
+          );
+        })}
+      </ScrollView>
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        height={400}
+        radius={borderRadius}
+        sheetBackgroundColor={isDarkMode ? Colors.black : Colors.white}
+      >
+        <View style={{ padding: 20 }}>
+          <StyledText
+            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+          >
+            {t("scoredata_reset_title")}
+          </StyledText>
+          <StyledText
+            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+          >
+            {currentType.name}
+          </StyledText>
+          <StyledText style={{ marginBottom: 8 }}>
+            {t("scoredata_reset_text")}
+          </StyledText>
+          <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
+            {t("scoredata_reset_warning")}
+          </StyledText>
+          <StyledTextInput
+            style={{ marginBottom: 8 }}
+            keyboardType="numeric"
+            onSubmitEditing={({ nativeEvent, target }) => {
+              ScoreDataService.resetScoreDataOwn(
+                currentType._id,
+                nativeEvent.text
+              ).then(() => {
+                bottomSheet.current.close();
+                getData();
+              });
+              target.clear();
+            }}
+          />
+        </View>
+      </BottomSheet>
+    </StyledView>
   );
 }

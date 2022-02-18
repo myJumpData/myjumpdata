@@ -116,7 +116,11 @@ export default function SpeedDataOwnScreen() {
             <div className="flex items-center space-x-2">
               <TextInput type="number" min="0" inputName="score" />
             </div>
-            <Button type="submit" name={"Zurücksetzen"} design="danger" />
+            <Button
+              type="submit"
+              name={t("scoredata_reset_title")}
+              design="danger"
+            />
           </form>
         </div>
       </div>
