@@ -110,6 +110,7 @@ export default function GroupScreen({ route, navigation }) {
 
   const renderItem = ({
     item,
+    index,
   }: {
     item: {
       score: number;
@@ -122,6 +123,7 @@ export default function GroupScreen({ route, navigation }) {
         active: boolean;
       };
     };
+    index: number;
   }) => (
     <TouchableOpacity
       style={{
@@ -140,6 +142,9 @@ export default function GroupScreen({ route, navigation }) {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <StyledText style={{ marginRight: 5, color: Colors.grey }}>
+            {index + 1}.
+          </StyledText>
           {item.user.picture !== undefined && item.user.picture !== null ? (
             <Image
               style={{
