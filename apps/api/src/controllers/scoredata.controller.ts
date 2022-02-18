@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import mongoose, { Query } from "mongoose";
 import Group from "../models/group.model";
 import ScoreDataRecord from "../models/scoreDataRecord.model";
@@ -64,7 +65,7 @@ export function getScoreDataHigh(req, res) {
         }
       )
         .sort("user -score -type")
-        .populate("user", "-password -email -roles")
+        .populate("user", "-password -roles")
         .exec((err, records) => {
           if (err) {
             return requestHandlerError(res, err);
@@ -72,18 +73,44 @@ export function getScoreDataHigh(req, res) {
           const response: { user; score: number }[] = [];
           records.forEach((item) => {
             if (!response.some((response) => response.user === item.user)) {
+              let picture: null | string = null;
+              if (item.user.picture === "gravatar") {
+                picture = `https://secure.gravatar.com/avatar/${crypto
+                  .createHash("md5")
+                  .update(item.user.email)
+                  .digest("hex")}?size=300&d=404`;
+              }
+              item.user.picture = picture;
               response.push(item);
             }
           });
-          group.athletes.forEach((item: { username }) => {
-            if (
-              !response.some(
-                (response) => response.user.username === item.username
-              )
-            ) {
-              response.push({ user: item, score: 0 });
+          group.athletes.forEach(
+            (item: {
+              username: string;
+              _id: string;
+              firstname: string;
+              email: string;
+              lastname: string;
+              active: boolean;
+              picture: any;
+            }) => {
+              if (
+                !response.some(
+                  (response) => response.user.username === item.username
+                )
+              ) {
+                let picture: null | string = null;
+                if (item.picture === "gravatar") {
+                  picture = `https://secure.gravatar.com/avatar/${crypto
+                    .createHash("md5")
+                    .update(item.email)
+                    .digest("hex")}?size=300&d=404`;
+                }
+                item.picture = picture;
+                response.push({ user: item, score: 0 });
+              }
             }
-          });
+          );
 
           function compare(
             a: { user: { username: string } },
