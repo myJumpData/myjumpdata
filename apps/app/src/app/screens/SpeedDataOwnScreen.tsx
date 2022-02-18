@@ -162,8 +162,9 @@ export default function SpeedDataOwnScreen() {
                       item.type._id,
                       nativeEvent.text,
                       date
-                    );
-                    getData();
+                    ).then(() => {
+                      getData();
+                    });
                     target.clear();
                   }}
                 />
