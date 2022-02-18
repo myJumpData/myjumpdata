@@ -44,7 +44,7 @@ export function getScoreDataHigh(req, res) {
   const id = req.params.id;
   const type = req.params.type;
   Group.findOne({ _id: id }, { coaches: 0 })
-    .populate("athletes", "-password -roles -email")
+    .populate("athletes", "-password -roles")
     .exec((err, group) => {
       if (err) {
         return requestHandlerError(res, err);

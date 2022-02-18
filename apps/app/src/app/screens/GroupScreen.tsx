@@ -96,7 +96,6 @@ export default function GroupScreen({ route, navigation }) {
 
   function getScoreDataHigh(id: any, type: any) {
     ScoreDataService.getScoreDataHigh(id, type).then((response: any) => {
-      console.log(response);
       setRefreshing(false);
       setGroupScores(response.data?.scores.sort((a, b) => a.score < b.score));
     });
