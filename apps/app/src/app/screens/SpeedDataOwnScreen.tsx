@@ -41,7 +41,7 @@ export default function SpeedDataOwnScreen() {
     } else {
       setDateText(`${format}`);
     }
-  }, [date]);
+  }, [date, t]);
 
   function getData() {
     ScoreDataService.getScoreDataOwn().then((response: any) => {
