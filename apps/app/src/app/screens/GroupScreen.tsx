@@ -103,6 +103,7 @@ export default function GroupScreen({ route, navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    getScoreDataHigh(id, scoredatatype);
     getGroup();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
