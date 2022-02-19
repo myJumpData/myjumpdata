@@ -1,5 +1,5 @@
 import { capitalize } from "@myjumpdata/utils";
-import * as React from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   FlatList,
@@ -10,13 +10,13 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import BottomSheet from "react-native-gesture-bottom-sheet";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
+import BottomSheet from "../components/BottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
-import { borderRadius, Colors } from "../Constants";
+import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
 
@@ -36,6 +36,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
 
   const [groupCoaches, setGroupCoaches] = React.useState([]);
   const [groupAthletes, setGroupAthletes] = React.useState([]);
+  const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -248,15 +249,9 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
           />
         )}
       />
-      <BottomSheet
-        hasDraggableIcon
-        ref={bottomSheet}
-        height={300}
-        radius={borderRadius}
-        sheetBackgroundColor={isDarkMode ? Colors.black : Colors.white}
-      >
+      <BottomSheet visible={visible} setVisible={setVisible} height={300}>
         {current && (
-          <View style={{ padding: 20 }}>
+          <>
             <View
               style={{
                 flexDirection: "row",
@@ -409,7 +404,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                 </TouchableOpacity>
               )}
             </View>
-          </View>
+          </>
         )}
       </BottomSheet>
     </StyledView>

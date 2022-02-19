@@ -27,7 +27,6 @@
     "@react-native-picker/picker": "*",
     "i18next-http-backend": "*",
     "react-i18next": "*",
-    "react-native-localize": "*",
-    "react-native-gesture-bottom-sheet": "*"
+    "react-native-localize": "*"
   }
 }

@@ -3,42 +3,13 @@ import {
   Animated,
   Modal,
   PanResponder,
-  StyleSheet,
   TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import { borderRadius } from "../Constants";
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  background: {
-    flex: 1,
-    backgroundColor: "transparent",
-  },
-  container: {
-    width: "100%",
-    height: 0,
-    overflow: "hidden",
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-  },
-  draggableContainer: {
-    width: "100%",
-    alignItems: "center",
-    backgroundColor: "transparent",
-  },
-  draggableIcon: {
-    width: 40,
-    height: 6,
-    borderRadius: 3,
-    margin: 10,
-    marginBottom: 0,
-  },
-});
 export default function BottomSheet({
   children,
   height = 300,
@@ -102,9 +73,18 @@ export default function BottomSheet({
 
   return (
     <Modal transparent visible={visible}>
-      <View style={[styles.wrapper, { backgroundColor: "#25252599" }]}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-end",
+          backgroundColor: "#25252599",
+        }}
+      >
         <TouchableOpacity
-          style={styles.background}
+          style={{
+            flex: 1,
+            backgroundColor: "transparent",
+          }}
           activeOpacity={1}
           onPress={() => {
             setVisible(false);
@@ -114,24 +94,33 @@ export default function BottomSheet({
           {...(draggable && panResponder.panHandlers)}
           style={[
             pan.getTranslateTransform(),
-            styles.container,
             {
+              width: "100%",
+              overflow: "hidden",
               height: animatedHeight,
-              borderTopRightRadius: 10,
-              borderTopLeftRadius: 10,
+              borderTopRightRadius: borderRadius,
+              borderTopLeftRadius: borderRadius,
               backgroundColor: isDarkMode ? Colors.black : Colors.white,
             },
           ]}
         >
           {draggable && (
-            <View style={styles.draggableContainer}>
+            <View
+              style={{
+                width: "100%",
+                alignItems: "center",
+                backgroundColor: "transparent",
+              }}
+            >
               <View
-                style={[
-                  styles.draggableIcon,
-                  {
-                    backgroundColor: "#A3A3A3",
-                  },
-                ]}
+                style={{
+                  width: 100,
+                  height: 10,
+                  borderRadius: 3,
+                  margin: 10,
+                  marginBottom: 0,
+                  backgroundColor: "#A3A3A3",
+                }}
               />
             </View>
           )}

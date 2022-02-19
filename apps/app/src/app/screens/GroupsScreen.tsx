@@ -1,5 +1,5 @@
 import { useIsFocused } from "@react-navigation/native";
-import * as React from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
