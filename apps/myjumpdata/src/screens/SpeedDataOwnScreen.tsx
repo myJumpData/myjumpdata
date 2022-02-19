@@ -15,9 +15,8 @@ import { SpeedDataInput } from "../components/SpeedData";
 export default function SpeedDataOwnScreen() {
   useEffect(() => {
     setRoute("speeddata");
+    AuthVerify();
   }, []);
-
-  AuthVerify();
 
   const [scoreData, setScoreData] = useState([]);
   const [date, setDate] = useState<Date>(new Date());

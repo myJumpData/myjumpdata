@@ -1,4 +1,5 @@
 import { LANGUAGES } from "@myjumpdata/const";
+import { setRoute } from "@myjumpdata/redux";
 import { getFreestyleElement } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,9 +9,12 @@ import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 
 export default function AdminFreestyleElementScreen() {
-  AuthVerify({
-    isAdmin: true,
-  });
+  useEffect(() => {
+    setRoute("admin/freestyle");
+    AuthVerify({
+      isAdmin: true,
+    });
+  }, []);
   const params = useParams();
   const { t } = useTranslation();
   const [freestyleElementData, setFreestyleElementData] = useState<

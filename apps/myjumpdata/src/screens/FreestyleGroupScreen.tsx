@@ -22,8 +22,8 @@ type freestyle_folder_data = {
 export default function FreestyleGroupScreen() {
   useEffect(() => {
     setRoute("group");
+    AuthVerify();
   }, []);
-  AuthVerify();
   const params = useParams();
 
   const [groupName, setGroupName] = useState("");

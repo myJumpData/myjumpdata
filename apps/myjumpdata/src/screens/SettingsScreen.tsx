@@ -1,10 +1,12 @@
+import { Switch } from "@headlessui/react";
 import { LANGUAGES } from "@myjumpdata/const";
 import { setRoute, setUser } from "@myjumpdata/redux";
 import { deleteUser, updateUser } from "@myjumpdata/service";
 import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { HiCheck } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Logout from "../common/Logout";
 import Button from "../components/Button";
@@ -13,9 +15,8 @@ import { SelectInput, TextInput } from "../components/Input";
 export default function SettingsScreen() {
   useEffect(() => {
     setRoute("settings");
+    AuthVerify();
   }, []);
-
-  AuthVerify();
 
   const user = useSelector((state: any) => state.user);
   const { t, i18n } = useTranslation();
@@ -244,6 +245,7 @@ export default function SettingsScreen() {
         </div>
       </div>
       <DelOverlay />
+      <AproveOverlay />
     </>
   );
   function DelOverlay() {
@@ -274,6 +276,44 @@ export default function SettingsScreen() {
               });
             }}
           />
+        </div>
+      </div>
+    );
+  }
+  function AproveOverlay() {
+    return (
+      <div
+        className={
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (!user.checked ? "fixed z-50" : "z-0 hidden")
+        }
+      >
+        <div className="mx-auto flex max-w-prose flex-row items-center space-x-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">
+          <div>
+            <Switch
+              checked={user.checked}
+              onChange={() => {
+                updateUser({ checked: true }).then((response) => {
+                  setUser(response.data);
+                });
+              }}
+              className={`${
+                user.checked ? "bg-blue-600" : "bg-gray-500/50"
+              } relative inline-flex h-6 w-11 items-center rounded-full`}
+            >
+              <span
+                className={`${
+                  user.checked ? "translate-x-6" : "translate-x-1"
+                } inline-block h-4 w-4 transform rounded-full bg-white`}
+              />
+            </Switch>
+          </div>
+          <span className="text-xl font-bold">
+            <Trans i18nKey="common:legal_aprove">
+              <Link to="/terms" className="text-yellow-500"></Link>
+              <Link to="/legal" className="text-yellow-500"></Link>
+            </Trans>
+          </span>
         </div>
       </div>
     );

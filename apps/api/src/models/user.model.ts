@@ -14,6 +14,8 @@ const UserSchema = new mongoose.Schema({
   ],
   active: Boolean,
   picture: String,
+  checked: Boolean,
+  checkedDate: Date,
 });
 
 UserSchema.index({ username: "text", firstname: "text", lastname: "text" });

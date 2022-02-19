@@ -135,6 +135,16 @@ export const updateUser = (req, res) => {
           }
         );
       }
+      if (req.body.checked) {
+        User.updateOne({ _id: req.userId }, { checked: req.body.checked }).exec(
+          (err) => {
+            if (err) {
+              return requestHandlerError(res, err);
+            }
+            updatedList.push("Checked");
+          }
+        );
+      }
       setTimeout(() => {
         User.findOne({ _id: req.userId })
           .select("-password -__v")
@@ -160,6 +170,8 @@ export const updateUser = (req, res) => {
                 roles,
                 email,
                 picture: userNew.picture,
+                active: userNew.active,
+                checked: userNew.checked,
               }
             );
           });

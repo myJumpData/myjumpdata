@@ -19,8 +19,8 @@ type freestyle_folder_data = {
 export default function FreestyleScreen() {
   useEffect(() => {
     setRoute("freestyle");
+    AuthVerify();
   }, []);
-  AuthVerify();
 
   const freestyle = useSelector((state: any) => state.freestyle);
 

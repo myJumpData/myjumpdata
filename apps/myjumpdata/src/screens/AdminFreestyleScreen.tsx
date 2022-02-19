@@ -21,10 +21,10 @@ type freestyle_folder_data = {
 export default function AdminFreestyleScreen() {
   useEffect(() => {
     setRoute("admin/freestyle");
+    AuthVerify({
+      isAdmin: true,
+    });
   }, []);
-  AuthVerify({
-    isAdmin: true,
-  });
   const navigate = useNavigate();
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
   const [freestyle, setFreestyle] = useState<string>("");

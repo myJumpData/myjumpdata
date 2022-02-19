@@ -11,10 +11,10 @@ import Table from "../components/Table";
 export default function AdminUsersScreen() {
   useEffect(() => {
     setRoute("admin/users");
+    AuthVerify({
+      isAdmin: true,
+    });
   }, []);
-  AuthVerify({
-    isAdmin: true,
-  });
 
   const [usersData, setUsersData] = useState<
     | {

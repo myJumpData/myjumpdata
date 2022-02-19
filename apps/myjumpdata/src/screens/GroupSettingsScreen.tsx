@@ -24,9 +24,9 @@ import Spinner from "../components/Spinner";
 export default function GroupSettingsScreen() {
   useEffect(() => {
     setRoute("group");
+    AuthVerify();
   }, []);
 
-  AuthVerify();
   const params = useParams();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user);

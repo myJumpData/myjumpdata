@@ -6,7 +6,8 @@ export const register = (
   firstname: string,
   lastname: string,
   email: string,
-  password: string
+  password: string,
+  checked: boolean
 ) => {
   return api.post("/auth/signup", {
     username,
@@ -15,6 +16,7 @@ export const register = (
     email,
     password,
     roles: ["athlete"],
+    checked,
   });
 };
 

@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 
 export default function GroupsScreen() {
   useEffect(() => {
     setRoute("group");
+    AuthVerify();
   }, []);
 
   const user = useSelector((state: any) => state.user);

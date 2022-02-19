@@ -19,78 +19,84 @@ import { requestHandler, requestHandlerError } from "../requestHandler";
 
 export function signup(req, res) {
   // Initiate Variables
-  const { username, firstname, lastname, email, password } = req.body;
+  const { username, firstname, lastname, email, password, checked } = req.body;
 
-  // Check if username already taken
-  User.find({
-    username: username,
-  }).exec((err, user_username_check) => {
-    if (err) {
-      return requestHandlerError(res, err);
-    }
-    if (user_username_check.length > 0) {
-      return requestHandler(
-        res,
-        409,
-        "duplicate.field.username",
-        "Duplicate Field Username"
-      );
-    }
-
-    // Create user
-    const user = new User({
+  if (checked) {
+    // Check if username already taken
+    User.find({
       username: username,
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      password: bcrypt.hashSync(password, 8),
-      active: false,
-      picture: false,
-    });
-
-    user.save((err, user) => {
+    }).exec((err, user_username_check) => {
       if (err) {
         return requestHandlerError(res, err);
       }
-      // Add Roles
-      Role.find({
-        name: { $in: ["athlete"] },
-      }).exec((err, roles) => {
+      if (user_username_check.length > 0) {
+        return requestHandler(
+          res,
+          409,
+          "duplicate.field.username",
+          "Duplicate Field Username"
+        );
+      }
+
+      // Create user
+      const user = new User({
+        username: username,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        password: bcrypt.hashSync(password, 8),
+        active: false,
+        picture: false,
+        checked: true,
+        checkedDate: new Date(),
+      });
+
+      user.save((err, user) => {
         if (err) {
           return requestHandlerError(res, err);
         }
-
-        user.roles = roles.map((role) => role._id);
-        user.save((err) => {
+        // Add Roles
+        Role.find({
+          name: { $in: ["athlete"] },
+        }).exec((err, roles) => {
           if (err) {
             return requestHandlerError(res, err);
           }
 
-          const token = jwt.sign(
-            { id: user.id, email: user.email, timestamp: Date.now() },
-            JWT_SECRET
-          );
-          const url = `${API_URL}/verify/${token}`;
-          SendMail({
-            to: user.email,
-            subject: "Please Confirm your E-Mail-Adress",
-            html: `<a href="${url}">${url}</a>`,
-          })
-            .then(() => {
-              return requestHandler(
-                res,
-                201,
-                "success.create.user",
-                "Successfully created user. Please Confirm Email"
-              );
-            })
-            .catch((err) => {
+          user.roles = roles.map((role) => role._id);
+          user.save((err) => {
+            if (err) {
               return requestHandlerError(res, err);
-            });
+            }
+
+            const token = jwt.sign(
+              { id: user.id, email: user.email, timestamp: Date.now() },
+              JWT_SECRET
+            );
+            const url = `${API_URL}/verify/${token}`;
+            SendMail({
+              to: user.email,
+              subject: "Please Confirm your E-Mail-Adress",
+              html: `<a href="${url}">${url}</a>`,
+            })
+              .then(() => {
+                return requestHandler(
+                  res,
+                  201,
+                  "success.create.user",
+                  "Successfully created user. Please Confirm Email"
+                );
+              })
+              .catch((err) => {
+                return requestHandlerError(res, err);
+              });
+          });
         });
       });
     });
-  });
+  }
+
+  return requestHandler(res, 400, "notchecked.field.checked", "Not checked");
 }
 
 export function signin(req, res) {
@@ -171,6 +177,7 @@ export function signin(req, res) {
             token: token,
             active: user.active,
             picture: user.picture,
+            checked: user.checked,
           }
         );
       }

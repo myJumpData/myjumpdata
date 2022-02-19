@@ -12,8 +12,8 @@ import Button from "../components/Button";
 export default function GroupScreen() {
   useEffect(() => {
     setRoute("group");
+    AuthVerify();
   }, []);
-  AuthVerify();
   const params = useParams();
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();

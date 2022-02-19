@@ -18,9 +18,9 @@ import { SpeedDataInput } from "../components/SpeedData";
 export default function SpeedDataScreen() {
   useEffect(() => {
     setRoute("group");
+    AuthVerify();
   }, []);
 
-  AuthVerify();
   const params = useParams();
 
   const [groupName, setGroupName] = useState("");

@@ -5,9 +5,9 @@ import AuthVerify from "../common/AuthVerify";
 export default function AdminHomeScreen() {
   useEffect(() => {
     setRoute("admin/home");
+    AuthVerify({
+      isAdmin: true,
+    });
   }, []);
-  AuthVerify({
-    isAdmin: true,
-  });
   return <div>Home</div>;
 }
