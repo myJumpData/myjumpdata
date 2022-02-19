@@ -7,19 +7,26 @@ import {
   RefreshControl,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
+import BottomSheet from "react-native-gesture-bottom-sheet";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
-import { Colors } from "../Constants";
+import { borderRadius, Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
 
 export default function GroupSettingsScreen({ route, navigation }) {
   const { id } = route.params;
   const { t } = useTranslation();
+  const isDarkMode = useColorScheme() === "dark";
+  const user = useSelector((state: any) => state.user);
+
+  const bottomSheet = React.useRef<any>();
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [editing, setEditing] = React.useState(false);
@@ -27,16 +34,21 @@ export default function GroupSettingsScreen({ route, navigation }) {
 
   const [groupSearch, setGroupSearch] = React.useState("");
   const [users, setUsers] = React.useState([]);
+  const [current, setCurrent] = React.useState<any>();
 
   const [groupCoaches, setGroupCoaches] = React.useState([]);
   const [groupAthletes, setGroupAthletes] = React.useState([]);
 
   React.useEffect(() => {
-    setRefreshing(true);
     const timeoutId = setTimeout(() => {
       if (groupSearch !== "") {
         UsersService.searchUsers(groupSearch).then((response) => {
-          setUsers(response.data);
+          setUsers(
+            response.data.map((item) => {
+              item.id = item._id;
+              return item;
+            })
+          );
           setRefreshing(false);
         });
       }
@@ -140,7 +152,11 @@ export default function GroupSettingsScreen({ route, navigation }) {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            {item.picture !== undefined && item.picture !== null ? (
+            {item.picture !== undefined &&
+            item.picture !== null &&
+            item.picture !== false &&
+            item.picture !== "false" &&
+            item.picture !== "none" ? (
               <Image
                 style={{
                   height: 40,
@@ -179,28 +195,66 @@ export default function GroupSettingsScreen({ route, navigation }) {
           </View>
           <View
             style={{
-              width: 30,
+              width: 60,
               height: 30,
             }}
           >
             <View
               style={{
-                borderWidth: 2,
-                borderColor: isCoachGroup
-                  ? Colors.blue_500
-                  : isAthleteGroup
-                  ? Colors.orange_500
-                  : "transparent",
-                borderRadius: 5,
+                width: 30,
+                height: 30,
                 flex: 1,
+                flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "center",
               }}
             >
-              <StyledText>
-                {isCoachGroup && "C"}
-                {isAthleteGroup && "A"}
-              </StyledText>
+              <View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 5,
+                    borderWidth: 2,
+                    borderColor: isCoachGroup
+                      ? Colors.blue_500
+                      : isAthleteGroup
+                      ? Colors.orange_500
+                      : "transparent",
+                    width: 30,
+                    height: 30,
+                  }}
+                >
+                  <StyledText>
+                    {isCoachGroup && "C"}
+                    {isAthleteGroup && "A"}
+                  </StyledText>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-end",
+                    justifyContent: "center",
+                    width: 30,
+                    height: 30,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      setCurrent(item);
+                      bottomSheet.current.show();
+                    }}
+                  >
+                    <Ionicons
+                      name="ellipsis-vertical"
+                      size={24}
+                      color={isDarkMode ? Colors.white : Colors.black}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
           </View>
         </View>
@@ -242,7 +296,12 @@ export default function GroupSettingsScreen({ route, navigation }) {
       </View>
       <FlatList
         renderItem={renderItem}
-        data={[...users, ...groupCoaches, ...groupAthletes]}
+        data={[...users, ...groupCoaches, ...groupAthletes].filter(
+          (item: any, index: number) =>
+            [...users, ...groupCoaches, ...groupAthletes].findIndex(
+              (value: any) => value.id === item.id
+            ) === index
+        )}
         refreshing={refreshing}
         onRefresh={onRefresh}
         ItemSeparatorComponent={() => (
@@ -251,6 +310,166 @@ export default function GroupSettingsScreen({ route, navigation }) {
           />
         )}
       />
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        height={300}
+        radius={borderRadius}
+        sheetBackgroundColor={isDarkMode ? Colors.black : Colors.white}
+      >
+        {current && (
+          <View style={{ padding: 20 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                {current.picture !== undefined && current.picture !== null ? (
+                  <Image
+                    style={{
+                      height: 100,
+                      width: 100,
+                      borderRadius: 50,
+                      marginRight: 10,
+                    }}
+                    source={{ uri: current.picture as string }}
+                  />
+                ) : (
+                  <View
+                    style={{
+                      height: 100,
+                      width: 100,
+                      backgroundColor: Colors.main,
+                      borderRadius: 50,
+                      marginRight: 10,
+                    }}
+                  >
+                    <View
+                      style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontWeight: "900",
+                        }}
+                      >
+                        {(
+                          current.firstname[0] + current.lastname[0]
+                        ).toUpperCase()}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+                <View>
+                  <StyledText style={{ fontWeight: "700", fontSize: 24 }}>
+                    {`${capitalize(current.firstname)} ${capitalize(
+                      current.lastname
+                    )}`}
+                  </StyledText>
+                  <StyledText>{current.username}</StyledText>
+                </View>
+              </View>
+            </View>
+            <View style={{ marginTop: 30 }}>
+              {current?.roles?.some((e: any) => e.name === "coach") &&
+                !groupCoaches.some((i: any) => i.id === current.id) && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      GroupsService.addCoachesToGroup(id as string, [
+                        current.id,
+                      ]).then(() => {
+                        onRefresh();
+                        bottomSheet.current.close();
+                      });
+                    }}
+                  >
+                    <StyledText>
+                      <Ionicons
+                        name="person-add"
+                        size={24}
+                        color={isDarkMode ? Colors.white : Colors.black}
+                      />
+                      {t("settings_group_user_action_add_coach")}
+                    </StyledText>
+                  </TouchableOpacity>
+                )}
+              {groupCoaches.some((i: any) => i.id === current.id) &&
+                current.id !== user.id && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      GroupsService.removeCoachesFromGroup(id as string, [
+                        current.id,
+                      ]).then(() => {
+                        onRefresh();
+                        bottomSheet.current.close();
+                      });
+                    }}
+                  >
+                    <StyledText>
+                      <Ionicons
+                        name="person-remove"
+                        size={24}
+                        color={isDarkMode ? Colors.white : Colors.black}
+                      />
+                      {t("settings_group_user_action_remove_coach")}
+                    </StyledText>
+                  </TouchableOpacity>
+                )}
+              {!groupAthletes.some((i: any) => i.id === current.id) &&
+                !groupCoaches.some((i: any) => i.id === current.id) && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      GroupsService.addUsersToGroup(id as string, [
+                        current.id,
+                      ]).then(() => {
+                        onRefresh();
+                        bottomSheet.current.close();
+                      });
+                    }}
+                  >
+                    <StyledText>
+                      <Ionicons
+                        name="person-add"
+                        size={24}
+                        color={isDarkMode ? Colors.white : Colors.black}
+                      />
+                      {t("settings_group_user_action_add_athlete")}
+                    </StyledText>
+                  </TouchableOpacity>
+                )}
+              {groupAthletes.some((i: any) => i.id === current.id) && (
+                <TouchableOpacity
+                  onPress={() => {
+                    GroupsService.removeUsersFromGroup(id as string, [
+                      current.id,
+                    ]).then(() => {
+                      onRefresh();
+                      bottomSheet.current.close();
+                    });
+                  }}
+                >
+                  <StyledText>
+                    <Ionicons
+                      name="person-remove"
+                      size={24}
+                      color={isDarkMode ? Colors.white : Colors.black}
+                    />
+                    {t("settings_group_user_action_remove_athlete")}
+                  </StyledText>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+        )}
+      </BottomSheet>
     </StyledView>
   );
 }
