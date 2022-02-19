@@ -2,9 +2,9 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, View } from "react-native";
 import { useSelector } from "react-redux";
+import BottomSheet from "../components/BottomSheet";
 import SelectInput, { DateInput } from "../components/Input";
 import SpeedDataInput from "../components/SpeedData";
-import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView, StyledView } from "../components/StyledView";
@@ -23,8 +23,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
   const [typesOptions, setTypesOptions] = React.useState([]);
   const [date, setDate] = React.useState<Date>(new Date());
   const [currentUser, setCurrentUser] = React.useState<any>({});
-
-  const bottomSheet = React.useRef<any>();
+  const [visible, setVisible] = React.useState(false);
 
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -117,12 +116,12 @@ export default function GroupSpeedScreen({ route, navigation }) {
             }}
             onReset={() => {
               setCurrentUser(score.user);
-              bottomSheet.current.show();
+              setVisible(true);
             }}
           />
         ))}
       </StyledView>
-      <StyledBottomSheet ref={bottomSheet} height={400}>
+      <BottomSheet visible={visible} setVisible={visible} height={400}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -150,13 +149,13 @@ export default function GroupSpeedScreen({ route, navigation }) {
               scoredatatype,
               nativeEvent.text
             ).then(() => {
-              bottomSheet.current.close();
+              setVisible(false);
               getScoreDataHigh(id, scoredatatype);
             });
             target.clear();
           }}
         />
-      </StyledBottomSheet>
+      </BottomSheet>
     </StyledScrollView>
   );
 }

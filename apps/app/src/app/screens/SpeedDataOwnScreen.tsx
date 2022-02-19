@@ -2,9 +2,9 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import BottomSheet from "../components/BottomSheet";
 import { DateInput } from "../components/Input";
 import SpeedDataInput from "../components/SpeedData";
-import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
@@ -17,8 +17,7 @@ export default function SpeedDataOwnScreen() {
   const [date, setDate] = React.useState<Date>(new Date());
   const [refreshing, setRefreshing] = React.useState(false);
   const [currentType, setCurrentType] = React.useState<any>({});
-
-  const bottomSheet = React.useRef<any>();
+  const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
     getData();
@@ -72,13 +71,13 @@ export default function SpeedDataOwnScreen() {
               }}
               onReset={() => {
                 setCurrentType(item.type);
-                bottomSheet.current.show();
+                setVisible(true);
               }}
             />
           );
         })}
       </ScrollView>
-      <StyledBottomSheet ref={bottomSheet} height={400}>
+      <BottomSheet visible={visible} setVisible={setVisible} height={400}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -103,13 +102,13 @@ export default function SpeedDataOwnScreen() {
               currentType._id,
               nativeEvent.text
             ).then(() => {
-              bottomSheet.current.close();
+              setVisible(false);
               getData();
             });
             target.clear();
           }}
         />
-      </StyledBottomSheet>
+      </BottomSheet>
     </StyledView>
   );
 }

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import StyledBottomSheet from "../components/StyledBottomSheet";
+import BottomSheet from "../components/BottomSheet";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
@@ -17,8 +17,7 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
   const [refreshing, setRefreshing] = React.useState(false);
   const [editing, setEditing] = React.useState(false);
   const [groupName, setGroupName] = React.useState("");
-
-  const bottomSheet = React.useRef<any>();
+  const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
     setEditing(false);
@@ -107,10 +106,10 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
       <StyledButton
         title={t("settings_group_delete")}
         onPress={() => {
-          bottomSheet.current.show();
+          setVisible(true);
         }}
       />
-      <StyledBottomSheet ref={bottomSheet} height={300}>
+      <BottomSheet visible={visible} setVisible={setVisible} height={300}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -124,13 +123,13 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
           onPress={() => {
             GroupsService.deleteGroup(id as string).then((response: any) => {
               if (response.status === 200) {
-                bottomSheet.current.close();
+                setVisible(false);
                 navigation.navigate("groups");
               }
             });
           }}
         />
-      </StyledBottomSheet>
+      </BottomSheet>
     </StyledScrollView>
   );
 }

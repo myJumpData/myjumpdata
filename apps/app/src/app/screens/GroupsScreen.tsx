@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import StyledBottomSheet from "../components/StyledBottomSheet";
+import BottomSheet from "../components/BottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
@@ -19,8 +19,7 @@ export default function GroupsScreen({ navigation }) {
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [current, setCurrent] = React.useState<any>();
-
-  const bottomSheet = React.useRef<any>();
+  const [visible, setVisible] = React.useState(false);
 
   function getGroups() {
     GroupsService.getGroups().then((response: any) => {
@@ -52,7 +51,7 @@ export default function GroupsScreen({ navigation }) {
       }}
       onPress={() => {
         setCurrent(item);
-        bottomSheet.current.show();
+        setVisible(true);
       }}
     >
       <View
@@ -92,7 +91,7 @@ export default function GroupsScreen({ navigation }) {
           />
         )}
       />
-      <StyledBottomSheet ref={bottomSheet} height={350}>
+      <BottomSheet visible={visible} setVisible={setVisible} height={350}>
         {current && (
           <>
             <StyledText
@@ -109,7 +108,7 @@ export default function GroupsScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => {
                 console.log();
-                bottomSheet.current.close();
+                setVisible(false);
                 navigation.navigate("group_score", {
                   id: current._id,
                 });
@@ -128,7 +127,7 @@ export default function GroupsScreen({ navigation }) {
               <>
                 <TouchableOpacity
                   onPress={() => {
-                    bottomSheet.current.close();
+                    setVisible(false);
                     navigation.navigate("group_freestyle", {
                       id: current._id,
                     });
@@ -145,7 +144,7 @@ export default function GroupsScreen({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    bottomSheet.current.close();
+                    setVisible(false);
                     navigation.navigate("group_speed", {
                       id: current._id,
                     });
@@ -162,7 +161,7 @@ export default function GroupsScreen({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    bottomSheet.current.close();
+                    setVisible(false);
                     navigation.navigate("group_settings_users", {
                       id: current._id,
                     });
@@ -179,7 +178,7 @@ export default function GroupsScreen({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    bottomSheet.current.close();
+                    setVisible(false);
                     navigation.navigate("group_settings_data", {
                       id: current._id,
                     });
@@ -198,7 +197,7 @@ export default function GroupsScreen({ navigation }) {
             )}
           </>
         )}
-      </StyledBottomSheet>
+      </BottomSheet>
     </StyledView>
   );
 }
