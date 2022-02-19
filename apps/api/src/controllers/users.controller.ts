@@ -33,7 +33,16 @@ export const searchUsers = (req, res) => {
       if (err) {
         return requestHandlerError(res, err);
       }
-      return requestHandler(res, 200, "", "", users);
+      const response = users.map((user) => {
+        if (user.picture === "gravatar") {
+          user.picture = `https://secure.gravatar.com/avatar/${crypto
+            .createHash("md5")
+            .update(user.email)
+            .digest("hex")}?size=300&d=404`;
+        }
+        return user;
+      });
+      return requestHandler(res, 200, "", "", response);
     });
 };
 
