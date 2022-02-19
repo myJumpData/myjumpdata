@@ -1,15 +1,8 @@
 import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
-import { useTranslation } from "react-i18next";
-import {
-  FlatList,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { FlatList, useColorScheme, View } from "react-native";
 import { useSelector } from "react-redux";
+import Breadcrumb from "../components/Breadcrumb";
 import Freestyle from "../components/Freestyle";
 import { StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
@@ -32,7 +25,6 @@ type freestyle_folder_data = {
 };
 
 export default function GroupFreestyleScreen({ route, navigation }) {
-  const { t } = useTranslation();
   const { id } = route.params;
   const isDarkMode = useColorScheme() === "dark";
 
@@ -174,78 +166,7 @@ export default function GroupFreestyleScreen({ route, navigation }) {
           ))}
         </Picker>
       </View>
-      <View
-        style={{
-          padding: 10,
-          flexDirection: "row",
-          alignContent: "center",
-          flexWrap: "wrap",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            setFreestyle("");
-          }}
-          style={{
-            justifyContent: "center",
-          }}
-        >
-          <Ionicons
-            name={freestyle === "" ? "home" : "home"}
-            size={20}
-            color={Colors.grey}
-          />
-        </TouchableOpacity>
-        {freestyle !== "" &&
-          freestyle.split("_").map((e, index, array) => {
-            const last = index + 1 === array.length;
-            return (
-              <React.Fragment key={index}>
-                <View
-                  style={{
-                    justifyContent: "center",
-                  }}
-                >
-                  <Ionicons
-                    name="chevron-forward"
-                    size={20}
-                    color={Colors.grey}
-                  />
-                </View>
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => {
-                    setRefreshing(true);
-                    setFreestyle(
-                      freestyle
-                        .split("_")
-                        .splice(0, index + 1)
-                        .join("_")
-                    );
-                  }}
-                  style={{
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: Colors.grey,
-                      fontWeight: last ? "900" : "400",
-                      transform: [
-                        { scale: last ? 1.2 : 1 },
-                        { translateY: last ? -0.5 : 0 },
-                        { translateX: last ? 2 : 0 },
-                      ],
-                    }}
-                  >
-                    {t(`freestyle:${e}`)}
-                  </Text>
-                </TouchableOpacity>
-              </React.Fragment>
-            );
-          })}
-      </View>
+      <Breadcrumb data={freestyle.split("_") || []} setState={setFreestyle} />
       <FlatList
         renderItem={renderItem}
         data={folderData}
