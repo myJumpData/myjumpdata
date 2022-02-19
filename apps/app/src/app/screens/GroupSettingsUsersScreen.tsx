@@ -20,7 +20,7 @@ import { borderRadius, Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
 
-export default function GroupSettingsScreen({ route, navigation }) {
+export default function GroupSettingsUsersScreen({ route, navigation }) {
   const { id } = route.params;
   const { t } = useTranslation();
   const isDarkMode = useColorScheme() === "dark";
@@ -29,8 +29,6 @@ export default function GroupSettingsScreen({ route, navigation }) {
   const bottomSheet = React.useRef<any>();
 
   const [refreshing, setRefreshing] = React.useState(false);
-  const [editing, setEditing] = React.useState(false);
-  const [groupName, setGroupName] = React.useState("");
 
   const [groupSearch, setGroupSearch] = React.useState("");
   const [users, setUsers] = React.useState([]);
@@ -57,63 +55,17 @@ export default function GroupSettingsScreen({ route, navigation }) {
   }, [groupSearch]);
 
   React.useEffect(() => {
-    setEditing(false);
     setRefreshing(true);
     GroupsService.getGroup(id as string).then((response: any) => {
-      setGroupName(response.data.name);
       setGroupCoaches(response.data.coaches);
       setGroupAthletes(response.data.athletes);
       setRefreshing(false);
     });
   }, [id]);
 
-  React.useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        if (editing) {
-          return (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <TouchableOpacity
-                style={{ paddingRight: 5 }}
-                onPress={() => {
-                  setEditing(false);
-                  setRefreshing(true);
-                  GroupsService.updateGroupName("", id).then((response) => {
-                    setGroupName(response.data.name);
-                    setRefreshing(false);
-                  });
-                }}
-              >
-                <Ionicons name="close-outline" size={40} color={Colors.white} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{ paddingRight: 10, marginTop: -1 }}
-                onPress={() => {
-                  setEditing(false);
-                  setRefreshing(true);
-                  GroupsService.updateGroupName(groupName, id).then(
-                    (response) => {
-                      setGroupName(response.data.name);
-                      setRefreshing(false);
-                    }
-                  );
-                }}
-              >
-                <Ionicons name="checkmark" size={35} color={Colors.main} />
-              </TouchableOpacity>
-            </View>
-          );
-        }
-      },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
-
   const onRefresh = React.useCallback(() => {
-    setEditing(false);
     setRefreshing(true);
     GroupsService.getGroup(id as string).then((response: any) => {
-      setGroupName(response.data.name);
       setGroupCoaches(response.data.coaches);
       setGroupAthletes(response.data.athletes);
       setRefreshing(false);
@@ -270,20 +222,6 @@ export default function GroupSettingsScreen({ route, navigation }) {
       }
     >
       <StyledText style={{ fontWeight: "900" }}>
-        {t("settings_data")}:
-      </StyledText>
-      <View style={{ marginVertical: 10, marginBottom: 30 }}>
-        <StyledText>{t("common:group_name")}:</StyledText>
-        <StyledTextInput
-          onChangeText={(e) => {
-            setEditing(true);
-            setGroupName(e);
-          }}
-          value={groupName}
-          autoCapitalize="none"
-        />
-      </View>
-      <StyledText style={{ fontWeight: "900" }}>
         Mitglieder der Gruppe
       </StyledText>
       <View style={{ marginVertical: 10, marginBottom: 30 }}>
@@ -401,7 +339,7 @@ export default function GroupSettingsScreen({ route, navigation }) {
                         size={24}
                         color={isDarkMode ? Colors.white : Colors.black}
                       />
-                      {t("settings_group_user_action_add_coach")}
+                      {" " + t("settings_group_user_action_add_coach")}
                     </StyledText>
                   </TouchableOpacity>
                 )}
@@ -423,7 +361,7 @@ export default function GroupSettingsScreen({ route, navigation }) {
                         size={24}
                         color={isDarkMode ? Colors.white : Colors.black}
                       />
-                      {t("settings_group_user_action_remove_coach")}
+                      {" " + t("settings_group_user_action_remove_coach")}
                     </StyledText>
                   </TouchableOpacity>
                 )}
@@ -445,7 +383,7 @@ export default function GroupSettingsScreen({ route, navigation }) {
                         size={24}
                         color={isDarkMode ? Colors.white : Colors.black}
                       />
-                      {t("settings_group_user_action_add_athlete")}
+                      {" " + t("settings_group_user_action_add_athlete")}
                     </StyledText>
                   </TouchableOpacity>
                 )}
@@ -466,7 +404,7 @@ export default function GroupSettingsScreen({ route, navigation }) {
                       size={24}
                       color={isDarkMode ? Colors.white : Colors.black}
                     />
-                    {t("settings_group_user_action_remove_athlete")}
+                    {" " + t("settings_group_user_action_remove_athlete")}
                   </StyledText>
                 </TouchableOpacity>
               )}

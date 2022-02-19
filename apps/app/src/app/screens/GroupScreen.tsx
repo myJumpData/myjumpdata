@@ -10,11 +10,12 @@ import {
   useColorScheme,
   View,
 } from "react-native";
+import BottomSheet from "react-native-gesture-bottom-sheet";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
-import { Colors } from "../Constants";
+import { borderRadius, Colors } from "../Constants";
 import { setScoredatatype } from "../redux/scoredatatype.action";
 import GroupsService from "../services/groups.service";
 import ScoreDataService from "../services/scoredata.service";
@@ -31,6 +32,8 @@ export default function GroupScreen({ route, navigation }) {
   const [groupScores, setGroupScores] = React.useState([]);
   const [scoreDataTypes, setScoreDataTypes] = React.useState([]);
   const [typesOptions, setTypesOptions] = React.useState([]);
+
+  const bottomSheet = React.useRef<any>();
 
   React.useEffect(() => {
     getGroup();
@@ -74,7 +77,7 @@ export default function GroupScreen({ route, navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{ paddingRight: 10 }}
-                  onPress={() => navigation.navigate("group_settings", { id })}
+                  onPress={() => bottomSheet.current.show()}
                 >
                   <Ionicons
                     name="settings-outline"
@@ -242,6 +245,56 @@ export default function GroupScreen({ route, navigation }) {
           />
         )}
       />
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        height={300}
+        radius={borderRadius}
+        sheetBackgroundColor={isDarkMode ? Colors.black : Colors.white}
+      >
+        <View style={{ padding: 20 }}>
+          <StyledText
+            style={{ fontWeight: "900", fontSize: 24, marginBottom: 15 }}
+          >
+            <Ionicons
+              name="settings"
+              size={24}
+              color={isDarkMode ? Colors.white : Colors.black}
+            />
+            {" " + t("common:nav_settings")}
+          </StyledText>
+          <TouchableOpacity
+            onPress={() => {
+              bottomSheet.current.close();
+              navigation.navigate("group_settings_users", { id });
+            }}
+          >
+            <StyledText style={{ paddingVertical: 10 }}>
+              <Ionicons
+                name="people-outline"
+                size={24}
+                color={isDarkMode ? Colors.white : Colors.black}
+              />{" "}
+              Mitglieder bearbeiten
+            </StyledText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              bottomSheet.current.close();
+              navigation.navigate("group_settings_data", { id });
+            }}
+          >
+            <StyledText style={{ paddingVertical: 10 }}>
+              <Ionicons
+                name="create-outline"
+                size={24}
+                color={isDarkMode ? Colors.white : Colors.black}
+              />{" "}
+              Daten bearbeiten
+            </StyledText>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
     </StyledView>
   );
 }
