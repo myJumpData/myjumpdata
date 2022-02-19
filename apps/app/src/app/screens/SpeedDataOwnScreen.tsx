@@ -1,19 +1,17 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshControl, useColorScheme, View } from "react-native";
-import BottomSheet from "react-native-gesture-bottom-sheet";
+import { RefreshControl } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { DateInput } from "../components/Input";
 import SpeedDataInput from "../components/SpeedData";
+import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
-import { borderRadius, Colors } from "../Constants";
 import ScoreDataService from "../services/scoredata.service";
 
 export default function SpeedDataOwnScreen() {
   const { t } = useTranslation();
-  const isDarkMode = useColorScheme() === "dark";
 
   const [scoreData, setScoreData] = React.useState<any>([]);
   const [date, setDate] = React.useState<Date>(new Date());
@@ -80,46 +78,38 @@ export default function SpeedDataOwnScreen() {
           );
         })}
       </ScrollView>
-      <BottomSheet
-        hasDraggableIcon
-        ref={bottomSheet}
-        height={400}
-        radius={borderRadius}
-        sheetBackgroundColor={isDarkMode ? Colors.black : Colors.white}
-      >
-        <View style={{ padding: 20 }}>
-          <StyledText
-            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-          >
-            {t("scoredata_reset_title")}
-          </StyledText>
-          <StyledText
-            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-          >
-            {currentType.name}
-          </StyledText>
-          <StyledText style={{ marginBottom: 8 }}>
-            {t("scoredata_reset_text")}
-          </StyledText>
-          <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
-            {t("scoredata_reset_warning")}
-          </StyledText>
-          <StyledTextInput
-            style={{ marginBottom: 8 }}
-            keyboardType="numeric"
-            onSubmitEditing={({ nativeEvent, target }) => {
-              ScoreDataService.resetScoreDataOwn(
-                currentType._id,
-                nativeEvent.text
-              ).then(() => {
-                bottomSheet.current.close();
-                getData();
-              });
-              target.clear();
-            }}
-          />
-        </View>
-      </BottomSheet>
+      <StyledBottomSheet ref={bottomSheet} height={400}>
+        <StyledText
+          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+        >
+          {t("scoredata_reset_title")}
+        </StyledText>
+        <StyledText
+          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+        >
+          {currentType.name}
+        </StyledText>
+        <StyledText style={{ marginBottom: 8 }}>
+          {t("scoredata_reset_text")}
+        </StyledText>
+        <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
+          {t("scoredata_reset_warning")}
+        </StyledText>
+        <StyledTextInput
+          style={{ marginBottom: 8 }}
+          keyboardType="numeric"
+          onSubmitEditing={({ nativeEvent, target }) => {
+            ScoreDataService.resetScoreDataOwn(
+              currentType._id,
+              nativeEvent.text
+            ).then(() => {
+              bottomSheet.current.close();
+              getData();
+            });
+            target.clear();
+          }}
+        />
+      </StyledBottomSheet>
     </StyledView>
   );
 }
