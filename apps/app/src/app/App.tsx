@@ -15,6 +15,7 @@ import FreestyleScreen from "./screens/FreestyleScreen";
 import GroupCreateScreen from "./screens/GroupCreateScreen";
 import GroupFreestyleScreen from "./screens/GroupFreestyleScreen";
 import GroupScreen from "./screens/GroupScreen";
+import GroupSettingsScreen from "./screens/GroupSettingsScreen";
 import GroupSpeedScreen from "./screens/GroupSpeedScreen";
 import GroupsScreen from "./screens/GroupsScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -132,6 +133,16 @@ function MainStackScreen() {
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           title: t("common:nav_group_create"),
+        }}
+      />
+      <MainStack.Screen
+        name="group_settings"
+        component={GroupSettingsScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_settings"),
         }}
       />
       <MainStack.Screen

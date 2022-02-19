@@ -6,6 +6,8 @@ export const Colors = {
   grey: "hsl(38,  0%,  50%)",
   light: "hsl(38,  0%,  90%)",
   white: "hsl(38,  0%, 100%)",
+  blue_500: "hsl(217, 91%, 60%)",
+  orange_500: "hsl(25, 95%, 53%)",
 };
 const Base = 18;
 export const Font = {

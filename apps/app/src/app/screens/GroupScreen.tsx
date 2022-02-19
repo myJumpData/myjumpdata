@@ -72,6 +72,16 @@ export default function GroupScreen({ route, navigation }) {
                     color={isDarkMode ? Colors.white : Colors.black}
                   />
                 </TouchableOpacity>
+                <TouchableOpacity
+                  style={{ paddingRight: 10 }}
+                  onPress={() => navigation.navigate("group_settings", { id })}
+                >
+                  <Ionicons
+                    name="settings-outline"
+                    size={30}
+                    color={isDarkMode ? Colors.white : Colors.black}
+                  />
+                </TouchableOpacity>
               </View>
             );
           }
