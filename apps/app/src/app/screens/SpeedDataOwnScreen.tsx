@@ -1,11 +1,10 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, useColorScheme, View } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import { ScrollView } from "react-native-gesture-handler";
+import { DateInput } from "../components/Input";
 import SpeedDataInput from "../components/SpeedData";
-import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
@@ -18,8 +17,6 @@ export default function SpeedDataOwnScreen() {
 
   const [scoreData, setScoreData] = React.useState<any>([]);
   const [date, setDate] = React.useState<Date>(new Date());
-  const [dateShow, setDateShow] = React.useState<boolean>(false);
-  const [dateText, setDateText] = React.useState<string>("");
   const [refreshing, setRefreshing] = React.useState(false);
   const [currentType, setCurrentType] = React.useState<any>({});
 
@@ -28,20 +25,6 @@ export default function SpeedDataOwnScreen() {
   React.useEffect(() => {
     getData();
   }, []);
-
-  React.useEffect(() => {
-    const selected = new Date(date);
-    const format = `${selected.getDate().toString().padStart(2, "0")}.${(
-      selected.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}.${selected.getFullYear()}`;
-    if (selected.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)) {
-      setDateText(`${t("common:today")} (${format})`);
-    } else {
-      setDateText(`${format}`);
-    }
-  }, [date, t]);
 
   function getData() {
     ScoreDataService.getScoreDataOwn().then((response: any) => {
@@ -65,27 +48,7 @@ export default function SpeedDataOwnScreen() {
         paddingRight: 10,
       }}
     >
-      <StyledButton
-        title={dateText}
-        onPress={() => {
-          setDateShow(true);
-        }}
-        style={{ marginBottom: 30 }}
-      />
-      {dateShow && (
-        <DateTimePicker
-          value={date}
-          mode="date"
-          onChange={(e: any, d: any) => {
-            if (d) {
-              setDate(d);
-            } else {
-              setDate(new Date());
-            }
-            setDateShow(false);
-          }}
-        />
-      )}
+      <DateInput setDate={setDate} date={date} />
 
       <ScrollView
         style={{ flex: 1 }}
@@ -96,6 +59,7 @@ export default function SpeedDataOwnScreen() {
         {scoreData.map((item) => {
           return (
             <SpeedDataInput
+              key={item.type._id}
               name={item.type.name}
               score={item.score}
               onSubmit={({ nativeEvent, target }) => {
