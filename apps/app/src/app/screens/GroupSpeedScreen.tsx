@@ -1,10 +1,10 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, useColorScheme, View } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import { useSelector } from "react-redux";
+import SelectInput from "../components/Input";
 import SpeedDataInput from "../components/SpeedData";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
@@ -124,24 +124,11 @@ export default function GroupSpeedScreen({ route, navigation }) {
           margin: 10,
         }}
       >
-        <Picker
-          selectedValue={scoredatatype}
-          onValueChange={(e) => setScoredatatype(e)}
-          style={{
-            flex: 1,
-            color: isDarkMode ? Colors.white : Colors.black,
-          }}
-          dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
-          mode="dropdown"
-        >
-          {typesOptions.map((type: any) => (
-            <Picker.Item
-              key={type.value}
-              label={type.name}
-              value={type.value}
-            />
-          ))}
-        </Picker>
+        <SelectInput
+          setState={setScoredatatype}
+          state={scoredatatype}
+          data={typesOptions}
+        />
         <StyledText>
           {t("common:high")}: {groupHigh}
         </StyledText>

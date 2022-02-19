@@ -1,11 +1,11 @@
-import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
-import { FlatList, useColorScheme, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { useSelector } from "react-redux";
 import Breadcrumb from "../components/Breadcrumb";
 import Freestyle from "../components/Freestyle";
+import SelectInput from "../components/Input";
 import { StyledView } from "../components/StyledView";
-import { borderRadius, Colors } from "../Constants";
+import { Colors } from "../Constants";
 import { setFreestyle } from "../redux/freestyle.action";
 import {
   getFreestyle,
@@ -26,7 +26,6 @@ type freestyle_folder_data = {
 
 export default function GroupFreestyleScreen({ route, navigation }) {
   const { id } = route.params;
-  const isDarkMode = useColorScheme() === "dark";
 
   const freestyle = useSelector((state: any) => state.freestyle);
 
@@ -146,25 +145,11 @@ export default function GroupFreestyleScreen({ route, navigation }) {
           borderWidth: 2,
         }}
       >
-        <Picker
-          selectedValue={userSelected}
-          onValueChange={(e) => setUserSelected(e)}
-          style={{
-            flex: 1,
-            color: isDarkMode ? Colors.white : Colors.black,
-            borderRadius: borderRadius,
-          }}
-          dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
-          mode="dropdown"
-        >
-          {userSelect.map((type: any) => (
-            <Picker.Item
-              key={type.value}
-              label={type.name}
-              value={type.value}
-            />
-          ))}
-        </Picker>
+        <SelectInput
+          data={userSelect}
+          state={userSelected}
+          setState={setUserSelected}
+        />
       </View>
       <Breadcrumb data={freestyle.split("_") || []} setState={setFreestyle} />
       <FlatList
