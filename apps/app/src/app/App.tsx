@@ -6,7 +6,7 @@ import {
 } from "@react-navigation/stack";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { LogBox, StatusBar, useColorScheme } from "react-native";
+import { LogBox, useColorScheme } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { Colors } from "./Constants";
@@ -40,11 +40,6 @@ export default function App() {
         }
       }}
     >
-      <StatusBar
-        barStyle={"dark-content"}
-        animated={true}
-        backgroundColor={Colors.main}
-      />
       {user.token !== undefined &&
       user.token !== null &&
       user.active === true &&
