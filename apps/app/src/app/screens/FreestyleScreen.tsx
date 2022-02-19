@@ -7,10 +7,9 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import { StyledText } from "../components/StyledText";
+import Freestyle from "../components/Freestyle";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import { setFreestyle } from "../redux/freestyle.action";
@@ -74,15 +73,11 @@ export default function FreestyleScreen() {
     if (item.element) {
       const element = freestyleDataOwn?.find((e) => e.element === item.id);
       return (
-        <TouchableOpacity
-          style={{
-            padding: 10,
-
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-          onPress={() => {
+        <Freestyle
+          item={item}
+          type="element"
+          element={element}
+          onSubmit={() => {
             setRefreshing(true);
             saveFreestyleDataOwn(item.id as string, !element?.stateUser).then(
               () => {
@@ -90,87 +85,18 @@ export default function FreestyleScreen() {
               }
             );
           }}
-        >
-          <View
-            style={{
-              marginRight: 10,
-              width: 40,
-              height: 40,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <FontAwesome
-              name={
-                element?.stateCoach
-                  ? "square"
-                  : element?.stateUser
-                  ? "check-square"
-                  : "square-o"
-              }
-              size={element?.stateCoach ? 35 : element?.stateUser ? 35 : 40}
-              color={Colors.main}
-            />
-          </View>
-          <View style={{ flexGrow: 1 }}>
-            {item.level && (
-              <Text style={{ fontSize: 12, color: Colors.grey }}>
-                Lvl. {item.level}
-              </Text>
-            )}
-            <StyledText>
-              {item.compiled
-                ? item.key
-                    .split("_")
-                    .map((i) => t(`freestyle:${i}`))
-                    .join(" ")
-                : t(`freestyle:${item.key}`)}
-            </StyledText>
-          </View>
-        </TouchableOpacity>
+        />
       );
     } else {
       return (
-        <TouchableOpacity
-          style={{
-            padding: 10,
-
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-          onPress={() => {
+        <Freestyle
+          item={item}
+          type="navigate"
+          onNavigate={() => {
             setRefreshing(true);
             setFreestyle(item.key);
           }}
-        >
-          <View
-            style={{
-              marginRight: 10,
-              width: 40,
-              height: 40,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              name={item.back ? "return-up-back" : "folder-outline"}
-              size={item.back ? 30 : 40}
-              color={Colors.main}
-            />
-          </View>
-          <View style={{ flexGrow: 1 }}>
-            <StyledText>
-              {item.back
-                ? t("common:back")
-                : t(
-                    `freestyle:${
-                      item.key.split("_")[item.key.split("_").length - 1]
-                    }`
-                  )}
-            </StyledText>
-          </View>
-        </TouchableOpacity>
+        />
       );
     }
   }
