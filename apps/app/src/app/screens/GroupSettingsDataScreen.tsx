@@ -2,6 +2,8 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import StyledBottomSheet from "../components/StyledBottomSheet";
+import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView } from "../components/StyledView";
@@ -15,6 +17,8 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
   const [refreshing, setRefreshing] = React.useState(false);
   const [editing, setEditing] = React.useState(false);
   const [groupName, setGroupName] = React.useState("");
+
+  const bottomSheet = React.useRef<any>();
 
   React.useEffect(() => {
     setEditing(false);
@@ -97,6 +101,36 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
           autoCapitalize="none"
         />
       </View>
+      <StyledText style={{ fontWeight: "900" }}>
+        {t("settings_danger")}:
+      </StyledText>
+      <StyledButton
+        title={t("settings_group_delete")}
+        onPress={() => {
+          bottomSheet.current.show();
+        }}
+      />
+      <StyledBottomSheet ref={bottomSheet} height={300}>
+        <StyledText
+          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+        >
+          {t("settings_group_delete_disclaimer_title")}
+        </StyledText>
+        <StyledText style={{ marginBottom: 10 }}>
+          {t("settings_group_delete_disclaimer_text")}
+        </StyledText>
+        <StyledButton
+          title={t("settings_group_delete_disclaimer_confirm")}
+          onPress={() => {
+            GroupsService.deleteGroup(id as string).then((response: any) => {
+              if (response.status === 200) {
+                bottomSheet.current.close();
+                navigation.navigate("groups");
+              }
+            });
+          }}
+        />
+      </StyledBottomSheet>
     </StyledScrollView>
   );
 }

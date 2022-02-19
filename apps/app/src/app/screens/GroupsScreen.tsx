@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
@@ -10,6 +11,7 @@ import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 
 export default function GroupsScreen({ navigation }) {
+  const isFocused = useIsFocused();
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
   const [groups, setGroups] = React.useState([]);
@@ -31,6 +33,12 @@ export default function GroupsScreen({ navigation }) {
     setRefreshing(true);
     getGroups();
   }, []);
+
+  React.useEffect(() => {
+    if (isFocused) {
+      getGroups();
+    }
+  }, [isFocused]);
 
   React.useEffect(() => {
     getGroups();

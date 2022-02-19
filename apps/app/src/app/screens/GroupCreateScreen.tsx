@@ -13,7 +13,7 @@ export default function GroupCreateScreen({ navigation }) {
   function handleCreateGroup() {
     GroupsService.createGroup(groupname.trim()).then(() => {
       setGroupname("");
-      navigation.navigate("Groups");
+      navigation.navigate("groups");
     });
   }
 
