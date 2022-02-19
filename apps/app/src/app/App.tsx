@@ -14,7 +14,7 @@ import { setNavigation } from "./redux/navigation.action";
 import FreestyleScreen from "./screens/FreestyleScreen";
 import GroupCreateScreen from "./screens/GroupCreateScreen";
 import GroupFreestyleScreen from "./screens/GroupFreestyleScreen";
-import GroupScreen from "./screens/GroupScreen";
+import GroupScoreScreen from "./screens/GroupScoreScreen";
 import GroupSettingsDataScreen from "./screens/GroupSettingsDataScreen";
 import GroupSettingsUsersScreen from "./screens/GroupSettingsUsersScreen";
 import GroupSpeedScreen from "./screens/GroupSpeedScreen";
@@ -97,8 +97,8 @@ function MainStackScreen() {
         }}
       />
       <MainStack.Screen
-        name="group"
-        component={GroupScreen}
+        name="group_score"
+        component={GroupScoreScreen}
         options={{
           gestureEnabled: true,
           gestureResponseDistance: 80,
