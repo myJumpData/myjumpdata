@@ -327,7 +327,11 @@ export default function GroupSettingsScreen({ route, navigation }) {
               }}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {current.picture !== undefined && current.picture !== null ? (
+                {current.picture !== undefined &&
+                current.picture !== null &&
+                current.picture !== false &&
+                current.picture !== "false" &&
+                current.picture !== "none" ? (
                   <Image
                     style={{
                       height: 100,
