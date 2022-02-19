@@ -3,8 +3,8 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, useColorScheme, View } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { ScrollView } from "react-native-gesture-handler";
+import SpeedDataInput from "../components/SpeedData";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
@@ -95,81 +95,24 @@ export default function SpeedDataOwnScreen() {
       >
         {scoreData.map((item) => {
           return (
-            <StyledView
-              key={item.type._id}
-              style={{
-                width: "100%",
-                paddingLeft: 10,
-                paddingRight: 10,
-                paddingTop: 5,
-                paddingBottom: 5,
-                marginBottom: 10,
+            <SpeedDataInput
+              name={item.type.name}
+              score={item.score}
+              onSubmit={({ nativeEvent, target }) => {
+                ScoreDataService.saveScoreDataOwn(
+                  item.type._id,
+                  nativeEvent.text,
+                  date
+                ).then(() => {
+                  getData();
+                });
+                target.clear();
               }}
-            >
-              <StyledView
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "flex-end",
-                }}
-              >
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <StyledText
-                    style={{
-                      fontSize: 24,
-                      fontWeight: "900",
-                      marginRight: 4,
-                    }}
-                  >
-                    {item.type.name}
-                  </StyledText>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setCurrentType(item.type);
-                      bottomSheet.current.show();
-                    }}
-                  >
-                    <Ionicons
-                      name="ellipsis-vertical"
-                      size={24}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <StyledText>
-                  {t("common:high")}: {item.score}
-                </StyledText>
-              </StyledView>
-              <StyledView
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  marginTop: 10,
-                }}
-              >
-                <StyledTextInput
-                  style={{ width: "auto", flexGrow: 1 }}
-                  keyboardType="numeric"
-                  onSubmitEditing={({ nativeEvent, target }) => {
-                    ScoreDataService.saveScoreDataOwn(
-                      item.type._id,
-                      nativeEvent.text,
-                      date
-                    ).then(() => {
-                      getData();
-                    });
-                    target.clear();
-                  }}
-                />
-              </StyledView>
-            </StyledView>
+              onReset={() => {
+                setCurrentType(item.type);
+                bottomSheet.current.show();
+              }}
+            />
           );
         })}
       </ScrollView>

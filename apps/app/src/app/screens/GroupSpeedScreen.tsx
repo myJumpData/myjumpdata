@@ -2,15 +2,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  RefreshControl,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { RefreshControl, useColorScheme, View } from "react-native";
 import BottomSheet from "react-native-gesture-bottom-sheet";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
+import SpeedDataInput from "../components/SpeedData";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
@@ -154,77 +149,30 @@ export default function GroupSpeedScreen({ route, navigation }) {
 
       <StyledView style={{ flex: 1 }}>
         {groupScores?.map((score: any) => (
-          <StyledView
+          <SpeedDataInput
             key={score.user._id}
-            style={{
-              width: "100%",
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingTop: 5,
-              paddingBottom: 5,
-              marginBottom: 10,
+            name={
+              score.user.firstname && score.user.lastname
+                ? score.user.firstname + " " + score.user.lastname
+                : score.user.username
+            }
+            score={score.score}
+            onSubmit={({ nativeEvent, target }) => {
+              ScoreDataService.saveScoreData(
+                score.user._id,
+                scoredatatype,
+                nativeEvent.text,
+                date
+              ).then(() => {
+                getScoreDataHigh(id, scoredatatype);
+              });
+              target.clear();
             }}
-          >
-            <StyledView
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <StyledText>
-                  {score.user.firstname && score.user.lastname
-                    ? score.user.firstname + " " + score.user.lastname
-                    : score.user.username}
-                </StyledText>
-                <TouchableOpacity
-                  onPress={() => {
-                    setCurrentUser(score.user);
-                    bottomSheet.current.show();
-                  }}
-                >
-                  <Ionicons
-                    name="ellipsis-vertical"
-                    size={24}
-                    color={isDarkMode ? Colors.white : Colors.black}
-                  />
-                </TouchableOpacity>
-              </View>
-              <StyledText>
-                {t("common:high")}: {score.score}
-              </StyledText>
-            </StyledView>
-            <StyledView
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                marginTop: 10,
-              }}
-            >
-              <StyledTextInput
-                style={{ width: "auto", flexGrow: 1 }}
-                keyboardType="numeric"
-                onSubmitEditing={({ nativeEvent, target }) => {
-                  ScoreDataService.saveScoreData(
-                    score.user._id,
-                    scoredatatype,
-                    nativeEvent.text,
-                    date
-                  ).then(() => {
-                    getScoreDataHigh(id, scoredatatype);
-                  });
-                  target.clear();
-                }}
-              />
-            </StyledView>
-          </StyledView>
+            onReset={() => {
+              setCurrentUser(score.user);
+              bottomSheet.current.show();
+            }}
+          />
         ))}
       </StyledView>
       <BottomSheet
