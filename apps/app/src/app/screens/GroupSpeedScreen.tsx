@@ -1,14 +1,13 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshControl, useColorScheme, View } from "react-native";
-import BottomSheet from "react-native-gesture-bottom-sheet";
+import { RefreshControl, View } from "react-native";
 import { useSelector } from "react-redux";
 import SelectInput, { DateInput } from "../components/Input";
 import SpeedDataInput from "../components/SpeedData";
+import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView, StyledView } from "../components/StyledView";
-import { borderRadius, Colors } from "../Constants";
 import { setScoredatatype } from "../redux/scoredatatype.action";
 import GroupsService from "../services/groups.service";
 import ScoreDataService from "../services/scoredata.service";
@@ -23,7 +22,6 @@ export default function GroupSpeedScreen({ route, navigation }) {
   const [scoreDataTypes, setScoreDataTypes] = React.useState([]);
   const [typesOptions, setTypesOptions] = React.useState([]);
   const [date, setDate] = React.useState<Date>(new Date());
-  const isDarkMode = useColorScheme() === "dark";
   const [currentUser, setCurrentUser] = React.useState<any>({});
 
   const bottomSheet = React.useRef<any>();
@@ -124,49 +122,41 @@ export default function GroupSpeedScreen({ route, navigation }) {
           />
         ))}
       </StyledView>
-      <BottomSheet
-        hasDraggableIcon
-        ref={bottomSheet}
-        height={400}
-        radius={borderRadius}
-        sheetBackgroundColor={isDarkMode ? Colors.black : Colors.white}
-      >
-        <View style={{ padding: 20 }}>
-          <StyledText
-            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-          >
-            {t("scoredata_reset_title")}
-          </StyledText>
-          <StyledText
-            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-          >
-            {currentUser.firstname && currentUser.lastname
-              ? currentUser.firstname + " " + currentUser.lastname
-              : currentUser.username}
-          </StyledText>
-          <StyledText style={{ marginBottom: 8 }}>
-            {t("scoredata_reset_text")}
-          </StyledText>
-          <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
-            {t("scoredata_reset_warning")}
-          </StyledText>
-          <StyledTextInput
-            style={{ marginBottom: 8 }}
-            keyboardType="numeric"
-            onSubmitEditing={({ nativeEvent, target }) => {
-              ScoreDataService.resetScoreData(
-                currentUser._id,
-                scoredatatype,
-                nativeEvent.text
-              ).then(() => {
-                bottomSheet.current.close();
-                getScoreDataHigh(id, scoredatatype);
-              });
-              target.clear();
-            }}
-          />
-        </View>
-      </BottomSheet>
+      <StyledBottomSheet ref={bottomSheet} height={400}>
+        <StyledText
+          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+        >
+          {t("scoredata_reset_title")}
+        </StyledText>
+        <StyledText
+          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+        >
+          {currentUser.firstname && currentUser.lastname
+            ? currentUser.firstname + " " + currentUser.lastname
+            : currentUser.username}
+        </StyledText>
+        <StyledText style={{ marginBottom: 8 }}>
+          {t("scoredata_reset_text")}
+        </StyledText>
+        <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
+          {t("scoredata_reset_warning")}
+        </StyledText>
+        <StyledTextInput
+          style={{ marginBottom: 8 }}
+          keyboardType="numeric"
+          onSubmitEditing={({ nativeEvent, target }) => {
+            ScoreDataService.resetScoreData(
+              currentUser._id,
+              scoredatatype,
+              nativeEvent.text
+            ).then(() => {
+              bottomSheet.current.close();
+              getScoreDataHigh(id, scoredatatype);
+            });
+            target.clear();
+          }}
+        />
+      </StyledBottomSheet>
     </StyledScrollView>
   );
 }
