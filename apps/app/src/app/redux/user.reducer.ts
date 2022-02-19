@@ -8,6 +8,7 @@ export interface UserType {
   picture?: string;
   token?: string;
   roles?: string[];
+  checked?: boolean;
 }
 const userReducer = (state: UserType = {}, action: any) => {
   if (action.type === "setUser") {
@@ -27,6 +28,7 @@ const userReducer = (state: UserType = {}, action: any) => {
       picture: action.payload.picture ? action.payload.picture : state.picture,
       token: action.payload.token ? action.payload.token : state.token,
       roles: action.payload.roles ? action.payload.roles : state.roles,
+      checked: action.payload.checked ? action.payload.checked : state.checked,
     };
     return newState;
   }
@@ -41,6 +43,7 @@ const userReducer = (state: UserType = {}, action: any) => {
       picture: undefined,
       token: undefined,
       roles: undefined,
+      checked: undefined,
     };
     return newState;
   }

@@ -5,12 +5,16 @@ import {
   createStackNavigator,
 } from "@react-navigation/stack";
 import * as React from "react";
-import { useTranslation } from "react-i18next";
-import { LogBox, useColorScheme } from "react-native";
+import { Trans, useTranslation } from "react-i18next";
+import { Linking, LogBox, useColorScheme } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
+import StyledBottomSheet from "./components/StyledBottomSheet";
+import { StyledButton } from "./components/StyledButton";
+import { StyledText } from "./components/StyledText";
 import { Colors } from "./Constants";
 import { setNavigation } from "./redux/navigation.action";
+import { setUser } from "./redux/user.action";
 import FreestyleScreen from "./screens/FreestyleScreen";
 import GroupCreateScreen from "./screens/GroupCreateScreen";
 import GroupFreestyleScreen from "./screens/GroupFreestyleScreen";
@@ -24,6 +28,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
 import UserProfileScreen from "./screens/UserProfileScreen";
+import UsersService from "./services/users.service";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -32,6 +37,20 @@ LogBox.ignoreLogs([
 export default function App() {
   const user = useSelector((state: any) => state.user);
   const navigation = useSelector((state: any) => state.navigation);
+
+  const bottomSheet = React.useRef<any>();
+
+  React.useEffect(() => {
+    if (
+      user.token !== undefined &&
+      user.token !== null &&
+      user.active === true &&
+      Object.keys(user).length !== 0 &&
+      !user.checked
+    ) {
+      bottomSheet.current.show();
+    }
+  }, [user]);
 
   return (
     <NavigationContainer
@@ -50,6 +69,34 @@ export default function App() {
       ) : (
         <EntryStackScreen />
       )}
+      <StyledBottomSheet height={200} ref={bottomSheet} draggable={false}>
+        <StyledText style={{ fontSize: 20, fontWeight: "900" }}>
+          <Trans i18nKey="common:legal_aprove">
+            <StyledText
+              style={{ color: Colors.main }}
+              onPress={() => {
+                Linking.openURL("https://myjumpdata.fediv.me/terms");
+              }}
+            ></StyledText>
+            <StyledText
+              style={{ color: Colors.main }}
+              onPress={() => {
+                Linking.openURL("https://myjumpdata.fediv.me/legal");
+              }}
+            ></StyledText>
+          </Trans>
+        </StyledText>
+        <StyledButton
+          style={{ width: 60, height: 60, marginTop: 30, marginLeft: "auto" }}
+          title={<Ionicons name="checkmark" size={30} />}
+          onPress={() => {
+            UsersService.updateUser({ checked: true }).then((response) => {
+              bottomSheet.current.close();
+              setUser(response.data);
+            });
+          }}
+        />
+      </StyledBottomSheet>
     </NavigationContainer>
   );
 }
