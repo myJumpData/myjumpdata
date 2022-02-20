@@ -26,17 +26,19 @@ const SpeedDataOwnScreen = lazy(() => import("./screens/SpeedDataOwnScreen"));
 const SpeedDataScreen = lazy(() => import("./screens/SpeedDataScreen"));
 const TermsScreen = lazy(() => import("./screens/TermsScreen"));
 
-const AdminHomeScreen = lazy(() => import("./screens/AdminHomeScreen"));
-const AdminUsersScreen = lazy(() => import("./screens/AdminUsersScreen"));
-const AdminGroupsScreen = lazy(() => import("./screens/AdminGroupsScreen"));
+const AdminHomeScreen = lazy(() => import("./screens/admin/AdminHomeScreen"));
+const AdminUsersScreen = lazy(() => import("./screens/admin/AdminUsersScreen"));
+const AdminGroupsScreen = lazy(
+  () => import("./screens/admin/AdminGroupsScreen")
+);
 const AdminFreestyleScreen = lazy(
-  () => import("./screens/AdminFreestyleScreen")
+  () => import("./screens/admin/AdminFreestyleScreen")
 );
 const AdminFreestyleElementScreen = lazy(
-  () => import("./screens/AdminFreestyleElementScreen")
+  () => import("./screens/admin/AdminFreestyleElementScreen")
 );
 const AdminLocalizationScreen = lazy(
-  () => import("./screens/AdminLocalizationScreen")
+  () => import("./screens/admin/AdminLocalizationScreen")
 );
 
 ReactDOM.render(
