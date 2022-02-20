@@ -1,4 +1,4 @@
-import { LANGUAGES } from "@myjumpdata/const";
+import { LANGUAGES, NAMESPACES } from "@myjumpdata/const";
 import i18n from "i18next";
 import detector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
@@ -11,7 +11,7 @@ i18n
   .init({
     fallbackLng: "en",
     supportedLngs: LANGUAGES,
-    ns: ["translation", "common", "main", "freestyle"],
+    ns: NAMESPACES,
     defaultNS: "translation",
     lowerCaseLng: true,
     cleanCode: true,
