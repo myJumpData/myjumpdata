@@ -21,7 +21,7 @@ export function signup(req, res) {
   // Initiate Variables
   const { username, firstname, lastname, email, password, checked } = req.body;
 
-  if (checked) {
+  if (checked === true) {
     // Check if username already taken
     User.find({
       username: username,
@@ -94,9 +94,9 @@ export function signup(req, res) {
         });
       });
     });
+  } else {
+    return requestHandler(res, 400, "notchecked.field.checked", "Not checked");
   }
-
-  return requestHandler(res, 400, "notchecked.field.checked", "Not checked");
 }
 
 export function signin(req, res) {
