@@ -25,6 +25,7 @@ import GroupSpeedScreen from "./screens/GroupSpeedScreen";
 import GroupsScreen from "./screens/GroupsScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
 import UserProfileScreen from "./screens/UserProfileScreen";
@@ -311,7 +312,20 @@ const EntryStack = createStackNavigator();
 function EntryStackScreen() {
   return (
     <EntryStack.Navigator screenOptions={{ headerShown: false }}>
-      <EntryStack.Screen name="login" component={LoginScreen} />
+      <EntryStack.Screen
+        name="login"
+        component={LoginScreen}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <EntryStack.Screen
+        name="register"
+        component={RegisterScreen}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
     </EntryStack.Navigator>
   );
 }

@@ -1,14 +1,16 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Logo from "../assets/Logo.png";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText, StyledTextH1 } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView, StyledView } from "../components/StyledView";
+import { Colors } from "../Constants";
 import AuthService from "../services/auth.service";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const { t } = useTranslation();
   const [username, onChangeUsername] = React.useState("");
   const [password, onChangePassword] = React.useState("");
@@ -26,6 +28,29 @@ export default function LoginScreen() {
         padding: 10,
       }}
     >
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexDirection: "row",
+        }}
+      >
+        <StyledText style={{ fontWeight: "900", fontSize: 28, padding: 5 }}>
+          {t("common:nav_login")}
+        </StyledText>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("register");
+          }}
+        >
+          <StyledText
+            style={{ color: Colors.main, fontWeight: "900", padding: 5 }}
+          >
+            {t("common:nav_signup")}
+          </StyledText>
+        </TouchableOpacity>
+      </View>
       <StyledView
         style={{
           alignItems: "center",
