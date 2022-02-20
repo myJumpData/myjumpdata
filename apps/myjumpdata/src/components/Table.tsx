@@ -16,7 +16,7 @@ export default function Table({
   structure: {
     name: string;
     key: string;
-    options?: { align?: "text-center" | "text-left" | "text-right" };
+    options?: { align?: "text-center" | "text-left" | "text-right" | string };
   }[];
   data: any[] | undefined;
   total: number;
@@ -82,9 +82,7 @@ export default function Table({
             current={limit}
           />
         </div>
-        {page && pages && setPage && (
-          <Pagination page={page} setPage={setPage} pages={pages} />
-        )}
+        <Pagination page={page} setPage={setPage} pages={pages} />
       </div>
     </>
   );
