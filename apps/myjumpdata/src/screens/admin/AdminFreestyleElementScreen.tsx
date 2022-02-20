@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import Flag from "react-world-flags";
-import AuthVerify from "../common/AuthVerify";
-import Breadcrumb from "../components/Breadcrumb";
+import AuthVerify from "../../common/AuthVerify";
+import Breadcrumb from "../../components/Breadcrumb";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {

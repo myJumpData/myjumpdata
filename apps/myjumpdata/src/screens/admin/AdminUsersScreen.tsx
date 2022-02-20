@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck, HiX } from "react-icons/hi";
 import ReactTooltip from "react-tooltip";
-import AuthVerify from "../common/AuthVerify";
-import Table from "../components/Table";
+import AuthVerify from "../../common/AuthVerify";
+import Table from "../../components/Table";
 
 export default function AdminUsersScreen() {
   useEffect(() => {

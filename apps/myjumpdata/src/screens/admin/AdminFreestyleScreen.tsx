@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { FaFolder, FaFolderPlus, FaPlus } from "react-icons/fa";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import AuthVerify from "../common/AuthVerify";
-import Breadcrumb from "../components/Breadcrumb";
+import AuthVerify from "../../common/AuthVerify";
+import Breadcrumb from "../../components/Breadcrumb";
 
 type freestyle_folder_data = {
   id: string;

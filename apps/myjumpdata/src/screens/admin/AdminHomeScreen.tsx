@@ -1,6 +1,6 @@
 import { setRoute } from "@myjumpdata/redux";
 import { useEffect } from "react";
-import AuthVerify from "../common/AuthVerify";
+import AuthVerify from "../../common/AuthVerify";
 
 export default function AdminHomeScreen() {
   useEffect(() => {
