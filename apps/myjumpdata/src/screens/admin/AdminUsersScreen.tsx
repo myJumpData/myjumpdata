@@ -81,6 +81,8 @@ export default function AdminUsersScreen() {
             ))}
           </div>
         );
+        item.firstname = <span className="capitalize">{item.firstname}</span>;
+        item.lastname = <span className="capitalize">{item.lastname}</span>;
         return item;
       });
       setUsersData(response.data);
