@@ -116,10 +116,10 @@ export default function BottomSheet({
                 style={{
                   width: 100,
                   height: 10,
-                  borderRadius: 3,
+                  borderRadius: 5,
                   margin: 10,
                   marginBottom: 0,
-                  backgroundColor: "#A3A3A3",
+                  backgroundColor: "#A3A3A388",
                 }}
               />
             </View>

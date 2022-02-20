@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
+import BottomSheet from "../components/BottomSheet";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
@@ -34,6 +35,7 @@ export default function SettingsScreen({ navigation }) {
   const [password, setPassword] = React.useState("");
   const [refreshing, setRefreshing] = React.useState(false);
   const [editing, setEditing] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -246,7 +248,36 @@ export default function SettingsScreen({ navigation }) {
           }}
           title={t("settings_logout")}
         />
+        <StyledButton
+          style={{ marginTop: 80 }}
+          onPress={() => {
+            setVisible(true);
+          }}
+          title={t("settings_delete")}
+        />
       </View>
+      <BottomSheet visible={visible} setVisible={setVisible} height={300}>
+        <StyledText
+          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+        >
+          {t("settings_delete_disclaimer_title")}
+        </StyledText>
+        <StyledText style={{ marginBottom: 8 }}>
+          {t("settings_delete_disclaimer_text")}
+        </StyledText>
+        <StyledButton
+          style={{ marginTop: 30 }}
+          title={t("settings_delete_disclaimer_confirm")}
+          onPress={() => {
+            UsersService.deleteUser().then((response: any) => {
+              if (response.status === 200) {
+                setVisible(false);
+                clearUser();
+              }
+            });
+          }}
+        />
+      </BottomSheet>
     </StyledScrollView>
   );
 }
