@@ -292,15 +292,6 @@ function MainTabScreen({ navigation }) {
         name="profile"
         component={ProfileScreen}
         options={{
-          headerRight: () => (
-            <Ionicons
-              name="settings-outline"
-              size={30}
-              color={isDarkMode ? Colors.white : Colors.black}
-              style={{ paddingRight: 10 }}
-              onPress={() => navigation.navigate("settings")}
-            />
-          ),
           title: t("common:nav_profile"),
         }}
       />
