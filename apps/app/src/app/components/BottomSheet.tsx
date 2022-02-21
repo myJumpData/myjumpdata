@@ -72,7 +72,7 @@ export default function BottomSheet({
   }, [visible]);
 
   return (
-    <Modal transparent visible={visible}>
+    <Modal transparent visible={visible === true ? true : false}>
       <View
         style={{
           flex: 1,
