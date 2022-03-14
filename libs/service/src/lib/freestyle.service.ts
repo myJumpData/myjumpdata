@@ -24,3 +24,7 @@ export const saveFreestyleData = (
 ) => {
   return api.post("/freestyle_group/" + user, { element, state });
 };
+
+export const updateFreestyleElementLevel = (id, level) => {
+  return api.post("/freestyle_update_level", { level, id });
+};

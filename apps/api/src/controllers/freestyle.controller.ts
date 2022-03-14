@@ -213,3 +213,23 @@ export function saveFreestyleData(req, res) {
     }
   });
 }
+
+export function updateFreestyleElementLevel(req, res) {
+  if (!req.userRoles?.includes("admin")) {
+    return requestHandler(
+      res,
+      401,
+      "unauthorized.admin.not",
+      "Need Admin Role"
+    );
+  }
+  FreestyleDataElement.updateOne(
+    { _id: req.body.id },
+    { level: req.body.level }
+  ).exec((err) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    return requestHandler(res, 200, "", "");
+  });
+}
