@@ -285,7 +285,7 @@ export default function SettingsScreen() {
       <div
         className={
           "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
-          (!user.checked ? "fixed z-50" : "z-0 hidden")
+          (user.active && !user.checked ? "fixed z-50" : "z-0 hidden")
         }
       >
         <div className="mx-auto flex max-w-prose flex-row items-center space-x-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">

@@ -1,16 +1,27 @@
 import { capitalize } from "@myjumpdata/utils";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, RefreshControl, View } from "react-native";
+import {
+  Image,
+  Platform,
+  RefreshControl,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
+import DeviceInfo from "react-native-device-info";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
+import BottomSheet from "../components/BottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
 import UsersService from "../services/users.service";
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation();
   const user = useSelector((state: any) => state.user);
+  const isDarkMode = useColorScheme() === "dark";
 
   const [username, setUsername] = React.useState("");
   const [firstname, setFirstname] = React.useState("");
@@ -21,6 +32,23 @@ export default function ProfileScreen() {
   const [userOverviewScoreData, setUserOverviewScoreData] = React.useState([]);
 
   const [refreshing, setRefreshing] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={{ paddingRight: 5 }}
+          onPress={() => {
+            setVisible(true);
+          }}
+        >
+          <Ionicons name="menu-outline" size={40} color={Colors.white} />
+        </TouchableOpacity>
+      ),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     UsersService.getUserSearch(user.username).then((response) => {
@@ -146,6 +174,35 @@ export default function ProfileScreen() {
           )}
         </StyledView>
       </StyledView>
+      <BottomSheet visible={visible} setVisible={setVisible} height={200}>
+        <TouchableOpacity
+          onPress={() => {
+            console.log();
+            setVisible(false);
+            navigation.navigate("settings");
+          }}
+        >
+          <StyledText style={{ paddingVertical: 10 }}>
+            <Ionicons
+              name="settings-outline"
+              size={24}
+              color={isDarkMode ? Colors.white : Colors.black}
+            />
+            {" " + t("common:nav_settings")}
+          </StyledText>
+        </TouchableOpacity>
+        <View style={{ marginTop: 20 }}>
+          <StyledText
+            style={{ color: Colors.grey }}
+          >{`${DeviceInfo.getSystemName()} ${DeviceInfo.getSystemVersion()} - ${DeviceInfo.getBrand()} ${DeviceInfo.getModel()}`}</StyledText>
+          <StyledText
+            style={{ color: Colors.grey }}
+          >{`React Native ${Platform.constants.reactNativeVersion.major}.${Platform.constants.reactNativeVersion.minor}.${Platform.constants.reactNativeVersion.patch}`}</StyledText>
+          <StyledText
+            style={{ color: Colors.grey }}
+          >{`${DeviceInfo.getApplicationName()} ${DeviceInfo.getReadableVersion()}`}</StyledText>
+        </View>
+      </BottomSheet>
     </StyledScrollView>
   );
 }

@@ -27,6 +27,7 @@
     "@react-native-picker/picker": "*",
     "i18next-http-backend": "*",
     "react-i18next": "*",
-    "react-native-localize": "*"
+    "react-native-localize": "*",
+    "react-native-device-info": "*"
   }
 }

@@ -1,12 +1,16 @@
 import { LANGUAGES } from "@myjumpdata/const";
 import { setRoute } from "@myjumpdata/redux";
-import { getFreestyleElement } from "@myjumpdata/service";
+import {
+  getFreestyleElement,
+  updateFreestyleElementLevel,
+} from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
 import Breadcrumb from "../../components/Breadcrumb";
+import { TextInputInline } from "../../components/Input";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -27,6 +31,7 @@ export default function AdminFreestyleElementScreen() {
       }
     | undefined
   >();
+
   useEffect(() => {
     getFreestyleElement(params.id as string).then((response) => {
       setFreestyleElementData(response.data);
@@ -59,7 +64,24 @@ export default function AdminFreestyleElementScreen() {
               </tr>
               <tr>
                 <td className="font-bold">level</td>
-                <td>{freestyleElementData.level}</td>
+                <td>
+                  <TextInputInline
+                    inputName="elementName"
+                    value={freestyleElementData.level}
+                    onSubmit={(value) => {
+                      updateFreestyleElementLevel(
+                        freestyleElementData.id,
+                        value
+                      ).then(() => {
+                        getFreestyleElement(params.id as string).then(
+                          (response) => {
+                            setFreestyleElementData(response.data);
+                          }
+                        );
+                      });
+                    }}
+                  />
+                </td>
               </tr>
             </tbody>
           </table>

@@ -40,6 +40,9 @@ const AdminFreestyleElementScreen = lazy(
 const AdminLocalizationScreen = lazy(
   () => import("./screens/admin/AdminLocalizationScreen")
 );
+const AdminLocalizationNamespaceScreen = lazy(
+  () => import("./screens/admin/AdminLocalizationNamespaceScreen")
+);
 
 ReactDOM.render(
   <Suspense fallback={<Spinner wrapper />}>
@@ -108,10 +111,13 @@ ReactDOM.render(
                     element={<AdminFreestyleElementScreen />}
                   />
                 </Route>
-                <Route
-                  path="localization"
-                  element={<AdminLocalizationScreen />}
-                />
+                <Route path="localization">
+                  <Route index element={<AdminLocalizationScreen />} />
+                  <Route
+                    path="namespace/:namespace"
+                    element={<AdminLocalizationNamespaceScreen />}
+                  />
+                </Route>
                 <Route path="*" element={<Navigate to="/admin" />} />
               </Route>
               <Route path="*" element={<Navigate to="/" />} />

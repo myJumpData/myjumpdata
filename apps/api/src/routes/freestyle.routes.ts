@@ -6,6 +6,7 @@ import {
   getFreestyleElement,
   saveFreestyleData,
   saveFreestyleDataOwn,
+  updateFreestyleElementLevel,
 } from "../controllers/freestyle.controller";
 import verifyToken from "../middlewares/authJwt";
 
@@ -17,4 +18,9 @@ export default function FreestyleRoutes(app: Express) {
   app.post("/freestyle_own", [verifyToken], saveFreestyleDataOwn);
   app.get("/freestyle_group/:id", [verifyToken], getFreestyleData);
   app.post("/freestyle_group/:id", [verifyToken], saveFreestyleData);
+  app.post(
+    "/freestyle_update_level",
+    [verifyToken],
+    updateFreestyleElementLevel
+  );
 }
