@@ -9,7 +9,10 @@
     "build_api": "nx run api:build",
     "postbuild_api": "pm2 restart myJumpData_API",
     "build_web": "nx run myjumpdata:build",
-    "update": "git pull && npm install && npm run build_api && npm run build_web"
+    "update": "git pull && npm install && npm run build_api && npm run build_web",
+    "pm2status": "pm2 status",
+    "pm2start": "pm2 start ./ecosystem.config.js",
+    "pm2logs": "pm2 logs"
   },
   "private": true,
   "dependencies": {
