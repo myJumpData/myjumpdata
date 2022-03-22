@@ -6,11 +6,11 @@ import {
 } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { HiCheckCircle, HiXCircle } from "react-icons/hi";
 import { useParams } from "react-router-dom";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
 import Breadcrumb from "../../components/Breadcrumb";
+import { TextInputInline } from "../../components/Input";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -31,12 +31,10 @@ export default function AdminFreestyleElementScreen() {
       }
     | undefined
   >();
-  const [elementLevel, setElementLevel] = useState<string | undefined>();
 
   useEffect(() => {
     getFreestyleElement(params.id as string).then((response) => {
       setFreestyleElementData(response.data);
-      setElementLevel(response.data.level);
     });
   }, [params.id]);
 
@@ -66,46 +64,23 @@ export default function AdminFreestyleElementScreen() {
               </tr>
               <tr>
                 <td className="font-bold">level</td>
-                <td className="cursor-text">
-                  <div className="relative w-full">
-                    <input
-                      className="w-full border-b border-black bg-transparent focus:border-gray-500/50 focus:outline-0"
-                      value={elementLevel}
-                      onChange={(e) => {
-                        setElementLevel(e.target.value);
-                      }}
-                    />
-                    {elementLevel !== freestyleElementData.level && (
-                      <>
-                        <span
-                          className="absolute top-0 right-5 cursor-pointer text-xl text-gray-500 hover:text-red-500"
-                          onClick={() => {
-                            setElementLevel(freestyleElementData.level);
-                          }}
-                        >
-                          <HiXCircle />
-                        </span>
-                        <span
-                          className="absolute top-0 right-0 cursor-pointer text-xl text-gray-500 hover:text-green-500"
-                          onClick={() => {
-                            updateFreestyleElementLevel(
-                              freestyleElementData.id,
-                              elementLevel
-                            ).then(() => {
-                              getFreestyleElement(params.id as string).then(
-                                (response) => {
-                                  setFreestyleElementData(response.data);
-                                  setElementLevel(response.data.level);
-                                }
-                              );
-                            });
-                          }}
-                        >
-                          <HiCheckCircle />
-                        </span>
-                      </>
-                    )}
-                  </div>
+                <td>
+                  <TextInputInline
+                    inputName="elementName"
+                    value={freestyleElementData.level}
+                    onSubmit={(value) => {
+                      updateFreestyleElementLevel(
+                        freestyleElementData.id,
+                        value
+                      ).then(() => {
+                        getFreestyleElement(params.id as string).then(
+                          (response) => {
+                            setFreestyleElementData(response.data);
+                          }
+                        );
+                      });
+                    }}
+                  />
                 </td>
               </tr>
             </tbody>
