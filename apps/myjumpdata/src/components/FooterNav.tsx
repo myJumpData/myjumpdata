@@ -57,7 +57,8 @@ export default function FooterNav({ social, links }) {
         </div>
       </div>
       <div className="mx-auto flex max-w-7xl justify-start py-4 text-sm sm:justify-center">
-        &copy; myJumpData &middot; All rights reserved.
+        &copy; myJumpData {new Date().getFullYear()} &middot; All rights
+        reserved.
       </div>
     </footer>
   );
