@@ -1,6 +1,6 @@
 import { setRoute } from "@myjumpdata/redux";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import Logo from "../assets/Logo.svg";
 
 export default function MainScreen() {
@@ -15,13 +15,12 @@ export default function MainScreen() {
       <div className="mx-auto w-full max-w-screen-md flex-row sm:flex">
         <div className="sm:w-1/2">
           <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
-            Einfach. Digital. <br /> Rope Skipping
-            <br /> Orientierte App
+            <Trans i18nKey="main:header">
+              <br />
+              <br />
+            </Trans>
           </h1>
-          <p className="my-8 text-lg">
-            Mit myJumpData ist eine Verfolgung und Auswertung der Sportler,
-            digital und einfach. Über die Webseite oder über die App.
-          </p>
+          <p className="my-8 text-lg">{t("main:header_text")}</p>
           <div className="my-8 flex">
             <a href="https://play.google.com/store/apps/details?id=me.fediv.myjumpdata&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
               <img
@@ -48,9 +47,7 @@ export default function MainScreen() {
             <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
               {t("common:nav_speeddata")}
             </h1>
-            <p className="my-8 text-lg">
-              Erfasse und überblicke deine Leistung in Speed.
-            </p>
+            <p className="my-8 text-lg">{t("main:speeddata_text")}</p>
           </div>
         </div>
         <div className="p-2 sm:w-1/2">
@@ -58,9 +55,7 @@ export default function MainScreen() {
             <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
               {t("common:nav_freestyle")}
             </h1>
-            <p className="my-8 text-lg">
-              Erfasse welche Sprünge du kannst und welche du noch lernen kannst.
-            </p>
+            <p className="my-8 text-lg">{t("main:freestyle_text")}</p>
           </div>
         </div>
         <div className="p-2 sm:w-1/2">
@@ -68,9 +63,7 @@ export default function MainScreen() {
             <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
               {t("common:nav_player")}
             </h1>
-            <p className="my-8 text-lg">
-              Spiele die Time-Tracks direkt aus der App ab.
-            </p>
+            <p className="my-8 text-lg">{t("main:player_text")}</p>
           </div>
         </div>
         <div className="p-2 sm:w-1/2">
@@ -78,10 +71,7 @@ export default function MainScreen() {
             <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
               {t("common:nav_groups")}
             </h1>
-            <p className="my-8 text-lg">
-              Nutze die Gruppen-Funktion um deine Leistungen von einem Trainer
-              einzutragen.
-            </p>
+            <p className="my-8 text-lg">{t("main:groups_text")}</p>
           </div>
         </div>
       </div>
