@@ -27,6 +27,7 @@ import {
   onPressStop,
   playOrPause,
 } from "../redux/player.action";
+import Progress from "./Progress";
 import { StyledText } from "./StyledText";
 import { StyledView } from "./StyledView";
 
@@ -123,13 +124,7 @@ export default function Player() {
           }}
         >
           <StyledView style={styles.modalContainer}>
-            <View
-              style={{
-                flexDirection: "row-reverse",
-                paddingHorizontal: 20,
-                paddingVertical: 10,
-              }}
-            >
+            <View style={styles.modalTopActionContainer}>
               <Pressable
                 onPress={() => {
                   setModalVisible(false);
@@ -172,28 +167,21 @@ export default function Player() {
                   {playing?.artist}
                 </StyledText>
               </View>
-              <View style={styles.modalBottomActionProgressContainer}>
-                <View
-                  style={[
-                    styles.modalBottomActionProgressBar,
-                    {
-                      width: percentage(progress.buffered, progress.duration),
-                      backgroundColor: "hsl(0,0%,50%)",
-                    },
-                  ]}
-                ></View>
-                <View
-                  style={[
-                    styles.modalBottomActionProgressBar,
-                    {
-                      width: percentage(progress.position, progress.duration),
-                      backgroundColor: Colors.white,
-                    },
-                  ]}
-                >
-                  <View style={styles.modalBottomActionProgressBuble}></View>
-                </View>
-              </View>
+              <Progress
+                bars={[
+                  // Buffer
+                  {
+                    progress: percentage(progress.buffered, progress.duration),
+                    color: "hsl(0,0%,50%)",
+                  },
+                  // Progress
+                  {
+                    progress: percentage(progress.position, progress.duration),
+                    color: Colors.white,
+                    blop: true,
+                  },
+                ]}
+              />
               <View style={styles.modalBottomActionControlsContainer}>
                 <Pressable
                   style={styles.modalBottomActionControlsButtonOuter}
@@ -210,13 +198,12 @@ export default function Player() {
                   />
                 </Pressable>
                 <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                  style={styles.modalBottomActionControlsButtonInnerContainer}
                 >
-                  <Pressable style={{ padding: 5 }} onPress={onPressPrev}>
+                  <Pressable
+                    style={styles.modalBottomActionControlsButtonInner}
+                    onPress={onPressPrev}
+                  >
                     <Ionicons
                       name="play-skip-back"
                       size={30}
@@ -250,7 +237,10 @@ export default function Player() {
                       />
                     )}
                   </Pressable>
-                  <Pressable style={{ padding: 5 }} onPress={onPressNext}>
+                  <Pressable
+                    style={styles.modalBottomActionControlsButtonInner}
+                    onPress={onPressNext}
+                  >
                     <Ionicons
                       name="play-skip-forward"
                       size={30}
@@ -318,128 +308,55 @@ export default function Player() {
             setModalVisible(true);
           }}
         >
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              width: "100%",
-              backgroundColor: "hsl(38,0%,25%)",
-              borderRadius: borderRadius,
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
-                paddingTop: 5,
-                paddingBottom: 1,
-                paddingLeft: 5,
-                paddingRight: 5,
-              }}
-            >
-              <View
-                style={{
-                  position: "absolute",
-                }}
-              >
-                <Image
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: borderRadius / 1.5,
-                    margin: 7.5,
-                  }}
-                  source={PlaceholderMusic}
-                />
-              </View>
-              <View
-                style={{
-                  paddingHorizontal: 5,
-                  marginLeft: 60,
-                  width: Dimensions.get("window").width - 100,
-                  marginRight: 100,
-                }}
-              >
+          <View style={styles.barContainer}>
+            <View style={styles.barDataContainer}>
+              <Image style={styles.barArtwork} source={PlaceholderMusic} />
+              <View style={styles.barTextContainer}>
                 <Text
-                  style={{
-                    fontSize: 18,
-                    color: "#fff",
-                    fontWeight: "500",
-                    marginTop: 12,
-                    lineHeight: 18,
-                  }}
+                  style={styles.barTitle}
                   numberOfLines={2}
                   ellipsizeMode="tail"
                 >
                   {playing?.title}
                 </Text>
                 <Text
-                  style={{
-                    fontSize: 14,
-                    color: "#fff",
-                    opacity: 0.8,
-                    marginBottom: 12,
-                    lineHeight: 14,
-                  }}
+                  style={styles.barArtist}
                   numberOfLines={2}
                   ellipsizeMode="tail"
                 >
                   {playing?.artist}
                 </Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  width: 50,
-                  position: "absolute",
-                  right: 0,
-                }}
-              >
-                <Pressable onPress={playOrPause} style={{ padding: 5 }}>
-                  {isPlaying ? (
-                    <Ionicons
-                      name="pause"
-                      size={30}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />
-                  ) : (
-                    <Ionicons
-                      name="play"
-                      size={30}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />
-                  )}
-                </Pressable>
-              </View>
+              <Pressable onPress={playOrPause} style={styles.barPlayPause}>
+                {isPlaying ? (
+                  <Ionicons
+                    name="pause"
+                    size={30}
+                    color={isDarkMode ? Colors.white : Colors.black}
+                  />
+                ) : (
+                  <Ionicons
+                    name="play"
+                    size={30}
+                    color={isDarkMode ? Colors.white : Colors.black}
+                  />
+                )}
+              </Pressable>
             </View>
-            <View
-              style={{
-                height: 4,
-                width: "100%",
-                backgroundColor: "hsl(0,0%,30%)",
-                position: "relative",
-              }}
-            >
-              <View
-                style={{
-                  height: 4,
-                  width: percentage(progress.buffered, progress.duration),
-                  backgroundColor: "hsl(0,0%,50%)",
-                  position: "absolute",
-                }}
-              ></View>
-              <View
-                style={{
-                  height: 4,
-                  width: percentage(progress.position, progress.duration),
-                  backgroundColor: Colors.white,
-                  position: "absolute",
-                }}
-              ></View>
-            </View>
+            <Progress
+              bars={[
+                // Buffer
+                {
+                  progress: percentage(progress.buffered, progress.duration),
+                  color: "hsl(0,0%,50%)",
+                },
+                // Progress
+                {
+                  progress: percentage(progress.position, progress.duration),
+                  color: Colors.white,
+                },
+              ]}
+            />
           </View>
         </Pressable>
       </>
@@ -451,6 +368,11 @@ export default function Player() {
 
 const styles = StyleSheet.create({
   modalContainer: { flex: 1, paddingBottom: 40 },
+  modalTopActionContainer: {
+    flexDirection: "row-reverse",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
   modalTopActionButton: { padding: 5 },
   modalArtworkContainer: {
     justifyContent: "center",
@@ -478,26 +400,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 12,
   },
-  modalBottomActionProgressContainer: {
-    height: 4,
-    width: "100%",
-    backgroundColor: "hsl(0,0%,30%)",
-    marginBottom: 20,
-  },
-  modalBottomActionProgressBar: {
-    position: "absolute",
-    height: 4,
-  },
-  modalBottomActionProgressBuble: {
-    backgroundColor: Colors.white,
-    height: 16,
-    width: 16,
-    borderRadius: 8,
-    alignSelf: "flex-end",
-    marginTop: -6,
-    marginRight: -6,
-  },
   modalBottomActionControlsContainer: {
+    marginTop: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -505,6 +409,12 @@ const styles = StyleSheet.create({
   modalBottomActionControlsButtonOuter: {
     padding: 5,
   },
+  modalBottomActionControlsButtonInnerContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBottomActionControlsButtonInner: { padding: 5 },
   modalBottomActionControlsButtonCenter: {
     width: 60,
     height: 60,
@@ -513,4 +423,42 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 30,
   },
+  barContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: "hsl(38,0%,25%)",
+    borderRadius: borderRadius,
+    overflow: "hidden",
+  },
+  barDataContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    paddingTop: 5,
+    paddingBottom: 1,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  barArtwork: {
+    width: 50,
+    height: 50,
+    borderRadius: borderRadius / 1.5,
+    margin: 7.5,
+  },
+  barTextContainer: { flexGrow: 1 },
+  barTitle: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "500",
+    marginTop: 12,
+    lineHeight: 18,
+  },
+  barArtist: {
+    fontSize: 14,
+    color: "#fff",
+    opacity: 0.8,
+    marginBottom: 12,
+    lineHeight: 14,
+  },
+  barPlayPause: { padding: 10 },
 });
