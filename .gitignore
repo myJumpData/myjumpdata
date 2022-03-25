@@ -69,6 +69,7 @@ DerivedData
 **/android/**/local.properties
 **/android/**/*.iml
 **/android/**/release/
+**/android/*.hprof
 
 ## BUCK
 
