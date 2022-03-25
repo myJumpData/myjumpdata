@@ -29,6 +29,7 @@
     "react-i18next": "*",
     "react-native-localize": "*",
     "react-native-device-info": "*",
-    "react-native-track-player": "*"
+    "react-native-track-player": "*",
+    "@react-native-community/slider": "*"
   }
 }

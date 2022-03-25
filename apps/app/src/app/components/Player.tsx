@@ -1,3 +1,4 @@
+import Slider from "@react-native-community/slider";
 import React from "react";
 import {
   Dimensions,
@@ -39,7 +40,7 @@ const events = [
 ];
 
 export default function Player() {
-  const progress = useProgress();
+  const progress = useProgress(250);
   const isDarkMode = useColorScheme() === "dark";
 
   const [playing, setPlaying] = React.useState<any>();
@@ -47,7 +48,17 @@ export default function Player() {
   const [visible, setVisible] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
 
+  const [sliderValue, setSliderValue] = React.useState(0);
+  const [isSeeking, setIsSeeking] = React.useState(false);
+
   const player = useSelector((state: any) => state.player);
+
+  React.useEffect(() => {
+    if (!isSeeking && progress.position && progress.duration) {
+      setSliderValue(progress.position / progress.duration);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progress]);
 
   React.useEffect(() => {
     TrackPlayer.getCurrentTrack().then((track) => {
@@ -113,6 +124,16 @@ export default function Player() {
     }
   });
 
+  const slidingStarted = () => {
+    setIsSeeking(true);
+  };
+
+  const slidingCompleted = async (value) => {
+    await TrackPlayer.seekTo(value * progress.duration);
+    setSliderValue(value);
+    setIsSeeking(false);
+  };
+
   if (visible) {
     return (
       <>
@@ -167,20 +188,14 @@ export default function Player() {
                   {playing?.artist}
                 </StyledText>
               </View>
-              <Progress
-                bars={[
-                  // Buffer
-                  {
-                    progress: percentage(progress.buffered, progress.duration),
-                    color: "hsl(0,0%,50%)",
-                  },
-                  // Progress
-                  {
-                    progress: percentage(progress.position, progress.duration),
-                    color: Colors.white,
-                    blop: true,
-                  },
-                ]}
+              <Slider
+                style={styles.modalProgressSlider}
+                value={sliderValue}
+                minimumTrackTintColor={isDarkMode ? Colors.white : Colors.black}
+                maximumTrackTintColor={Colors.grey}
+                onSlidingStart={slidingStarted}
+                onSlidingComplete={slidingCompleted}
+                thumbTintColor={isDarkMode ? Colors.white : Colors.black}
               />
               <View style={styles.modalBottomActionControlsContainer}>
                 <Pressable
@@ -367,6 +382,7 @@ export default function Player() {
 }
 
 const styles = StyleSheet.create({
+  modalProgressSlider: { marginHorizontal: -15 },
   modalContainer: { flex: 1, paddingBottom: 40 },
   modalTopActionContainer: {
     flexDirection: "row-reverse",
