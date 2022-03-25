@@ -1,23 +1,32 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshControl } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Pressable, RefreshControl, useColorScheme, View } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import TrackPlayer from "react-native-track-player";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import BottomSheet from "../components/BottomSheet";
 import { DateInput } from "../components/Input";
+import Player from "../components/Player";
 import SpeedDataInput from "../components/SpeedData";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
+import { Colors } from "../Constants";
+import PlayerService from "../services/player.service";
 import ScoreDataService from "../services/scoredata.service";
+import { musicData } from "../tracks";
 
 export default function SpeedDataOwnScreen() {
   const { t } = useTranslation();
+  const isDarkMode = useColorScheme() === "dark";
 
   const [scoreData, setScoreData] = React.useState<any>([]);
   const [date, setDate] = React.useState<Date>(new Date());
   const [refreshing, setRefreshing] = React.useState(false);
   const [currentType, setCurrentType] = React.useState<any>({});
   const [visible, setVisible] = React.useState(false);
+  const [musicSelect, setMusicSelect] = React.useState<any>();
+  const [musicVisible, setMusicVisible] = React.useState(false);
 
   React.useEffect(() => {
     getData();
@@ -73,6 +82,23 @@ export default function SpeedDataOwnScreen() {
                 setCurrentType(item.type);
                 setVisible(true);
               }}
+              music={
+                musicData[item.type._id] &&
+                musicData[item.type._id].tracks.length > 0 && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setMusicSelect(item.type);
+                      setMusicVisible(true);
+                    }}
+                  >
+                    <Ionicons
+                      name="musical-notes"
+                      size={24}
+                      color={isDarkMode ? Colors.white : Colors.black}
+                    />
+                  </TouchableOpacity>
+                )
+              }
             />
           );
         })}
@@ -109,6 +135,51 @@ export default function SpeedDataOwnScreen() {
           }}
         />
       </BottomSheet>
+      <BottomSheet
+        visible={musicVisible}
+        setVisible={setMusicVisible}
+        height={
+          musicSelect
+            ? musicData[musicSelect._id].tracks.length * 60 + 120
+            : 500
+        }
+      >
+        {musicSelect !== undefined && (
+          <>
+            <StyledText
+              style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+            >
+              {musicSelect.name}
+            </StyledText>
+            <View>
+              {PlayerService.getTracks(musicData[musicSelect._id].tracks).map(
+                (trackData) => {
+                  return (
+                    <Pressable
+                      style={{ paddingVertical: 10 }}
+                      key={trackData.id}
+                      onPress={async () => {
+                        await TrackPlayer.reset();
+                        await TrackPlayer.add(trackData);
+                        await TrackPlayer.play();
+                        setMusicVisible(false);
+                      }}
+                    >
+                      <StyledText style={{ fontSize: 18, fontWeight: "500" }}>
+                        {trackData.title}
+                      </StyledText>
+                      <StyledText style={{ fontSize: 14, color: Colors.grey }}>
+                        {trackData.artist}
+                      </StyledText>
+                    </Pressable>
+                  );
+                }
+              )}
+            </View>
+          </>
+        )}
+      </BottomSheet>
+      <Player />
     </StyledView>
   );
 }

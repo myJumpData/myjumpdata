@@ -12,10 +12,11 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import BottomSheet from "../components/BottomSheet";
+import Player from "../components/Player";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { StyledScrollView } from "../components/StyledView";
+import { StyledScrollView, StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import { clearUser, setUser } from "../redux/user.action";
 import UsersService from "../services/users.service";
@@ -130,154 +131,159 @@ export default function SettingsScreen({ navigation }) {
   }, []);
 
   return (
-    <StyledScrollView
-      style={{ padding: 10 }}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <View style={{ marginBottom: 20 }}>
-        <StyledText style={{ fontWeight: "900" }}>
-          {t("settings_data")}:
-        </StyledText>
-        <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:username")}:</StyledText>
-          <StyledTextInput
-            onChangeText={(e) => {
-              setEditing(true);
-              setUsername(e);
-            }}
-            value={username}
-            autoCapitalize="none"
-          />
+    <StyledView>
+      <StyledScrollView
+        style={{ padding: 10 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={{ marginBottom: 20 }}>
+          <StyledText style={{ fontWeight: "900" }}>
+            {t("settings_data")}:
+          </StyledText>
+          <View style={{ marginVertical: 10 }}>
+            <StyledText>{t("common:username")}:</StyledText>
+            <StyledTextInput
+              onChangeText={(e) => {
+                setEditing(true);
+                setUsername(e);
+              }}
+              value={username}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={{ marginVertical: 10 }}>
+            <StyledText>{t("common:firstname")}:</StyledText>
+            <StyledTextInput
+              onChangeText={(e: string) => {
+                setEditing(true);
+                setFirstname(e);
+              }}
+              value={firstname}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={{ marginVertical: 10 }}>
+            <StyledText>{t("common:lastname")}:</StyledText>
+            <StyledTextInput
+              onChangeText={(e: string) => {
+                setEditing(true);
+                setLastname(e);
+              }}
+              value={lastname}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={{ marginVertical: 10 }}>
+            <StyledText>{t("common:email")}:</StyledText>
+            <StyledTextInput
+              onChangeText={(e: string) => {
+                setEditing(true);
+                setEmail(e);
+              }}
+              value={email}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={{ marginVertical: 10 }}>
+            <StyledText>{t("common:password")}:</StyledText>
+            <StyledTextInput
+              onChangeText={(e: string) => {
+                setEditing(true);
+                setPassword(e);
+              }}
+              value={password}
+              autoCapitalize="none"
+            />
+          </View>
         </View>
-        <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:firstname")}:</StyledText>
-          <StyledTextInput
-            onChangeText={(e: string) => {
-              setEditing(true);
-              setFirstname(e);
-            }}
-            value={firstname}
-            autoCapitalize="none"
-          />
-        </View>
-        <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:lastname")}:</StyledText>
-          <StyledTextInput
-            onChangeText={(e: string) => {
-              setEditing(true);
-              setLastname(e);
-            }}
-            value={lastname}
-            autoCapitalize="none"
-          />
-        </View>
-        <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:email")}:</StyledText>
-          <StyledTextInput
-            onChangeText={(e: string) => {
-              setEditing(true);
-              setEmail(e);
-            }}
-            value={email}
-            autoCapitalize="none"
-          />
-        </View>
-        <View style={{ marginVertical: 10 }}>
-          <StyledText>{t("common:password")}:</StyledText>
-          <StyledTextInput
-            onChangeText={(e: string) => {
-              setEditing(true);
-              setPassword(e);
-            }}
-            value={password}
-            autoCapitalize="none"
-          />
-        </View>
-      </View>
-      <View style={{ marginBottom: 20 }}>
-        <StyledText style={{ fontWeight: "900" }}>
-          {t("settings_image")}:
-        </StyledText>
-        <StyledText style={{ fontSize: 12 }}>
-          {t("settings_image_text")}
-        </StyledText>
-        <TouchableOpacity
-          onPress={() => {
-            Linking.openURL("https://gravatar.com/");
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 12,
-              color: Colors.main,
-              textDecorationLine: "underline",
+        <View style={{ marginBottom: 20 }}>
+          <StyledText style={{ fontWeight: "900" }}>
+            {t("settings_image")}:
+          </StyledText>
+          <StyledText style={{ fontSize: 12 }}>
+            {t("settings_image_text")}
+          </StyledText>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL("https://gravatar.com/");
             }}
           >
-            {t("settings_image_action")}
-          </Text>
-        </TouchableOpacity>
-        <Picker
-          selectedValue={picture}
-          onValueChange={(e) => {
-            setEditing(true);
-            setPicture(e);
-          }}
-          style={{
-            flex: 1,
-            color: isDarkMode ? Colors.white : Colors.black,
-          }}
-          dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
-          mode="dropdown"
-        >
-          <Picker.Item label={t("settings_image_none")} value={"none"} />
-          <Picker.Item
-            label={t("settings_image_gravatar")}
-            value={"gravatar"}
+            <Text
+              style={{
+                fontSize: 12,
+                color: Colors.main,
+                textDecorationLine: "underline",
+              }}
+            >
+              {t("settings_image_action")}
+            </Text>
+          </TouchableOpacity>
+          <Picker
+            selectedValue={picture}
+            onValueChange={(e) => {
+              setEditing(true);
+              setPicture(e);
+            }}
+            style={{
+              flex: 1,
+              color: isDarkMode ? Colors.white : Colors.black,
+            }}
+            dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
+            mode="dropdown"
+          >
+            <Picker.Item label={t("settings_image_none")} value={"none"} />
+            <Picker.Item
+              label={t("settings_image_gravatar")}
+              value={"gravatar"}
+            />
+          </Picker>
+        </View>
+        <View style={{ marginBottom: 20 }}>
+          <StyledText style={{ fontWeight: "900" }}>
+            {t("settings_danger")}:
+          </StyledText>
+          <StyledButton
+            onPress={() => {
+              clearUser();
+            }}
+            title={t("settings_logout")}
           />
-        </Picker>
+          <StyledButton
+            style={{ marginTop: 80 }}
+            onPress={() => {
+              setVisible(true);
+            }}
+            title={t("settings_delete")}
+          />
+        </View>
+        <BottomSheet visible={visible} setVisible={setVisible} height={300}>
+          <StyledText
+            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+          >
+            {t("settings_delete_disclaimer_title")}
+          </StyledText>
+          <StyledText style={{ marginBottom: 8 }}>
+            {t("settings_delete_disclaimer_text")}
+          </StyledText>
+          <StyledButton
+            style={{ marginTop: 30 }}
+            title={t("settings_delete_disclaimer_confirm")}
+            onPress={() => {
+              UsersService.deleteUser().then((response: any) => {
+                if (response.status === 200) {
+                  setVisible(false);
+                  clearUser();
+                }
+              });
+            }}
+          />
+        </BottomSheet>
+      </StyledScrollView>
+      <View style={{ padding: 10 }}>
+        <Player />
       </View>
-      <View style={{ marginBottom: 20 }}>
-        <StyledText style={{ fontWeight: "900" }}>
-          {t("settings_danger")}:
-        </StyledText>
-        <StyledButton
-          onPress={() => {
-            clearUser();
-          }}
-          title={t("settings_logout")}
-        />
-        <StyledButton
-          style={{ marginTop: 80 }}
-          onPress={() => {
-            setVisible(true);
-          }}
-          title={t("settings_delete")}
-        />
-      </View>
-      <BottomSheet visible={visible} setVisible={setVisible} height={300}>
-        <StyledText
-          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-        >
-          {t("settings_delete_disclaimer_title")}
-        </StyledText>
-        <StyledText style={{ marginBottom: 8 }}>
-          {t("settings_delete_disclaimer_text")}
-        </StyledText>
-        <StyledButton
-          style={{ marginTop: 30 }}
-          title={t("settings_delete_disclaimer_confirm")}
-          onPress={() => {
-            UsersService.deleteUser().then((response: any) => {
-              if (response.status === 200) {
-                setVisible(false);
-                clearUser();
-              }
-            });
-          }}
-        />
-      </BottomSheet>
-    </StyledScrollView>
+    </StyledView>
   );
 }

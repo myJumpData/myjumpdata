@@ -1,8 +1,9 @@
 import * as React from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { useSelector } from "react-redux";
 import Breadcrumb from "../components/Breadcrumb";
 import Freestyle from "../components/Freestyle";
+import Player from "../components/Player";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import { setFreestyle } from "../redux/freestyle.action";
@@ -105,6 +106,9 @@ export default function FreestyleScreen() {
           />
         )}
       />
+      <View style={{ padding: 10 }}>
+        <Player />
+      </View>
     </StyledView>
   );
 }

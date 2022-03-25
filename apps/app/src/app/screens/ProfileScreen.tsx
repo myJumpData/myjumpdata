@@ -13,6 +13,7 @@ import DeviceInfo from "react-native-device-info";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import BottomSheet from "../components/BottomSheet";
+import Player from "../components/Player";
 import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
@@ -85,95 +86,102 @@ export default function ProfileScreen({ navigation }) {
   }, [user.username]);
 
   return (
-    <StyledScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <StyledView
-        style={{
-          flexDirection: "row",
-          paddingTop: 10,
-          paddingBottom: 10,
-          paddingLeft: 10,
-          paddingRight: 10,
-        }}
+    <StyledView>
+      <StyledScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
-        <Image
-          style={{ width: 150, height: 150, borderRadius: 75, marginRight: 10 }}
-          source={{ uri: image }}
-        />
         <StyledView
           style={{
-            flex: 1,
-            justifyContent: "center",
+            flexDirection: "row",
+            paddingTop: 10,
+            paddingBottom: 10,
+            paddingLeft: 10,
+            paddingRight: 10,
           }}
         >
-          <StyledText style={{ fontWeight: "600" }}>{username}</StyledText>
-          <StyledText>
-            {capitalize(firstname) + " " + capitalize(lastname)}
+          <Image
+            style={{
+              width: 150,
+              height: 150,
+              borderRadius: 75,
+              marginRight: 10,
+            }}
+            source={{ uri: image }}
+          />
+          <StyledView
+            style={{
+              flex: 1,
+              justifyContent: "center",
+            }}
+          >
+            <StyledText style={{ fontWeight: "600" }}>{username}</StyledText>
+            <StyledText>
+              {capitalize(firstname) + " " + capitalize(lastname)}
+            </StyledText>
+          </StyledView>
+        </StyledView>
+        <StyledView
+          style={{
+            paddingTop: 10,
+            paddingBottom: 10,
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}
+        >
+          <StyledText style={{ fontWeight: "600" }}>
+            {t("common:highscores")}
           </StyledText>
-        </StyledView>
-      </StyledView>
-      <StyledView
-        style={{
-          paddingTop: 10,
-          paddingBottom: 10,
-          paddingLeft: 10,
-          paddingRight: 10,
-        }}
-      >
-        <StyledText style={{ fontWeight: "600" }}>
-          {t("common:highscores")}
-        </StyledText>
-        <StyledView>
-          {userOverviewScoreData.map(
-            (score: { type: string; score: number; scoreOwn: number }) => (
-              <StyledView
-                key={score.type}
-                style={{
-                  width: "100%",
-                  borderWidth: 1,
-                  borderColor: Colors.grey,
-                  paddingLeft: 10,
-                  paddingRight: 10,
-                  paddingTop: 5,
-                  paddingBottom: 5,
-                  borderRadius: borderRadius,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: 10,
-                }}
-              >
-                <StyledView>
-                  <StyledText>{score.type}</StyledText>
-                </StyledView>
-                <View style={{ width: 100 }}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <StyledText>{t("common:nav_group")}</StyledText>
-                    <StyledText>{score.score}</StyledText>
-                  </View>
-                  <StyledView
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <StyledText>{t("common:own")}</StyledText>
-                    <StyledText>{score.scoreOwn}</StyledText>
+          <StyledView>
+            {userOverviewScoreData.map(
+              (score: { type: string; score: number; scoreOwn: number }) => (
+                <StyledView
+                  key={score.type}
+                  style={{
+                    width: "100%",
+                    borderWidth: 1,
+                    borderColor: Colors.grey,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                    borderRadius: borderRadius,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: 10,
+                  }}
+                >
+                  <StyledView>
+                    <StyledText>{score.type}</StyledText>
                   </StyledView>
-                </View>
-              </StyledView>
-            )
-          )}
+                  <View style={{ width: 100 }}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <StyledText>{t("common:nav_group")}</StyledText>
+                      <StyledText>{score.score}</StyledText>
+                    </View>
+                    <StyledView
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <StyledText>{t("common:own")}</StyledText>
+                      <StyledText>{score.scoreOwn}</StyledText>
+                    </StyledView>
+                  </View>
+                </StyledView>
+              )
+            )}
+          </StyledView>
         </StyledView>
-      </StyledView>
+      </StyledScrollView>
       <BottomSheet visible={visible} setVisible={setVisible} height={200}>
         <TouchableOpacity
           onPress={() => {
@@ -203,6 +211,9 @@ export default function ProfileScreen({ navigation }) {
           >{`${DeviceInfo.getApplicationName()} ${DeviceInfo.getReadableVersion()}`}</StyledText>
         </View>
       </BottomSheet>
-    </StyledScrollView>
+      <View style={{ padding: 10 }}>
+        <Player />
+      </View>
+    </StyledView>
   );
 }

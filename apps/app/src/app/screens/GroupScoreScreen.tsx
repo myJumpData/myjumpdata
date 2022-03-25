@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
+import Player from "../components/Player";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
@@ -202,6 +203,7 @@ export default function GroupScoreScreen({ route, navigation }) {
           />
         )}
       />
+      <Player />
     </StyledView>
   );
 }

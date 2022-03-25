@@ -7,6 +7,7 @@ import {
 import * as React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Linking, LogBox, useColorScheme } from "react-native";
+import TrackPlayer, { Capability, RepeatMode } from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import BottomSheet from "./components/BottomSheet";
@@ -24,6 +25,7 @@ import GroupSettingsUsersScreen from "./screens/GroupSettingsUsersScreen";
 import GroupSpeedScreen from "./screens/GroupSpeedScreen";
 import GroupsScreen from "./screens/GroupsScreen";
 import LoginScreen from "./screens/LoginScreen";
+import PlayerScreen from "./screens/PlayerScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import SettingsScreen from "./screens/SettingsScreen";
@@ -51,6 +53,16 @@ export default function App() {
       setVisible(true);
     }
   }, [user]);
+
+  React.useEffect(() => {
+    (async () => {
+      await TrackPlayer.setupPlayer({});
+      await TrackPlayer.updateOptions({
+        capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
+      });
+      TrackPlayer.setRepeatMode(RepeatMode.Off);
+    })();
+  }, []);
 
   return (
     <NavigationContainer
@@ -237,6 +249,8 @@ function MainTabScreen({ navigation }) {
             iconName = focused ? "list" : "list-outline";
           } else if (route.name === "speed_data") {
             iconName = focused ? "timer" : "timer-outline";
+          } else if (route.name === "player") {
+            iconName = focused ? "musical-notes" : "musical-notes-outline";
           } else if (route.name === "profile") {
             iconName = focused ? "person" : "person-outline";
           }
@@ -286,6 +300,13 @@ function MainTabScreen({ navigation }) {
         component={SpeedDataOwnScreen}
         options={{
           title: t("common:nav_speeddata"),
+        }}
+      />
+      <MainTab.Screen
+        name="player"
+        component={PlayerScreen}
+        options={{
+          title: t("common:nav_player"),
         }}
       />
       <MainTab.Screen

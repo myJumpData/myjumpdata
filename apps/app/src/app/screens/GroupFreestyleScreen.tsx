@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Breadcrumb from "../components/Breadcrumb";
 import Freestyle from "../components/Freestyle";
 import SelectInput from "../components/Input";
+import Player from "../components/Player";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import { setFreestyle } from "../redux/freestyle.action";
@@ -163,6 +164,9 @@ export default function GroupFreestyleScreen({ route, navigation }) {
           />
         )}
       />
+      <View style={{ padding: 10 }}>
+        <Player />
+      </View>
     </StyledView>
   );
 }

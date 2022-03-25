@@ -28,6 +28,7 @@
     "i18next-http-backend": "*",
     "react-i18next": "*",
     "react-native-localize": "*",
-    "react-native-device-info": "*"
+    "react-native-device-info": "*",
+    "react-native-track-player": "*"
   }
 }
