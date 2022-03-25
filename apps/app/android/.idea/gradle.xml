@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../../../node_modules/@react-native-community/async-storage/android" />
             <option value="$PROJECT_DIR$/../../../node_modules/@react-native-community/datetimepicker/android" />
+            <option value="$PROJECT_DIR$/../../../node_modules/@react-native-community/slider/android" />
             <option value="$PROJECT_DIR$/../../../node_modules/@react-native-picker/picker/android" />
             <option value="$PROJECT_DIR$/../../../node_modules/react-native-config/android" />
             <option value="$PROJECT_DIR$/../../../node_modules/react-native-device-info/android" />
@@ -21,6 +22,7 @@
             <option value="$PROJECT_DIR$/../../../node_modules/react-native-safe-area-context/android" />
             <option value="$PROJECT_DIR$/../../../node_modules/react-native-screens/android" />
             <option value="$PROJECT_DIR$/../../../node_modules/react-native-svg/android" />
+            <option value="$PROJECT_DIR$/../../../node_modules/react-native-track-player/android" />
             <option value="$PROJECT_DIR$/../../../node_modules/react-native-vector-icons/android" />
           </set>
         </option>
