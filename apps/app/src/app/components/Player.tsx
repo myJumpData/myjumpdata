@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius / 1.5,
     margin: 7.5,
   },
-  barTextContainer: { flexGrow: 1 },
+  barTextContainer: { flexGrow: 1, flexShrink: 1 },
   barTitle: {
     fontSize: 18,
     color: "#fff",
