@@ -43,7 +43,9 @@ export default function PlayerScreen() {
   return (
     <StyledView>
       <FlatList renderItem={renderItem} data={PlayerService.getLibrary()} />
-      <Player />
+      <View style={{ padding: 10 }}>
+        <Player />
+      </View>
     </StyledView>
   );
 }
