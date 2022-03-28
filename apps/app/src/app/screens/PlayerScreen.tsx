@@ -11,7 +11,7 @@ import PlayerService from "../services/player.service";
 export default function PlayerScreen() {
   const renderItem = ({ item }: { item: Track }) => (
     <Pressable
-      style={{ paddingVertical: 10 }}
+      style={{ padding: 5 }}
       onPress={async () => {
         await TrackPlayer.reset();
         await TrackPlayer.add(item);
