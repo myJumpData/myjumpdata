@@ -2,5 +2,7 @@ import { clearUser } from "@myjumpdata/redux";
 
 export default function Logout() {
   clearUser();
-  window.location.href = "/login";
+  setTimeout(() => {
+    window.location.href = "/login";
+  }, 500);
 }
