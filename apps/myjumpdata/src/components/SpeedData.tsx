@@ -3,6 +3,7 @@ import { classNames } from "@myjumpdata/utils";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiPlus } from "react-icons/hi";
+import { IoIosMusicalNotes } from "react-icons/io";
 import { TextInput } from "./Input";
 
 export function SpeedDataInput({
@@ -11,12 +12,14 @@ export function SpeedDataInput({
   score,
   onSubmit,
   dropdown,
+  music,
 }: {
   id: string;
   name: string;
   score: string;
   onSubmit: any;
   dropdown?: any[];
+  music?: any[];
 }) {
   const { t } = useTranslation();
   return (
@@ -47,6 +50,45 @@ export function SpeedDataInput({
               >
                 <Menu.Items className="max-w-48 absolute z-20 origin-top rounded-md border border-gray-500/50 bg-white py-1 text-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-black dark:text-gray-200">
                   {dropdown.map((e: any) => (
+                    <Menu.Item key={e.name}>
+                      {({ active }) => (
+                        <span
+                          className={classNames(
+                            active && "bg-gray-100 dark:bg-gray-900",
+                            "flex cursor-pointer items-center justify-start px-4 py-2 text-sm leading-none"
+                          )}
+                          {...e.props}
+                        >
+                          <span className="whitespace-nowrap">{e.name}</span>
+                        </span>
+                      )}
+                    </Menu.Item>
+                  ))}
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          )}
+          {music && (
+            <Menu as="div" className="relative ml-2">
+              <div className="inset-y-0 flex items-center ring-0">
+                <Menu.Button
+                  className="flex h-8 w-8 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-gray-800 dark:focus:ring-offset-white"
+                  aria-label="more-action"
+                >
+                  <IoIosMusicalNotes />
+                </Menu.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="max-w-48 absolute z-20 origin-top rounded-md border border-gray-500/50 bg-white py-1 text-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-black dark:text-gray-200">
+                  {music.map((e: any) => (
                     <Menu.Item key={e.name}>
                       {({ active }) => (
                         <span

@@ -7,10 +7,12 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiX } from "react-icons/hi";
+import player from "react-web-track-player";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { DateInput, TextInput } from "../components/Input";
 import { SpeedDataInput } from "../components/SpeedData";
+import TRACKS, { musicData } from "../tracks";
 
 export default function SpeedDataOwnScreen() {
   useEffect(() => {
@@ -75,6 +77,25 @@ export default function SpeedDataOwnScreen() {
                     },
                   },
                 ]}
+                music={
+                  musicData[score.type._id] &&
+                  musicData[score.type._id].tracks.length > 0
+                    ? TRACKS.filter((e) =>
+                        musicData[score.type._id].tracks.some(
+                          (id) => id === e.id
+                        )
+                      ).map((t) => ({
+                        name: t.title,
+                        props: {
+                          onClick: async () => {
+                            await player.reset();
+                            await player.add([t]);
+                            await player.play();
+                          },
+                        },
+                      }))
+                    : undefined
+                }
               />
             )
           );
