@@ -1,3 +1,4 @@
+import { Menu, Transition } from "@headlessui/react";
 import { setRoute } from "@myjumpdata/redux";
 import {
   getGroup,
@@ -6,14 +7,18 @@ import {
   resetScoreData,
   saveScoreData,
 } from "@myjumpdata/service";
-import { useEffect, useState } from "react";
+import { classNames } from "@myjumpdata/utils";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiX } from "react-icons/hi";
+import { IoIosMusicalNotes } from "react-icons/io";
 import { useParams } from "react-router";
+import player from "react-web-track-player";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { DateInput, SelectInput, TextInput } from "../components/Input";
 import { SpeedDataInput } from "../components/SpeedData";
+import TRACKS, { musicData } from "../tracks";
 
 export default function SpeedDataScreen() {
   useEffect(() => {
@@ -78,12 +83,69 @@ export default function SpeedDataScreen() {
       <span className="text-xl font-bold">
         {t("speeddata_title") + " " + groupName}
       </span>
-      <DateInput
-        setDate={(e) => {
-          setDate(e);
-        }}
-        date={date}
-      />
+      <div className="flex">
+        <div className="shrink grow">
+          <DateInput
+            setDate={(e) => {
+              setDate(e);
+            }}
+            date={date}
+          />
+        </div>
+        {musicData[scoreDataType] &&
+          musicData[scoreDataType].tracks.length > 0 && (
+            <Menu as="div" className="relative ml-2">
+              <div className="inset-y-0 flex items-center ring-0">
+                <Menu.Button
+                  className="flex h-8 w-8 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-gray-800 dark:focus:ring-offset-white"
+                  aria-label="more-action"
+                >
+                  <IoIosMusicalNotes className="text-2xl" />
+                </Menu.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="max-w-48 absolute right-0 z-20 origin-top rounded-md border border-gray-500/50 bg-white py-1 text-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-black dark:text-gray-200">
+                  {TRACKS.filter((e) =>
+                    musicData[scoreDataType].tracks.some((id) => id === e.id)
+                  )
+                    .map((t) => ({
+                      name: t.title,
+                      props: {
+                        onClick: async () => {
+                          await player.reset();
+                          await player.add([t]);
+                          await player.play();
+                        },
+                      },
+                    }))
+                    .map((e: any) => (
+                      <Menu.Item key={e.name}>
+                        {({ active }) => (
+                          <span
+                            className={classNames(
+                              active && "bg-gray-100 dark:bg-gray-900",
+                              "flex cursor-pointer items-center justify-start px-4 py-2 text-sm leading-none"
+                            )}
+                            {...e.props}
+                          >
+                            <span className="whitespace-nowrap">{e.name}</span>
+                          </span>
+                        )}
+                      </Menu.Item>
+                    ))}
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          )}
+      </div>
       <div className="mb-2 flex items-center space-x-2">
         <div className="w-full">
           <SelectInput

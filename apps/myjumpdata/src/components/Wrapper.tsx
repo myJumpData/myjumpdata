@@ -130,7 +130,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
     const currentTrack = usePlaybackTrackChanged();
     const playbackState = usePlaybackState();
 
-    const [isModal, setIsModal] = useState(true);
+    const [isModal, setIsModal] = useState(false);
 
     useEffect(() => {
       player.setupPlayer({
@@ -188,7 +188,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
 
     if (isModal) {
       return (
-        <div className="xs:justify-end xs:items-end pointer-events-none fixed bottom-4 right-4 top-4 left-4 z-50 flex justify-center">
+        <div className="xs:justify-end xs:pointer-events-none xs:bg-transparent xs:backdrop-blur-none fixed bottom-0 right-0 top-0 left-0 z-50 flex items-end justify-center bg-black/25 p-4 backdrop-blur">
           <div className="pointer-events-auto h-fit max-w-sm grow overflow-hidden rounded-xl bg-white text-black dark:bg-black dark:text-white">
             <div className="flex h-auto flex-col items-center bg-gray-500/50 p-4 sm:py-2">
               <div className="flex w-full justify-between">
@@ -286,11 +286,11 @@ export default function Wrapper({ children }: { children: ReactNode }) {
                 alt="track-artwork"
                 className="h-full rounded-lg"
               />
-              <div className="flex shrink grow flex-col px-2">
-                <span className="pb-1 text-lg leading-none">
+              <div className="flex min-w-0 shrink grow flex-col px-2">
+                <span className="truncate pb-1 text-lg leading-none">
                   {currentTrack?.title}
                 </span>
-                <span className="text-sm leading-none opacity-75">
+                <span className="truncate text-sm leading-none opacity-75">
                   {currentTrack?.artist}
                 </span>
               </div>
