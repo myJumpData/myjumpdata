@@ -70,7 +70,7 @@ export function getScoreDataHigh(req, res) {
           if (err) {
             return requestHandlerError(res, err);
           }
-          const response: { user; score: number }[] = [];
+          const response: { user: any; score: number }[] = [];
           records.forEach((item) => {
             if (!response.some((response) => response.user === item.user)) {
               let picture: null | string = null;
@@ -81,7 +81,7 @@ export function getScoreDataHigh(req, res) {
                   .digest("hex")}?size=300&d=404`;
               }
               item.user.picture = picture;
-              response.push(item);
+              response.push(item as any);
             }
           });
           group.athletes.forEach(
