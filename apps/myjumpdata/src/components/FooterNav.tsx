@@ -21,7 +21,7 @@ export default function FooterNav({ social, links }) {
             </Link>
           </div>
           <div className="text-sm">
-            <p>{t("common:footer_text")}</p>
+            <p>{t<string>("common:footer_text")}</p>
           </div>
           <div className="flex space-x-2 text-lg">
             {social.map(({ link, icon, name }) => (

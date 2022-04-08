@@ -14,7 +14,7 @@ export function Back({ to, state }: { to: string; state: any }) {
       }}
     >
       <HiArrowLeft className="mr-2 text-xl" />
-      {t("common:back")}
+      {t<string>("common:back")}
     </div>
   );
 }
@@ -61,22 +61,22 @@ export function Element({
         }
       }}
     >
-      <span className="break-word xs:text-base overflow-hidden overflow-ellipsis text-sm">
+      <span className="break-word overflow-hidden overflow-ellipsis text-sm xs:text-base">
         {compiled
           ? name
               .split("_")
-              .map((item) => t(`freestyle:${item}`))
+              .map((item) => t<string>(`freestyle:${item}`))
               .join(" ")
-          : t(`freestyle:${name}`)}
+          : t<string>(`freestyle:${name}`)}
       </span>
-      <div className="xs:flex-row flex flex-col">
+      <div className="flex flex-col xs:flex-row">
         {level && (
-          <span className="xs:text-xs absolute top-0 right-2 whitespace-nowrap text-[0.6rem] opacity-80">
+          <span className="absolute top-0 right-2 whitespace-nowrap text-[0.6rem] opacity-80 xs:text-xs">
             Lvl. {level}
           </span>
         )}
         {element && (
-          <span className="xs:text-2xl xs:self-center ml-2 self-end py-2">
+          <span className="ml-2 self-end py-2 xs:self-center xs:text-2xl">
             {element?.stateCoach ? (
               <FaSquare />
             ) : element?.stateUser ? (
@@ -102,7 +102,7 @@ export function Folder({ name, onClick }: { name: string; onClick: any }) {
       }}
     >
       <span className="truncate">
-        {t(`freestyle:${name.split("_")[name.split("_").length - 1]}`)}
+        {t<string>(`freestyle:${name.split("_")[name.split("_").length - 1]}`)}
       </span>
     </div>
   );

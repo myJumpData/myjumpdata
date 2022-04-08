@@ -155,7 +155,7 @@ export default function SpeedDataScreen() {
           />
         </div>
         <span className="whitespace-nowrap text-xs uppercase">
-          {t("common:high")}: {groupHigh}
+          {t<string>("common:high")}: {groupHigh}
         </span>
       </div>
       {groupScores &&
@@ -207,10 +207,14 @@ export default function SpeedDataScreen() {
             <HiX />
           </span>
           <span className="text-xl font-bold">
-            {t("scoredata_reset_title") + " | " + showResetDialog?.username}
+            {t<string>("scoredata_reset_title") +
+              " | " +
+              showResetDialog?.username}
           </span>
-          <span>{t("scoredata_reset_text")}</span>
-          <span className="font-bold">{t("scoredata_reset_warning")}</span>
+          <span>{t<string>("scoredata_reset_text")}</span>
+          <span className="font-bold">
+            {t<string>("scoredata_reset_warning")}
+          </span>
           <form
             onSubmit={(e: any) => {
               e.preventDefault();

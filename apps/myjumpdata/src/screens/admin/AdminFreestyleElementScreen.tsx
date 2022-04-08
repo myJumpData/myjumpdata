@@ -42,11 +42,11 @@ export default function AdminFreestyleElementScreen() {
     <>
       <div className="w-full space-y-2">
         <span className="text-xl font-bold">
-          {t("common:nav_freestyle")}
+          {t<string>("common:nav_freestyle")}
           {freestyleElementData &&
             ` - ${freestyleElementData.key
               .split("_")
-              .map((item) => t(`freestyle:${item}`))
+              .map((item) => t<string>(`freestyle:${item}`))
               .join(" ")}`}
         </span>
       </div>

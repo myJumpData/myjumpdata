@@ -39,7 +39,7 @@ export default function AdminNav() {
     <div className="min-w-[10rem] pl-2 text-black  dark:text-white">
       <div className="flex flex-row md:flex-col">
         <Link to="/admin" className="py-2 px-4 text-lg font-bold">
-          {t("common:nav_admin")}
+          {t<string>("common:nav_admin")}
         </Link>
         <div className="flex flex-row overflow-y-auto md:flex-col">
           {adminRoutes.map((item: any) => (

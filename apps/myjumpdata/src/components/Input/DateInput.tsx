@@ -48,7 +48,7 @@ export function DateInput({
         fixedHeight
         customInput={createElement(customInput)}
         calendarStartDay={1}
-        todayButton={t("common:today")}
+        todayButton={t<string>("common:today")}
         renderCustomHeader={({
           date,
           decreaseMonth,

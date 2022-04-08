@@ -109,7 +109,7 @@ export function SpeedDataInput({
           )}
         </div>
         <span className="whitespace-nowrap text-xs uppercase leading-none">
-          {t("common:high")}: {score}
+          {t<string>("common:high")}: {score}
         </span>
       </div>
       <form onSubmit={onSubmit}>

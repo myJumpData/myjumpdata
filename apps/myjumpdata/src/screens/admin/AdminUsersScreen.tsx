@@ -92,7 +92,9 @@ export default function AdminUsersScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="text-xl font-bold">{t("common:nav_users")}</span>
+        <span className="text-xl font-bold">
+          {t<string>("common:nav_users")}
+        </span>
       </div>
 
       <Table

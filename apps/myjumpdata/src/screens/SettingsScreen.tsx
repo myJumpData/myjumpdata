@@ -94,11 +94,15 @@ export default function SettingsScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="text-xl font-bold">{t("common:nav_settings")}</span>
+        <span className="text-xl font-bold">
+          {t<string>("common:nav_settings")}
+        </span>
       </div>
       <div className="flex flex-col space-y-4">
         <div className="flex flex-col space-y-4">
-          <span className="text-base font-bold">{t("settings_data")}: </span>
+          <span className="text-base font-bold">
+            {t<string>("settings_data")}:{" "}
+          </span>
           <TextInput
             type="text"
             name={t("common:username") + ":"}
@@ -160,11 +164,15 @@ export default function SettingsScreen() {
         </div>
         <div className="flex flex-col sm:flex-row">
           <div className="flex flex-col">
-            <span className="text-base font-bold">{t("settings_image")}: </span>
-            <span className="text-left">{t("settings_image_text")}</span>
+            <span className="text-base font-bold">
+              {t<string>("settings_image")}:{" "}
+            </span>
+            <span className="text-left">
+              {t<string>("settings_image_text")}
+            </span>
             <span className="py-2 text-blue-800 underline hover:text-blue-500 hover:no-underline dark:text-blue-300">
               <a href="https://gravatar.com/" target="_blank" rel="noreferrer">
-                {t("settings_image_action")}
+                {t<string>("settings_image_action")}
               </a>
             </span>
           </div>
@@ -188,7 +196,7 @@ export default function SettingsScreen() {
                 onChange={() => {}}
               />
               <label className="ml-1" htmlFor="select-gravatar">
-                {t("settings_image_gravatar")}
+                {t<string>("settings_image_gravatar")}
               </label>
             </div>
             <div
@@ -210,13 +218,15 @@ export default function SettingsScreen() {
                 onChange={() => {}}
               />
               <label className="ml-1" htmlFor="select-none">
-                {t("settings_image_none")}
+                {t<string>("settings_image_none")}
               </label>
             </div>
           </div>
         </div>
         <div className="flex flex-col space-y-4">
-          <span className="text-base font-bold">{t("settings_language")}:</span>
+          <span className="text-base font-bold">
+            {t<string>("settings_language")}:
+          </span>
           <SelectInput
             options={LANGUAGES.map((value) => {
               return { name: value, value: value };
@@ -226,7 +236,9 @@ export default function SettingsScreen() {
           />
         </div>
         <div className="flex flex-col">
-          <span className="text-base font-bold">{t("settings_danger")}: </span>
+          <span className="text-base font-bold">
+            {t<string>("settings_danger")}:
+          </span>
           <div className="flex flex-col space-y-4">
             <Button
               name={t("settings_logout")}
@@ -261,11 +273,11 @@ export default function SettingsScreen() {
       >
         <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">
           <span className="text-xl font-bold">
-            {t("settings_delete_disclaimer_title")}
+            {t<string>("settings_delete_disclaimer_title")}
           </span>
-          <span>{t("settings_delete_disclaimer_text")}</span>
+          <span>{t<string>("settings_delete_disclaimer_text")}</span>
           <Button
-            name={t("settings_delete_disclaimer_confirm")}
+            name={t<string>("settings_delete_disclaimer_confirm")}
             design="danger"
             onClick={() => {
               deleteUser().then((response: any) => {

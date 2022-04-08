@@ -82,7 +82,7 @@ export default function AdminLocalizationNamespaceScreen() {
     <>
       <div className="w-full space-y-2">
         <span className="text-xl font-bold">
-          {t("common:nav_localization")} - {params.namespace}
+          {t<string>("common:nav_localization")} - {params.namespace}
         </span>
       </div>
 

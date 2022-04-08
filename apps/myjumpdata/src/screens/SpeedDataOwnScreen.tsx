@@ -48,7 +48,9 @@ export default function SpeedDataOwnScreen() {
 
   return (
     <div className="w-full space-y-2">
-      <span className="text-xl font-bold">{t("common:nav_speeddataown")}</span>
+      <span className="text-xl font-bold">
+        {t<string>("common:nav_speeddataown")}
+      </span>
       <DateInput
         setDate={(e) => {
           setDate(e);
@@ -116,10 +118,12 @@ export default function SpeedDataOwnScreen() {
             <HiX />
           </span>
           <span className="text-xl font-bold">
-            {t("scoredata_reset_title")}
+            {t<string>("scoredata_reset_title")}
           </span>
-          <span>{t("scoredata_reset_text")}</span>
-          <span className="font-bold">{t("scoredata_reset_warning")}</span>
+          <span>{t<string>("scoredata_reset_text")}</span>
+          <span className="font-bold">
+            {t<string>("scoredata_reset_warning")}
+          </span>
           <form
             onSubmit={(e: any) => {
               e.preventDefault();

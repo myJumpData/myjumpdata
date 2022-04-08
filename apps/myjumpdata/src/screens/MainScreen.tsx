@@ -20,7 +20,7 @@ export default function MainScreen() {
               <br />
             </Trans>
           </h1>
-          <p className="my-8 text-lg">{t("main:header_text")}</p>
+          <p className="my-8 text-lg">{t<string>("main:header_text")}</p>
           <div className="my-8 flex">
             <a href="https://play.google.com/store/apps/details?id=me.fediv.myjumpdata&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
               <img
@@ -45,33 +45,33 @@ export default function MainScreen() {
         <div className="p-2 sm:w-1/2">
           <div className="h-full cursor-pointer rounded-lg bg-gray-500/25 py-8 px-8 text-center transition hover:bg-gray-500/50">
             <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
-              {t("common:nav_speeddata")}
+              {t<string>("common:nav_speeddata")}
             </h1>
-            <p className="my-8 text-lg">{t("main:speeddata_text")}</p>
+            <p className="my-8 text-lg">{t<string>("main:speeddata_text")}</p>
           </div>
         </div>
         <div className="p-2 sm:w-1/2">
           <div className="h-full cursor-pointer rounded-lg bg-gray-500/25 py-8 px-8 text-center transition hover:bg-gray-500/50">
             <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
-              {t("common:nav_freestyle")}
+              {t<string>("common:nav_freestyle")}
             </h1>
-            <p className="my-8 text-lg">{t("main:freestyle_text")}</p>
+            <p className="my-8 text-lg">{t<string>("main:freestyle_text")}</p>
           </div>
         </div>
         <div className="p-2 sm:w-1/2">
           <div className="h-full cursor-pointer rounded-lg bg-gray-500/25 py-8 px-8 text-center transition hover:bg-gray-500/50">
             <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
-              {t("common:nav_player")}
+              {t<string>("common:nav_player")}
             </h1>
-            <p className="my-8 text-lg">{t("main:player_text")}</p>
+            <p className="my-8 text-lg">{t<string>("main:player_text")}</p>
           </div>
         </div>
         <div className="p-2 sm:w-1/2">
           <div className="h-full cursor-pointer rounded-lg bg-gray-500/25 py-8 px-8 text-center transition hover:bg-gray-500/50">
             <h1 className="my-8 text-2xl font-bold leading-loose lg:text-4xl">
-              {t("common:nav_groups")}
+              {t<string>("common:nav_groups")}
             </h1>
-            <p className="my-8 text-lg">{t("main:groups_text")}</p>
+            <p className="my-8 text-lg">{t<string>("main:groups_text")}</p>
           </div>
         </div>
       </div>

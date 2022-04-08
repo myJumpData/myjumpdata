@@ -98,10 +98,10 @@ export default function GroupSettingsScreen() {
     <>
       <div className="w-full space-y-2">
         <span className="text-xl font-bold">
-          {groupName + " " + t("common:nav_settings")}
+          {groupName + " " + t<string>("common:nav_settings")}
         </span>
       </div>
-      <span className="text-2xl font-bold">{t("settings_data")}: </span>
+      <span className="text-2xl font-bold">{t<string>("settings_data")}: </span>
       <TextInput
         type="text"
         name={t("common:group_name") + ":"}
@@ -272,7 +272,9 @@ export default function GroupSettingsScreen() {
       </div>
 
       <div className="w-full space-y-2">
-        <span className="text-xl font-bold">{t("settings_danger")}</span>
+        <span className="text-xl font-bold">
+          {t<string>("settings_danger")}
+        </span>
       </div>
       <Button
         name={t("settings_group_delete")}
@@ -292,11 +294,11 @@ export default function GroupSettingsScreen() {
       >
         <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300 bg-opacity-50 p-4">
           <span className="text-xl font-bold">
-            {t("settings_group_delete_disclaimer_title")}
+            {t<string>("settings_group_delete_disclaimer_title")}
           </span>
-          <span>{t("settings_group_delete_disclaimer_text")}</span>
+          <span>{t<string>("settings_group_delete_disclaimer_text")}</span>
           <Button
-            name={t("settings_group_delete_disclaimer_confirm")}
+            name={t<string>("settings_group_delete_disclaimer_confirm")}
             design="danger"
             onClick={() => {
               deleteGroup(params.id as string).then((response: any) => {

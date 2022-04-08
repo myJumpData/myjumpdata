@@ -40,7 +40,9 @@ export default function GroupsScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="text-xl font-bold">{t("common:nav_group")}</span>
+        <span className="text-xl font-bold">
+          {t<string>("common:nav_group")}
+        </span>
       </div>
       <div className="flex flex-col space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0 md:grid-cols-3 lg:grid-cols-4">
         {groups?.map((group: any) => (
@@ -57,7 +59,7 @@ export default function GroupsScreen() {
         <>
           <div className="w-full space-y-2">
             <span className="text-xl font-bold">
-              {t("common:create_group")}
+              {t<string>("common:create_group")}
             </span>
           </div>
           <div className="max-w-screen-sm">

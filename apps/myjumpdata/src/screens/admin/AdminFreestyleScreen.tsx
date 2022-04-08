@@ -39,7 +39,9 @@ export default function AdminFreestyleScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="text-xl font-bold">{t("common:nav_freestyle")}</span>
+        <span className="text-xl font-bold">
+          {t<string>("common:nav_freestyle")}
+        </span>
       </div>
       <Breadcrumb
         data={freestyle ? freestyle.split("_") : []}
@@ -73,7 +75,7 @@ export default function AdminFreestyleScreen() {
                           .split("_")
                           .map((item) => t(`freestyle:${item}`))
                           .join(" ")
-                      : t(`freestyle:${e.key}`)}
+                      : t<string>(`freestyle:${e.key}`)}
                   </td>
                   <td>{e.compiled ? e.key.split("_").join(" ") : e.key}</td>
                   <td className="text-right">{e.level && `Lvl. ${e.level}`}</td>
@@ -95,7 +97,7 @@ export default function AdminFreestyleScreen() {
                   <td>
                     <HiArrowLeft />
                   </td>
-                  <td>{t("common:back")}</td>
+                  <td>{t<string>("common:back")}</td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -115,7 +117,7 @@ export default function AdminFreestyleScreen() {
                     <FaFolder />
                   </td>
                   <td>
-                    {t(
+                    {t<string>(
                       `freestyle:${
                         e.key.split("_")[e.key.split("_").length - 1]
                       }`

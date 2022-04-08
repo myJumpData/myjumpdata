@@ -52,7 +52,9 @@ export default function FreestyleScreen() {
   return (
     <>
       <div className="w-full space-y-2">
-        <span className="text-xl font-bold">{t("common:nav_freestyle")}</span>
+        <span className="text-xl font-bold">
+          {t<string>("common:nav_freestyle")}
+        </span>
       </div>
       <Breadcrumb
         data={freestyle ? freestyle.split("_") : []}

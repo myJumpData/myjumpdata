@@ -18,7 +18,7 @@ export default function AdminLocalizationScreen() {
     <>
       <div className="w-full space-y-2">
         <span className="text-xl font-bold">
-          {t("common:nav_localization")}
+          {t<string>("common:nav_localization")}
         </span>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
