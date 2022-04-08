@@ -18,10 +18,10 @@
   "dependencies": {
     "@headlessui/react": "^1.5.0",
     "@react-native-community/async-storage": "^1.12.1",
-    "@react-native-community/datetimepicker": "^5.1.0",
+    "@react-native-community/datetimepicker": "^6.1.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/slider": "^4.2.1",
-    "@react-native-picker/picker": "^2.2.1",
+    "@react-native-picker/picker": "^2.4.0",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/stack": "^6.1.1",
