@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
-    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-community/datetimepicker": "^6.1.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/slider": "^4.2.1",
@@ -135,4 +135,3 @@
     "typescript": "^4.6.3"
   }
 }
-

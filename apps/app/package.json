@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@react-native-async-storage/async-storage": "*",
     "@testing-library/jest-native": "*",
     "@testing-library/react-native": "*",
     "react": "*",
@@ -22,7 +23,6 @@
     "redux-persist-sensitive-storage": "*",
     "react-redux": "*",
     "redux-persist": "*",
-    "@react-native-community/async-storage": "*",
     "@react-native-community/datetimepicker": "*",
     "@react-native-picker/picker": "*",
     "i18next-http-backend": "*",
