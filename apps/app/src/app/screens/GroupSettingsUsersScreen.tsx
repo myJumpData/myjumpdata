@@ -197,7 +197,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                   <TouchableOpacity
                     onPress={() => {
                       setCurrent(item);
-                      bottomSheet.current.show();
+                      setVisible(true);
                     }}
                   >
                     <Ionicons
