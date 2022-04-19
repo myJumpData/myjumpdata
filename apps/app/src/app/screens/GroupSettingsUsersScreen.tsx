@@ -26,8 +26,6 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
   const isDarkMode = useColorScheme() === "dark";
   const user = useSelector((state: any) => state.user);
 
-  const bottomSheet = React.useRef<any>();
-
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [groupSearch, setGroupSearch] = React.useState("");
@@ -324,7 +322,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                         current.id,
                       ]).then(() => {
                         onRefresh();
-                        bottomSheet.current.close();
+                        setVisible(false);
                       });
                     }}
                   >
@@ -346,7 +344,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                         current.id,
                       ]).then(() => {
                         onRefresh();
-                        bottomSheet.current.close();
+                        setVisible(false);
                       });
                     }}
                   >
@@ -368,7 +366,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                         current.id,
                       ]).then(() => {
                         onRefresh();
-                        bottomSheet.current.close();
+                        setVisible(false);
                       });
                     }}
                   >
@@ -389,7 +387,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                       current.id,
                     ]).then(() => {
                       onRefresh();
-                      bottomSheet.current.close();
+                      setVisible(false);
                     });
                   }}
                 >
