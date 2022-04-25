@@ -1,5 +1,3 @@
-import { setFreestyle, setRoute } from "@myjumpdata/redux";
-import { getFreestyle, getFreestyleData, getGroup } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -8,6 +6,10 @@ import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 import { Back, Element, Folder } from "../components/Freestyle";
 import { SelectInput } from "../components/Input";
+import { setFreestyle } from "../redux/freestyle.action";
+import { setRoute } from "../redux/route.action";
+import { getFreestyle, getFreestyleData } from "../service/freestyle.service";
+import { getGroup } from "../service/groups.service";
 
 type freestyle_folder_data = {
   id: string;

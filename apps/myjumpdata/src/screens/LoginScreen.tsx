@@ -1,11 +1,11 @@
-import { setRoute } from "@myjumpdata/redux";
-import { login } from "@myjumpdata/service";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
+import { setRoute } from "../redux/route.action";
+import { login } from "../service/auth.service";
 
 export default function LoginScreen() {
   useEffect(() => {

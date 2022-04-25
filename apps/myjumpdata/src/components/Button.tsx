@@ -1,4 +1,4 @@
-import { classNames } from "@myjumpdata/utils";
+import { classNames } from "../utils/classNames";
 
 type ButtonProps = {
   onClick?: any;

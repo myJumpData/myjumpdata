@@ -1,5 +1,5 @@
-import { setMessage } from "@myjumpdata/redux";
 import i18next from "i18next";
+import { setMessage } from "../redux/message.action";
 
 export default async function responseHandler(res) {
   const response = await res;

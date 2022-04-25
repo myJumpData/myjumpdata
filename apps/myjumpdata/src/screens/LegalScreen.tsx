@@ -1,6 +1,6 @@
-import { setRoute } from "@myjumpdata/redux";
 import { useEffect } from "react";
 import undraw_terms from "../assets/undraw_terms_re_6ak4.svg";
+import { setRoute } from "../redux/route.action";
 import { TermsSection, TermsText } from "./TermsScreen";
 
 export default function LegalScreen() {

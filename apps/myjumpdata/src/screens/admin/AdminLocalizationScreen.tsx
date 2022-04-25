@@ -1,9 +1,10 @@
-import { NAMESPACES } from "@myjumpdata/const";
-import { setRoute } from "@myjumpdata/redux";
+
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import AuthVerify from "../../common/AuthVerify";
+import { NAMESPACES } from "../../Constants";
+import { setRoute } from "../../redux/route.action";
 
 export default function AdminLocalizationScreen() {
   useEffect(() => {

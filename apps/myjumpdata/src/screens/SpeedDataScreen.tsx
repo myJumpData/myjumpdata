@@ -1,13 +1,4 @@
 import { Menu, Transition } from "@headlessui/react";
-import { setRoute } from "@myjumpdata/redux";
-import {
-  getGroup,
-  getScoreDataHigh,
-  getScoreDataTypes,
-  resetScoreData,
-  saveScoreData,
-} from "@myjumpdata/service";
-import { classNames } from "@myjumpdata/utils";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiX } from "react-icons/hi";
@@ -18,7 +9,11 @@ import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { DateInput, SelectInput, TextInput } from "../components/Input";
 import { SpeedDataInput } from "../components/SpeedData";
+import { setRoute } from "../redux/route.action";
+import { getGroup } from "../service/groups.service";
+import { getScoreDataHigh, getScoreDataTypes, resetScoreData, saveScoreData } from "../service/scoredata.service";
 import TRACKS, { musicData } from "../tracks";
+import { classNames } from "../utils/classNames";
 
 export default function SpeedDataScreen() {
   useEffect(() => {

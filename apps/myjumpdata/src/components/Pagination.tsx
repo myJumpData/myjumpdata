@@ -1,6 +1,6 @@
-import { classNames } from "@myjumpdata/utils";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
+import { classNames } from "../utils/classNames";
 
 export default function Pagination({
   page,

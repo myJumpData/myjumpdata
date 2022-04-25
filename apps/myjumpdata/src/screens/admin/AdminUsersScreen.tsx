@@ -1,12 +1,13 @@
-import { setRoute } from "@myjumpdata/redux";
-import { getUsers } from "@myjumpdata/service";
-import { classNames } from "@myjumpdata/utils";
+
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck, HiX } from "react-icons/hi";
 import ReactTooltip from "react-tooltip";
 import AuthVerify from "../../common/AuthVerify";
 import Table from "../../components/Table";
+import { setRoute } from "../../redux/route.action";
+import { getUsers } from "../../service/users.service";
+import { classNames } from "../../utils/classNames";
 
 export default function AdminUsersScreen() {
   useEffect(() => {

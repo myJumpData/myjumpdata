@@ -1,7 +1,7 @@
-import { classNames } from "@myjumpdata/utils";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { classNames } from "../utils/classNames";
 
 export default function AdminNav() {
   const route = useSelector((state: any) => state.route);

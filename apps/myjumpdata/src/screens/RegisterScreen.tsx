@@ -1,12 +1,12 @@
 import { Switch } from "@headlessui/react";
-import { setRoute } from "@myjumpdata/redux";
-import { register } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
+import { setRoute } from "../redux/route.action";
+import { register } from "../service/auth.service";
 
 export default function RegisterScreen() {
   useEffect(() => {

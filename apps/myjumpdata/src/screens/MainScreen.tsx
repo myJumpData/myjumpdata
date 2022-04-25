@@ -1,7 +1,7 @@
-import { setRoute } from "@myjumpdata/redux";
 import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import Logo from "../assets/Logo.svg";
+import { setRoute } from "../redux/route.action";
 
 export default function MainScreen() {
   useEffect(() => {

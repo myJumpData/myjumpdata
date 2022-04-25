@@ -1,7 +1,7 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { classNames } from "@myjumpdata/utils";
 import { Fragment } from "react";
 import { HiCheck, HiSelector } from "react-icons/hi";
+import { classNames } from "../../utils/classNames";
 
 type SelectInputProps = {
   options: SelectOptionProps[];

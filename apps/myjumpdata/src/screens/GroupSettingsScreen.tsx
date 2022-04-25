@@ -1,15 +1,4 @@
 import { Menu, Transition } from "@headlessui/react";
-import { setRoute } from "@myjumpdata/redux";
-import {
-  addCoachesToGroup,
-  addUsersToGroup,
-  deleteGroup,
-  getGroup,
-  removeCoachesFromGroup,
-  removeUsersFromGroup,
-  searchUsers,
-  updateGroupName,
-} from "@myjumpdata/service";
 import { Fragment, ReactChild, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiUserAdd, HiUserRemove } from "react-icons/hi";
@@ -20,6 +9,9 @@ import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Spinner from "../components/Spinner";
+import { setRoute } from "../redux/route.action";
+import { addCoachesToGroup, addUsersToGroup, deleteGroup, getGroup, removeCoachesFromGroup, removeUsersFromGroup, updateGroupName } from "../service/groups.service";
+import { searchUsers } from "../service/users.service";
 
 export default function GroupSettingsScreen() {
   useEffect(() => {

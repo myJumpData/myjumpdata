@@ -1,9 +1,9 @@
-import { setRoute } from "@myjumpdata/redux";
-import { getUserSearch } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import User from "../assets/user.svg";
+import { setRoute } from "../redux/route.action";
+import { getUserSearch } from "../service/users.service";
 
 export default function ProfileScreen() {
   useEffect(() => {

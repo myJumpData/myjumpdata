@@ -1,5 +1,5 @@
-import { getUser } from "@myjumpdata/redux";
 import axios from "axios";
+import { getUser } from "../redux/user.action";
 import responseHandler from "./responseHandler";
 
 const instance = axios.create({

@@ -1,8 +1,8 @@
-import { saveFreestyleData, saveFreestyleDataOwn } from "@myjumpdata/service";
-import { classNames } from "@myjumpdata/utils";
 import { useTranslation } from "react-i18next";
 import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
 import { HiArrowLeft } from "react-icons/hi";
+import { saveFreestyleData, saveFreestyleDataOwn } from "../service/freestyle.service";
+import { classNames } from "../utils/classNames";
 
 export function Back({ to, state }: { to: string; state: any }) {
   const { t } = useTranslation();

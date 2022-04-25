@@ -1,4 +1,3 @@
-import { getUserSearch } from "@myjumpdata/service";
 import { lazy, ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaAngleDown, FaCircle, FaInstagram } from "react-icons/fa";
@@ -8,18 +7,19 @@ import {
   IoIosPlay,
   IoIosSkipBackward,
   IoIosSkipForward,
-  IoIosSquare,
+  IoIosSquare
 } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import player, {
   usePlaybackState,
   usePlaybackTrackChanged,
-  useTrackPlayerProgress,
+  useTrackPlayerProgress
 } from "react-web-track-player";
 import PlaceholderMusic from "../assets/music_placeholder.png";
 import FooterNav from "../components/FooterNav";
 import Navbar from "../components/Navbar";
+import { getUserSearch } from "../service/users.service";
 import Alert from "./Alert";
 
 const AdminNav = lazy(() => import("./AdminNav"));

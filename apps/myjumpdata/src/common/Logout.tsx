@@ -1,4 +1,4 @@
-import { clearUser } from "@myjumpdata/redux";
+import { clearUser } from "../redux/user.action";
 
 export default function Logout() {
   clearUser();

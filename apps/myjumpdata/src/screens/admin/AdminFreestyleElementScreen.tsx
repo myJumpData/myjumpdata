@@ -1,9 +1,3 @@
-import { LANGUAGES } from "@myjumpdata/const";
-import { setRoute } from "@myjumpdata/redux";
-import {
-  getFreestyleElement,
-  updateFreestyleElementLevel,
-} from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -11,6 +5,9 @@ import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
 import Breadcrumb from "../../components/Breadcrumb";
 import { TextInputInline } from "../../components/Input";
+import { LANGUAGES } from "../../Constants";
+import { setRoute } from "../../redux/route.action";
+import { getFreestyleElement, updateFreestyleElementLevel } from "../../service/freestyle.service";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {

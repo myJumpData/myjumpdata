@@ -1,7 +1,4 @@
 import { Switch } from "@headlessui/react";
-import { LANGUAGES } from "@myjumpdata/const";
-import { setRoute, setUser } from "@myjumpdata/redux";
-import { deleteUser, updateUser } from "@myjumpdata/service";
 import { useCallback, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { HiCheck } from "react-icons/hi";
@@ -11,6 +8,10 @@ import AuthVerify from "../common/AuthVerify";
 import Logout from "../common/Logout";
 import Button from "../components/Button";
 import { SelectInput, TextInput } from "../components/Input";
+import { LANGUAGES } from "../Constants";
+import { setRoute } from "../redux/route.action";
+import { setUser } from "../redux/user.action";
+import { deleteUser, updateUser } from "../service/users.service";
 
 export default function SettingsScreen() {
   useEffect(() => {

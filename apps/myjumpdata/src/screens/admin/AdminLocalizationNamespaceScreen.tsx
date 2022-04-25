@@ -1,6 +1,3 @@
-import { LANGUAGES } from "@myjumpdata/const";
-import { setRoute } from "@myjumpdata/redux";
-import { getTranslations } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -8,6 +5,9 @@ import ReactTooltip from "react-tooltip";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
 import Table from "../../components/Table";
+import { LANGUAGES } from "../../Constants";
+import { setRoute } from "../../redux/route.action";
+import { getTranslations } from "../../service/locales.service";
 
 export default function AdminLocalizationNamespaceScreen() {
   useEffect(() => {

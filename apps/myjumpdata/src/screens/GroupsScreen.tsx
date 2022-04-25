@@ -1,5 +1,3 @@
-import { setRoute } from "@myjumpdata/redux";
-import { createGroup, getGroups } from "@myjumpdata/service";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -7,6 +5,8 @@ import { Link } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
+import { setRoute } from "../redux/route.action";
+import { createGroup, getGroups } from "../service/groups.service";
 
 export default function GroupsScreen() {
   useEffect(() => {

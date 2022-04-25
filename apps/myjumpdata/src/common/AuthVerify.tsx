@@ -1,6 +1,6 @@
-import { getUser, setUser } from "@myjumpdata/redux";
-import { updateUser } from "@myjumpdata/service";
 import { Buffer } from "buffer";
+import { getUser, setUser } from "../redux/user.action";
+import { updateUser } from "../service/users.service";
 import Logout from "./Logout";
 
 export default function AuthVerify(options?: { isAdmin?: boolean }) {

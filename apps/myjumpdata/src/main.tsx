@@ -1,4 +1,3 @@
-import { persistor, store } from "@myjumpdata/redux";
 import React, { lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
@@ -7,6 +6,7 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import Spinner from "./components/Spinner";
 import Wrapper from "./components/Wrapper";
 import "./i18n";
+import { persistor, store } from "./redux/store";
 import "./styles.css";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));

@@ -1,14 +1,14 @@
-import { clearMessage } from "@myjumpdata/redux";
-import { classNames } from "@myjumpdata/utils";
 import { useEffect } from "react";
 import {
   HiCheckCircle,
   HiExclamation,
   HiInformationCircle,
-  HiX,
+  HiX
 } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import { clearMessage } from "../redux/message.action";
+import { classNames } from "../utils/classNames";
 
 export default function Alert() {
   const message = useSelector((state: any) => state.message);

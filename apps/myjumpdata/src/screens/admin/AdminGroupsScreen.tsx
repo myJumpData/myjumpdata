@@ -1,6 +1,6 @@
-import { setRoute } from "@myjumpdata/redux";
 import { useEffect } from "react";
 import AuthVerify from "../../common/AuthVerify";
+import { setRoute } from "../../redux/route.action";
 
 export default function AdminGroupsScreen() {
   useEffect(() => {

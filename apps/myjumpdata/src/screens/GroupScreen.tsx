@@ -1,6 +1,3 @@
-import { setRoute } from "@myjumpdata/redux";
-import { getGroup } from "@myjumpdata/service";
-import { classNames } from "@myjumpdata/utils";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCog } from "react-icons/hi";
@@ -8,6 +5,9 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
+import { setRoute } from "../redux/route.action";
+import { getGroup } from "../service/groups.service";
+import { classNames } from "../utils/classNames";
 
 export default function GroupScreen() {
   useEffect(() => {

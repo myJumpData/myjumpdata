@@ -1,9 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
-import { classNames } from "@myjumpdata/utils";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiPlus } from "react-icons/hi";
 import { IoIosMusicalNotes } from "react-icons/io";
+import { classNames } from "../utils/classNames";
 import { TextInput } from "./Input";
 
 export function SpeedDataInput({

@@ -1,4 +1,4 @@
-import { setUser } from "@myjumpdata/redux";
+import { setUser } from "../redux/user.action";
 import api from "./api";
 
 export const register = (
