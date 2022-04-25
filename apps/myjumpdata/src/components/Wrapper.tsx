@@ -2,20 +2,10 @@ import { lazy, ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaAngleDown, FaCircle, FaInstagram } from "react-icons/fa";
 import { HiCog, HiUser } from "react-icons/hi";
-import {
-  IoIosPause,
-  IoIosPlay,
-  IoIosSkipBackward,
-  IoIosSkipForward,
-  IoIosSquare
-} from "react-icons/io";
+import { IoIosPause, IoIosPlay, IoIosSkipBackward, IoIosSkipForward, IoIosSquare } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import player, {
-  usePlaybackState,
-  usePlaybackTrackChanged,
-  useTrackPlayerProgress
-} from "react-web-track-player";
+import player, { usePlaybackTrackChanged, useTrackPlayerProgress } from "react-web-track-player";
 import PlaceholderMusic from "../assets/music_placeholder.png";
 import FooterNav from "../components/FooterNav";
 import Navbar from "../components/Navbar";
@@ -128,7 +118,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
   function Player() {
     const { position, duration } = useTrackPlayerProgress(250);
     const currentTrack = usePlaybackTrackChanged();
-    const playbackState = usePlaybackState();
+    const playbackState usePlaybackState();
 
     const [isModal, setIsModal] = useState(false);
 
