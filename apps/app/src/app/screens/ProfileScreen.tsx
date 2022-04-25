@@ -16,6 +16,7 @@ import Player from "../components/Player";
 import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
+import { clearUser } from "../redux/user.action";
 import UsersService from "../services/users.service";
 import { capitalize } from "../utils/capitalize";
 
@@ -182,10 +183,9 @@ export default function ProfileScreen({ navigation }) {
           </StyledView>
         </StyledView>
       </StyledScrollView>
-      <BottomSheet visible={visible} setVisible={setVisible} height={200}>
+      <BottomSheet visible={visible} setVisible={setVisible} height={300}>
         <TouchableOpacity
           onPress={() => {
-            console.log();
             setVisible(false);
             navigation.navigate("settings");
           }}
@@ -197,6 +197,35 @@ export default function ProfileScreen({ navigation }) {
               color={isDarkMode ? Colors.white : Colors.black}
             />
             {" " + t("common:nav_settings")}
+          </StyledText>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setVisible(false);
+            navigation.navigate("info");
+          }}
+        >
+          <StyledText style={{ paddingVertical: 10 }}>
+            <Ionicons
+              name="information-circle-outline"
+              size={24}
+              color={isDarkMode ? Colors.white : Colors.black}
+            />
+            {" " + t("common:nav_info")}
+          </StyledText>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            clearUser();
+          }}
+        >
+          <StyledText style={{ paddingVertical: 10 }}>
+            <Ionicons
+              name="log-out-outline"
+              size={24}
+              color={isDarkMode ? Colors.white : Colors.black}
+            />
+            {" " + t("settings_logout")}
           </StyledText>
         </TouchableOpacity>
         <View style={{ marginTop: 20 }}>

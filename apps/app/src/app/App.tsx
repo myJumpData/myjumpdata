@@ -24,6 +24,7 @@ import GroupSettingsDataScreen from "./screens/GroupSettingsDataScreen";
 import GroupSettingsUsersScreen from "./screens/GroupSettingsUsersScreen";
 import GroupSpeedScreen from "./screens/GroupSpeedScreen";
 import GroupsScreen from "./screens/GroupsScreen";
+import InfoScreen from "./screens/InfoScreen";
 import LoginScreen from "./screens/LoginScreen";
 import PlayerScreen from "./screens/PlayerScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -230,6 +231,16 @@ function MainStackScreen() {
           title: t("common:profile"),
         }}
       />
+      <MainStack.Screen
+        name="info"
+        component={InfoScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_info"),
+        }}
+      />
     </MainStack.Navigator>
   );
 }
@@ -269,6 +280,7 @@ function MainTabScreen({ navigation }) {
         headerTitleStyle: {
           color: isDarkMode ? Colors.white : Colors.black,
         },
+        tabBarHideOnKeyboard: true,
       })}
       detachInactiveScreens={true}
     >
