@@ -1,8 +1,8 @@
-import { LANGUAGES, NAMESPACES } from "@myjumpdata/const";
 import i18n from "i18next";
 import detector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
+import { LANGUAGES, NAMESPACES } from "./Constants";
 
 i18n
   .use(detector)
