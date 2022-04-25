@@ -3,7 +3,7 @@ import {
   HiCheckCircle,
   HiExclamation,
   HiInformationCircle,
-  HiX
+  HiX,
 } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
