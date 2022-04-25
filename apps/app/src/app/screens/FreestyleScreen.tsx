@@ -37,11 +37,6 @@ export default function FreestyleScreen() {
   }, []);
 
   React.useEffect(() => {
-    getCurrentData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [freestyle]);
-
-  React.useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       () => {
@@ -56,6 +51,11 @@ export default function FreestyleScreen() {
 
     return () => backHandler.remove();
   });
+
+  React.useEffect(() => {
+    getCurrentData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [freestyle]);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
