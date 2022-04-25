@@ -20,6 +20,10 @@ i18n
     lng: getLocales()[0].languageCode,
     compatibilityJSON: "v3",
     backend: {
-      loadPath: "https://api.myjumpdata.fediv.me/locales/{{lng}}/{{ns}}",
+      loadPath: `${
+        process.env["NODE_ENV"] === "development"
+          ? "http://10.0.2.2:3333"
+          : "https://api.myjumpdata.fediv.me"
+      }/locales/{{lng}}/{{ns}}`,
     },
   });
