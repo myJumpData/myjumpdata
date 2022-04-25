@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FlatList, View } from "react-native";
+import { BackHandler, FlatList, View } from "react-native";
 import { useSelector } from "react-redux";
 import Breadcrumb from "../components/Breadcrumb";
 import Freestyle from "../components/Freestyle";
@@ -40,6 +40,22 @@ export default function FreestyleScreen() {
     getCurrentData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [freestyle]);
+
+  React.useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        const back = folderData.find((item) => item.back === true);
+        if (back) {
+          setRefreshing(true);
+          setFreestyle(back.key);
+        }
+        return true;
+      }
+    );
+
+    return () => backHandler.remove();
+  });
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
