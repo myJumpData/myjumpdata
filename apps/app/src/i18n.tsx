@@ -1,8 +1,8 @@
-import { LANGUAGES, NAMESPACES } from "@myjumpdata/const";
 import i18n from "i18next";
 import i18nHttpLoader from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 import { getLocales } from "react-native-localize";
+import { LANGUAGES, NAMESPACES } from "./app/Constants";
 
 i18n
   .use(i18nHttpLoader)

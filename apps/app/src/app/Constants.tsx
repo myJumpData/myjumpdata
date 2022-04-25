@@ -20,3 +20,7 @@ export const Font = {
   sizeNotificationsTitle: Base * 1.5,
   sizeSearchInput: Base * 0.75,
 };
+
+export const LANGUAGES = ["en", "de"];
+export const DEFAULT_LANGUAGE = "en";
+export const NAMESPACES = ["translation", "common", "main", "freestyle"];

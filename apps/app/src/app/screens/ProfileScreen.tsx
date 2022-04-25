@@ -1,4 +1,3 @@
-import { capitalize } from "@myjumpdata/utils";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -18,6 +17,7 @@ import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
 import UsersService from "../services/users.service";
+import { capitalize } from "../utils/capitalize";
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation();

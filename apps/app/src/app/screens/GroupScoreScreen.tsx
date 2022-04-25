@@ -1,4 +1,3 @@
-import { capitalize } from "@myjumpdata/utils";
 import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
@@ -18,6 +17,7 @@ import { Colors } from "../Constants";
 import { setScoredatatype } from "../redux/scoredatatype.action";
 import GroupsService from "../services/groups.service";
 import ScoreDataService from "../services/scoredata.service";
+import { capitalize } from "../utils/capitalize";
 
 export default function GroupScoreScreen({ route, navigation }) {
   const { id } = route.params;

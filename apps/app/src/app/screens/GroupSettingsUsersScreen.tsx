@@ -1,4 +1,3 @@
-import { capitalize } from "@myjumpdata/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -19,6 +18,7 @@ import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
+import { capitalize } from "../utils/capitalize";
 
 export default function GroupSettingsUsersScreen({ route, navigation }) {
   const { id } = route.params;
