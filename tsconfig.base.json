@@ -16,33 +16,11 @@
     "noFallthroughCasesInSwitch": true,
     "target": "es6",
     "module": "commonjs",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {
-      "@myjumpdata/const": [
-        "libs/const/src/index.ts"
-      ],
-      "@myjumpdata/consts": [
-        "libs/consts/src/index.ts"
-      ],
-      "@myjumpdata/redux": [
-        "libs/redux/src/index.ts"
-      ],
-      "@myjumpdata/service": [
-        "libs/service/src/index.ts"
-      ],
-      "@myjumpdata/utils": [
-        "libs/utils/src/index.ts"
-      ]
-    }
+    "paths": {}
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
