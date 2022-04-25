@@ -128,7 +128,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
   function Player() {
     const { position, duration } = useTrackPlayerProgress(250);
     const currentTrack = usePlaybackTrackChanged();
-    const playbackState usePlaybackState();
+    const playbackState = usePlaybackState();
 
     const [isModal, setIsModal] = useState(false);
 
@@ -188,7 +188,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
 
     if (isModal) {
       return (
-        <div className="xs:justify-end xs:pointer-events-none xs:bg-transparent xs:backdrop-blur-none fixed bottom-0 right-0 top-0 left-0 z-50 flex items-end justify-center bg-black/25 p-4 backdrop-blur">
+        <div className="fixed bottom-0 right-0 top-0 left-0 z-50 flex items-end justify-center bg-black/25 p-4 backdrop-blur xs:pointer-events-none xs:justify-end xs:bg-transparent xs:backdrop-blur-none">
           <div className="pointer-events-auto h-fit max-w-sm grow overflow-hidden rounded-xl bg-white text-black dark:bg-black dark:text-white">
             <div className="flex h-auto flex-col items-center bg-gray-500/50 p-4 sm:py-2">
               <div className="flex w-full justify-between">
@@ -272,7 +272,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
     }
 
     return (
-      <div className="xs:justify-end fixed bottom-4 right-4 left-4 z-40 flex justify-center">
+      <div className="fixed bottom-4 right-4 left-4 z-40 flex justify-center xs:justify-end">
         <div
           className="max-w-sm grow cursor-pointer overflow-hidden rounded-xl bg-white text-black dark:bg-black dark:text-white"
           onClick={() => {
