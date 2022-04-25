@@ -6,7 +6,8 @@
   "author": {
     "name": "Marko Fediv",
     "email": "marko.fediv@gmail.com",
-  "url": "https://marko.fediv.me"},
+    "url": "https://marko.fediv.me"
+  },
   "scripts": {
     "start_web": "nx run myjumpdata:serve",
     "start_api": "nx run api:serve",
