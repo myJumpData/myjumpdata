@@ -1,6 +1,7 @@
 export const borderRadius = 15;
 export const Colors = {
   black: "hsl(38,  0%,  0%)",
+  blackSecond: "hsl(38,  0%,  10%)",
   dark: "hsl(38,  0%,  10%)",
   main: "hsl(38, 92%,  50%)",
   grey: "hsl(38,  0%,  50%)",

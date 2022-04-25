@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaFolder, FaFolderPlus, FaPlus } from "react-icons/fa";
@@ -8,7 +7,6 @@ import AuthVerify from "../../common/AuthVerify";
 import Breadcrumb from "../../components/Breadcrumb";
 import { setRoute } from "../../redux/route.action";
 import { getFreestyle } from "../../service/freestyle.service";
-
 type freestyle_folder_data = {
   id: string;
   key: string;
