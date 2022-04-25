@@ -16,9 +16,11 @@ export default function LoginScreen({ navigation }) {
   const [password, onChangePassword] = React.useState("");
 
   function handleLoginSubmit() {
-    AuthService.login(username.trim(), password).then(() => {
-      onChangePassword("");
-      onChangeUsername("");
+    AuthService.login(username.trim(), password).then((res) => {
+      if (res.data) {
+        onChangePassword("");
+        onChangeUsername("");
+      }
     });
   }
 
