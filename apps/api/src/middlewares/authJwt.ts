@@ -1,5 +1,5 @@
-import { JWT_SECRET } from "@myjumpdata/consts";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../consts/auth";
 import User from "../models/user.model";
 import { requestHandler } from "../requestHandler";
 

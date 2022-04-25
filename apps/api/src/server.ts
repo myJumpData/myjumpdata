@@ -1,6 +1,6 @@
-import { APP_URL } from "@myjumpdata/consts";
 import cors from "cors";
 import express from "express";
+import { APP_URL } from "./consts/host";
 import FreestyleRoutes from "./routes/freestyle.routes";
 import GroupsRoutes from "./routes/groups.routes";
 import LocalesRoutes from "./routes/locales.routes";

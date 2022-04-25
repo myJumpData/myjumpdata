@@ -1,7 +1,8 @@
-import { APP_URL, JWT_SECRET } from "@myjumpdata/consts";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../consts/auth";
+import { APP_URL } from "../consts/host";
 import SendMail from "../email";
 import User from "../models/user.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";

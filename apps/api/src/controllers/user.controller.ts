@@ -1,13 +1,9 @@
-import {
-  API_URL,
-  APP_URL,
-  JWT_EXPIRATION,
-  JWT_SECRET,
-} from "@myjumpdata/consts";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { Query } from "mongoose";
+import { JWT_EXPIRATION, JWT_SECRET } from "../consts/auth";
+import { API_URL, APP_URL } from "../consts/host";
 import SendMail from "../email";
 import Group from "../models/group.model";
 import Role from "../models/role.model";
