@@ -7,6 +7,7 @@ import AuthVerify from "../../common/AuthVerify";
 import Breadcrumb from "../../components/Breadcrumb";
 import { setRoute } from "../../redux/route.action";
 import { getFreestyle } from "../../service/freestyle.service";
+
 type freestyle_folder_data = {
   id: string;
   key: string;
