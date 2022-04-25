@@ -2,6 +2,7 @@ import * as React from "react";
 import { Image, Linking, Platform, View } from "react-native";
 import DeviceInfo from "react-native-device-info";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import md5 from "react-native-md5";
 import packageJson from "../../../../../package.json";
 import {
   StyledHeading,
@@ -28,11 +29,11 @@ export default function InfoScreen() {
             marginRight: 10,
             marginVertical: 10,
           }}
-          /* source={{
-            uri: `https://www.gravatar.com/avatar/${md5(
+          source={{
+            uri: `https://www.gravatar.com/avatar/${md5.hex_md5(
               packageJson.author.email
             )}?size=300&d=404`,
-          }} */
+          }}
         />
         <View
           style={{

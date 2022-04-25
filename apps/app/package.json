@@ -30,6 +30,8 @@
     "react-native-localize": "*",
     "react-native-device-info": "*",
     "react-native-track-player": "*",
-    "@react-native-community/slider": "*"
+    "@react-native-community/slider": "*",
+    "md5": "*",
+    "react-native-md5": "*"
   }
 }
