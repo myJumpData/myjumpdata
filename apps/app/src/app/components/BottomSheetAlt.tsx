@@ -10,7 +10,7 @@ import {
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { borderRadius } from "../Constants";
 
-export default function BottomSheet({
+export default function BottomSheetAlt({
   children,
   height = 300,
   draggable = true,

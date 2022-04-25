@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheet from "../components/BottomSheet";
+import BottomSheetAlt from "../components/BottomSheetAlt";
 import Player from "../components/Player";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
@@ -92,7 +92,7 @@ export default function GroupsScreen({ navigation }) {
           />
         )}
       />
-      <BottomSheet visible={visible} setVisible={setVisible} height={350}>
+      <BottomSheetAlt visible={visible} setVisible={setVisible} height={350}>
         {current && (
           <>
             <StyledText
@@ -198,7 +198,7 @@ export default function GroupsScreen({ navigation }) {
             )}
           </>
         )}
-      </BottomSheet>
+      </BottomSheetAlt>
       <Player />
     </StyledView>
   );

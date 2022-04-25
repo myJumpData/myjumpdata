@@ -10,7 +10,7 @@ import { Linking, LogBox, useColorScheme } from "react-native";
 import TrackPlayer, { Capability, RepeatMode } from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheet from "./components/BottomSheet";
+import BottomSheetAlt from "./components/BottomSheetAlt";
 import { StyledButton } from "./components/StyledButton";
 import { StyledText } from "./components/StyledText";
 import { Colors } from "./Constants";
@@ -82,7 +82,7 @@ export default function App() {
       ) : (
         <EntryStackScreen />
       )}
-      <BottomSheet
+      <BottomSheetAlt
         height={200}
         draggable={false}
         visible={visible}
@@ -114,7 +114,7 @@ export default function App() {
             });
           }}
         />
-      </BottomSheet>
+      </BottomSheetAlt>
     </NavigationContainer>
   );
 }

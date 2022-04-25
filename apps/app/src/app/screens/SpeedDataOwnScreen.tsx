@@ -4,7 +4,7 @@ import { Pressable, RefreshControl, useColorScheme, View } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import TrackPlayer from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import BottomSheet from "../components/BottomSheet";
+import BottomSheetAlt from "../components/BottomSheetAlt";
 import { DateInput } from "../components/Input";
 import Player from "../components/Player";
 import SpeedDataInput from "../components/SpeedData";
@@ -103,7 +103,7 @@ export default function SpeedDataOwnScreen() {
           );
         })}
       </ScrollView>
-      <BottomSheet visible={visible} setVisible={setVisible} height={400}>
+      <BottomSheetAlt visible={visible} setVisible={setVisible} height={400}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -134,8 +134,8 @@ export default function SpeedDataOwnScreen() {
             target.clear();
           }}
         />
-      </BottomSheet>
-      <BottomSheet
+      </BottomSheetAlt>
+      <BottomSheetAlt
         visible={musicVisible}
         setVisible={setMusicVisible}
         height={
@@ -178,7 +178,7 @@ export default function SpeedDataOwnScreen() {
             </View>
           </>
         )}
-      </BottomSheet>
+      </BottomSheetAlt>
       <Player />
     </StyledView>
   );

@@ -11,7 +11,7 @@ import {
 import DeviceInfo from "react-native-device-info";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheet from "../components/BottomSheet";
+import BottomSheetAlt from "../components/BottomSheetAlt";
 import Player from "../components/Player";
 import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
@@ -183,7 +183,7 @@ export default function ProfileScreen({ navigation }) {
           </StyledView>
         </StyledView>
       </StyledScrollView>
-      <BottomSheet visible={visible} setVisible={setVisible} height={300}>
+      <BottomSheetAlt visible={visible} setVisible={setVisible} height={300}>
         <TouchableOpacity
           onPress={() => {
             setVisible(false);
@@ -239,7 +239,7 @@ export default function ProfileScreen({ navigation }) {
             style={{ color: Colors.grey }}
           >{`${DeviceInfo.getApplicationName()} ${DeviceInfo.getReadableVersion()}`}</StyledText>
         </View>
-      </BottomSheet>
+      </BottomSheetAlt>
       <View style={{ padding: 10 }}>
         <Player />
       </View>

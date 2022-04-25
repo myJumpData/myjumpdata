@@ -10,7 +10,7 @@ import {
 import TrackPlayer from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheet from "../components/BottomSheet";
+import BottomSheetAlt from "../components/BottomSheetAlt";
 import SelectInput, { DateInput } from "../components/Input";
 import Player from "../components/Player";
 import SpeedDataInput from "../components/SpeedData";
@@ -151,7 +151,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
           />
         ))}
       </ScrollView>
-      <BottomSheet visible={visible} setVisible={visible} height={400}>
+      <BottomSheetAlt visible={visible} setVisible={visible} height={400}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -185,8 +185,8 @@ export default function GroupSpeedScreen({ route, navigation }) {
             target.clear();
           }}
         />
-      </BottomSheet>
-      <BottomSheet
+      </BottomSheetAlt>
+      <BottomSheetAlt
         visible={musicVisible}
         setVisible={setMusicVisible}
         height={
@@ -226,7 +226,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
               }
             )}
         </View>
-      </BottomSheet>
+      </BottomSheetAlt>
       <Player />
     </StyledView>
   );

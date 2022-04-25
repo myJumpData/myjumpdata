@@ -2,7 +2,7 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import BottomSheet from "../components/BottomSheet";
+import BottomSheetAlt from "../components/BottomSheetAlt";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
@@ -109,7 +109,7 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
           setVisible(true);
         }}
       />
-      <BottomSheet visible={visible} setVisible={setVisible} height={300}>
+      <BottomSheetAlt visible={visible} setVisible={setVisible} height={300}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -129,7 +129,7 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
             });
           }}
         />
-      </BottomSheet>
+      </BottomSheetAlt>
     </StyledScrollView>
   );
 }

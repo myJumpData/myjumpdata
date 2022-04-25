@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheet from "../components/BottomSheet";
+import BottomSheetAlt from "../components/BottomSheetAlt";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
@@ -247,7 +247,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
           />
         )}
       />
-      <BottomSheet visible={visible} setVisible={setVisible} height={300}>
+      <BottomSheetAlt visible={visible} setVisible={setVisible} height={300}>
         {current && (
           <>
             <View
@@ -404,7 +404,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
             </View>
           </>
         )}
-      </BottomSheet>
+      </BottomSheetAlt>
     </StyledView>
   );
 }

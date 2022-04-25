@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheet from "../components/BottomSheet";
+import BottomSheetAlt from "../components/BottomSheetAlt";
 import Player from "../components/Player";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
@@ -258,7 +258,7 @@ export default function SettingsScreen({ navigation }) {
             title={t("settings_delete")}
           />
         </View>
-        <BottomSheet visible={visible} setVisible={setVisible} height={300}>
+        <BottomSheetAlt visible={visible} setVisible={setVisible} height={300}>
           <StyledText
             style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
           >
@@ -279,7 +279,7 @@ export default function SettingsScreen({ navigation }) {
               });
             }}
           />
-        </BottomSheet>
+        </BottomSheetAlt>
       </StyledScrollView>
       <View style={{ padding: 10 }}>
         <Player />
