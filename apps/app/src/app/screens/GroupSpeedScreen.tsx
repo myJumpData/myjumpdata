@@ -1,3 +1,4 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -10,10 +11,10 @@ import {
 import TrackPlayer from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheetAlt from "../components/BottomSheetAlt";
 import SelectInput, { DateInput } from "../components/Input";
 import Player from "../components/Player";
 import SpeedDataInput from "../components/SpeedData";
+import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
@@ -35,11 +36,18 @@ export default function GroupSpeedScreen({ route, navigation }) {
   const [typesOptions, setTypesOptions] = React.useState<any>([]);
   const [date, setDate] = React.useState<Date>(new Date());
   const [currentUser, setCurrentUser] = React.useState<any>({});
-  const [visible, setVisible] = React.useState(false);
 
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const [musicVisible, setMusicVisible] = React.useState(false);
+  const ResetBottomSheetRef = React.useRef<BottomSheet>(null);
+  const ResetSnapPoints = React.useMemo(() => [400], []);
+
+  const MusicBottomSheetRef = React.useRef<BottomSheet>(null);
+  const MusicSnapPoints = React.useMemo(() => {
+    return scoredatatype
+      ? [musicData[scoredatatype].tracks.length * 60 + 120]
+      : [500];
+  }, [scoredatatype]);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -47,7 +55,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
         <TouchableOpacity
           style={{ paddingRight: 5 }}
           onPress={() => {
-            setMusicVisible(true);
+            MusicBottomSheetRef.current?.snapToIndex(0);
           }}
         >
           <Ionicons name="musical-notes" size={35} color={Colors.white} />
@@ -146,12 +154,12 @@ export default function GroupSpeedScreen({ route, navigation }) {
             }}
             onReset={() => {
               setCurrentUser(score.user);
-              setVisible(true);
+              ResetBottomSheetRef.current?.snapToIndex(0);
             }}
           />
         ))}
       </ScrollView>
-      <BottomSheetAlt visible={visible} setVisible={visible} height={400}>
+      <StyledBottomSheet ref={ResetBottomSheetRef} snapPoints={ResetSnapPoints}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -179,22 +187,14 @@ export default function GroupSpeedScreen({ route, navigation }) {
               scoredatatype,
               nativeEvent.text
             ).then(() => {
-              setVisible(false);
+              ResetBottomSheetRef.current?.close();
               getScoreDataHigh(id, scoredatatype);
             });
             target.clear();
           }}
         />
-      </BottomSheetAlt>
-      <BottomSheetAlt
-        visible={musicVisible}
-        setVisible={setMusicVisible}
-        height={
-          scoredatatype
-            ? musicData[scoredatatype].tracks.length * 60 + 120
-            : 500
-        }
-      >
+      </StyledBottomSheet>
+      <StyledBottomSheet ref={MusicBottomSheetRef} snapPoints={MusicSnapPoints}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -212,7 +212,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
                       await TrackPlayer.reset();
                       await TrackPlayer.add(trackData);
                       await TrackPlayer.play();
-                      setMusicVisible(false);
+                      MusicBottomSheetRef.current?.close();
                     }}
                   >
                     <StyledText style={{ fontSize: 18, fontWeight: "500" }}>
@@ -226,7 +226,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
               }
             )}
         </View>
-      </BottomSheetAlt>
+      </StyledBottomSheet>
       <Player />
     </StyledView>
   );

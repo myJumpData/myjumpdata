@@ -1,11 +1,13 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import { useIsFocused } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheetAlt from "../components/BottomSheetAlt";
+import { BottomSheetNavList } from "../components/BottomSheetNav";
 import Player from "../components/Player";
+import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
@@ -20,7 +22,11 @@ export default function GroupsScreen({ navigation }) {
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [current, setCurrent] = React.useState<any>();
-  const [visible, setVisible] = React.useState(false);
+
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => {
+    return current.coaches.some((i: any) => i._id === user.id) ? [350] : [150];
+  }, [current.coaches, user.id]);
 
   function getGroups() {
     GroupsService.getGroups().then((response: any) => {
@@ -52,7 +58,7 @@ export default function GroupsScreen({ navigation }) {
       }}
       onPress={() => {
         setCurrent(item);
-        setVisible(true);
+        bottomSheetRef.current?.snapToIndex(0);
       }}
     >
       <View
@@ -92,7 +98,7 @@ export default function GroupsScreen({ navigation }) {
           />
         )}
       />
-      <BottomSheetAlt visible={visible} setVisible={setVisible} height={350}>
+      <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         {current && (
           <>
             <StyledText
@@ -106,99 +112,63 @@ export default function GroupsScreen({ navigation }) {
               {" " + current.name}
             </StyledText>
 
-            <TouchableOpacity
-              onPress={() => {
-                console.log();
-                setVisible(false);
-                navigation.navigate("group_score", {
-                  id: current._id,
-                });
-              }}
-            >
-              <StyledText style={{ paddingVertical: 10 }}>
-                <Ionicons
-                  name="filter-outline"
-                  size={24}
-                  color={isDarkMode ? Colors.white : Colors.black}
-                />{" "}
-                Scores
-              </StyledText>
-            </TouchableOpacity>
-            {current.coaches.some((i: any) => i._id === user.id) && (
-              <>
-                <TouchableOpacity
-                  onPress={() => {
-                    setVisible(false);
-                    navigation.navigate("group_freestyle", {
+            <BottomSheetNavList
+              bsRef={bottomSheetRef}
+              data={[
+                {
+                  text: "Scores",
+                  icon: "filter-outline",
+                  onPress: () => {
+                    navigation.navigate("group_score", {
                       id: current._id,
                     });
-                  }}
-                >
-                  <StyledText style={{ paddingVertical: 10 }}>
-                    <Ionicons
-                      name="list-outline"
-                      size={24}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />
-                    {" " + t("common:nav_freestyle")}
-                  </StyledText>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    setVisible(false);
-                    navigation.navigate("group_speed", {
-                      id: current._id,
-                    });
-                  }}
-                >
-                  <StyledText style={{ paddingVertical: 10 }}>
-                    <Ionicons
-                      name="timer-outline"
-                      size={24}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />
-                    {" " + t("common:nav_speeddata")}
-                  </StyledText>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    setVisible(false);
-                    navigation.navigate("group_settings_users", {
-                      id: current._id,
-                    });
-                  }}
-                >
-                  <StyledText style={{ paddingVertical: 10 }}>
-                    <Ionicons
-                      name="people-outline"
-                      size={24}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />{" "}
-                    Mitglieder bearbeiten
-                  </StyledText>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    setVisible(false);
-                    navigation.navigate("group_settings_data", {
-                      id: current._id,
-                    });
-                  }}
-                >
-                  <StyledText style={{ paddingVertical: 10 }}>
-                    <Ionicons
-                      name="create-outline"
-                      size={24}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />{" "}
-                    Daten bearbeiten
-                  </StyledText>
-                </TouchableOpacity>
-              </>
-            )}
+                  },
+                },
+                ...(current.coaches.some((i: any) => i._id === user.id)
+                  ? [
+                      {
+                        text: t("common:nav_freestyle"),
+                        icon: "list-outline",
+                        onPress: () => {
+                          navigation.navigate("group_freestyle", {
+                            id: current._id,
+                          });
+                        },
+                      },
+                      {
+                        text: t("common:nav_speeddata"),
+                        icon: "timer-outline",
+                        onPress: () => {
+                          navigation.navigate("group_speed", {
+                            id: current._id,
+                          });
+                        },
+                      },
+                      {
+                        text: "Mitglieder bearbeiten",
+                        icon: "people-outline",
+                        onPress: () => {
+                          navigation.navigate("group_settings_users", {
+                            id: current._id,
+                          });
+                        },
+                      },
+                      {
+                        text: "Daten bearbeiten",
+                        icon: "create-outline",
+                        onPress: () => {
+                          navigation.navigate("group_settings_data", {
+                            id: current._id,
+                          });
+                        },
+                      },
+                    ]
+                  : []),
+              ]}
+            />
           </>
         )}
-      </BottomSheetAlt>
+      </StyledBottomSheet>
       <Player />
     </StyledView>
   );

@@ -18,7 +18,11 @@ const StyledBottomSheet = React.forwardRef(
         backgroundStyle={{
           backgroundColor: isDarkMode ? Colors.blackSecond : Colors.white,
         }}
-        handleIndicatorStyle={{ backgroundColor: Colors.grey, height: 6 }}
+        handleIndicatorStyle={{
+          backgroundColor: Colors.grey,
+          height: 6,
+          width: 60,
+        }}
         animateOnMount={true}
         snapPoints={React.useMemo(
           () => [...(props.snapPoints as []), "100%"],

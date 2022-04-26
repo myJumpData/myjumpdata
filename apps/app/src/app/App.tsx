@@ -1,3 +1,4 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -10,7 +11,7 @@ import { Linking, LogBox, useColorScheme } from "react-native";
 import TrackPlayer, { Capability, RepeatMode } from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheetAlt from "./components/BottomSheetAlt";
+import StyledBottomSheet from "./components/StyledBottomSheet";
 import { StyledButton } from "./components/StyledButton";
 import { StyledText } from "./components/StyledText";
 import { Colors } from "./Constants";
@@ -41,7 +42,9 @@ LogBox.ignoreLogs([
 export default function App() {
   const user = useSelector((state: any) => state.user);
   const navigation = useSelector((state: any) => state.navigation);
-  const [visible, setVisible] = React.useState(false);
+
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => [200], []);
 
   React.useEffect(() => {
     if (
@@ -51,7 +54,7 @@ export default function App() {
       Object.keys(user).length !== 0 &&
       !user.checked
     ) {
-      setVisible(true);
+      bottomSheetRef.current?.snapToIndex(0);
     }
   }, [user]);
 
@@ -82,12 +85,7 @@ export default function App() {
       ) : (
         <EntryStackScreen />
       )}
-      <BottomSheetAlt
-        height={200}
-        draggable={false}
-        visible={visible}
-        setVisible={setVisible}
-      >
+      <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <StyledText style={{ fontSize: 20, fontWeight: "900" }}>
           <Trans i18nKey="common:legal_aprove">
             <StyledText
@@ -109,12 +107,12 @@ export default function App() {
           title={<Ionicons name="checkmark" size={30} />}
           onPress={() => {
             UsersService.updateUser({ checked: true }).then((response) => {
-              setVisible(false);
+              bottomSheetRef.current?.close();
               setUser(response.data);
             });
           }}
         />
-      </BottomSheetAlt>
+      </StyledBottomSheet>
     </NavigationContainer>
   );
 }

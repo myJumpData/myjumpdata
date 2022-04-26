@@ -1,13 +1,14 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, RefreshControl, useColorScheme, View } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import TrackPlayer from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import BottomSheetAlt from "../components/BottomSheetAlt";
 import { DateInput } from "../components/Input";
 import Player from "../components/Player";
 import SpeedDataInput from "../components/SpeedData";
+import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
@@ -24,9 +25,17 @@ export default function SpeedDataOwnScreen() {
   const [date, setDate] = React.useState<Date>(new Date());
   const [refreshing, setRefreshing] = React.useState(false);
   const [currentType, setCurrentType] = React.useState<any>({});
-  const [visible, setVisible] = React.useState(false);
   const [musicSelect, setMusicSelect] = React.useState<any>();
-  const [musicVisible, setMusicVisible] = React.useState(false);
+
+  const ResetBottomSheetRef = React.useRef<BottomSheet>(null);
+  const ResetSnapPoints = React.useMemo(() => [400], []);
+
+  const MusicBottomSheetRef = React.useRef<BottomSheet>(null);
+  const MusicSnapPoints = React.useMemo(() => {
+    return musicSelect
+      ? [musicData[musicSelect._id].tracks.length * 60 + 120]
+      : [500];
+  }, [musicSelect]);
 
   React.useEffect(() => {
     getData();
@@ -80,7 +89,7 @@ export default function SpeedDataOwnScreen() {
               }}
               onReset={() => {
                 setCurrentType(item.type);
-                setVisible(true);
+                ResetBottomSheetRef.current?.snapToIndex(0);
               }}
               music={
                 musicData[item.type._id] &&
@@ -88,7 +97,7 @@ export default function SpeedDataOwnScreen() {
                   <TouchableOpacity
                     onPress={() => {
                       setMusicSelect(item.type);
-                      setMusicVisible(true);
+                      MusicBottomSheetRef.current?.snapToIndex(0);
                     }}
                   >
                     <Ionicons
@@ -103,7 +112,7 @@ export default function SpeedDataOwnScreen() {
           );
         })}
       </ScrollView>
-      <BottomSheetAlt visible={visible} setVisible={setVisible} height={400}>
+      <StyledBottomSheet ref={ResetBottomSheetRef} snapPoints={ResetSnapPoints}>
         <StyledText
           style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
         >
@@ -128,22 +137,14 @@ export default function SpeedDataOwnScreen() {
               currentType._id,
               nativeEvent.text
             ).then(() => {
-              setVisible(false);
+              ResetBottomSheetRef.current?.close();
               getData();
             });
             target.clear();
           }}
         />
-      </BottomSheetAlt>
-      <BottomSheetAlt
-        visible={musicVisible}
-        setVisible={setMusicVisible}
-        height={
-          musicSelect
-            ? musicData[musicSelect._id].tracks.length * 60 + 120
-            : 500
-        }
-      >
+      </StyledBottomSheet>
+      <StyledBottomSheet ref={MusicBottomSheetRef} snapPoints={MusicSnapPoints}>
         {musicSelect !== undefined && (
           <>
             <StyledText
@@ -162,7 +163,7 @@ export default function SpeedDataOwnScreen() {
                         await TrackPlayer.reset();
                         await TrackPlayer.add(trackData);
                         await TrackPlayer.play();
-                        setMusicVisible(false);
+                        MusicBottomSheetRef.current?.close();
                       }}
                     >
                       <StyledText style={{ fontSize: 18, fontWeight: "500" }}>
@@ -178,7 +179,7 @@ export default function SpeedDataOwnScreen() {
             </View>
           </>
         )}
-      </BottomSheetAlt>
+      </StyledBottomSheet>
       <Player />
     </StyledView>
   );

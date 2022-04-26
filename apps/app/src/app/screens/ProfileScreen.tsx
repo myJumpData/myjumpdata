@@ -1,4 +1,4 @@
-import { BottomSheet } from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Platform, RefreshControl, View } from "react-native";

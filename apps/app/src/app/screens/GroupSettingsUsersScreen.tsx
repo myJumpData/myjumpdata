@@ -1,3 +1,4 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -11,7 +12,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheetAlt from "../components/BottomSheetAlt";
+import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
@@ -34,7 +35,9 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
 
   const [groupCoaches, setGroupCoaches] = React.useState([]);
   const [groupAthletes, setGroupAthletes] = React.useState([]);
-  const [visible, setVisible] = React.useState(false);
+
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => [300], []);
 
   React.useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -195,7 +198,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                   <TouchableOpacity
                     onPress={() => {
                       setCurrent(item);
-                      setVisible(true);
+                      bottomSheetRef.current?.snapToIndex(0);
                     }}
                   >
                     <Ionicons
@@ -247,7 +250,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
           />
         )}
       />
-      <BottomSheetAlt visible={visible} setVisible={setVisible} height={300}>
+      <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         {current && (
           <>
             <View
@@ -322,7 +325,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                         current.id,
                       ]).then(() => {
                         onRefresh();
-                        setVisible(false);
+                        bottomSheetRef.current?.close();
                       });
                     }}
                   >
@@ -344,7 +347,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                         current.id,
                       ]).then(() => {
                         onRefresh();
-                        setVisible(false);
+                        bottomSheetRef.current?.close();
                       });
                     }}
                   >
@@ -366,7 +369,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                         current.id,
                       ]).then(() => {
                         onRefresh();
-                        setVisible(false);
+                        bottomSheetRef.current?.close();
                       });
                     }}
                   >
@@ -387,7 +390,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                       current.id,
                     ]).then(() => {
                       onRefresh();
-                      setVisible(false);
+                      bottomSheetRef.current?.close();
                     });
                   }}
                 >
@@ -404,7 +407,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
             </View>
           </>
         )}
-      </BottomSheetAlt>
+      </StyledBottomSheet>
     </StyledView>
   );
 }

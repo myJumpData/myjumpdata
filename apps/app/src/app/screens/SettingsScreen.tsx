@@ -1,3 +1,4 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
@@ -11,8 +12,8 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheetAlt from "../components/BottomSheetAlt";
 import Player from "../components/Player";
+import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
@@ -36,7 +37,9 @@ export default function SettingsScreen({ navigation }) {
   const [password, setPassword] = React.useState("");
   const [refreshing, setRefreshing] = React.useState(false);
   const [editing, setEditing] = React.useState(false);
-  const [visible, setVisible] = React.useState(false);
+
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => [300], []);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -245,20 +248,14 @@ export default function SettingsScreen({ navigation }) {
             {t("settings_danger")}:
           </StyledText>
           <StyledButton
+            style={{ marginTop: 20 }}
             onPress={() => {
-              clearUser();
-            }}
-            title={t("settings_logout")}
-          />
-          <StyledButton
-            style={{ marginTop: 80 }}
-            onPress={() => {
-              setVisible(true);
+              bottomSheetRef.current?.snapToIndex(0);
             }}
             title={t("settings_delete")}
           />
         </View>
-        <BottomSheetAlt visible={visible} setVisible={setVisible} height={300}>
+        <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
           <StyledText
             style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
           >
@@ -273,13 +270,13 @@ export default function SettingsScreen({ navigation }) {
             onPress={() => {
               UsersService.deleteUser().then((response: any) => {
                 if (response.status === 200) {
-                  setVisible(false);
+                  bottomSheetRef.current?.close();
                   clearUser();
                 }
               });
             }}
           />
-        </BottomSheetAlt>
+        </StyledBottomSheet>
       </StyledScrollView>
       <View style={{ padding: 10 }}>
         <Player />
