@@ -37,6 +37,7 @@
     "pm2logs": "pm2 logs"
   },
   "dependencies": {
+    "@gorhom/bottom-sheet": "^4.2.1",
     "@headlessui/react": "^1.5.0",
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-community/datetimepicker": "^6.1.2",

@@ -33,6 +33,7 @@
     "@react-native-community/slider": "*",
     "react-native-md5": "*",
     "react-native-reanimated": "*",
-    "nanoid": "*"
+    "nanoid": "*",
+    "@gorhom/bottom-sheet": "*"
   }
 }

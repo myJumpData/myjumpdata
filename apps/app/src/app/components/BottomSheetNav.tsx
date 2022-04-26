@@ -1,8 +1,9 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import React, { RefObject } from "react";
 import { useColorScheme, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors } from "../Constants";
-import BottomSheet, { TouchableOpacity } from "./BottomSheet";
 import { StyledText } from "./StyledText";
 
 export function BottomSheetNavElement({

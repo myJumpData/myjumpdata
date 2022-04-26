@@ -1,7 +1,10 @@
+import BottomSheet, {
+  BottomSheetProps,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import React, { ReactNode, Ref } from "react";
 import { useColorScheme } from "react-native";
 import { Colors } from "../Constants";
-import BottomSheet, { BottomSheetProps, BottomSheetView } from "./BottomSheet";
 
 const StyledBottomSheet = React.forwardRef(
   (props: BottomSheetProps, ref: Ref<BottomSheet>) => {

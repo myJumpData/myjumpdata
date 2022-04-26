@@ -1,18 +1,14 @@
+import { BottomSheet } from "@gorhom/bottom-sheet";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  Platform,
-  RefreshControl,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Image, Platform, RefreshControl, View } from "react-native";
 import DeviceInfo from "react-native-device-info";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import BottomSheetAlt from "../components/BottomSheetAlt";
+import { BottomSheetNavList } from "../components/BottomSheetNav";
 import Player from "../components/Player";
+import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledScrollView, StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
@@ -23,7 +19,6 @@ import { capitalize } from "../utils/capitalize";
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation();
   const user = useSelector((state: any) => state.user);
-  const isDarkMode = useColorScheme() === "dark";
 
   const [username, setUsername] = React.useState("");
   const [firstname, setFirstname] = React.useState("");
@@ -34,7 +29,13 @@ export default function ProfileScreen({ navigation }) {
   const [userOverviewScoreData, setUserOverviewScoreData] = React.useState([]);
 
   const [refreshing, setRefreshing] = React.useState(false);
-  const [visible, setVisible] = React.useState(false);
+
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => {
+    const NavHeight = 200;
+    const InfoHeight = 100;
+    return [NavHeight, NavHeight + InfoHeight];
+  }, []);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -42,7 +43,7 @@ export default function ProfileScreen({ navigation }) {
         <TouchableOpacity
           style={{ paddingRight: 5 }}
           onPress={() => {
-            setVisible(true);
+            bottomSheetRef.current?.snapToIndex(0);
           }}
         >
           <Ionicons name="menu-outline" size={40} color={Colors.white} />
@@ -50,7 +51,7 @@ export default function ProfileScreen({ navigation }) {
       ),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [bottomSheetRef]);
 
   React.useEffect(() => {
     UsersService.getUserSearch(user.username).then((response) => {
@@ -183,51 +184,33 @@ export default function ProfileScreen({ navigation }) {
           </StyledView>
         </StyledView>
       </StyledScrollView>
-      <BottomSheetAlt visible={visible} setVisible={setVisible} height={300}>
-        <TouchableOpacity
-          onPress={() => {
-            setVisible(false);
-            navigation.navigate("settings");
-          }}
-        >
-          <StyledText style={{ paddingVertical: 10 }}>
-            <Ionicons
-              name="settings-outline"
-              size={24}
-              color={isDarkMode ? Colors.white : Colors.black}
-            />
-            {" " + t("common:nav_settings")}
-          </StyledText>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setVisible(false);
-            navigation.navigate("info");
-          }}
-        >
-          <StyledText style={{ paddingVertical: 10 }}>
-            <Ionicons
-              name="information-circle-outline"
-              size={24}
-              color={isDarkMode ? Colors.white : Colors.black}
-            />
-            {" " + t("common:nav_info")}
-          </StyledText>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            clearUser();
-          }}
-        >
-          <StyledText style={{ paddingVertical: 10 }}>
-            <Ionicons
-              name="log-out-outline"
-              size={24}
-              color={isDarkMode ? Colors.white : Colors.black}
-            />
-            {" " + t("settings_logout")}
-          </StyledText>
-        </TouchableOpacity>
+      <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+        <BottomSheetNavList
+          bsRef={bottomSheetRef}
+          data={[
+            {
+              onPress: () => {
+                navigation.navigate("settings");
+              },
+              icon: "settings-outline",
+              text: t("common:nav_settings"),
+            },
+            {
+              onPress: () => {
+                navigation.navigate("info");
+              },
+              icon: "information-circle-outline",
+              text: t("common:nav_info"),
+            },
+            {
+              onPress: () => {
+                clearUser();
+              },
+              icon: "log-out-outline",
+              text: t("settings_logout"),
+            },
+          ]}
+        />
         <View style={{ marginTop: 20 }}>
           <StyledText
             style={{ color: Colors.grey }}
@@ -239,7 +222,7 @@ export default function ProfileScreen({ navigation }) {
             style={{ color: Colors.grey }}
           >{`${DeviceInfo.getApplicationName()} ${DeviceInfo.getReadableVersion()}`}</StyledText>
         </View>
-      </BottomSheetAlt>
+      </StyledBottomSheet>
       <View style={{ padding: 10 }}>
         <Player />
       </View>
