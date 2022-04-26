@@ -1,9 +1,16 @@
 import * as React from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  ScrollViewProps,
+  View,
+  ViewProps,
+} from "react-native";
+import { SafeAreaViewProps } from "react-native-safe-area-context";
 import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
 import { Colors } from "../Constants";
 
-export function StyledView(props) {
+export function StyledView(props: ViewProps) {
   const isDarkMode = useColorScheme() === "dark";
   return (
     <View
@@ -18,7 +25,7 @@ export function StyledView(props) {
     />
   );
 }
-export function StyledScrollView(props) {
+export function StyledScrollView(props: ScrollViewProps) {
   const isDarkMode = useColorScheme() === "dark";
   return (
     <ScrollView
@@ -32,7 +39,7 @@ export function StyledScrollView(props) {
     />
   );
 }
-export function StyledSafeAreaView(props) {
+export function StyledSafeAreaView(props: SafeAreaViewProps) {
   const isDarkMode = useColorScheme() === "dark";
   return (
     <SafeAreaView

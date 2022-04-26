@@ -4,6 +4,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
 import TrackPlayer from "react-native-track-player";
 import App from "./app/App";
+import LoadingScreen from "./app/components/LoadingScreen";
 import { Colors } from "./app/Constants";
 import StoreProvider from "./app/redux/StoreProvider";
 import "./i18n";
@@ -19,7 +20,7 @@ function Main() {
         backgroundColor: isDarkMode ? Colors.black : Colors.white,
       }}
     >
-      <React.Suspense fallback={null}>
+      <React.Suspense fallback={<LoadingScreen />}>
         <StoreProvider>
           <App />
         </StoreProvider>

@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Image, Linking, Platform, View } from "react-native";
 import DeviceInfo from "react-native-device-info";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import md5 from "react-native-md5";
 import packageJson from "../../../../../package.json";
+import StyledLink from "../components/StyledLink";
 import {
   StyledHeading,
   StyledShyText,
+  StyledShyTextStyle,
   StyledText,
 } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
@@ -16,8 +17,28 @@ export default function InfoScreen() {
   return (
     <StyledView style={{ padding: 10 }}>
       <StyledHeading>Application</StyledHeading>
-      <StyledShyText>{DeviceInfo.getApplicationName()}</StyledShyText>
-      <StyledShyText>{DeviceInfo.getReadableVersion()}</StyledShyText>
+      <StyledShyText>
+        {packageJson.name} - {DeviceInfo.getReadableVersion()}
+      </StyledShyText>
+      <StyledShyText>{packageJson.description}</StyledShyText>
+      <StyledLink Style={StyledShyTextStyle} url={packageJson.homepage}>
+        {packageJson.homepage}
+      </StyledLink>
+      <StyledLink
+        Style={StyledShyTextStyle}
+        url="https://github.com/myJumpData/myjumpdata"
+      >
+        Github: myJumpData/myjumpdata
+      </StyledLink>
+      <StyledLink Style={StyledShyTextStyle} url={packageJson.bugs.url}>
+        Bugs: {packageJson.bugs.url}
+      </StyledLink>
+      <StyledLink
+        Style={StyledShyTextStyle}
+        url={`mailto:${packageJson.bugs.email}`}
+      >
+        Bugs: {packageJson.bugs.email}
+      </StyledLink>
 
       <StyledHeading>Authors</StyledHeading>
       <View style={{ flexDirection: "row" }}>
@@ -49,26 +70,22 @@ export default function InfoScreen() {
           >
             {packageJson.author.email}
           </StyledShyText>
-          <TouchableOpacity
-            onPress={() => {
-              Linking.openURL(packageJson.author.url);
-            }}
-          >
-            <StyledShyText>{packageJson.author.url}</StyledShyText>
-          </TouchableOpacity>
+          <StyledLink Style={StyledShyTextStyle} url={packageJson.author.url}>
+            {packageJson.author.url}
+          </StyledLink>
         </View>
       </View>
 
       <StyledHeading>Device</StyledHeading>
       <StyledText
         style={{ color: Colors.grey }}
-      >{`${DeviceInfo.getSystemName()} ${DeviceInfo.getSystemVersion()} - ${DeviceInfo.getBrand()} ${DeviceInfo.getModel()}`}</StyledText>
+      >{`${DeviceInfo.getSystemName()} ${DeviceInfo.getSystemVersion()}`}</StyledText>
+      <StyledText
+        style={{ color: Colors.grey }}
+      >{`${DeviceInfo.getBrand()} ${DeviceInfo.getModel()}`}</StyledText>
       <StyledText
         style={{ color: Colors.grey }}
       >{`React Native ${Platform.constants.reactNativeVersion.major}.${Platform.constants.reactNativeVersion.minor}.${Platform.constants.reactNativeVersion.patch}`}</StyledText>
-      <StyledText
-        style={{ color: Colors.grey }}
-      >{`${DeviceInfo.getApplicationName()} ${DeviceInfo.getReadableVersion()}`}</StyledText>
     </StyledView>
   );
 }

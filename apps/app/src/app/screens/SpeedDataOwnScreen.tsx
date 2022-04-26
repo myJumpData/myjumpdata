@@ -1,14 +1,14 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, RefreshControl, useColorScheme, View } from "react-native";
+import { Pressable, RefreshControl, View } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import TrackPlayer from "react-native-track-player";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { DateInput } from "../components/Input";
 import Player from "../components/Player";
 import SpeedDataInput from "../components/SpeedData";
 import StyledBottomSheet from "../components/StyledBottomSheet";
+import StyledIcon from "../components/StyledIcon";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledView } from "../components/StyledView";
@@ -19,7 +19,6 @@ import { musicData } from "../tracks";
 
 export default function SpeedDataOwnScreen() {
   const { t } = useTranslation();
-  const isDarkMode = useColorScheme() === "dark";
 
   const [scoreData, setScoreData] = React.useState<any>([]);
   const [date, setDate] = React.useState<Date>(new Date());
@@ -100,11 +99,7 @@ export default function SpeedDataOwnScreen() {
                       MusicBottomSheetRef.current?.snapToIndex(0);
                     }}
                   >
-                    <Ionicons
-                      name="musical-notes"
-                      size={24}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />
+                    <StyledIcon name="Ionicons/musical-notes" size={24} />
                   </TouchableOpacity>
                 )
               }

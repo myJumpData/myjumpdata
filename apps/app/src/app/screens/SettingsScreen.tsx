@@ -10,11 +10,11 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import Player from "../components/Player";
 import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledButton } from "../components/StyledButton";
+import StyledIcon from "../components/StyledIcon";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
 import { StyledScrollView, StyledView } from "../components/StyledView";
@@ -63,7 +63,7 @@ export default function SettingsScreen({ navigation }) {
                   });
                 }}
               >
-                <Ionicons name="close-outline" size={40} color={Colors.white} />
+                <StyledIcon name="Ionicons/close-outline" size={40} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ paddingRight: 10, marginTop: -1 }}
@@ -111,7 +111,7 @@ export default function SettingsScreen({ navigation }) {
                   });
                 }}
               >
-                <Ionicons name="checkmark" size={35} color={Colors.main} />
+                <StyledIcon name="Ionicons/checkmark" size={40} />
               </TouchableOpacity>
             </View>
           );
