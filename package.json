@@ -1,12 +1,28 @@
 {
   "name": "myjumpdata",
   "version": "0.6.9",
-  "private": true,
-  "license": "MIT",
+  "description": "System for managing RopeSkipping Progress and help with training",
+  "keywords": [
+    "rope",
+    "skipping",
+    "training",
+    "progress",
+    "data"
+  ],
+  "homepage": "https://myjumpdata.fediv.me",
+  "bugs": {
+    "url": "https://github.com/myJumpData/myjumpdata/issues",
+    "email": "myjumpdata@gmail.com"
+  },
+  "license": "UNLICENSED",
   "author": {
     "name": "Marko Fediv",
     "email": "marko.fediv@gmail.com",
     "url": "https://marko.fediv.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myJumpData/myjumpdata.git"
   },
   "scripts": {
     "start_web": "nx run myjumpdata:serve",
@@ -46,9 +62,11 @@
     "i18next": "^21.6.15",
     "i18next-browser-languagedetector": "^6.1.4",
     "i18next-http-backend": "^1.4.0",
+    "invariant": "^2.2.4",
     "jshint": "^2.13.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
+    "nanoid": "^3.3.3",
     "nodemailer": "^6.7.3",
     "postcss": "^8.4.12",
     "react": "18.0.0",
@@ -139,5 +157,6 @@
     "supertest": "^6.2.2",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
-  }
+  },
+  "private": true
 }
