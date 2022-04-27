@@ -1,12 +1,10 @@
 import axios from "axios";
 import { getUser } from "../redux/user.action";
+import getApi from "../utils/getApi";
 import responseHandler from "./responseHandler";
 
 const instance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3333"
-      : "https://api.myjumpdata.fediv.me",
+  baseURL: getApi(),
   headers: {
     "Content-Type": "application/json",
   },

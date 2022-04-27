@@ -3,6 +3,7 @@ import i18nHttpLoader from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 import { getLocales } from "react-native-localize";
 import { LANGUAGES, NAMESPACES } from "./app/Constants";
+import getApi from "./app/utils/getApi";
 
 i18n
   .use(i18nHttpLoader)
@@ -20,10 +21,6 @@ i18n
     lng: getLocales()[0].languageCode,
     compatibilityJSON: "v3",
     backend: {
-      loadPath: `${
-        process.env["NODE_ENV"] === "development"
-          ? "http://10.0.2.2:3333"
-          : "https://api.myjumpdata.fediv.me"
-      }/locales/{{lng}}/{{ns}}`,
+      loadPath: `${getApi()}/locales/{{lng}}/{{ns}}`,
     },
   });
