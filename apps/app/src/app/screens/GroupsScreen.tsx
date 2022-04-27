@@ -25,8 +25,8 @@ export default function GroupsScreen({ navigation }) {
 
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => {
-    return current.coaches.some((i: any) => i._id === user.id) ? [350] : [150];
-  }, [current.coaches, user.id]);
+    return current?.coaches.some((i: any) => i._id === user.id) ? [350] : [150];
+  }, [current?.coaches, user.id]);
 
   function getGroups() {
     GroupsService.getGroups().then((response: any) => {

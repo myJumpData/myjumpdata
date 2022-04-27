@@ -14,6 +14,11 @@ import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 
 export default function InfoScreen() {
+  const isHermes = () => {
+    const g = global as any;
+    return !!g.HermesInternal;
+  };
+
   return (
     <StyledView style={{ padding: 10 }}>
       <StyledHeading>Application</StyledHeading>
@@ -83,9 +88,11 @@ export default function InfoScreen() {
       <StyledText
         style={{ color: Colors.grey }}
       >{`${DeviceInfo.getBrand()} ${DeviceInfo.getModel()}`}</StyledText>
-      <StyledText
-        style={{ color: Colors.grey }}
-      >{`React Native ${Platform.constants.reactNativeVersion.major}.${Platform.constants.reactNativeVersion.minor}.${Platform.constants.reactNativeVersion.patch}`}</StyledText>
+      <StyledText style={{ color: Colors.grey }}>{`React Native ${
+        Platform.constants.reactNativeVersion.major
+      }.${Platform.constants.reactNativeVersion.minor}.${
+        Platform.constants.reactNativeVersion.patch
+      }${isHermes() && " | Hermes"}`}</StyledText>
     </StyledView>
   );
 }
