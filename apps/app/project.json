@@ -30,9 +30,7 @@
     },
     "run-android": {
       "executor": "@nrwl/react-native:run-android",
-      "options": {
-        "variant": "release"
-      }
+      "options": {}
     },
     "build-android": {
       "executor": "@nrwl/react-native:build-android",
