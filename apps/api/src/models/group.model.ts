@@ -1,18 +1,18 @@
-import mogoose from 'mongoose';
+import mongoose from "mongoose";
 
-const Group = mogoose.model(
+const Group = mongoose.model(
   "Group",
-  new mogoose.Schema({
+  new mongoose.Schema({
     name: String,
     coaches: [
       {
-        type: mogoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
     athletes: [
       {
-        type: mogoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
