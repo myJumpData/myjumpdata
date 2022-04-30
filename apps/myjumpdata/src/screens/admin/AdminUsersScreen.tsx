@@ -32,7 +32,6 @@ export default function AdminUsersScreen() {
 
   useEffect(() => {
     getUsers(page, limit).then((response) => {
-      console.log(response.data);
       response.data.data = response.data.data.map((item) => {
         item.picture = item.picture ? (
           <div className="m-1 h-8 w-8">
