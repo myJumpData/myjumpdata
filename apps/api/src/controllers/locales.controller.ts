@@ -2,24 +2,28 @@ import Translation from "../models/translation.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
 
 export const getLocales = (req, res) => {
-  const lng = req.params.lng;
-  const ns = req.params.ns;
-  Translation.find({ language: lng, namespace: ns })
-    .select("-_id -__v -language -namespace")
-    .exec((err, translation_data) => {
-      if (err) {
-        return requestHandlerError(res, err);
+  const lng = req.params.lng.split("+");
+  const ns = req.params.ns.split("+");
+  Translation.find({
+    namespace: { $in: ns },
+    language: { $in: lng },
+  }).exec((err, translations) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    const data = translations.reduce((acc, translation) => {
+      if (!acc[translation.language]) {
+        acc[translation.language] = {};
       }
-      if (translation_data.length > 0) {
-        const map_data = {};
-        translation_data.forEach(
-          ({ key, translation }: { key: string; translation: string }) => {
-            return (map_data[key] = translation);
-          }
-        );
-        return res.status(200).send(map_data);
+      if (!acc[translation.language][translation.namespace]) {
+        acc[translation.language][translation.namespace] = {};
       }
-    });
+      acc[translation.language][translation.namespace][translation.key] =
+        translation.translation;
+      return acc;
+    }, {});
+    return res.status(200).send(data);
+  });
 };
 export const getTranslations = (req, res) => {
   if (!req.userRoles?.includes("admin")) {

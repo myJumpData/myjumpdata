@@ -34,6 +34,7 @@
     "react-native-md5": "*",
     "react-native-reanimated": "*",
     "nanoid": "*",
-    "@gorhom/bottom-sheet": "*"
+    "@gorhom/bottom-sheet": "*",
+    "i18next-multiload-backend-adapter": "*"
   }
 }
