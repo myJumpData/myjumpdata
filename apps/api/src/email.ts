@@ -3,7 +3,9 @@ import { EMAIL_PSWD, EMAIL_USER } from "./consts/email";
 
 const transporter = nodemailer.createTransport(
   {
-    service: "gmail",
+    host: "smtp.strato.de",
+    port: 465,
+    secure: true,
     auth: {
       user: EMAIL_USER,
       pass: EMAIL_PSWD,
