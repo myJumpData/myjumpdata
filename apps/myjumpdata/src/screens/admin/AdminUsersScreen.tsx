@@ -106,7 +106,6 @@ export default function AdminUsersScreen() {
         total={usersData?.items || 0}
         structure={[
           { name: "", key: "picture" },
-          { name: "ID", key: "id", options: { align: "text-left" } },
           {
             name: "Username",
             key: "username",

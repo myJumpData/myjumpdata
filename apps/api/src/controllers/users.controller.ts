@@ -209,7 +209,6 @@ export const getUsers = (req, res) => {
             .digest("hex")}?size=300&d=404`;
         }
         return {
-          id: user._id,
           username: user.username,
           firstname: user.firstname,
           lastname: user.lastname,
