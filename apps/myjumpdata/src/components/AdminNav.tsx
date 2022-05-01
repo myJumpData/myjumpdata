@@ -19,11 +19,6 @@ export default function AdminNav() {
       current: route.match(new RegExp("admin/users(.*)")),
     },
     {
-      name: t("common:nav_groups"),
-      key: "groups",
-      current: route.match(new RegExp("admin/groups(.*)")),
-    },
-    {
       name: t("common:nav_freestyle"),
       key: "freestyle",
       current: route.match(new RegExp("admin/freestyle(.*)")),

@@ -28,9 +28,6 @@ const TermsScreen = lazy(() => import("./screens/TermsScreen"));
 
 const AdminHomeScreen = lazy(() => import("./screens/admin/AdminHomeScreen"));
 const AdminUsersScreen = lazy(() => import("./screens/admin/AdminUsersScreen"));
-const AdminGroupsScreen = lazy(
-  () => import("./screens/admin/AdminGroupsScreen")
-);
 const AdminFreestyleScreen = lazy(
   () => import("./screens/admin/AdminFreestyleScreen")
 );
@@ -103,7 +100,6 @@ createRoot(document.getElementById("root") as Element).render(
               <Route path="/admin">
                 <Route index element={<AdminHomeScreen />} />
                 <Route path="users" element={<AdminUsersScreen />} />
-                <Route path="groups" element={<AdminGroupsScreen />} />
                 <Route path="freestyle">
                   <Route index element={<AdminFreestyleScreen />} />
                   <Route

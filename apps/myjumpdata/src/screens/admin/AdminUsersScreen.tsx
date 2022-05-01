@@ -8,6 +8,7 @@ import Table from "../../components/Table";
 import { setRoute } from "../../redux/route.action";
 import { getUsers } from "../../service/admin.service";
 import { classNames } from "../../utils/classNames";
+import initials from "../../utils/initials";
 
 export default function AdminUsersScreen() {
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function AdminUsersScreen() {
           </div>
         ) : (
           <div className="m-1 flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 font-bold text-black">
-            {(item.firstname[0] + item.lastname[0]).toUpperCase()}
+            {initials(item)}
           </div>
         );
         item.active = (

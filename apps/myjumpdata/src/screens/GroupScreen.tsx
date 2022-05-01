@@ -8,6 +8,8 @@ import Button from "../components/Button";
 import { setRoute } from "../redux/route.action";
 import { getGroup } from "../service/groups.service";
 import { classNames } from "../utils/classNames";
+import fullname from "../utils/fullname";
+import initials from "../utils/initials";
 
 export default function GroupScreen() {
   useEffect(() => {
@@ -34,12 +36,7 @@ export default function GroupScreen() {
     });
   }
 
-  function UserBlock({
-    username,
-    firstname,
-    lastname,
-    picture,
-  }: {
+  function UserBlock(user: {
     username: string;
     firstname: string;
     lastname: string;
@@ -47,23 +44,23 @@ export default function GroupScreen() {
   }) {
     return (
       <Link
-        to={`/u/${username}`}
+        to={`/u/${user.username}`}
         className={classNames(
           "group relative flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full bg-orange-500 sm:h-14 sm:w-14 md:h-16 md:w-16"
         )}
       >
-        {picture === null ? (
-          <span className="text-center uppercase">
-            {firstname && lastname
-              ? firstname[0] + lastname[0]
-              : username[0] + username.slice(-1)}
-          </span>
+        {user.picture === null ? (
+          <span className="text-center uppercase">{initials(user)}</span>
         ) : (
-          <img className="rounded-full" src={picture} alt={username} />
+          <img
+            className="rounded-full"
+            src={user.picture}
+            alt={user.username}
+          />
         )}
         <div className="absolute hidden group-hover:block group-focus:block">
           <span className="right-0 bottom-full m-4 whitespace-nowrap rounded-lg bg-gray-800 bg-opacity-75 py-1 px-2 text-xs capitalize text-white backdrop-blur backdrop-filter">
-            {firstname && lastname ? firstname + " " + lastname : username}
+            {fullname(user)}
           </span>
         </div>
       </Link>
