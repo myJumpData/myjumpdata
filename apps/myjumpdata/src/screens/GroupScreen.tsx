@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCog } from "react-icons/hi";
+import { IoIosLogOut } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { setRoute } from "../redux/route.action";
-import { getGroup } from "../service/groups.service";
+import { getGroup, leaveGroup } from "../service/groups.service";
 import { classNames } from "../utils/classNames";
 import fullname from "../utils/fullname";
 import initials from "../utils/initials";
@@ -22,6 +23,10 @@ export default function GroupScreen() {
   const [groupName, setGroupName] = useState("");
   const [groupCoaches, setGroupCoaches] = useState([]);
   const [groupAthletes, setGroupAthletes] = useState([]);
+
+  const [leave, setLeave] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getGroupFN();
@@ -92,6 +97,14 @@ export default function GroupScreen() {
         <div className="w-full space-y-2">
           <span className="text-xl font-bold">{groupName}</span>
         </div>
+        <span
+          className="cursor-pointer text-2xl"
+          onClick={() => {
+            setLeave(true);
+          }}
+        >
+          <IoIosLogOut />
+        </span>
         {groupCoaches?.some((i: any) => i.id === user.id) && (
           <Link
             to={`/group/${params.id}/settings`}
@@ -120,6 +133,36 @@ export default function GroupScreen() {
           <Button name={t("common:back")} design="link" />
         </Link>
       </div>
+      <LeaveOverlay />
     </>
   );
+  function LeaveOverlay() {
+    return (
+      <div
+        className={
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (leave ? "fixed z-50" : "z-0 hidden")
+        }
+        onClick={() => {
+          setLeave(false);
+        }}
+      >
+        <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">
+          <span className="text-xl font-bold">
+            Are you sure you want to leave this group?
+          </span>
+          <Button
+            name="Leave"
+            design="danger"
+            onClick={() => {
+              leaveGroup(params.id as string).then(() => {
+                setLeave(false);
+                navigate("/group");
+              });
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 }

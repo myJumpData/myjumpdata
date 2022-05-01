@@ -6,6 +6,7 @@ import {
   deleteGroup,
   getGroup,
   getGroups,
+  leaveGroup,
   removeAthletesFromGroup,
   removeCoachesFromGroup,
   updateGroupName,
@@ -44,4 +45,5 @@ export default function GroupsRoutes(app: Express) {
     updateGroupName
   );
   app.post("/group_del/:id", [verifyToken, verifyGroupCoach], deleteGroup);
+  app.post("/group_leave/:id", [verifyToken], leaveGroup);
 }

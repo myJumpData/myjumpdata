@@ -244,3 +244,46 @@ export function deleteGroup(req, res) {
     );
   });
 }
+
+export function leaveGroup(req, res) {
+  Group.findOne({ _id: req.params.id }).exec((err, group) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    if (group) {
+      if (group.coaches.includes(req.userId)) {
+        Group.updateOne(
+          { _id: req.params.id },
+          { $pull: { coaches: req.userId } },
+          (err) => {
+            if (err) {
+              return requestHandlerError(res, err);
+            }
+            return requestHandler(
+              res,
+              200,
+              "success.group.coach.leave",
+              "Coach has left the group successfully!"
+            );
+          }
+        );
+      } else if (group.athletes.includes(req.userId)) {
+        Group.updateOne(
+          { _id: req.params.id },
+          { $pull: { athletes: req.userId } },
+          (err) => {
+            if (err) {
+              return requestHandlerError(res, err);
+            }
+            return requestHandler(
+              res,
+              200,
+              "success.group.athlete.leave",
+              "Athlete has left the group successfully!"
+            );
+          }
+        );
+      }
+    }
+  });
+}

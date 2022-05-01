@@ -35,3 +35,7 @@ export const updateGroupName = (name: string, id: string) => {
 export const deleteGroup = (id: string) => {
   return api.post(`/group_del/${id}`);
 };
+
+export const leaveGroup = (id: string) => {
+  return api.post(`/group_leave/${id}`);
+};
