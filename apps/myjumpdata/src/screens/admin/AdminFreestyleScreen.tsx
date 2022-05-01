@@ -4,6 +4,7 @@ import { FaFolder, FaFolderPlus, FaPlus } from "react-icons/fa";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import AuthVerify from "../../common/AuthVerify";
+import AdminActionBar from "../../components/AdminActionBar";
 import Breadcrumb from "../../components/Breadcrumb";
 import { setRoute } from "../../redux/route.action";
 import { getFreestyle } from "../../service/freestyle.service";
@@ -38,11 +39,8 @@ export default function AdminFreestyleScreen() {
 
   return (
     <>
-      <div className="w-full space-y-2">
-        <span className="text-xl font-bold">
-          {t<string>("common:nav_freestyle")}
-        </span>
-      </div>
+      <AdminActionBar text={t("common:nav_freestyle")} />
+
       <Breadcrumb
         data={freestyle ? freestyle.split("_") : []}
         setState={setFreestyle}

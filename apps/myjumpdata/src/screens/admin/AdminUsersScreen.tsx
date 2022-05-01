@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { HiCheck, HiX } from "react-icons/hi";
 import ReactTooltip from "react-tooltip";
 import AuthVerify from "../../common/AuthVerify";
+import AdminActionBar from "../../components/AdminActionBar";
 import Table from "../../components/Table";
 import { setRoute } from "../../redux/route.action";
 import { getUsers } from "../../service/users.service";
@@ -90,11 +91,7 @@ export default function AdminUsersScreen() {
 
   return (
     <>
-      <div className="w-full space-y-2">
-        <span className="text-xl font-bold">
-          {t<string>("common:nav_users")}
-        </span>
-      </div>
+      <AdminActionBar text={t("common:nav_users")} />
 
       <Table
         page={page}
