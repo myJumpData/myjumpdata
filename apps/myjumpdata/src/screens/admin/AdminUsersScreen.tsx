@@ -6,7 +6,7 @@ import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
 import Table from "../../components/Table";
 import { setRoute } from "../../redux/route.action";
-import { getUsers } from "../../service/users.service";
+import { getUsers } from "../../service/admin.service";
 import { classNames } from "../../utils/classNames";
 
 export default function AdminUsersScreen() {

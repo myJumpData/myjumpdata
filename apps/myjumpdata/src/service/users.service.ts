@@ -1,9 +1,5 @@
 import api from "./api";
 
-export const getUsers = (page: number, limit: number) => {
-  return api.get(`/users?page=${page}&limit=${limit}`);
-};
-
 export const searchUsers = (search: string) => {
   const s = search.replace(/^[^A-Z0-9]+$/i, "");
   if (s === "") {

@@ -18,3 +18,7 @@ export const deleteLocalization = (namespace: string, key: string) => {
     namespace,
   });
 };
+
+export const getUsers = (page: number, limit: number) => {
+  return api.get(`/admin/users?page=${page}&limit=${limit}`);
+};
