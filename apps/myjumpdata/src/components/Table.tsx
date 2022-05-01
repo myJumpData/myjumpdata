@@ -65,9 +65,9 @@ export default function Table({
           </tbody>
         </table>
       </div>
-      <div className="flex flex-row items-center justify-between">
-        <span>Total data: {total}</span>
-        <div className="w-24">
+      <div className="flex flex-row flex-wrap items-center justify-between">
+        <span className="whitespace-nowrap">Total data: {total}</span>
+        <div className="w-24 px-2">
           <SelectInput
             options={[
               ...[5, 10, 25, 50, 100].filter((value) => value < total),
@@ -82,7 +82,9 @@ export default function Table({
             current={limit}
           />
         </div>
-        <Pagination page={page} setPage={setPage} pages={pages} />
+        <div className="flex grow justify-center py-2">
+          <Pagination page={page} setPage={setPage} pages={pages} />
+        </div>
       </div>
     </>
   );
