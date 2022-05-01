@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { FaPlus, FaTrash } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
+import AdminActionBar from "../../components/AdminActionBar";
+import Button from "../../components/Button";
 import Table from "../../components/Table";
 import { LANGUAGES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
+import { deleteLocalization } from "../../service/admin.service";
 import { getTranslations } from "../../service/locales.service";
 
 export default function AdminLocalizationNamespaceScreen() {
@@ -65,6 +69,18 @@ export default function AdminLocalizationNamespaceScreen() {
                 })}
               </div>
             );
+            tmp.action = (
+              <div className="flex justify-end">
+                <span
+                  onClick={() => {
+                    setDel(true);
+                    setCurrent(item[0]);
+                  }}
+                >
+                  <FaTrash className="text-gray-500/50 transition hover:text-white" />
+                </span>
+              </div>
+            );
             return tmp;
           });
         setTranslationData(data);
@@ -78,13 +94,24 @@ export default function AdminLocalizationNamespaceScreen() {
     );
   }, [limit, page, translationData]);
 
+  const navigate = useNavigate();
+
+  const [del, setDel] = useState(false);
+  const [current, setCurrent] = useState<any>();
+
   return (
     <>
-      <div className="w-full space-y-2">
-        <span className="text-xl font-bold">
-          {t<string>("common:nav_localization")} - {params.namespace}
-        </span>
-      </div>
+      <AdminActionBar
+        text={`${t<string>("common:nav_localization")} - ${params.namespace}`}
+        actions={[
+          {
+            icon: FaPlus,
+            onClick: () => {
+              navigate(`/admin/localization/create/${params.namespace}`);
+            },
+          },
+        ]}
+      />
 
       <Table
         limit={limit}
@@ -99,10 +126,49 @@ export default function AdminLocalizationNamespaceScreen() {
             key: "translation",
             options: { align: "text-left" },
           },
+          { name: "", key: "action", options: { align: "text-right" } },
         ]}
         data={data}
         total={total}
       />
+      <DelOverlay />
     </>
   );
+  function DelOverlay() {
+    return (
+      <div
+        className={
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (del ? "fixed z-50" : "z-0 hidden")
+        }
+        onClick={() => {
+          setDel(false);
+        }}
+      >
+        <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">
+          <span className="text-xl font-bold">
+            {t<string>("settings_delete_disclaimer_title")}
+          </span>
+          <span>
+            {params.namespace}:{current}
+          </span>
+          <Button
+            name="Delete"
+            design="danger"
+            onClick={() => {
+              deleteLocalization(params.namespace as string, current).then(
+                () => {
+                  setDel(false);
+                  setCurrent(null);
+                  setTranslationData(
+                    translationData.filter((item: any) => item.key !== current)
+                  );
+                }
+              );
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 }

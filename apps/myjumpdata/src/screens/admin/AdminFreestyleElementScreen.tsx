@@ -3,11 +3,15 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
+import AdminActionBar from "../../components/AdminActionBar";
 import Breadcrumb from "../../components/Breadcrumb";
 import { TextInputInline } from "../../components/Input";
 import { LANGUAGES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
-import { getFreestyleElement, updateFreestyleElementLevel } from "../../service/freestyle.service";
+import {
+  getFreestyleElement,
+  updateFreestyleElementLevel,
+} from "../../service/freestyle.service";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -37,16 +41,15 @@ export default function AdminFreestyleElementScreen() {
 
   return (
     <>
-      <div className="w-full space-y-2">
-        <span className="text-xl font-bold">
-          {t<string>("common:nav_freestyle")}
-          {freestyleElementData &&
-            ` - ${freestyleElementData.key
-              .split("_")
-              .map((item) => t<string>(`freestyle:${item}`))
-              .join(" ")}`}
-        </span>
-      </div>
+      <AdminActionBar
+        text={`${t<string>("common:nav_freestyle")}${
+          freestyleElementData &&
+          ` - ${freestyleElementData.key
+            .split("_")
+            .map((item) => t<string>(`freestyle:${item}`))
+            .join(" ")}`
+        }`}
+      />
       {freestyleElementData && (
         <>
           <table>

@@ -43,6 +43,9 @@ const AdminLocalizationScreen = lazy(
 const AdminLocalizationNamespaceScreen = lazy(
   () => import("./screens/admin/AdminLocalizationNamespaceScreen")
 );
+const AdminLocalizationCreateScreen = lazy(
+  () => import("./screens/admin/AdminLocalizationCreateScreen")
+);
 
 createRoot(document.getElementById("root") as Element).render(
   <Suspense fallback={<Spinner wrapper />}>
@@ -116,6 +119,10 @@ createRoot(document.getElementById("root") as Element).render(
                   <Route
                     path="namespace/:namespace"
                     element={<AdminLocalizationNamespaceScreen />}
+                  />
+                  <Route
+                    path="create/:namespace"
+                    element={<AdminLocalizationCreateScreen />}
                   />
                 </Route>
                 <Route path="*" element={<Navigate to="/admin" />} />

@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { APP_URL } from "./consts/host";
+import AdminRoutes from "./routes/admin.routes";
 import FreestyleRoutes from "./routes/freestyle.routes";
 import GroupsRoutes from "./routes/groups.routes";
 import LocalesRoutes from "./routes/locales.routes";
@@ -27,5 +28,6 @@ export default function createServer() {
   GroupsRoutes(app);
   FreestyleRoutes(app);
   LocalesRoutes(app);
+  AdminRoutes(app);
   return app;
 }
