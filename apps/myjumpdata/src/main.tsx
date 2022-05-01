@@ -40,9 +40,6 @@ const AdminFreestyleElementScreen = lazy(
 const AdminLocalizationScreen = lazy(
   () => import("./screens/admin/AdminLocalizationScreen")
 );
-const AdminLocalizationNamespaceScreen = lazy(
-  () => import("./screens/admin/AdminLocalizationNamespaceScreen")
-);
 const AdminLocalizationCreateScreen = lazy(
   () => import("./screens/admin/AdminLocalizationCreateScreen")
 );
@@ -116,10 +113,6 @@ createRoot(document.getElementById("root") as Element).render(
                 </Route>
                 <Route path="localization">
                   <Route index element={<AdminLocalizationScreen />} />
-                  <Route
-                    path="namespace/:namespace"
-                    element={<AdminLocalizationNamespaceScreen />}
-                  />
                   <Route
                     path="create/:namespace"
                     element={<AdminLocalizationCreateScreen />}
