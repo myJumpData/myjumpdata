@@ -1,4 +1,7 @@
-export default function fullname(user) {
+export default function fullname(user: any) {
+  if (!user) {
+    return;
+  }
   if (
     user.firstname &&
     user.firstname !== "" &&

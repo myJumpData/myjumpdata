@@ -1,4 +1,7 @@
 export default function initials(user: any) {
+  if (!user) {
+    return;
+  }
   if (
     user.firstname &&
     user.firstname !== "" &&

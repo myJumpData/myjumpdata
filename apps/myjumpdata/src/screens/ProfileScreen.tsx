@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import User from "../assets/user.svg";
 import { setRoute } from "../redux/route.action";
 import { getUserSearch } from "../service/users.service";
+import fullname from "../utils/fullname";
 
 export default function ProfileScreen() {
   useEffect(() => {
@@ -13,46 +14,25 @@ export default function ProfileScreen() {
   const params = useParams();
   const { t } = useTranslation();
 
-  const [username, setUsername] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [image, setImage] = useState("");
-  const [userOverviewScoreData, setUserOverviewScoreData] = useState([]);
+  const [user, setUser] = useState<any>();
 
   useEffect(() => {
-    setUsername(params.username as string);
-  }, [params]);
-
-  useEffect(() => {
-    if (username !== undefined && username !== "") {
-      getUserSearch(username).then((response) => {
-        setUsername(response.data?.username);
-        setFirstname(response.data?.firstname);
-        setLastname(response.data?.lastname);
-        setUserOverviewScoreData(response.data?.highdata);
-        if (response.data?.picture) {
-          fetch(response.data.picture)
-            .then((r) => {
-              if (r.status === 200) {
-                setImage(response.data.picture);
-              }
-            })
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            .catch(() => {});
-        }
+    if (params.username && params.username !== null && params.username !== "") {
+      getUserSearch(params.username as string).then((response) => {
+        setUser(response.data);
       });
     }
-  }, [username]);
+  }, [params.username]);
 
   return (
     <div className="w-full space-y-2">
       <div className="flex justify-start space-x-4">
-        {image !== "" ? (
+        {user?.picture !== "" ? (
           <div className="flex aspect-square h-24 justify-center sm:h-32 md:h-48">
             <img
-              src={image}
+              src={user?.picture}
               className="rounded-full object-cover"
-              alt={username}
+              alt={fullname(user)}
             />
           </div>
         ) : (
@@ -62,10 +42,10 @@ export default function ProfileScreen() {
         )}
         <div className="flex w-full min-w-0 flex-col justify-center">
           <span className="w-full truncate text-xl font-bold md:text-2xl">
-            {username}
+            {user?.username}
           </span>
           <div className="truncate text-lg capitalize md:text-2xl">
-            {firstname && lastname ? firstname + " " + lastname : username}
+            {fullname(user)}
           </div>
         </div>
       </div>
@@ -74,7 +54,7 @@ export default function ProfileScreen() {
           {t<string>("common:highscores")}:
         </span>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {userOverviewScoreData?.map(
+          {user?.highdata?.map(
             (score: { type: string; score: number; scoreOwn: number }) => (
               <div
                 className="flex w-full items-center justify-between space-x-4 rounded-lg bg-gray-200 px-4 py-2 shadow dark:bg-gray-800"
