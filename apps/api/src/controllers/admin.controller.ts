@@ -112,3 +112,7 @@ export const getUsers = (req, res) => {
       });
     });
 };
+
+export const getVersion = (req, res) => {
+  return res.send({ v: process.env.npm_package_version });
+};
