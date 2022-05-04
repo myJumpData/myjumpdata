@@ -8,6 +8,7 @@ import AdminActionBar from "../../components/AdminActionBar";
 import Breadcrumb from "../../components/Breadcrumb";
 import { setRoute } from "../../redux/route.action";
 import { getFreestyle } from "../../service/freestyle.service";
+import Table from "../../components/Table";
 
 type freestyle_folder_data = {
   id: string;
@@ -27,122 +28,152 @@ export default function AdminFreestyleScreen() {
     });
   }, []);
   const navigate = useNavigate();
-  const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
+  const [data, setData] = useState<any[] | undefined>();
   const [freestyle, setFreestyle] = useState<string>("");
   const { t } = useTranslation();
 
   useEffect(() => {
     getFreestyle(freestyle).then((response: any) => {
-      setFolderData(response.data);
+      setData(
+        response.data.map((item: freestyle_folder_data) => {
+          const newItem: any = {};
+          const onClick = () => {
+            if (item.back) {
+              setFreestyle(item.key);
+            }
+            if (item.group) {
+              setFreestyle(item.key);
+            }
+            if (item.element) {
+              return navigate("/admin/freestyle/element/" + item.id);
+            }
+            return;
+          };
+          newItem.name = (
+            <div className="flex cursor-pointer items-center" onClick={onClick}>
+              <span className="w-8">
+                {(() => {
+                  if (item.back) {
+                    return <HiArrowLeft />;
+                  }
+                  if (item.group) {
+                    return <FaFolder />;
+                  }
+                  if (item.element) {
+                    return <HiArrowRight />;
+                  }
+                  return;
+                })()}
+              </span>
+              <span>
+                {
+                  (() => {
+                    if (item.back) {
+                      return t("common:back");
+                    }
+                    if (item.group) {
+                      return t(`freestyle:${item.key.split("_").at(-1)}`);
+                    }
+                    if (item.element) {
+                      if (item.compiled) {
+                        return item.key
+                          .split("_")
+                          .map((item) => t(`freestyle:${item}`))
+                          .join(" ");
+                      }
+                      return t(`freestyle:${item.key}`);
+                    }
+                    return "";
+                  })() as string
+                }
+              </span>
+            </div>
+          );
+          newItem.key = (
+            <span
+              className="flex cursor-pointer items-center"
+              onClick={onClick}
+            >
+              {
+                (() => {
+                  if (item.back) {
+                    return "";
+                  }
+                  if (item.group) {
+                    return item.key.split("_").at(-1);
+                  }
+                  if (item.element) {
+                    if (item.compiled) {
+                      return item.key.split("_").join(" ");
+                    }
+                    return item.key;
+                  }
+                  return "";
+                })() as string
+              }
+            </span>
+          );
+          newItem.level = (
+            <span
+              className="flex cursor-pointer items-center justify-end text-right"
+              onClick={onClick}
+            >
+              {
+                (() => {
+                  if (item.back) {
+                    return "";
+                  }
+                  if (item.group) {
+                    return "";
+                  }
+                  if (item.element) {
+                    if (item.level) {
+                      return `Lvl. ${item.level}`;
+                    }
+                    return "";
+                  }
+                  return "";
+                })() as string
+              }
+            </span>
+          );
+          return newItem;
+        })
+      );
     });
-  }, [freestyle]);
+  }, [freestyle, navigate, t]);
 
   return (
     <>
-      <AdminActionBar text={t("common:nav_freestyle")} />
-
+      <AdminActionBar
+        text={t("common:nav_freestyle")}
+        actions={[
+          {
+            icon: FaPlus,
+            onClick: () => {
+              return;
+            },
+          },
+          {
+            icon: FaFolderPlus,
+            onClick: () => {
+              return;
+            },
+          },
+        ]}
+      />
       <Breadcrumb
         data={freestyle ? freestyle.split("_") : []}
         setState={setFreestyle}
       />
-      <table>
-        <thead>
-          <tr className="text-left">
-            <th className="w-6"></th>
-            <th>Name</th>
-            <th>Key</th>
-            <th className="text-right">Level</th>
-            <th className="w-6"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {folderData?.map((e: freestyle_folder_data) => {
-            if (e.element) {
-              return (
-                <tr
-                  className="h-6 cursor-pointer border-y border-gray-500 transition-all duration-1000 ease-out hover:h-8 hover:bg-gray-500/50 hover:duration-500"
-                  key={e.key}
-                  onClick={() => {
-                    navigate("/admin/freestyle/element/" + e.id);
-                  }}
-                >
-                  <td></td>
-                  <td>
-                    {e.compiled
-                      ? e.key
-                          .split("_")
-                          .map((item) => t(`freestyle:${item}`))
-                          .join(" ")
-                      : t<string>(`freestyle:${e.key}`)}
-                  </td>
-                  <td>{e.compiled ? e.key.split("_").join(" ") : e.key}</td>
-                  <td className="text-right">{e.level && `Lvl. ${e.level}`}</td>
-                  <td>
-                    <HiArrowRight />
-                  </td>
-                </tr>
-              );
-            }
-            if (e.back) {
-              return (
-                <tr
-                  className="h-6 cursor-pointer border-y border-gray-500 transition-all duration-1000 ease-out hover:h-8 hover:bg-gray-500/50 hover:duration-500"
-                  key={e.key}
-                  onClick={() => {
-                    setFreestyle(e.key);
-                  }}
-                >
-                  <td>
-                    <HiArrowLeft />
-                  </td>
-                  <td>{t<string>("common:back")}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              );
-            }
-            if (e.group) {
-              return (
-                <tr
-                  className="h-6 cursor-pointer border-y border-gray-500 transition-all duration-1000 ease-out hover:h-8  hover:bg-gray-500/50 hover:duration-500"
-                  key={e.key}
-                  onClick={() => {
-                    setFreestyle(e.key);
-                  }}
-                >
-                  <td>
-                    <FaFolder />
-                  </td>
-                  <td>
-                    {t<string>(
-                      `freestyle:${
-                        e.key.split("_")[e.key.split("_").length - 1]
-                      }`
-                    )}
-                  </td>
-                  <td>{e.key.split("_")[e.key.split("_").length - 1]}</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              );
-            }
-            return <span key={e.key}></span>;
-          })}
-        </tbody>
-      </table>
+      <Table
+        structure={[
+          { name: "Name", key: "name", options: { align: "text-left" } },
+          { name: "Key", key: "key", options: { align: "text-left" } },
+          { name: "Level", key: "level", options: { align: "text-right" } },
+        ]}
+        data={data}
+      />
     </>
   );
-  function AddBottom() {
-    return (
-      <div className="flex h-12 items-center justify-end space-x-4 rounded-lg bg-gray-500/50 px-4 py-2">
-        <div className="opacity-50 transition hover:scale-125 hover:opacity-100">
-          <FaPlus className="text-lg" />
-        </div>
-        <div className="opacity-50 transition hover:scale-125 hover:opacity-100">
-          <FaFolderPlus className="text-lg" />
-        </div>
-      </div>
-    );
-  }
 }

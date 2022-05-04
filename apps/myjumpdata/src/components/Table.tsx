@@ -19,12 +19,12 @@ export default function Table({
     options?: { align?: "text-center" | "text-left" | "text-right" | string };
   }[];
   data: any[] | undefined;
-  total: number;
-  page: number;
-  pages: number;
-  setPage: Dispatch<SetStateAction<number>>;
-  limit: number;
-  setLimit: Dispatch<SetStateAction<number>>;
+  total?: number;
+  page?: number;
+  pages?: number;
+  setPage?: Dispatch<SetStateAction<number>>;
+  limit?: number;
+  setLimit?: Dispatch<SetStateAction<number>>;
 }) {
   return (
     <>
@@ -66,25 +66,31 @@ export default function Table({
         </table>
       </div>
       <div className="flex flex-row flex-wrap items-center justify-between">
-        <span className="whitespace-nowrap">Total data: {total}</span>
-        <div className="w-24 px-2">
-          <SelectInput
-            options={[
-              ...[5, 10, 25, 50, 100].filter((value) => value < total),
-              limit,
-            ]
-              .sort((a, b) => a - b)
-              .filter((value, index, array) => array.indexOf(value) === index)
-              .map((value) => {
-                return { name: value, value };
-              })}
-            stateChange={setLimit}
-            current={limit}
-          />
-        </div>
-        <div className="flex grow justify-center py-2">
-          <Pagination page={page} setPage={setPage} pages={pages} />
-        </div>
+        {total && (
+          <span className="whitespace-nowrap">Total data: {total}</span>
+        )}
+        {limit && total && setLimit && (
+          <div className="w-24 px-2">
+            <SelectInput
+              options={[
+                ...[5, 10, 25, 50, 100].filter((value) => value < total),
+                limit,
+              ]
+                .sort((a, b) => a - b)
+                .filter((value, index, array) => array.indexOf(value) === index)
+                .map((value) => {
+                  return { name: value, value };
+                })}
+              stateChange={setLimit}
+              current={limit}
+            />
+          </div>
+        )}
+        {pages && page && setPage && (
+          <div className="flex grow justify-center py-2">
+            <Pagination page={page} setPage={setPage} pages={pages} />
+          </div>
+        )}
       </div>
     </>
   );
