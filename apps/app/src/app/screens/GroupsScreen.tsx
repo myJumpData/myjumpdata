@@ -25,7 +25,7 @@ export default function GroupsScreen({ navigation }) {
 
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => {
-    return current?.coaches.some((i: any) => i._id === user.id) ? [350] : [150];
+    return current?.coaches.some((i: any) => i._id === user.id) ? [400] : [200];
   }, [current?.coaches, user.id]);
 
   function getGroups() {
@@ -159,6 +159,16 @@ export default function GroupsScreen({ navigation }) {
                         onPress: () => {
                           navigation.navigate("group_settings_data", {
                             id: current._id,
+                          });
+                        },
+                      },
+                      {
+                        text: "Verlassen",
+                        icon: "log-out-outline",
+                        onPress: () => {
+                          GroupsService.leaveGroup(current._id).then(() => {
+                            onRefresh();
+                            bottomSheetRef.current?.close();
                           });
                         },
                       },

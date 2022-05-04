@@ -26,6 +26,9 @@ const updateGroupName = (name: string, id: string) => {
 const deleteGroup = (id: string) => {
   return api.post(`/group_del/${id}`);
 };
+const leaveGroup = (id: string) => {
+  return api.post(`/group_leave/${id}`);
+};
 
 const GroupsService = {
   createGroup,
@@ -37,6 +40,7 @@ const GroupsService = {
   removeCoachesFromGroup,
   updateGroupName,
   deleteGroup,
+  leaveGroup,
 };
 
 export default GroupsService;
