@@ -6,6 +6,16 @@ export const getFreestyle = (params: string) => {
 export const getFreestyleElement = (id: string) => {
   return api.get("/freestyle/element/" + id);
 };
+export const getFreestyleTranslation = (key: string) => {
+  return api.get("/freestyle/translation/" + key);
+};
+export const createFreestyle = (
+  key: string,
+  level: string,
+  groups: string[]
+) => {
+  return api.post("/freestyle/create", { key, level, groups });
+};
 
 export const getFreestyleDataOwn = () => {
   return api.get("/freestyle_own");

@@ -27,6 +27,7 @@ export default function AdminFreestyleElementScreen() {
         id: string;
         key: string;
         translation: any;
+        compiled: boolean;
         level: string;
         groups: { _id: string; key: string; parent: string }[];
       }
@@ -82,6 +83,10 @@ export default function AdminFreestyleElementScreen() {
                     }}
                   />
                 </td>
+              </tr>
+              <tr>
+                <td className="font-bold">Compiled</td>
+                <td>{freestyleElementData.compiled ? "true" : "false"}</td>
               </tr>
             </tbody>
           </table>

@@ -91,12 +91,57 @@ export function getFreestyleElement(req, res) {
         return requestHandler(res, 200, "", "", {
           id: elementData._id,
           key: elementData.key,
+          compiled: elementData.compiled,
           translation,
           level: elementData.level,
           groups: elementData.groups,
         });
       });
     });
+}
+export function getFreestyleTranslation(req, res) {
+  const key = req.params.key;
+  const jobQueries: Query<object, object>[] = [];
+  key.split("_").forEach((element) => {
+    jobQueries.push(
+      Translation.find({ key: element, namespace: "freestyle" }).select(
+        "-_id -__v -namespace"
+      )
+    );
+  });
+  Promise.all(jobQueries).then((translationData) => {
+    const translation = {};
+    translationData.flat().forEach((item: any) => {
+      if (translation[item.language]) {
+        translation[item.language][item.key] = item.translation;
+      } else {
+        translation[item.language] = {};
+        translation[item.language][item.key] = item.translation;
+      }
+    });
+    return requestHandler(res, 200, "", "", translation);
+  });
+}
+export function createFreestyle(req, res) {
+  const { key, level, groups } = req.body;
+  FreestyleDataGroup.find({ key: { $in: groups } }).then((groupsData) => {
+    const fs = new FreestyleDataElement({
+      key,
+      level,
+      groups: groupsData.map((g) => g._id),
+    });
+    fs.save((err) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(
+        res,
+        200,
+        "success.create.freestyle",
+        "Successfully created freestyle!"
+      );
+    });
+  });
 }
 
 export function getFreestyleDataOwn(req, res) {

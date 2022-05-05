@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaFolder, FaFolderPlus, FaPlus } from "react-icons/fa";
-import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
+import { HiArrowLeft, HiArrowRight, HiCheck } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
@@ -137,6 +137,21 @@ export default function AdminFreestyleScreen() {
               }
             </span>
           );
+          newItem.compiled = (
+            <span
+              className="items-center, flex cursor-pointer justify-center"
+              onClick={onClick}
+            >
+              {
+                (() => {
+                  if (item.compiled) {
+                    return <HiCheck className="text-2xl text-green-500" />;
+                  }
+                  return "";
+                })() as string
+              }
+            </span>
+          );
           return newItem;
         })
       );
@@ -151,6 +166,7 @@ export default function AdminFreestyleScreen() {
           {
             icon: FaPlus,
             onClick: () => {
+              navigate(`/admin/freestyle/create/${freestyle}`);
               return;
             },
           },
@@ -170,6 +186,7 @@ export default function AdminFreestyleScreen() {
         structure={[
           { name: "Name", key: "name", options: { align: "text-left" } },
           { name: "Key", key: "key", options: { align: "text-left" } },
+          { name: "Compiled", key: "compiled" },
           { name: "Level", key: "level", options: { align: "text-right" } },
         ]}
         data={data}

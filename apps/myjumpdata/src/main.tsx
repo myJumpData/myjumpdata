@@ -34,6 +34,9 @@ const AdminFreestyleScreen = lazy(
 const AdminFreestyleElementScreen = lazy(
   () => import("./screens/admin/AdminFreestyleElementScreen")
 );
+const AdminFreestyleCreateScreen = lazy(
+  () => import("./screens/admin/AdminFreestyleCreateScreen")
+);
 const AdminLocalizationScreen = lazy(
   () => import("./screens/admin/AdminLocalizationScreen")
 );
@@ -105,6 +108,10 @@ createRoot(document.getElementById("root") as Element).render(
                   <Route
                     path="element/:id"
                     element={<AdminFreestyleElementScreen />}
+                  />
+                  <Route
+                    path="create/:path"
+                    element={<AdminFreestyleCreateScreen />}
                   />
                 </Route>
                 <Route path="localization">
