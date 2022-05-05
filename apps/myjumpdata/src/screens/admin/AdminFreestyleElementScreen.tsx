@@ -70,10 +70,7 @@ export default function AdminFreestyleElementScreen() {
     if (newGroup) {
       getFreestyle(newGroup).then((res) => {
         if (res.status === 200) {
-          const valid = res.data.filter((item) => {
-            return !!(item.element || item.group);
-          });
-          setNewGroupValid(valid.length > 0);
+          setNewGroupValid(res.data.length > 0);
         } else {
           setNewGroupValid(false);
         }
