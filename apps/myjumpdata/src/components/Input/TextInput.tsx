@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { classNames } from "../../utils/classNames";
 
 type TextInputProps = {
   name?: string;
@@ -9,6 +10,7 @@ type TextInputProps = {
   inline?: boolean;
   min?: number | string | undefined;
   inputName?: string;
+  valid?: boolean;
 };
 
 /**
@@ -46,6 +48,7 @@ export function TextInput({
   inline,
   min,
   inputName,
+  valid,
 }: TextInputProps) {
   let inlineClass = " mb-4 ";
   if (inline) {
@@ -68,10 +71,15 @@ export function TextInput({
         }
         value={value}
         onChange={(e) => stateChange && stateChange(e.target.value)}
-        className={
-          "peer h-10 w-full border-b-2 border-gray-300 bg-transparent text-gray-900 placeholder-transparent transition focus:border-yellow-500 focus:outline-none dark:border-gray-700 dark:text-gray-100  " +
-          inlineClass
-        }
+        className={classNames(
+          "peer h-10 w-full border-b-2 border-gray-300 bg-transparent placeholder-transparent transition focus:border-yellow-500 focus:outline-none dark:border-gray-700",
+          inlineClass,
+          valid === true
+            ? "text-green-500"
+            : valid === false
+            ? "text-red-500"
+            : "text-gray-900 dark:text-gray-100"
+        )}
         min={min}
         name={inputName}
         id={inputName}
