@@ -12,6 +12,11 @@ import {
   createFreestyle,
   getFreestyleTranslation,
 } from "../../service/admin.service";
+import { FaPlus } from "react-icons/fa";
+import { classNames } from "../../utils/classNames";
+import { HiTrash } from "react-icons/all";
+import Button from "../../components/Button";
+import { getFreestyle } from "../../service/freestyle.service";
 
 export default function AdminFreestyleCreateScreen() {
   const { t } = useTranslation();
@@ -21,12 +26,31 @@ export default function AdminFreestyleCreateScreen() {
   const [key, setKey] = useState("");
   const [level, setLevel] = useState("");
   const [translation, setTranslation] = useState<any>({});
+  const [groups, setGroups] = useState<any>([{ key: params.path }]);
+  const [newGroup, setNewGroup] = useState<any>();
+  const [newGroupValid, setNewGroupValid] = useState<undefined | boolean>();
 
   useEffect(() => {
     getFreestyleTranslation(key).then((res) => {
       setTranslation(res.data);
     });
   }, [key]);
+
+  useEffect(() => {
+    setNewGroupValid(undefined);
+    if (newGroup) {
+      getFreestyle(newGroup).then((res) => {
+        if (res.status === 200) {
+          const valid = res.data.filter((item) => {
+            return !!(item.element || item.group);
+          });
+          setNewGroupValid(valid.length > 0);
+        } else {
+          setNewGroupValid(false);
+        }
+      });
+    }
+  }, [newGroup]);
 
   return (
     <>
@@ -36,13 +60,15 @@ export default function AdminFreestyleCreateScreen() {
           {
             icon: HiCheck,
             onClick: () => {
-              createFreestyle(key, level, [params.path as string]).then(
-                (res: any) => {
-                  if (res.key === "success.create.freestyle") {
-                    navigate("/admin/freestyle");
-                  }
+              createFreestyle(
+                key,
+                level,
+                groups.map((e) => e.key)
+              ).then((res: any) => {
+                if (res.key === "success.create.freestyle") {
+                  navigate("/admin/freestyle");
                 }
-              );
+              });
             },
           },
         ]}
@@ -64,17 +90,74 @@ export default function AdminFreestyleCreateScreen() {
         />
       </div>
       <div>
-        <span className="font-bold">Groups</span>
-        {[{ key: params.path }].map((group: any) => (
-          <div className="my-2" key={group.key}>
+        <div className="flex items-center justify-between">
+          <span className="font-bold">Groups</span>
+          <span
+            className="opacity-75 transition hover:scale-125 hover:opacity-100"
+            onClick={() => {
+              setNewGroup("");
+            }}
+          >
+            <FaPlus />
+          </span>
+        </div>
+        {groups.map((group) => (
+          <div className="my-2 flex items-center" key={group.key}>
+            <div className={classNames("grow", groups.length > 1 && "pr-4")}>
+              <Breadcrumb
+                data={group.key.split("_")}
+                setState={() => {
+                  return;
+                }}
+              />
+            </div>
+            {groups.length > 1 && (
+              <span
+                className="cursor-pointer opacity-75 transition hover:scale-125 hover:opacity-100"
+                onClick={() => {
+                  setGroups(
+                    groups.filter((element) => {
+                      return element.key !== group.key;
+                    })
+                  );
+                  setNewGroup(undefined);
+                  setNewGroupValid(undefined);
+                }}
+              >
+                <HiTrash />
+              </span>
+            )}
+          </div>
+        ))}
+        {newGroup !== undefined && (
+          <div className="rounded-2xl border-2 border-gray-500/50 p-4">
+            <TextInput
+              type="text"
+              stateChange={setNewGroup}
+              value={newGroup}
+              name="Group Key"
+              valid={newGroupValid}
+            />
             <Breadcrumb
-              data={group.key.split("_")}
+              data={newGroupValid ? newGroup.split("_") : []}
               setState={() => {
                 return;
               }}
             />
+            <Button
+              name="Save"
+              design={newGroupValid ? "success" : "secondary"}
+              onClick={() => {
+                if (!newGroupValid) {
+                  return;
+                }
+                setGroups([...groups, { key: newGroup }]);
+                setNewGroup(undefined);
+                setNewGroupValid(undefined);
+              }}
+            />
           </div>
-        ))}
+        )}
       </div>
       <div>
         <span className="font-bold">Translations</span>
