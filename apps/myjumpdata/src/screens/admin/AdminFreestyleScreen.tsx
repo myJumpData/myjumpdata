@@ -9,6 +9,8 @@ import Breadcrumb from "../../components/Breadcrumb";
 import { setRoute } from "../../redux/route.action";
 import { getFreestyle } from "../../service/freestyle.service";
 import Table from "../../components/Table";
+import { useSelector } from "react-redux";
+import { setFreestyleAdmin } from "../../redux/freestyleAdmin.action";
 
 type freestyle_folder_data = {
   id: string;
@@ -28,21 +30,22 @@ export default function AdminFreestyleScreen() {
     });
   }, []);
   const navigate = useNavigate();
+
+  const freestyleAdmin = useSelector((state: any) => state.freestyleAdmin);
   const [data, setData] = useState<any[] | undefined>();
-  const [freestyle, setFreestyle] = useState<string>("");
   const { t } = useTranslation();
 
   useEffect(() => {
-    getFreestyle(freestyle).then((response: any) => {
+    getFreestyle(freestyleAdmin).then((response: any) => {
       setData(
         response.data.map((item: freestyle_folder_data) => {
           const newItem: any = {};
           const onClick = () => {
             if (item.back) {
-              setFreestyle(item.key);
+              setFreestyleAdmin(item.key);
             }
             if (item.group) {
-              setFreestyle(item.key);
+              setFreestyleAdmin(item.key);
             }
             if (item.element) {
               return navigate("/admin/freestyle/element/" + item.id);
@@ -166,7 +169,7 @@ export default function AdminFreestyleScreen() {
         })
       );
     });
-  }, [freestyle, navigate, t]);
+  }, [freestyleAdmin, navigate, t]);
 
   return (
     <>
@@ -176,7 +179,7 @@ export default function AdminFreestyleScreen() {
           {
             icon: FaPlus,
             onClick: () => {
-              navigate(`/admin/freestyle/create/${freestyle}`);
+              navigate(`/admin/freestyle/create/${freestyleAdmin}`);
               return;
             },
           },
@@ -189,8 +192,8 @@ export default function AdminFreestyleScreen() {
         ]}
       />
       <Breadcrumb
-        data={freestyle ? freestyle.split("_") : []}
-        setState={setFreestyle}
+        data={freestyleAdmin ? freestyleAdmin.split("_") : []}
+        setState={setFreestyleAdmin}
       />
       <Table
         structure={[
