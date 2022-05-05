@@ -202,6 +202,43 @@ export function updateFreestyleElementGroups(req, res) {
     });
   });
 }
+export function createFreestyleGroup(req, res) {
+  const { key, parent } = req.body;
+  if (parent !== "") {
+    FreestyleDataGroup.findOne({ key: parent }).then((parentData) => {
+      const fs = new FreestyleDataGroup({
+        key,
+        parent: parentData._id,
+      });
+      fs.save((err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.create.freestyle.group",
+          "Successfully created freestyle Group!"
+        );
+      });
+    });
+  } else {
+    const fs = new FreestyleDataGroup({
+      key,
+    });
+    fs.save((err) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(
+        res,
+        200,
+        "success.create.freestyle.group",
+        "Successfully created freestyle Group!"
+      );
+    });
+  }
+}
 
 export const getVersion = (req, res) => {
   return res.send({ v: process.env.npm_package_version });

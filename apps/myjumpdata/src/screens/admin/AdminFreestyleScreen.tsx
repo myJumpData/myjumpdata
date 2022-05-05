@@ -11,6 +11,9 @@ import { getFreestyle } from "../../service/freestyle.service";
 import Table from "../../components/Table";
 import { useSelector } from "react-redux";
 import { setFreestyleAdmin } from "../../redux/freestyleAdmin.action";
+import { TextInput } from "../../components/Input";
+import Button from "../../components/Button";
+import { createFreestyleGroup } from "../../service/admin.service";
 
 type freestyle_folder_data = {
   id: string;
@@ -33,9 +36,11 @@ export default function AdminFreestyleScreen() {
 
   const freestyleAdmin = useSelector((state: any) => state.freestyleAdmin);
   const [data, setData] = useState<any[] | undefined>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [newFolder, setNewFolder] = useState<any>();
+  const [newFolderValid, setNewFolderValid] = useState<undefined | boolean>();
 
-  useEffect(() => {
+  const getData = () => {
     getFreestyle(freestyleAdmin || "").then((response: any) => {
       setData(
         response.data.map((item: freestyle_folder_data) => {
@@ -169,7 +174,23 @@ export default function AdminFreestyleScreen() {
         })
       );
     });
-  }, [freestyleAdmin, navigate, t]);
+  };
+
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [freestyleAdmin]);
+
+  useEffect(() => {
+    setNewFolderValid(undefined);
+    if (newFolder) {
+      if (i18n.exists(`freestyle:${newFolder}`)) {
+        setNewFolderValid(true);
+      } else {
+        setNewFolderValid(false);
+      }
+    }
+  }, [i18n, newFolder]);
 
   return (
     <>
@@ -188,7 +209,7 @@ export default function AdminFreestyleScreen() {
           {
             icon: FaFolderPlus,
             onClick: () => {
-              return;
+              setNewFolder("");
             },
           },
           freestyleAdmin !== ""
@@ -201,6 +222,45 @@ export default function AdminFreestyleScreen() {
             : null,
         ]}
       />
+      {newFolder !== undefined && (
+        <div className="rounded-2xl border-2 border-gray-500/50 p-4">
+          <TextInput
+            type="text"
+            stateChange={setNewFolder}
+            value={newFolder}
+            name="Folder Key"
+            valid={newFolderValid}
+          />
+          <Breadcrumb
+            data={[
+              ...(freestyleAdmin ? freestyleAdmin.split("_") : []),
+              ...(newFolderValid ? newFolder.split("_") : []),
+            ]}
+            setState={() => {
+              return;
+            }}
+          />
+          <Button
+            name="Save"
+            design={newFolderValid ? "success" : "secondary"}
+            onClick={() => {
+              if (!newFolderValid) {
+                return;
+              }
+              createFreestyleGroup(
+                `${
+                  freestyleAdmin !== "" ? `${freestyleAdmin}_` : ""
+                }${newFolder}`,
+                freestyleAdmin
+              ).then(() => {
+                getData();
+                setNewFolderValid(undefined);
+                setNewFolder(undefined);
+              });
+            }}
+          />
+        </div>
+      )}
       <Breadcrumb
         data={freestyleAdmin ? freestyleAdmin.split("_") : []}
         setState={setFreestyleAdmin}

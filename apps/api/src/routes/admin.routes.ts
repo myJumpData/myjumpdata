@@ -1,6 +1,7 @@
 import { Express } from "express-serve-static-core";
 import {
   createFreestyle,
+  createFreestyleGroup,
   createLocalization,
   deleteFreestyle,
   deleteLocalization,
@@ -47,6 +48,11 @@ export default function AdminRoutes(app: Express) {
     "/admin/freestyle/translation/:key",
     [verifyToken, isAdmin],
     getFreestyleTranslation
+  );
+  app.post(
+    "/admin/freestyle_group/create",
+    [verifyToken, isAdmin],
+    createFreestyleGroup
   );
 
   app.get("/admin/users", [verifyToken, isAdmin], getUsers);
