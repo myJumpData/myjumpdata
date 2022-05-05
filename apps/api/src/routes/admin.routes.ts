@@ -4,6 +4,7 @@ import {
   createFreestyleGroup,
   createLocalization,
   deleteFreestyle,
+  deleteFreestyleGroup,
   deleteLocalization,
   getFreestyleElement,
   getFreestyleTranslation,
@@ -53,6 +54,11 @@ export default function AdminRoutes(app: Express) {
     "/admin/freestyle_group/create",
     [verifyToken, isAdmin],
     createFreestyleGroup
+  );
+  app.post(
+    "/admin/freestyle_group/delete",
+    [verifyToken, isAdmin],
+    deleteFreestyleGroup
   );
 
   app.get("/admin/users", [verifyToken, isAdmin], getUsers);

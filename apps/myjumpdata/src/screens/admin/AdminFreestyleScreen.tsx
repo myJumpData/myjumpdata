@@ -13,7 +13,10 @@ import { useSelector } from "react-redux";
 import { setFreestyleAdmin } from "../../redux/freestyleAdmin.action";
 import { TextInput } from "../../components/Input";
 import Button from "../../components/Button";
-import { createFreestyleGroup } from "../../service/admin.service";
+import {
+  createFreestyleGroup,
+  deleteFreestyleGroup,
+} from "../../service/admin.service";
 
 type freestyle_folder_data = {
   id: string;
@@ -39,11 +42,16 @@ export default function AdminFreestyleScreen() {
   const { t, i18n } = useTranslation();
   const [newFolder, setNewFolder] = useState<any>();
   const [newFolderValid, setNewFolderValid] = useState<undefined | boolean>();
+  const [del, setDel] = useState(false);
+  const [parent, setParent] = useState("");
 
   const getData = () => {
     getFreestyle(freestyleAdmin || "").then((response: any) => {
       setData(
         response.data.map((item: freestyle_folder_data) => {
+          if (item.back) {
+            setParent(item.key);
+          }
           const newItem: any = {};
           const onClick = () => {
             if (item.back) {
@@ -212,11 +220,11 @@ export default function AdminFreestyleScreen() {
               setNewFolder("");
             },
           },
-          freestyleAdmin !== ""
+          freestyleAdmin !== "" && data && data.length <= 1
             ? {
                 icon: FaFolderMinus,
                 onClick: () => {
-                  return;
+                  setDel(true);
                 },
               }
             : null,
@@ -283,6 +291,39 @@ export default function AdminFreestyleScreen() {
         ]}
         data={data}
       />
+      <DelOverlay />
     </>
   );
+
+  function DelOverlay() {
+    return (
+      <div
+        className={
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (del ? "fixed z-50" : "z-0 hidden")
+        }
+        onClick={() => {
+          setDel(false);
+        }}
+      >
+        <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">
+          <span className="text-xl font-bold">
+            Are you sure you want to delete this Freestyle Group?
+          </span>
+          <Button
+            name="Delete"
+            design="danger"
+            onClick={() => {
+              if (data) {
+                deleteFreestyleGroup(freestyleAdmin).then(() => {
+                  setDel(false);
+                  setFreestyleAdmin(parent);
+                });
+              }
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 }

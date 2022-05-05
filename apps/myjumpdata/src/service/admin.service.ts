@@ -43,6 +43,9 @@ export const updateFreestyleElementGroups = (id: string, groups: string[]) => {
 export const createFreestyleGroup = (key: string, parent: string) => {
   return api.post("/admin/freestyle_group/create", { key, parent });
 };
+export const deleteFreestyleGroup = (key: string) => {
+  return api.post("/admin/freestyle_group/delete", { key });
+};
 
 export const getUsers = (page: number, limit: number) => {
   return api.get(`/admin/users?page=${page}&limit=${limit}`);

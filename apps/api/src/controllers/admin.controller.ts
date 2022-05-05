@@ -239,6 +239,20 @@ export function createFreestyleGroup(req, res) {
     });
   }
 }
+export function deleteFreestyleGroup(req, res) {
+  const { key } = req.body;
+  FreestyleDataGroup.deleteOne({ key }).exec((err) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    return requestHandler(
+      res,
+      200,
+      "success.delete.freestyle.group",
+      "Successfully deleted freestyle Group!"
+    );
+  });
+}
 
 export const getVersion = (req, res) => {
   return res.send({ v: process.env.npm_package_version });
