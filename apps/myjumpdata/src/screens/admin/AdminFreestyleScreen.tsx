@@ -36,7 +36,7 @@ export default function AdminFreestyleScreen() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    getFreestyle(freestyleAdmin).then((response: any) => {
+    getFreestyle(freestyleAdmin || "").then((response: any) => {
       setData(
         response.data.map((item: freestyle_folder_data) => {
           const newItem: any = {};

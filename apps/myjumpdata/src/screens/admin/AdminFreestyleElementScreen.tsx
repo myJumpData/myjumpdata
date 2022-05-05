@@ -24,6 +24,7 @@ export default function AdminFreestyleElementScreen() {
     });
   }, []);
   const params = useParams();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [freestyleElementData, setFreestyleElementData] = useState<
     | {
@@ -39,20 +40,25 @@ export default function AdminFreestyleElementScreen() {
   const [del, setDel] = useState(false);
 
   useEffect(() => {
-    getFreestyleElement(params.id as string).then((response) => {
-      setFreestyleElementData(response.data);
+    getFreestyleElement(params.id as string).then((response: any) => {
+      if (response.key === "error.freestyle.notfound") {
+        navigate("/admin/freestyle");
+      } else {
+        setFreestyleElementData(response.data);
+      }
     });
-  }, [params.id]);
+  }, [navigate, params.id]);
 
   return (
     <>
       <AdminActionBar
         text={`${t<string>("common:nav_freestyle")}${
-          freestyleElementData &&
-          ` - ${freestyleElementData.key
-            .split("_")
-            .map((item) => t<string>(`freestyle:${item}`))
-            .join(" ")}`
+          freestyleElementData
+            ? ` - ${freestyleElementData.key
+                .split("_")
+                .map((item) => t<string>(`freestyle:${item}`))
+                .join(" ")}`
+            : ""
         }`}
         actions={[
           {

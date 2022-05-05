@@ -78,6 +78,14 @@ export function getFreestyleElement(req, res) {
       if (err) {
         return requestHandlerError(res, err);
       }
+      if (!elementData) {
+        return requestHandler(
+          res,
+          404,
+          "error.freestyle.notfound",
+          "Freestyle Element not found"
+        );
+      }
       const jobQueries: Query<object, object>[] = [];
       elementData.key.split("_").forEach((element) => {
         jobQueries.push(
