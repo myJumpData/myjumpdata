@@ -13,11 +13,14 @@ export default function Table({
   limit,
   setLimit,
 }: {
-  structure: {
-    name: string;
-    key: string;
-    options?: { align?: "text-center" | "text-left" | "text-right" | string };
-  }[];
+  structure:
+    | ({
+        name: string;
+        key: string;
+        options?: {
+          align?: "text-center" | "text-left" | "text-right" | string;
+        };
+      } | null)[];
   data: any[] | undefined;
   total?: number;
   page?: number;
@@ -32,36 +35,51 @@ export default function Table({
         <table className="w-full">
           <thead>
             <tr>
-              {structure.map((item) => (
-                <th
-                  key={item.key}
-                  className={classNames(
-                    "whitespace-nowrap p-1",
-                    item.options?.align
-                  )}
-                >
-                  {item.name}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data &&
-              data.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {structure.map((item) => (
-                    <td
+              {structure.map((item) => {
+                if (item) {
+                  return (
+                    <th
                       key={item.key}
                       className={classNames(
                         "whitespace-nowrap p-1",
                         item.options?.align
                       )}
                     >
-                      {row[item.key]}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+                      {item.name}
+                    </th>
+                  );
+                }
+                return "";
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {data &&
+              data.map((row, rowIndex) => {
+                if (row) {
+                  return (
+                    <tr key={rowIndex}>
+                      {structure.map((item) => {
+                        if (item) {
+                          return (
+                            <td
+                              key={item.key}
+                              className={classNames(
+                                "whitespace-nowrap p-1",
+                                item.options?.align
+                              )}
+                            >
+                              {row[item.key]}
+                            </td>
+                          );
+                        }
+                        return "";
+                      })}
+                    </tr>
+                  );
+                }
+                return "";
+              })}
           </tbody>
         </table>
       </div>
