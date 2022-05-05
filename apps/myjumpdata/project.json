@@ -21,7 +21,7 @@
           "apps/myjumpdata/src/manifest.json",
           "apps/myjumpdata/src/favicon.ico"
         ],
-        "styles": ["apps/myjumpdata/src/styles.css"],
+        "styles": ["apps/myjumpdata/src/styles.scss"],
         "scripts": [],
         "webpackConfig": "@nrwl/react/plugins/webpack"
       },

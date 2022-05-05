@@ -7,7 +7,7 @@ import Spinner from "./components/Spinner";
 import Wrapper from "./components/Wrapper";
 import "./i18n";
 import { persistor, store } from "./redux/store";
-import "./styles.css";
+import "./styles.scss";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
 const FreestyleGroupScreen = lazy(
