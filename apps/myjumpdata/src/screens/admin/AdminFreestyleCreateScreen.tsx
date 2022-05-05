@@ -1,9 +1,5 @@
 import AdminActionBar from "../../components/AdminActionBar";
 import { TextInput } from "../../components/Input";
-import {
-  createFreestyle,
-  getFreestyleTranslation,
-} from "../../service/freestyle.service";
 import Breadcrumb from "../../components/Breadcrumb";
 import { LANGUAGES } from "../../Constants";
 import { useTranslation } from "react-i18next";
@@ -12,6 +8,10 @@ import Flag from "react-world-flags";
 import { useParams } from "react-router";
 import { HiCheck } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import {
+  createFreestyle,
+  getFreestyleTranslation,
+} from "../../service/admin.service";
 
 export default function AdminFreestyleCreateScreen() {
   const { t } = useTranslation();

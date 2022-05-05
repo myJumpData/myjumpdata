@@ -1,18 +1,9 @@
-import mongoose, { Query } from "mongoose";
+import mongoose from "mongoose";
 import FreestyleDataElement from "../models/freestyleDataElement.model";
 import FreestyleDataGroup from "../models/freestyleDataGroup.model";
 import FreestyleDataUser from "../models/freestyleDataUser.model";
-import Translation from "../models/translation.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
 
-export function deleteFreestyle(req, res) {
-  const elementId = req.body.id;
-  FreestyleDataElement.deleteOne({
-    _id: new mongoose.Types.ObjectId(elementId),
-  }).exec((r) => {
-    return requestHandler(res, 200, "", "", r);
-  });
-}
 export function getFreestyle(req, res) {
   let count = 0;
   const path = req.params.path;
@@ -68,96 +59,6 @@ export function getFreestyle(req, res) {
       }
     }
   }
-}
-export function getFreestyleElement(req, res) {
-  const elementId = req.params.id;
-  FreestyleDataElement.findOne({ _id: elementId })
-    .select("-__v")
-    .populate("groups", "-__v -parent")
-    .exec((err, elementData) => {
-      if (err) {
-        return requestHandlerError(res, err);
-      }
-      if (!elementData) {
-        return requestHandler(
-          res,
-          404,
-          "error.freestyle.notfound",
-          "Freestyle Element not found"
-        );
-      }
-      const jobQueries: Query<object, object>[] = [];
-      elementData.key.split("_").forEach((element) => {
-        jobQueries.push(
-          Translation.find({ key: element, namespace: "freestyle" }).select(
-            "-_id -__v -namespace"
-          )
-        );
-      });
-      Promise.all(jobQueries).then((translationData) => {
-        const translation = {};
-        translationData.flat().forEach((item: any) => {
-          if (translation[item.language]) {
-            translation[item.language][item.key] = item.translation;
-          } else {
-            translation[item.language] = {};
-            translation[item.language][item.key] = item.translation;
-          }
-        });
-        return requestHandler(res, 200, "", "", {
-          id: elementData._id,
-          key: elementData.key,
-          compiled: elementData.compiled,
-          translation,
-          level: elementData.level,
-          groups: elementData.groups,
-        });
-      });
-    });
-}
-export function getFreestyleTranslation(req, res) {
-  const key = req.params.key;
-  const jobQueries: Query<object, object>[] = [];
-  key.split("_").forEach((element) => {
-    jobQueries.push(
-      Translation.find({ key: element, namespace: "freestyle" }).select(
-        "-_id -__v -namespace"
-      )
-    );
-  });
-  Promise.all(jobQueries).then((translationData) => {
-    const translation = {};
-    translationData.flat().forEach((item: any) => {
-      if (translation[item.language]) {
-        translation[item.language][item.key] = item.translation;
-      } else {
-        translation[item.language] = {};
-        translation[item.language][item.key] = item.translation;
-      }
-    });
-    return requestHandler(res, 200, "", "", translation);
-  });
-}
-export function createFreestyle(req, res) {
-  const { key, level, groups } = req.body;
-  FreestyleDataGroup.find({ key: { $in: groups } }).then((groupsData) => {
-    const fs = new FreestyleDataElement({
-      key,
-      level,
-      groups: groupsData.map((g) => g._id),
-    });
-    fs.save((err) => {
-      if (err) {
-        return requestHandlerError(res, err);
-      }
-      return requestHandler(
-        res,
-        200,
-        "success.create.freestyle",
-        "Successfully created freestyle!"
-      );
-    });
-  });
 }
 
 export function getFreestyleDataOwn(req, res) {
@@ -272,25 +173,5 @@ export function saveFreestyleData(req, res) {
         );
       });
     }
-  });
-}
-
-export function updateFreestyleElementLevel(req, res) {
-  if (!req.userRoles?.includes("admin")) {
-    return requestHandler(
-      res,
-      401,
-      "unauthorized.admin.not",
-      "Need Admin Role"
-    );
-  }
-  FreestyleDataElement.updateOne(
-    { _id: req.body.id },
-    { level: req.body.level }
-  ).exec((err) => {
-    if (err) {
-      return requestHandlerError(res, err);
-    }
-    return requestHandler(res, 200, "", "");
   });
 }

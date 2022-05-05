@@ -8,13 +8,14 @@ import Breadcrumb from "../../components/Breadcrumb";
 import { TextInputInline } from "../../components/Input";
 import { LANGUAGES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
+import { HiTrash } from "react-icons/all";
+import Button from "../../components/Button";
 import {
   deleteFreestyle,
   getFreestyleElement,
+  getFreestyleTranslation,
   updateFreestyleElementLevel,
-} from "../../service/freestyle.service";
-import { HiTrash } from "react-icons/all";
-import Button from "../../components/Button";
+} from "../../service/admin.service";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function AdminFreestyleElementScreen() {
     | undefined
   >();
   const [del, setDel] = useState(false);
+  const [translation, setTranslation] = useState<any>({});
 
   useEffect(() => {
     getFreestyleElement(params.id as string).then((response: any) => {
@@ -48,6 +50,14 @@ export default function AdminFreestyleElementScreen() {
       }
     });
   }, [navigate, params.id]);
+
+  useEffect(() => {
+    if (freestyleElementData) {
+      getFreestyleTranslation(freestyleElementData?.key).then((res) => {
+        setTranslation(res.data);
+      });
+    }
+  }, [freestyleElementData]);
 
   return (
     <>
@@ -133,11 +143,11 @@ export default function AdminFreestyleElementScreen() {
                 </span>
 
                 <span className="px-4 py-2">
-                  {freestyleElementData.key
+                  {freestyleElementData?.key
                     .split("_")
                     .map((item) => {
-                      if (freestyleElementData.translation[lang]) {
-                        return freestyleElementData.translation[lang][item];
+                      if (translation[lang]) {
+                        return translation[lang][item];
                       }
                       return null;
                     })

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaFolder, FaFolderPlus, FaPlus } from "react-icons/fa";
+import { FaFolder, FaFolderMinus, FaFolderPlus, FaPlus } from "react-icons/fa";
 import { HiArrowLeft, HiArrowRight, HiCheck } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import AuthVerify from "../../common/AuthVerify";
@@ -189,6 +189,14 @@ export default function AdminFreestyleScreen() {
               return;
             },
           },
+          freestyleAdmin !== ""
+            ? {
+                icon: FaFolderMinus,
+                onClick: () => {
+                  return;
+                },
+              }
+            : null,
         ]}
       />
       <Breadcrumb
