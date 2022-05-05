@@ -22,6 +22,9 @@ export function getFreestyle(req, res) {
         id = findGroupCurrent._id;
       }
     }
+    if (id === null && key !== "") {
+      return requestHandler(res, 404, "", "");
+    }
     const findGroupChilds = await FreestyleDataGroup.find({
       parent: id,
     })
@@ -53,8 +56,8 @@ export function getFreestyle(req, res) {
       } else {
         return requestHandler(res, 200, "", "", [
           { key: pathSplit.slice(0, -1).join("_"), back: true },
-          ...groups,
-          ...elements,
+          ...(groups || []),
+          ...(elements || []),
         ]);
       }
     }

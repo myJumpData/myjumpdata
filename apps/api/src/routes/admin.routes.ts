@@ -8,6 +8,7 @@ import {
   getFreestyleTranslation,
   getUsers,
   getVersion,
+  updateFreestyleElementGroups,
   updateFreestyleElementLevel,
 } from "../controllers/admin.controller";
 import verifyToken from "../middlewares/authJwt";
@@ -36,6 +37,11 @@ export default function AdminRoutes(app: Express) {
     "/admin/freestyle_update_level",
     [verifyToken, isAdmin],
     updateFreestyleElementLevel
+  );
+  app.post(
+    "/admin/freestyle/update/groups",
+    [verifyToken, isAdmin],
+    updateFreestyleElementGroups
   );
   app.get(
     "/admin/freestyle/translation/:key",

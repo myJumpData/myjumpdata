@@ -78,28 +78,29 @@ export default function AdminFreestyleCreateScreen() {
       </div>
       <div>
         <span className="font-bold">Translations</span>
-        {LANGUAGES.map((lang) => (
-          <div
-            className="my-2 flex h-8 items-center space-x-2 overflow-hidden rounded-lg bg-gray-500/50 px-4 py-2"
-            key={lang}
-          >
-            <span className="flex h-full w-12 items-center">
-              <Flag code={lang === "en" ? "gb" : lang} />
-            </span>
+        {translation &&
+          LANGUAGES.map((lang) => (
+            <div
+              className="my-2 flex h-8 items-center space-x-2 overflow-hidden rounded-lg bg-gray-500/50 px-4 py-2"
+              key={lang}
+            >
+              <span className="flex h-full w-12 items-center">
+                <Flag code={lang === "en" ? "gb" : lang} />
+              </span>
 
-            <span className="px-4 py-2">
-              {key
-                .split("_")
-                .map((item) => {
-                  if (translation[lang]) {
-                    return translation[lang][item];
-                  }
-                  return null;
-                })
-                .join(" ")}
-            </span>
-          </div>
-        ))}
+              <span className="px-4 py-2">
+                {key
+                  .split("_")
+                  .map((item) => {
+                    if (translation[lang]) {
+                      return translation[lang][item];
+                    }
+                    return null;
+                  })
+                  .join(" ")}
+              </span>
+            </div>
+          ))}
       </div>
     </>
   );

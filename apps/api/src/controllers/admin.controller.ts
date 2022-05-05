@@ -171,14 +171,6 @@ export function createFreestyle(req, res) {
   });
 }
 export function updateFreestyleElementLevel(req, res) {
-  if (!req.userRoles?.includes("admin")) {
-    return requestHandler(
-      res,
-      401,
-      "unauthorized.admin.not",
-      "Need Admin Role"
-    );
-  }
   FreestyleDataElement.updateOne(
     { _id: req.body.id },
     { level: req.body.level }
@@ -187,6 +179,27 @@ export function updateFreestyleElementLevel(req, res) {
       return requestHandlerError(res, err);
     }
     return requestHandler(res, 200, "", "");
+  });
+}
+export function updateFreestyleElementGroups(req, res) {
+  const { groups, id } = req.body;
+  FreestyleDataGroup.find({ key: { $in: groups } }).then((groupsData) => {
+    FreestyleDataElement.updateOne(
+      { _id: id },
+      {
+        groups: groupsData.map((g) => g._id),
+      }
+    ).exec((err) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(
+        res,
+        200,
+        "success.update.groups",
+        "Successfully updated Groups!"
+      );
+    });
   });
 }
 

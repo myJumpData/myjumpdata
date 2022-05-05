@@ -176,13 +176,15 @@ export default function AdminFreestyleScreen() {
       <AdminActionBar
         text={t("common:nav_freestyle")}
         actions={[
-          {
-            icon: FaPlus,
-            onClick: () => {
-              navigate(`/admin/freestyle/create/${freestyleAdmin}`);
-              return;
-            },
-          },
+          freestyleAdmin !== ""
+            ? {
+                icon: FaPlus,
+                onClick: () => {
+                  navigate(`/admin/freestyle/create/${freestyleAdmin}`);
+                  return;
+                },
+              }
+            : null,
           {
             icon: FaFolderPlus,
             onClick: () => {

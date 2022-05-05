@@ -5,7 +5,7 @@ import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
 import Breadcrumb from "../../components/Breadcrumb";
-import { TextInputInline } from "../../components/Input";
+import { TextInput, TextInputInline } from "../../components/Input";
 import { LANGUAGES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
 import { HiTrash } from "react-icons/all";
@@ -14,8 +14,11 @@ import {
   deleteFreestyle,
   getFreestyleElement,
   getFreestyleTranslation,
+  updateFreestyleElementGroups,
   updateFreestyleElementLevel,
 } from "../../service/admin.service";
+import { FaPlus } from "react-icons/fa";
+import { getFreestyle } from "../../service/freestyle.service";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -40,24 +43,42 @@ export default function AdminFreestyleElementScreen() {
   >();
   const [del, setDel] = useState(false);
   const [translation, setTranslation] = useState<any>({});
+  const [newGroup, setNewGroup] = useState<any>();
+  const [newGroupValid, setNewGroupValid] = useState<undefined | boolean>();
 
-  useEffect(() => {
+  const getData = () => {
     getFreestyleElement(params.id as string).then((response: any) => {
       if (response.key === "error.freestyle.notfound") {
         navigate("/admin/freestyle");
       } else {
         setFreestyleElementData(response.data);
+        getFreestyleTranslation(response.data?.key).then((res) => {
+          setTranslation(res.data);
+        });
       }
     });
-  }, [navigate, params.id]);
+  };
 
   useEffect(() => {
-    if (freestyleElementData) {
-      getFreestyleTranslation(freestyleElementData?.key).then((res) => {
-        setTranslation(res.data);
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setNewGroupValid(undefined);
+    if (newGroup) {
+      getFreestyle(newGroup).then((res) => {
+        if (res.status === 200) {
+          const valid = res.data.filter((item) => {
+            return !!(item.element || item.group);
+          });
+          setNewGroupValid(valid.length > 0);
+        } else {
+          setNewGroupValid(false);
+        }
       });
     }
-  }, [freestyleElementData]);
+  }, [newGroup]);
 
   return (
     <>
@@ -119,17 +140,82 @@ export default function AdminFreestyleElementScreen() {
             </tbody>
           </table>
           <div>
-            <span className="font-bold">Groups</span>
+            <div className="flex items-center justify-between">
+              <span className="font-bold">Groups</span>
+              <span
+                className="opacity-75 transition hover:scale-125 hover:opacity-100"
+                onClick={() => {
+                  setNewGroup("");
+                }}
+              >
+                <FaPlus />
+              </span>
+            </div>
             {freestyleElementData.groups.map((group) => (
-              <div className="my-2" key={group.key}>
+              <div className="my-2 flex items-center" key={group.key}>
+                <div className="grow pr-4">
+                  <Breadcrumb
+                    data={group.key.split("_")}
+                    setState={() => {
+                      return;
+                    }}
+                  />
+                </div>
+                <span
+                  className="cursor-pointer opacity-75 transition hover:scale-125 hover:opacity-100"
+                  onClick={() => {
+                    updateFreestyleElementGroups(
+                      freestyleElementData.id,
+                      freestyleElementData.groups
+                        .filter((g) => {
+                          return group.key !== g.key;
+                        })
+                        .map((r) => r.key)
+                    ).then(() => {
+                      getData();
+                      setNewGroupValid(undefined);
+                      setNewGroup(undefined);
+                    });
+                  }}
+                >
+                  <HiTrash />
+                </span>
+              </div>
+            ))}
+            {newGroup !== undefined && (
+              <div className="rounded-2xl border-2 border-gray-500/50 p-4">
+                <TextInput
+                  type="text"
+                  stateChange={setNewGroup}
+                  value={newGroup}
+                  name="Group Key"
+                  valid={newGroupValid}
+                />
                 <Breadcrumb
-                  data={group.key.split("_")}
+                  data={newGroupValid ? newGroup.split("_") : []}
                   setState={() => {
                     return;
                   }}
                 />
+                <Button
+                  name="Save"
+                  design={newGroupValid ? "success" : "secondary"}
+                  onClick={() => {
+                    if (newGroupValid !== true) {
+                      return;
+                    }
+                    updateFreestyleElementGroups(freestyleElementData.id, [
+                      ...freestyleElementData.groups.map((e) => e.key),
+                      newGroup,
+                    ]).then(() => {
+                      getData();
+                      setNewGroupValid(undefined);
+                      setNewGroup(undefined);
+                    });
+                  }}
+                />
               </div>
-            ))}
+            )}
           </div>
           <div>
             <span className="font-bold">Translations</span>
