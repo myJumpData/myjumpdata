@@ -9,6 +9,9 @@ export const getFreestyleElement = (id: string) => {
 export const getFreestyleTranslation = (key: string) => {
   return api.get("/freestyle/translation/" + key);
 };
+export const deleteFreestyle = (id: string) => {
+  return api.post("/freestyle/delete", { id });
+};
 export const createFreestyle = (
   key: string,
   level: string,

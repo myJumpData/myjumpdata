@@ -1,6 +1,7 @@
 import { Express } from "express-serve-static-core";
 import {
   createFreestyle,
+  deleteFreestyle,
   getFreestyle,
   getFreestyleData,
   getFreestyleDataOwn,
@@ -20,6 +21,7 @@ export default function FreestyleRoutes(app: Express) {
     getFreestyleTranslation
   );
   app.post("/freestyle/create", [verifyToken], createFreestyle);
+  app.post("/freestyle/delete", [verifyToken], deleteFreestyle);
   app.get("/freestyle/:path", [verifyToken], getFreestyle);
   app.get("/freestyle", [verifyToken], getFreestyle);
   app.get("/freestyle_own", [verifyToken], getFreestyleDataOwn);

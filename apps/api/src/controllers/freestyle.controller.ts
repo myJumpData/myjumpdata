@@ -5,6 +5,14 @@ import FreestyleDataUser from "../models/freestyleDataUser.model";
 import Translation from "../models/translation.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
 
+export function deleteFreestyle(req, res) {
+  const elementId = req.body.id;
+  FreestyleDataElement.deleteOne({
+    _id: new mongoose.Types.ObjectId(elementId),
+  }).exec((r) => {
+    return requestHandler(res, 200, "", "", r);
+  });
+}
 export function getFreestyle(req, res) {
   let count = 0;
   const path = req.params.path;

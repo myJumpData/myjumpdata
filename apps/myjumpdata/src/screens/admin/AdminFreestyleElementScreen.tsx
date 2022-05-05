@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
@@ -9,9 +9,12 @@ import { TextInputInline } from "../../components/Input";
 import { LANGUAGES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
 import {
+  deleteFreestyle,
   getFreestyleElement,
   updateFreestyleElementLevel,
 } from "../../service/freestyle.service";
+import { HiTrash } from "react-icons/all";
+import Button from "../../components/Button";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -33,6 +36,7 @@ export default function AdminFreestyleElementScreen() {
       }
     | undefined
   >();
+  const [del, setDel] = useState(false);
 
   useEffect(() => {
     getFreestyleElement(params.id as string).then((response) => {
@@ -50,6 +54,14 @@ export default function AdminFreestyleElementScreen() {
             .map((item) => t<string>(`freestyle:${item}`))
             .join(" ")}`
         }`}
+        actions={[
+          {
+            icon: HiTrash,
+            onClick: () => {
+              setDel(true);
+            },
+          },
+        ]}
       />
       {freestyleElementData && (
         <>
@@ -130,6 +142,43 @@ export default function AdminFreestyleElementScreen() {
           </div>
         </>
       )}
+      <DelOverlay />
     </>
   );
+
+  function DelOverlay() {
+    const navigate = useNavigate();
+
+    return (
+      <div
+        className={
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (del ? "fixed z-50" : "z-0 hidden")
+        }
+        onClick={() => {
+          setDel(false);
+        }}
+      >
+        <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">
+          <span className="text-xl font-bold">
+            Are you sure you want to delete this Freestyle?
+          </span>
+          <Button
+            name="Delete"
+            design="danger"
+            onClick={() => {
+              if (freestyleElementData) {
+                deleteFreestyle(freestyleElementData.id).then((response) => {
+                  if (response.status === 200) {
+                    setDel(false);
+                    navigate("/admin/freestyle/");
+                  }
+                });
+              }
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 }
