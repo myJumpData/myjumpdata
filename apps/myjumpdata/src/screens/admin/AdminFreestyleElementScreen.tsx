@@ -19,6 +19,7 @@ import {
 } from "../../service/admin.service";
 import { FaPlus } from "react-icons/fa";
 import { getFreestyle } from "../../service/freestyle.service";
+import { classNames } from "../../utils/classNames";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -153,7 +154,12 @@ export default function AdminFreestyleElementScreen() {
             </div>
             {freestyleElementData.groups.map((group) => (
               <div className="my-2 flex items-center" key={group.key}>
-                <div className="grow pr-4">
+                <div
+                  className={classNames(
+                    "grow",
+                    freestyleElementData.groups.length > 1 && "pr-4"
+                  )}
+                >
                   <Breadcrumb
                     data={group.key.split("_")}
                     setState={() => {
@@ -161,25 +167,27 @@ export default function AdminFreestyleElementScreen() {
                     }}
                   />
                 </div>
-                <span
-                  className="cursor-pointer opacity-75 transition hover:scale-125 hover:opacity-100"
-                  onClick={() => {
-                    updateFreestyleElementGroups(
-                      freestyleElementData.id,
-                      freestyleElementData.groups
-                        .filter((g) => {
-                          return group.key !== g.key;
-                        })
-                        .map((r) => r.key)
-                    ).then(() => {
-                      getData();
-                      setNewGroupValid(undefined);
-                      setNewGroup(undefined);
-                    });
-                  }}
-                >
-                  <HiTrash />
-                </span>
+                {freestyleElementData.groups.length > 1 && (
+                  <span
+                    className="cursor-pointer opacity-75 transition hover:scale-125 hover:opacity-100"
+                    onClick={() => {
+                      updateFreestyleElementGroups(
+                        freestyleElementData.id,
+                        freestyleElementData.groups
+                          .filter((g) => {
+                            return group.key !== g.key;
+                          })
+                          .map((r) => r.key)
+                      ).then(() => {
+                        getData();
+                        setNewGroupValid(undefined);
+                        setNewGroup(undefined);
+                      });
+                    }}
+                  >
+                    <HiTrash />
+                  </span>
+                )}
               </div>
             ))}
             {newGroup !== undefined && (
@@ -201,7 +209,7 @@ export default function AdminFreestyleElementScreen() {
                   name="Save"
                   design={newGroupValid ? "success" : "secondary"}
                   onClick={() => {
-                    if (newGroupValid !== true) {
+                    if (!newGroupValid) {
                       return;
                     }
                     updateFreestyleElementGroups(freestyleElementData.id, [
