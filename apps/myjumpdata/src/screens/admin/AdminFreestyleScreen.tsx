@@ -113,45 +113,55 @@ export default function AdminFreestyleScreen() {
               }
             </span>
           );
-          newItem.level = (
-            <span
-              className="flex cursor-pointer items-center justify-end text-right"
-              onClick={onClick}
-            >
-              {
-                (() => {
-                  if (item.back) {
-                    return "";
+          newItem.level = (() => {
+            if (item.element && item.level) {
+              return (
+                <span
+                  className="flex cursor-pointer items-center justify-end text-right"
+                  onClick={onClick}
+                >
+                  {
+                    (() => {
+                      if (item.back) {
+                        return "";
+                      }
+                      if (item.group) {
+                        return "";
+                      }
+                      if (item.element) {
+                        if (item.level) {
+                          return `Lvl. ${item.level}`;
+                        }
+                        return "";
+                      }
+                      return "";
+                    })() as string
                   }
-                  if (item.group) {
-                    return "";
+                </span>
+              );
+            }
+            return;
+          })();
+          newItem.compiled = (() => {
+            if (item.compiled) {
+              return (
+                <span
+                  className="items-center, flex cursor-pointer justify-center"
+                  onClick={onClick}
+                >
+                  {
+                    (() => {
+                      if (item.compiled) {
+                        return <HiCheck className="text-2xl text-green-500" />;
+                      }
+                      return "";
+                    })() as string
                   }
-                  if (item.element) {
-                    if (item.level) {
-                      return `Lvl. ${item.level}`;
-                    }
-                    return "";
-                  }
-                  return "";
-                })() as string
-              }
-            </span>
-          );
-          newItem.compiled = (
-            <span
-              className="items-center, flex cursor-pointer justify-center"
-              onClick={onClick}
-            >
-              {
-                (() => {
-                  if (item.compiled) {
-                    return <HiCheck className="text-2xl text-green-500" />;
-                  }
-                  return "";
-                })() as string
-              }
-            </span>
-          );
+                </span>
+              );
+            }
+            return;
+          })();
           return newItem;
         })
       );
@@ -186,8 +196,17 @@ export default function AdminFreestyleScreen() {
         structure={[
           { name: "Name", key: "name", options: { align: "text-left" } },
           { name: "Key", key: "key", options: { align: "text-left" } },
-          { name: "Compiled", key: "compiled" },
-          { name: "Level", key: "level", options: { align: "text-right" } },
+
+          data && data.filter((item) => !!item?.compiled).length > 0
+            ? { name: "Compiled", key: "compiled" }
+            : null,
+          data && data.filter((item) => !!item?.level).length > 0
+            ? {
+                name: "Level",
+                key: "level",
+                options: { align: "text-right" },
+              }
+            : null,
         ]}
         data={data}
       />
