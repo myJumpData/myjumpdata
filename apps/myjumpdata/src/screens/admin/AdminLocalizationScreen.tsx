@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPlus, FaTrash } from "react-icons/fa";
-import { generatePath, Outlet, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
@@ -13,7 +13,6 @@ import { LANGUAGES, NAMESPACES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
 import { deleteLocalization } from "../../service/admin.service";
 import { getTranslations } from "../../service/locales.service";
-import { useParams } from "react-router";
 
 export default function AdminLocalizationScreen() {
   useEffect(() => {
@@ -23,84 +22,78 @@ export default function AdminLocalizationScreen() {
     });
   }, []);
   const { t } = useTranslation();
-  const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: 1,
+    limti: 10,
+    namespace: NAMESPACES[0],
+  } as any);
   const navigate = useNavigate();
 
-  const path = params.path || "";
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 10;
+  const namespace = searchParams.get("namespace") || NAMESPACES[0];
 
   const [translationData, setTranslationData] = useState<any>([]);
   const [data, setData] = useState<any>([]);
   const [total, setTotal] = useState(0);
-  const [limit, setLimit] = useState(5);
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    if (!params.path || path === "") {
-      navigate(
-        generatePath("/admin/localization/list/:path", { path: NAMESPACES[0] })
-      );
-    }
-  }, [navigate, params.path, path]);
-
-  useEffect(() => {
-    if (path !== "") {
-      getTranslations(path).then((response) => {
-        const data = Object.entries(response.data.data)
-          .sort((a: any, b: any) => {
-            const A = a[0].toUpperCase();
-            const B = b[0].toUpperCase();
-            if (A > B) {
-              return 1;
-            } else if (A < B) {
-              return -1;
-            } else {
-              return 0;
-            }
-          })
-          .map((item: any) => {
-            const tmp: any = {};
-            tmp.key = item[0];
-            tmp.translation = (
-              <div className="flex items-center space-x-1">
-                {LANGUAGES.map((element) => {
-                  const k = item[0] + "_" + element;
-                  if (item[1][element] !== undefined) {
-                    return (
-                      <>
-                        <span
-                          className="flex h-full w-8 items-center overflow-hidden rounded border border-gray-500/50"
-                          data-for={k}
-                          data-tip={item[1][element]}
-                        >
-                          <Flag code={element === "en" ? "gb" : element} />
-                        </span>
-                        <ReactTooltip id={k} effect="solid" />
-                      </>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            );
-            tmp.action = (
-              <div className="flex justify-end">
-                <span
-                  onClick={() => {
-                    setDel(true);
-                    setCurrent(item[0]);
-                  }}
-                >
-                  <FaTrash className="text-gray-500/50 transition hover:text-white" />
-                </span>
-              </div>
-            );
-            return tmp;
-          });
-        setTranslationData(data);
-        setTotal(Object.entries(response.data.data).length);
-      });
-    }
-  }, [path]);
+    getTranslations(namespace).then((response) => {
+      const data = Object.entries(response.data.data)
+        .sort((a: any, b: any) => {
+          const A = a[0].toUpperCase();
+          const B = b[0].toUpperCase();
+          if (A > B) {
+            return 1;
+          } else if (A < B) {
+            return -1;
+          } else {
+            return 0;
+          }
+        })
+        .map((item: any) => {
+          const tmp: any = {};
+          tmp.key = item[0];
+          tmp.translation = (
+            <div className="flex items-center space-x-1">
+              {LANGUAGES.map((element) => {
+                const k = item[0] + "_" + element;
+                if (item[1][element] !== undefined) {
+                  return (
+                    <>
+                      <span
+                        className="flex h-full w-8 items-center overflow-hidden rounded border border-gray-500/50"
+                        data-for={k}
+                        data-tip={item[1][element]}
+                      >
+                        <Flag code={element === "en" ? "gb" : element} />
+                      </span>
+                      <ReactTooltip id={k} effect="solid" />
+                    </>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          );
+          tmp.action = (
+            <div className="flex justify-end">
+              <span
+                onClick={() => {
+                  setDel(true);
+                  setCurrent(item[0]);
+                }}
+              >
+                <FaTrash className="text-gray-500/50 transition hover:text-white" />
+              </span>
+            </div>
+          );
+          return tmp;
+        });
+      setTranslationData(data);
+      setTotal(Object.entries(response.data.data).length);
+    });
+  }, [namespace]);
   useEffect(() => {
     setData(
       translationData.slice((page - 1) * limit, (page - 1) * limit + limit)
@@ -110,19 +103,15 @@ export default function AdminLocalizationScreen() {
   const [del, setDel] = useState(false);
   const [current, setCurrent] = useState<any>();
 
-  if (path === "") {
-    return <Outlet />;
-  }
-
   return (
     <>
       <AdminActionBar
-        text={`${t<string>("common:nav_localization")} - ${path}`}
+        text={`${t<string>("common:nav_localization")} - ${namespace}`}
         actions={[
           {
             icon: FaPlus,
             onClick: () => {
-              navigate(`/admin/localization/create/${path}`);
+              navigate(`/admin/localization/create/${namespace}`);
             },
           },
         ]}
@@ -135,16 +124,20 @@ export default function AdminLocalizationScreen() {
           };
         })}
         stateChange={(e) => {
-          navigate(generatePath("/admin/localization/list/:path", { path: e }));
+          setSearchParams({ limit, page, namespace: e } as any);
         }}
-        current={path}
+        current={namespace}
       />
 
       <Table
         limit={limit}
         page={page}
-        setLimit={setLimit}
-        setPage={setPage}
+        setLimit={(e) => {
+          setSearchParams({ limit: e, page, namespace } as any);
+        }}
+        setPage={(e) => {
+          setSearchParams({ page: e, limit, namespace } as any);
+        }}
         pages={Math.ceil(total / limit)}
         structure={[
           { name: "Key", key: "key", options: { align: "text-left" } },
@@ -177,13 +170,13 @@ export default function AdminLocalizationScreen() {
             {t<string>("settings_delete_disclaimer_title")}
           </span>
           <span>
-            {path}:{current}
+            {namespace}:{current}
           </span>
           <Button
             name="Delete"
             design="danger"
             onClick={() => {
-              deleteLocalization(path, current).then(() => {
+              deleteLocalization(namespace, current).then(() => {
                 setDel(false);
                 setCurrent(null);
                 setTranslationData(
