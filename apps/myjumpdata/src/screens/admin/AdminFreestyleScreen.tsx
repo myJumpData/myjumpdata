@@ -2,21 +2,20 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaFolder, FaFolderMinus, FaFolderPlus, FaPlus } from "react-icons/fa";
 import { HiArrowLeft, HiArrowRight, HiCheck } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { generatePath, useNavigate } from "react-router-dom";
 import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
 import Breadcrumb from "../../components/Breadcrumb";
 import { setRoute } from "../../redux/route.action";
 import { getFreestyle } from "../../service/freestyle.service";
 import Table from "../../components/Table";
-import { useSelector } from "react-redux";
-import { setFreestyleAdmin } from "../../redux/freestyleAdmin.action";
 import { TextInput } from "../../components/Input";
 import Button from "../../components/Button";
 import {
   createFreestyleGroup,
   deleteFreestyleGroup,
 } from "../../service/admin.service";
+import { useParams } from "react-router";
 
 type freestyle_folder_data = {
   id: string;
@@ -36,8 +35,9 @@ export default function AdminFreestyleScreen() {
     });
   }, []);
   const navigate = useNavigate();
+  const params = useParams();
+  const path = params.path || "";
 
-  const freestyleAdmin = useSelector((state: any) => state.freestyleAdmin);
   const [data, setData] = useState<any[] | undefined>();
   const { t, i18n } = useTranslation();
   const [newFolder, setNewFolder] = useState<any>();
@@ -46,7 +46,7 @@ export default function AdminFreestyleScreen() {
   const [parent, setParent] = useState("");
 
   const getData = () => {
-    getFreestyle(freestyleAdmin || "").then((response: any) => {
+    getFreestyle(path).then((response: any) => {
       setData(
         response.data.map((item: freestyle_folder_data) => {
           if (item.back) {
@@ -55,10 +55,14 @@ export default function AdminFreestyleScreen() {
           const newItem: any = {};
           const onClick = () => {
             if (item.back) {
-              setFreestyleAdmin(item.key);
+              navigate(
+                generatePath("/admin/freestyle/list/:path", { path: item.key })
+              );
             }
             if (item.group) {
-              setFreestyleAdmin(item.key);
+              navigate(
+                generatePath("/admin/freestyle/list/:path", { path: item.key })
+              );
             }
             if (item.element) {
               return navigate("/admin/freestyle/element/" + item.id);
@@ -187,7 +191,7 @@ export default function AdminFreestyleScreen() {
   useEffect(() => {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [freestyleAdmin]);
+  }, [path]);
 
   useEffect(() => {
     setNewFolderValid(undefined);
@@ -205,11 +209,11 @@ export default function AdminFreestyleScreen() {
       <AdminActionBar
         text={t("common:nav_freestyle")}
         actions={[
-          freestyleAdmin !== ""
+          path !== ""
             ? {
                 icon: FaPlus,
                 onClick: () => {
-                  navigate(`/admin/freestyle/create/${freestyleAdmin}`);
+                  navigate(`/admin/freestyle/create/${path}`);
                   return;
                 },
               }
@@ -220,7 +224,7 @@ export default function AdminFreestyleScreen() {
               setNewFolder("");
             },
           },
-          freestyleAdmin !== "" && data && data.length <= 1
+          path !== "" && data && data.length <= 1
             ? {
                 icon: FaFolderMinus,
                 onClick: () => {
@@ -241,7 +245,7 @@ export default function AdminFreestyleScreen() {
           />
           <Breadcrumb
             data={[
-              ...(freestyleAdmin ? freestyleAdmin.split("_") : []),
+              ...(path ? path.split("_") : []),
               ...(newFolderValid ? newFolder.split("_") : []),
             ]}
             setState={() => {
@@ -256,10 +260,8 @@ export default function AdminFreestyleScreen() {
                 return;
               }
               createFreestyleGroup(
-                `${
-                  freestyleAdmin !== "" ? `${freestyleAdmin}_` : ""
-                }${newFolder}`,
-                freestyleAdmin
+                `${path !== "" ? `${path}_` : ""}${newFolder}`,
+                path
               ).then(() => {
                 getData();
                 setNewFolderValid(undefined);
@@ -270,8 +272,10 @@ export default function AdminFreestyleScreen() {
         </div>
       )}
       <Breadcrumb
-        data={freestyleAdmin ? freestyleAdmin.split("_") : []}
-        setState={setFreestyleAdmin}
+        data={path ? path.split("_") : []}
+        setState={(e) => {
+          navigate(generatePath("/admin/freestyle/list/:path", { path: e }));
+        }}
       />
       <Table
         structure={[
@@ -315,9 +319,13 @@ export default function AdminFreestyleScreen() {
             design="danger"
             onClick={() => {
               if (data) {
-                deleteFreestyleGroup(freestyleAdmin).then(() => {
+                deleteFreestyleGroup(path).then(() => {
                   setDel(false);
-                  setFreestyleAdmin(parent);
+                  navigate(
+                    generatePath("/admin/freestyle/list/:path", {
+                      path: parent,
+                    })
+                  );
                 });
               }
             }}

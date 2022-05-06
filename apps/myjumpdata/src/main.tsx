@@ -104,7 +104,12 @@ createRoot(document.getElementById("root") as Element).render(
                 <Route index element={<AdminHomeScreen />} />
                 <Route path="users" element={<AdminUsersScreen />} />
                 <Route path="freestyle">
-                  <Route index element={<AdminFreestyleScreen />} />
+                  <Route
+                    index
+                    element={<Navigate to="/admin/freestyle/list/" />}
+                  />
+                  <Route path="list" element={<AdminFreestyleScreen />} />
+                  <Route path="list/:path" element={<AdminFreestyleScreen />} />
                   <Route
                     path="element/:id"
                     element={<AdminFreestyleElementScreen />}
@@ -112,6 +117,10 @@ createRoot(document.getElementById("root") as Element).render(
                   <Route
                     path="create/:path"
                     element={<AdminFreestyleCreateScreen />}
+                  />
+                  <Route
+                    path="*"
+                    element={<Navigate to="/admin/freestyle" />}
                   />
                 </Route>
                 <Route path="localization">
