@@ -50,7 +50,7 @@ export default function AdminFreestyleElementScreen() {
   const getData = () => {
     getFreestyleElement(params.id as string).then((response: any) => {
       if (response.key === "error.freestyle.notfound") {
-        navigate("/admin/freestyle");
+        navigate(-1);
       } else {
         setFreestyleElementData(response.data);
         getFreestyleTranslation(response.data?.key).then((res) => {
@@ -278,7 +278,7 @@ export default function AdminFreestyleElementScreen() {
                 deleteFreestyle(freestyleElementData.id).then((response) => {
                   if (response.status === 200) {
                     setDel(false);
-                    navigate("/admin/freestyle/");
+                    navigate(-1);
                   }
                 });
               }

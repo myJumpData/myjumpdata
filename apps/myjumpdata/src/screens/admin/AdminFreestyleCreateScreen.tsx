@@ -63,7 +63,7 @@ export default function AdminFreestyleCreateScreen() {
                 groups.map((e) => e.key)
               ).then((res: any) => {
                 if (res.key === "success.create.freestyle") {
-                  navigate("/admin/freestyle");
+                  navigate(-1);
                 }
               });
             },
