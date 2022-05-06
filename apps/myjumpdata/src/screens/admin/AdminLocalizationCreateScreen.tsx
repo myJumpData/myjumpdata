@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
@@ -20,6 +20,7 @@ export default function AdminLocalizationCreateScreen() {
 
   const params = useParams();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [key, setKey] = useState<string>("");
   const [translations, setTranslations] = useState<any>(
@@ -71,7 +72,7 @@ export default function AdminLocalizationCreateScreen() {
             translations
           ).then((res: any) => {
             if (res.key === "success.create.localization") {
-              window.location.href = `/admin/localization/namespace/${params.namespace}`;
+              navigate(`/admin/localization${params.namespace}`);
             }
           });
         }}
