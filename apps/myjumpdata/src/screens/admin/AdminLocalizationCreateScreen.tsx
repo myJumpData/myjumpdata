@@ -72,7 +72,7 @@ export default function AdminLocalizationCreateScreen() {
             translations
           ).then((res: any) => {
             if (res.key === "success.create.localization") {
-              navigate(`/admin/localization${params.namespace}`);
+              navigate(-1);
             }
           });
         }}
