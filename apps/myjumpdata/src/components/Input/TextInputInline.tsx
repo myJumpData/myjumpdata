@@ -30,7 +30,7 @@ export function TextInputInline({
           "peer w-full border-b border-black bg-transparent focus:border-gray-500/50 focus:outline-0",
           valid === true && value !== valueHold
             ? "text-green-500"
-            : valid === false && value !== valueHold
+            : valid === false
             ? "text-red-500"
             : "text-gray-900 dark:text-gray-100"
         )}
