@@ -67,7 +67,7 @@ export default function Breadcrumb({
                   ],
                 }}
               >
-                {t(`freestyle:${e}`)}
+                {t<string>(`freestyle:${e}`)}
               </Text>
             </TouchableOpacity>
           </React.Fragment>

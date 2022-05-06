@@ -210,7 +210,9 @@ export default function SettingsScreen({ navigation }) {
           </StyledText>
           <TouchableOpacity
             onPress={() => {
-              Linking.openURL("https://gravatar.com/");
+              Linking.openURL("https://gravatar.com/")
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                .then(() => {});
             }}
           >
             <Text

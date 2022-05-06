@@ -3,7 +3,7 @@ const updateUsersRole = (roles: string[]) => {
   return api.put("/users/role", { roles: roles });
 };
 const searchUsers = (search: string) => {
-  const s = search.replace(/^[^A-Z0-9]+$/i, "");
+  const s = search.replace(/^[^A-Z\d]+$/i, "");
   if (s === "") {
     return Promise.resolve({ status: 200, data: null });
   }

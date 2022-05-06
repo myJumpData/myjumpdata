@@ -70,7 +70,9 @@ export default function InfoScreen() {
           <StyledShyText>{packageJson.author.name}</StyledShyText>
           <StyledShyText
             onPress={() => {
-              Linking.openURL(`mailto:${packageJson.author.email}`);
+              Linking.openURL(`mailto:${packageJson.author.email}`)
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                .then(() => {});
             }}
           >
             {packageJson.author.email}

@@ -3,7 +3,7 @@ import detector from "i18next-browser-languagedetector";
 import Http from "i18next-http-backend";
 import BackendAdapter from "i18next-multiload-backend-adapter";
 import { initReactI18next } from "react-i18next";
-import { LANGUAGES, NAMESPACES } from "./Constants";
+import { DEFAULT_LANGUAGE, LANGUAGES, NAMESPACES } from "./Constants";
 import getApi from "./utils/getApi";
 
 i18n
@@ -11,7 +11,7 @@ i18n
   .use(BackendAdapter)
   .use(initReactI18next)
   .init({
-    fallbackLng: "en",
+    fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: LANGUAGES,
     ns: NAMESPACES,
     defaultNS: "translation",
@@ -30,4 +30,6 @@ i18n
       order: ["localStorage", "cookie", "navigator"],
       caches: ["localStorage", "cookie"],
     },
-  } as any);
+  } as any)
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  .then(() => {});

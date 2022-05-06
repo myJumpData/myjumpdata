@@ -27,4 +27,6 @@ i18n
         loadPath: `${getApi()}/locales/{{lng}}/{{ns}}`,
       },
     },
-  } as any);
+  } as any)
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  .then(() => {});

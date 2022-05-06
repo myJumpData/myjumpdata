@@ -188,13 +188,17 @@ export default function RegisterScreen({ navigation }) {
             <StyledText
               style={{ color: Colors.main }}
               onPress={() => {
-                Linking.openURL("https://myjumpdata.fediv.me/terms");
+                Linking.openURL("https://myjumpdata.fediv.me/terms")
+                  // eslint-disable-next-line @typescript-eslint/no-empty-function
+                  .then(() => {});
               }}
             ></StyledText>
             <StyledText
               style={{ color: Colors.main }}
               onPress={() => {
-                Linking.openURL("https://myjumpdata.fediv.me/legal");
+                Linking.openURL("https://myjumpdata.fediv.me/legal")
+                  // eslint-disable-next-line @typescript-eslint/no-empty-function
+                  .then(() => {});
               }}
             ></StyledText>
           </Trans>

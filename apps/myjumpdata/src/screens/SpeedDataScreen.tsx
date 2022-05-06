@@ -11,7 +11,12 @@ import { DateInput, SelectInput, TextInput } from "../components/Input";
 import { SpeedDataInput } from "../components/SpeedData";
 import { setRoute } from "../redux/route.action";
 import { getGroup } from "../service/groups.service";
-import { getScoreDataHigh, getScoreDataTypes, resetScoreData, saveScoreData } from "../service/scoredata.service";
+import {
+  getScoreDataHigh,
+  getScoreDataTypes,
+  resetScoreData,
+  saveScoreData,
+} from "../service/scoredata.service";
 import TRACKS, { musicData } from "../tracks";
 import { classNames } from "../utils/classNames";
 
@@ -68,9 +73,10 @@ export default function SpeedDataScreen() {
     e.preventDefault();
     const id = e.target.elements.id.value;
     const score = e.target.elements[id].value;
-    saveScoreData(id, scoreDataType, score, date);
-    e.target.elements[id].value = null;
-    getScoreDataHighFN(params.id, scoreDataType);
+    saveScoreData(id, scoreDataType, score, date).then(() => {
+      e.target.elements[id].value = null;
+      getScoreDataHighFN(params.id, scoreDataType);
+    });
   }
 
   return (

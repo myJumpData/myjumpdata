@@ -7,7 +7,11 @@ import Button from "../components/Button";
 import { DateInput, TextInput } from "../components/Input";
 import { SpeedDataInput } from "../components/SpeedData";
 import { setRoute } from "../redux/route.action";
-import { getScoreDataOwn, resetScoreDataOwn, saveScoreDataOwn } from "../service/scoredata.service";
+import {
+  getScoreDataOwn,
+  resetScoreDataOwn,
+  saveScoreDataOwn,
+} from "../service/scoredata.service";
 import TRACKS, { musicData } from "../tracks";
 
 export default function SpeedDataOwnScreen() {
@@ -36,9 +40,10 @@ export default function SpeedDataOwnScreen() {
     const type = e.target.elements.id.value;
     const score = e.target.elements[type].value;
     if (score !== "") {
-      saveScoreDataOwn(type, score, date);
-      e.target.elements[type].value = null;
-      getData();
+      saveScoreDataOwn(type, score, date).then(() => {
+        e.target.elements[type].value = null;
+        getData();
+      });
     }
   }
 

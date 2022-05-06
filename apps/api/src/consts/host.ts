@@ -10,4 +10,4 @@ export const API_PORT = Number.isInteger(
   : 3333;
 
 export const APP_URL = process.env["APP_URL"];
-export const APP_PORT = process.env["APP_URL"]?.split(":").slice(-1)[0];
+process.env["APP_URL"]?.split(":").slice(-1)[0];
