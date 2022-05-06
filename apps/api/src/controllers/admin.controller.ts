@@ -178,7 +178,28 @@ export function updateFreestyleElementLevel(req, res) {
     if (err) {
       return requestHandlerError(res, err);
     }
-    return requestHandler(res, 200, "", "");
+    return requestHandler(
+      res,
+      200,
+      "success.update.freestyle.level",
+      "Successfully update Freestyle Level!"
+    );
+  });
+}
+export function updateFreestyleElementKey(req, res) {
+  FreestyleDataElement.updateOne(
+    { _id: req.body.id },
+    { key: req.body.key }
+  ).exec((err) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    return requestHandler(
+      res,
+      200,
+      "success.update.freestyle.key",
+      "Successfully update Freestyle Key!"
+    );
   });
 }
 export function updateFreestyleElementGroups(req, res) {

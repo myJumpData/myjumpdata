@@ -15,6 +15,7 @@ import {
   getFreestyleElement,
   getFreestyleTranslation,
   updateFreestyleElementGroups,
+  updateFreestyleElementKey,
   updateFreestyleElementLevel,
 } from "../../service/admin.service";
 import { FaPlus } from "react-icons/fa";
@@ -46,6 +47,8 @@ export default function AdminFreestyleElementScreen() {
   const [translation, setTranslation] = useState<any>({});
   const [newGroup, setNewGroup] = useState<any>();
   const [newGroupValid, setNewGroupValid] = useState<undefined | boolean>();
+  const [keyNew, setKeyNew] = useState<undefined | string>();
+  const [keyNewValid, setKeyNewValid] = useState<undefined | boolean>();
 
   const getData = () => {
     getFreestyleElement(params.id as string).then((response: any) => {
@@ -78,6 +81,20 @@ export default function AdminFreestyleElementScreen() {
     }
   }, [newGroup]);
 
+  useEffect(() => {
+    setKeyNewValid(undefined);
+    if (keyNew && keyNew !== "") {
+      getFreestyleTranslation(keyNew).then((res) => {
+        if (res.status === 200) {
+          setTranslation(res.data);
+          setKeyNewValid(Object.keys(res.data).length > 0);
+        } else {
+          setKeyNewValid(false);
+        }
+      });
+    }
+  }, [keyNew]);
+
   return (
     <>
       <AdminActionBar
@@ -108,7 +125,25 @@ export default function AdminFreestyleElementScreen() {
               </tr>
               <tr>
                 <td className="font-bold">key</td>
-                <td>{freestyleElementData.key}</td>
+                <td>
+                  <TextInputInline
+                    inputName="elementName"
+                    value={freestyleElementData.key}
+                    onChange={setKeyNew}
+                    valid={keyNewValid}
+                    onSubmit={(value) => {
+                      if (!keyNewValid) {
+                        return;
+                      }
+                      updateFreestyleElementKey(
+                        freestyleElementData.id,
+                        value
+                      ).then(() => {
+                        getData();
+                      });
+                    }}
+                  />
+                </td>
               </tr>
               <tr>
                 <td className="font-bold">level</td>
@@ -121,11 +156,7 @@ export default function AdminFreestyleElementScreen() {
                         freestyleElementData.id,
                         value
                       ).then(() => {
-                        getFreestyleElement(params.id as string).then(
-                          (response) => {
-                            setFreestyleElementData(response.data);
-                          }
-                        );
+                        getData();
                       });
                     }}
                   />
@@ -234,7 +265,11 @@ export default function AdminFreestyleElementScreen() {
                 </span>
 
                 <span className="px-4 py-2">
-                  {freestyleElementData?.key
+                  {(keyNew && keyNew !== ""
+                    ? keyNew
+                    : // eslint-disable-next-line no-unsafe-optional-chaining
+                      freestyleElementData?.key
+                  )
                     .split("_")
                     .map((item) => {
                       if (translation[lang]) {

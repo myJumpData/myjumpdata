@@ -10,7 +10,7 @@ type TextInputProps = {
   inline?: boolean;
   min?: number | string | undefined;
   inputName?: string;
-  valid?: boolean;
+  valid?: boolean | undefined;
 };
 
 /**

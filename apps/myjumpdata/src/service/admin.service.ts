@@ -34,6 +34,9 @@ export const getFreestyleElement = (id: string) => {
 export const updateFreestyleElementLevel = (id, level) => {
   return api.post("/admin/freestyle_update_level", { level, id });
 };
+export const updateFreestyleElementKey = (id, key) => {
+  return api.post("/admin/freestyle/update/key", { key, id });
+};
 export const getFreestyleTranslation = (key: string) => {
   return api.get("/admin/freestyle/translation/" + key);
 };

@@ -29,6 +29,7 @@ export default function AdminFreestyleCreateScreen() {
   const [groups, setGroups] = useState<any>([{ key: params.path }]);
   const [newGroup, setNewGroup] = useState<any>();
   const [newGroupValid, setNewGroupValid] = useState<undefined | boolean>();
+  const [keyValid, setKeyValid] = useState<undefined | boolean>();
 
   useEffect(() => {
     getFreestyleTranslation(key).then((res) => {
@@ -49,6 +50,19 @@ export default function AdminFreestyleCreateScreen() {
     }
   }, [newGroup]);
 
+  useEffect(() => {
+    setKeyValid(undefined);
+    if (key && key !== "") {
+      getFreestyleTranslation(key).then((res) => {
+        if (res.status === 200) {
+          setKeyValid(Object.keys(res.data).length > 0);
+        } else {
+          setKeyValid(false);
+        }
+      });
+    }
+  }, [key]);
+
   return (
     <>
       <AdminActionBar
@@ -57,15 +71,18 @@ export default function AdminFreestyleCreateScreen() {
           {
             icon: HiCheck,
             onClick: () => {
-              createFreestyle(
-                key,
-                level,
-                groups.map((e) => e.key)
-              ).then((res: any) => {
-                if (res.key === "success.create.freestyle") {
-                  navigate(-1);
-                }
-              });
+              if (keyValid) {
+                createFreestyle(
+                  key,
+                  level,
+                  groups.map((e) => e.key)
+                ).then((res: any) => {
+                  if (res.key === "success.create.freestyle") {
+                    navigate(-1);
+                  }
+                });
+              }
+              return;
             },
           },
         ]}
@@ -77,6 +94,7 @@ export default function AdminFreestyleCreateScreen() {
           name="Key"
           value={key}
           stateChange={setKey}
+          valid={keyValid}
         />
         <TextInput
           type="text"
