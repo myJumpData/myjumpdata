@@ -9,6 +9,7 @@ import { setRoute } from "../../redux/route.action";
 import { getUsers } from "../../service/admin.service";
 import { classNames } from "../../utils/classNames";
 import initials from "../../utils/initials";
+import { useSearchParams } from "react-router-dom";
 
 export default function AdminUsersScreen() {
   useEffect(() => {
@@ -17,6 +18,14 @@ export default function AdminUsersScreen() {
       isAdmin: true,
     });
   }, []);
+
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: 1,
+    limti: 10,
+  } as any);
+
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 10;
 
   const [usersData, setUsersData] = useState<
     | {
@@ -28,8 +37,6 @@ export default function AdminUsersScreen() {
       }
     | undefined
   >();
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -97,9 +104,13 @@ export default function AdminUsersScreen() {
       <Table
         page={page}
         pages={usersData?.pages || 0}
-        setPage={setPage}
         limit={limit}
-        setLimit={setLimit}
+        setLimit={(e) => {
+          setSearchParams({ limit: e, page } as any);
+        }}
+        setPage={(e) => {
+          setSearchParams({ page: e, limit } as any);
+        }}
         total={usersData?.items || 0}
         structure={[
           { name: "", key: "picture" },
