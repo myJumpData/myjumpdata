@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPlus, FaTrash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { generatePath, Outlet, useNavigate } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
@@ -13,6 +13,7 @@ import { LANGUAGES, NAMESPACES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
 import { deleteLocalization } from "../../service/admin.service";
 import { getTranslations } from "../../service/locales.service";
+import { useParams } from "react-router";
 
 export default function AdminLocalizationScreen() {
   useEffect(() => {
@@ -22,6 +23,10 @@ export default function AdminLocalizationScreen() {
     });
   }, []);
   const { t } = useTranslation();
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const path = params.path || "";
 
   const [translationData, setTranslationData] = useState<any>([]);
   const [data, setData] = useState<any>([]);
@@ -29,11 +34,17 @@ export default function AdminLocalizationScreen() {
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
 
-  const [namespace, setNamespace] = useState(NAMESPACES[0]);
+  useEffect(() => {
+    if (!params.path || path === "") {
+      navigate(
+        generatePath("/admin/localization/list/:path", { path: NAMESPACES[0] })
+      );
+    }
+  }, [navigate, params.path, path]);
 
   useEffect(() => {
-    if (namespace) {
-      getTranslations(namespace).then((response) => {
+    if (path !== "") {
+      getTranslations(path).then((response) => {
         const data = Object.entries(response.data.data)
           .sort((a: any, b: any) => {
             const A = a[0].toUpperCase();
@@ -89,27 +100,29 @@ export default function AdminLocalizationScreen() {
         setTotal(Object.entries(response.data.data).length);
       });
     }
-  }, [namespace]);
+  }, [path]);
   useEffect(() => {
     setData(
       translationData.slice((page - 1) * limit, (page - 1) * limit + limit)
     );
   }, [limit, page, translationData]);
 
-  const navigate = useNavigate();
-
   const [del, setDel] = useState(false);
   const [current, setCurrent] = useState<any>();
+
+  if (path === "") {
+    return <Outlet />;
+  }
 
   return (
     <>
       <AdminActionBar
-        text={`${t<string>("common:nav_localization")} - ${namespace}`}
+        text={`${t<string>("common:nav_localization")} - ${path}`}
         actions={[
           {
             icon: FaPlus,
             onClick: () => {
-              navigate(`/admin/localization/create/${namespace}`);
+              navigate(`/admin/localization/create/${path}`);
             },
           },
         ]}
@@ -121,8 +134,10 @@ export default function AdminLocalizationScreen() {
             name: ns,
           };
         })}
-        stateChange={setNamespace}
-        current={namespace}
+        stateChange={(e) => {
+          navigate(generatePath("/admin/localization/list/:path", { path: e }));
+        }}
+        current={path}
       />
 
       <Table
@@ -162,13 +177,13 @@ export default function AdminLocalizationScreen() {
             {t<string>("settings_delete_disclaimer_title")}
           </span>
           <span>
-            {namespace}:{current}
+            {path}:{current}
           </span>
           <Button
             name="Delete"
             design="danger"
             onClick={() => {
-              deleteLocalization(namespace as string, current).then(() => {
+              deleteLocalization(path, current).then(() => {
                 setDel(false);
                 setCurrent(null);
                 setTranslationData(

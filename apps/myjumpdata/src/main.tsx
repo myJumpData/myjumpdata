@@ -124,10 +124,22 @@ createRoot(document.getElementById("root") as Element).render(
                   />
                 </Route>
                 <Route path="localization">
-                  <Route index element={<AdminLocalizationScreen />} />
+                  <Route
+                    index
+                    element={<Navigate to="/admin/localization/list/" />}
+                  />
+                  <Route path="list" element={<AdminLocalizationScreen />} />
+                  <Route
+                    path="list/:path"
+                    element={<AdminLocalizationScreen />}
+                  />
                   <Route
                     path="create/:namespace"
                     element={<AdminLocalizationCreateScreen />}
+                  />
+                  <Route
+                    path="*"
+                    element={<Navigate to="/admin/localization" />}
                   />
                 </Route>
                 <Route path="*" element={<Navigate to="/admin" />} />
