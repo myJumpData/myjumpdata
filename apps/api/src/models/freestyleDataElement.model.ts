@@ -5,6 +5,7 @@ const FreestyleDataElement = mongoose.model(
   new mongoose.Schema({
     key: {
       type: String,
+      unique: true,
     },
     level: String,
     compiled: Boolean,
