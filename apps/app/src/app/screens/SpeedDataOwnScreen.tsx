@@ -16,9 +16,11 @@ import { Colors } from "../Constants";
 import PlayerService from "../services/player.service";
 import ScoreDataService from "../services/scoredata.service";
 import { musicData } from "../tracks";
+import { useIsFocused } from "@react-navigation/native";
 
-export default function SpeedDataOwnScreen() {
+export default function SpeedDataOwnScreen({ navigation }) {
   const { t } = useTranslation();
+  const isFocused = useIsFocused();
 
   const [scoreData, setScoreData] = React.useState<any>([]);
   const [date, setDate] = React.useState<Date>(new Date());
@@ -39,6 +41,13 @@ export default function SpeedDataOwnScreen() {
   React.useEffect(() => {
     getData();
   }, []);
+
+  React.useEffect(() => {
+    if (isFocused) {
+      setRefreshing(true);
+      getData();
+    }
+  }, [isFocused]);
 
   function getData() {
     ScoreDataService.getScoreDataOwn().then((response: any) => {
@@ -102,6 +111,23 @@ export default function SpeedDataOwnScreen() {
                     <StyledIcon name="Ionicons/musical-notes" size={24} />
                   </TouchableOpacity>
                 ) : null
+              }
+              counter={
+                <TouchableOpacity
+                  style={{ marginHorizontal: 5 }}
+                  onPress={() => {
+                    navigation.navigate("counter_popover", {
+                      from: {
+                        user: true,
+                        type: item.type.name,
+                        type_id: item.type._id,
+                        high: item.score,
+                      },
+                    });
+                  }}
+                >
+                  <StyledIcon name="Ionicons/radio-button-on" size={24} />
+                </TouchableOpacity>
               }
             />
           );

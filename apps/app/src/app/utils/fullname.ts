@@ -1,3 +1,5 @@
+import { capitalize } from "./capitalize";
+
 export default function fullname(user: any) {
   if (!user) {
     return;
@@ -8,10 +10,10 @@ export default function fullname(user: any) {
     user.lastname &&
     user.lastname !== ""
   ) {
-    return user.firstname + " " + user.lastname;
+    return capitalize(user.firstname + " " + user.lastname);
   }
   if (user.username && user.username !== "") {
-    return user.username;
+    return capitalize(user.username);
   }
   return "";
 }

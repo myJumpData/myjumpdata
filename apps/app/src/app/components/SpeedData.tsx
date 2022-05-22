@@ -12,12 +12,14 @@ export default function SpeedDataInput({
   onSubmit,
   onReset,
   music,
+  counter,
 }: {
   name: string;
   score: string;
   onSubmit: any;
   onReset: any;
   music?: any;
+  counter?: any;
 }) {
   const isDarkMode = useColorScheme() === "dark";
   const { t } = useTranslation();
@@ -62,6 +64,7 @@ export default function SpeedDataInput({
             />
           </TouchableOpacity>
           {music}
+          {counter}
         </View>
         <StyledText>
           {t("common:high")}: {score}

@@ -37,6 +37,7 @@ import UserProfileScreen from "./screens/UserProfileScreen";
 import UsersService from "./services/users.service";
 import getApi from "./utils/getApi";
 import TrainScreen from "./screens/TrainScreen";
+import CounterScreen from "./screens/CounterScreen";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -299,6 +300,16 @@ function MainStackScreen() {
           title: t("common:nav_speeddata"),
         }}
       />
+      <MainStack.Screen
+        name="counter_popover"
+        component={CounterScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+          title: t("common:nav_counter"),
+        }}
+      />
     </MainStack.Navigator>
   );
 }
@@ -316,6 +327,8 @@ function MainTabScreen({ navigation }) {
             iconName = focused ? "people" : "people-outline";
           } else if (route.name === "train") {
             iconName = focused ? "body" : "body-outline";
+          } else if (route.name === "counter") {
+            iconName = focused ? "radio-button-on" : "radio-button-on-outline";
           } else if (route.name === "player") {
             iconName = focused ? "musical-notes" : "musical-notes-outline";
           } else if (route.name === "profile") {
@@ -362,6 +375,13 @@ function MainTabScreen({ navigation }) {
         component={TrainScreen}
         options={{
           title: t("common:nav_train"),
+        }}
+      />
+      <MainTab.Screen
+        name="counter"
+        component={CounterScreen}
+        options={{
+          title: t("common:nav_counter"),
         }}
       />
       <MainTab.Screen

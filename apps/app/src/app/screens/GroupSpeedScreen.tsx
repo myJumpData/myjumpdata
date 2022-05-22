@@ -25,11 +25,14 @@ import PlayerService from "../services/player.service";
 import ScoreDataService from "../services/scoredata.service";
 import { musicData } from "../tracks";
 import fullname from "../utils/fullname";
+import { useIsFocused } from "@react-navigation/native";
+import StyledIcon from "../components/StyledIcon";
 
 export default function GroupSpeedScreen({ route, navigation }) {
   const { t } = useTranslation();
   const { id } = route.params;
   const scoredatatype = useSelector((state: any) => state.scoredatatype);
+  const isFocused = useIsFocused();
 
   const [groupScores, setGroupScores] = React.useState([]);
   const [groupHigh, setGroupHigh] = React.useState([]);
@@ -90,6 +93,14 @@ export default function GroupSpeedScreen({ route, navigation }) {
       getScoreDataHigh(id, scoredatatype);
     }
   }, [scoredatatype, id]);
+
+  React.useEffect(() => {
+    if (isFocused) {
+      setRefreshing(true);
+      getScoreDataHigh(id, scoredatatype);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused]);
 
   React.useEffect(() => {
     const options: any = scoreDataTypes.map((type: any) => {
@@ -158,6 +169,26 @@ export default function GroupSpeedScreen({ route, navigation }) {
               setCurrentUser(score.user);
               ResetBottomSheetRef.current?.snapToIndex(0);
             }}
+            counter={
+              <TouchableOpacity
+                style={{ marginHorizontal: 5 }}
+                onPress={() => {
+                  navigation.navigate("counter_popover", {
+                    from: {
+                      group: true,
+                      type: typesOptions.find((e) => e.value === scoredatatype)
+                        .name,
+                      type_id: scoredatatype,
+                      name: fullname(score.user),
+                      user_id: score.user._id,
+                      high: score.score,
+                    },
+                  });
+                }}
+              >
+                <StyledIcon name="Ionicons/radio-button-on" size={24} />
+              </TouchableOpacity>
+            }
           />
         ))}
       </ScrollView>

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as React from "react";
 import { Colors } from "../Constants";
+import Player from "../components/Player";
 
 export default function TrainScreen({ navigation }) {
   const { t } = useTranslation();
@@ -50,6 +51,7 @@ export default function TrainScreen({ navigation }) {
           {t("common:nav_speeddata")}
         </StyledText>
       </TouchableOpacity>
+      <Player />
     </StyledView>
   );
 }
