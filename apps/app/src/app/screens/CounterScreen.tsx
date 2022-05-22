@@ -112,6 +112,29 @@ export default function CounterScreen({ navigation, route }) {
           {count}
         </StyledText>
       </View>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <TouchableOpacity
+          onPress={() => {
+            if (count > 0) {
+              setCount(count - 1);
+            }
+          }}
+          style={{
+            width: 50,
+            borderColor: Colors.grey,
+            borderWidth: 1,
+            justifyContent: "center",
+            padding: 10,
+            alignItems: "center",
+            borderRadius: borderRadius,
+            marginBottom: 10,
+          }}
+        >
+          <StyledText style={{ fontSize: 24, fontWeight: "bold" }}>
+            -1
+          </StyledText>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity
         onPress={() => {
           setCount(count + 1);
@@ -121,7 +144,7 @@ export default function CounterScreen({ navigation, route }) {
           justifyContent: "center",
           padding: 10,
           alignItems: "center",
-          height: 100,
+          height: 150,
           borderRadius: borderRadius,
           marginBottom: 10,
         }}
