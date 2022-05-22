@@ -36,6 +36,7 @@ import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
 import UserProfileScreen from "./screens/UserProfileScreen";
 import UsersService from "./services/users.service";
 import getApi from "./utils/getApi";
+import TrainScreen from "./screens/TrainScreen";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -278,6 +279,26 @@ function MainStackScreen() {
           title: t("common:nav_info"),
         }}
       />
+      <MainStack.Screen
+        name="freestyle"
+        component={FreestyleScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_freestyle"),
+        }}
+      />
+      <MainStack.Screen
+        name="speed_data"
+        component={SpeedDataOwnScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_speeddata"),
+        }}
+      />
     </MainStack.Navigator>
   );
 }
@@ -293,15 +314,14 @@ function MainTabScreen({ navigation }) {
           let iconName;
           if (route.name === "groups") {
             iconName = focused ? "people" : "people-outline";
-          } else if (route.name === "freestyle") {
-            iconName = focused ? "list" : "list-outline";
-          } else if (route.name === "speed_data") {
-            iconName = focused ? "timer" : "timer-outline";
+          } else if (route.name === "train") {
+            iconName = focused ? "body" : "body-outline";
           } else if (route.name === "player") {
             iconName = focused ? "musical-notes" : "musical-notes-outline";
           } else if (route.name === "profile") {
             iconName = focused ? "person" : "person-outline";
           }
+
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: Colors.main,
@@ -338,17 +358,10 @@ function MainTabScreen({ navigation }) {
         }}
       />
       <MainTab.Screen
-        name="freestyle"
-        component={FreestyleScreen}
+        name="train"
+        component={TrainScreen}
         options={{
-          title: t("common:nav_freestyle"),
-        }}
-      />
-      <MainTab.Screen
-        name="speed_data"
-        component={SpeedDataOwnScreen}
-        options={{
-          title: t("common:nav_speeddata"),
+          title: t("common:train"),
         }}
       />
       <MainTab.Screen
