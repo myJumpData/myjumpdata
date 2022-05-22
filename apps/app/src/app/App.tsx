@@ -361,7 +361,7 @@ function MainTabScreen({ navigation }) {
         name="train"
         component={TrainScreen}
         options={{
-          title: t("common:train"),
+          title: t("common:nav_train"),
         }}
       />
       <MainTab.Screen
