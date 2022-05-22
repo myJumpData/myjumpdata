@@ -37,7 +37,7 @@ export default function CounterScreen({ navigation, route }) {
   return (
     <StyledView style={{ padding: 10 }}>
       {from ? (
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", marginBottom: 10 }}>
           <View
             style={{
               flexDirection: "row",
