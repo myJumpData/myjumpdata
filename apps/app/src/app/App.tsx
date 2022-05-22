@@ -69,7 +69,7 @@ export default function App() {
       await TrackPlayer.updateOptions({
         capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
       });
-      TrackPlayer.setRepeatMode(RepeatMode.Off);
+      await TrackPlayer.setRepeatMode(RepeatMode.Off);
     })();
   }, []);
 

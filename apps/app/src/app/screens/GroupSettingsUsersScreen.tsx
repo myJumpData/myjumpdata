@@ -20,6 +20,7 @@ import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
 import { capitalize } from "../utils/capitalize";
+import { BottomSheetNavList } from "../components/BottomSheetNav";
 
 export default function GroupSettingsUsersScreen({ route, navigation }) {
   const { id } = route.params;
@@ -180,8 +181,8 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                   }}
                 >
                   <StyledText>
-                    {isCoachGroup && "C"}
-                    {isAthleteGroup && "A"}
+                    {isCoachGroup ? "C" : null}
+                    {isAthleteGroup ? "A" : null}
                   </StyledText>
                 </View>
               </View>
@@ -251,7 +252,7 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
         )}
       />
       <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        {current && (
+        {current ? (
           <>
             <View
               style={{
@@ -316,97 +317,76 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
                 </View>
               </View>
             </View>
-            <View style={{ marginTop: 30 }}>
-              {current?.roles?.some((e: any) => e.name === "coach") &&
-                !groupCoaches.some((i: any) => i.id === current.id) && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      GroupsService.addCoachesToGroup(id as string, [
-                        current.id,
-                      ]).then(() => {
-                        onRefresh();
-                        bottomSheetRef.current?.close();
-                      });
-                    }}
-                  >
-                    <StyledText>
-                      <Ionicons
-                        name="person-add"
-                        size={24}
-                        color={isDarkMode ? Colors.white : Colors.black}
-                      />
-                      {" " + t("settings_group_user_action_add_coach")}
-                    </StyledText>
-                  </TouchableOpacity>
-                )}
-              {groupCoaches.some((i: any) => i.id === current.id) &&
-                current.id !== user.id && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      GroupsService.removeCoachesFromGroup(id as string, [
-                        current.id,
-                      ]).then(() => {
-                        onRefresh();
-                        bottomSheetRef.current?.close();
-                      });
-                    }}
-                  >
-                    <StyledText>
-                      <Ionicons
-                        name="person-remove"
-                        size={24}
-                        color={isDarkMode ? Colors.white : Colors.black}
-                      />
-                      {" " + t("settings_group_user_action_remove_coach")}
-                    </StyledText>
-                  </TouchableOpacity>
-                )}
-              {!groupAthletes.some((i: any) => i.id === current.id) &&
-                !groupCoaches.some((i: any) => i.id === current.id) && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      GroupsService.addUsersToGroup(id as string, [
-                        current.id,
-                      ]).then(() => {
-                        onRefresh();
-                        bottomSheetRef.current?.close();
-                      });
-                    }}
-                  >
-                    <StyledText>
-                      <Ionicons
-                        name="person-add"
-                        size={24}
-                        color={isDarkMode ? Colors.white : Colors.black}
-                      />
-                      {" " + t("settings_group_user_action_add_athlete")}
-                    </StyledText>
-                  </TouchableOpacity>
-                )}
-              {groupAthletes.some((i: any) => i.id === current.id) && (
-                <TouchableOpacity
-                  onPress={() => {
-                    GroupsService.removeUsersFromGroup(id as string, [
-                      current.id,
-                    ]).then(() => {
-                      onRefresh();
-                      bottomSheetRef.current?.close();
-                    });
-                  }}
-                >
-                  <StyledText>
-                    <Ionicons
-                      name="person-remove"
-                      size={24}
-                      color={isDarkMode ? Colors.white : Colors.black}
-                    />
-                    {" " + t("settings_group_user_action_remove_athlete")}
-                  </StyledText>
-                </TouchableOpacity>
-              )}
-            </View>
+            <BottomSheetNavList
+              bsRef={bottomSheetRef}
+              data={[
+                ...(current?.roles?.some((e: any) => e.name === "coach") &&
+                !groupCoaches.some((i: any) => i.id === current.id)
+                  ? [
+                      {
+                        text: t("settings_group_user_action_add_coach"),
+                        icon: "person-add",
+                        onPress: () => {
+                          GroupsService.addCoachesToGroup(id as string, [
+                            current.id,
+                          ]).then(() => {
+                            onRefresh();
+                          });
+                        },
+                      },
+                    ]
+                  : []),
+                ...(groupCoaches.some((i: any) => i.id === current.id) &&
+                current.id !== user.id
+                  ? [
+                      {
+                        text: t("settings_group_user_action_remove_coach"),
+                        icon: "person-remove",
+                        onPress: () => {
+                          GroupsService.removeCoachesFromGroup(id as string, [
+                            current.id,
+                          ]).then(() => {
+                            onRefresh();
+                          });
+                        },
+                      },
+                    ]
+                  : []),
+                ...(!groupAthletes.some((i: any) => i.id === current.id) &&
+                !groupCoaches.some((i: any) => i.id === current.id)
+                  ? [
+                      {
+                        text: t("settings_group_user_action_add_athlete"),
+                        icon: "person-add",
+                        onPress: () => {
+                          GroupsService.addUsersToGroup(id as string, [
+                            current.id,
+                          ]).then(() => {
+                            onRefresh();
+                          });
+                        },
+                      },
+                    ]
+                  : []),
+                ...(groupAthletes.some((i: any) => i.id === current.id)
+                  ? [
+                      {
+                        text: t("settings_group_user_action_remove_athlete"),
+                        icon: "person-remove",
+                        onPress: () => {
+                          GroupsService.removeUsersFromGroup(id as string, [
+                            current.id,
+                          ]).then(() => {
+                            onRefresh();
+                          });
+                        },
+                      },
+                    ]
+                  : []),
+              ]}
+            />
           </>
-        )}
+        ) : null}
       </StyledBottomSheet>
     </StyledView>
   );

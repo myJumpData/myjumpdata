@@ -14,6 +14,7 @@ import {
   saveFreestyleData,
 } from "../services/freestyle.service";
 import GroupsService from "../services/groups.service";
+import fullname from "../utils/fullname";
 
 type freestyle_folder_data = {
   id: string;
@@ -43,10 +44,7 @@ export default function GroupFreestyleScreen({ route, navigation }) {
       navigation.setOptions({ title: response.data.name });
       const tmp = response.data?.athletes.map((e) => {
         return {
-          name:
-            e.firstname && e.lastname
-              ? `${e.firstname} ${e.lastname}`
-              : e.username,
+          name: fullname(e),
           value: e.id,
         };
       });
@@ -71,10 +69,7 @@ export default function GroupFreestyleScreen({ route, navigation }) {
     GroupsService.getGroup(id as string).then((response: any) => {
       const tmp = response.data?.athletes.map((e) => {
         return {
-          name:
-            e.firstname && e.lastname
-              ? `${e.firstname} ${e.lastname}`
-              : e.username,
+          name: fullname(e),
           value: e.id,
         };
       });

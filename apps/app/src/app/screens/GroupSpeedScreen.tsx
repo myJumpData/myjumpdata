@@ -24,6 +24,7 @@ import GroupsService from "../services/groups.service";
 import PlayerService from "../services/player.service";
 import ScoreDataService from "../services/scoredata.service";
 import { musicData } from "../tracks";
+import fullname from "../utils/fullname";
 
 export default function GroupSpeedScreen({ route, navigation }) {
   const { t } = useTranslation();
@@ -51,19 +52,24 @@ export default function GroupSpeedScreen({ route, navigation }) {
 
   React.useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={{ paddingRight: 5 }}
-          onPress={() => {
-            MusicBottomSheetRef.current?.snapToIndex(0);
-          }}
-        >
-          <Ionicons name="musical-notes" size={35} color={Colors.white} />
-        </TouchableOpacity>
-      ),
+      headerRight: () => {
+        if (musicData[scoredatatype].tracks.length > 0) {
+          return (
+            <TouchableOpacity
+              style={{ paddingRight: 5 }}
+              onPress={() => {
+                MusicBottomSheetRef.current?.snapToIndex(0);
+              }}
+            >
+              <Ionicons name="musical-notes" size={35} color={Colors.white} />
+            </TouchableOpacity>
+          );
+        }
+        return null;
+      },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [scoredatatype]);
 
   React.useEffect(() => {
     GroupsService.getGroup(id).then((response: any) => {
@@ -135,11 +141,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
         {groupScores?.map((score: any) => (
           <SpeedDataInput
             key={score.user._id}
-            name={
-              score.user.firstname && score.user.lastname
-                ? score.user.firstname + " " + score.user.lastname
-                : score.user.username
-            }
+            name={fullname(score.user)}
             score={score.score}
             onSubmit={({ nativeEvent, target }) => {
               ScoreDataService.saveScoreData(
@@ -160,39 +162,41 @@ export default function GroupSpeedScreen({ route, navigation }) {
         ))}
       </ScrollView>
       <StyledBottomSheet ref={ResetBottomSheetRef} snapPoints={ResetSnapPoints}>
-        <StyledText
-          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-        >
-          {t("scoredata_reset_title")}
-        </StyledText>
-        <StyledText
-          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-        >
-          {currentUser.firstname && currentUser.lastname
-            ? currentUser.firstname + " " + currentUser.lastname
-            : currentUser.username}
-        </StyledText>
-        <StyledText style={{ marginBottom: 8 }}>
-          {t("scoredata_reset_text")}
-        </StyledText>
-        <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
-          {t("scoredata_reset_warning")}
-        </StyledText>
-        <StyledTextInput
-          style={{ marginBottom: 8 }}
-          keyboardType="numeric"
-          onSubmitEditing={({ nativeEvent, target }) => {
-            ScoreDataService.resetScoreData(
-              currentUser._id,
-              scoredatatype,
-              nativeEvent.text
-            ).then(() => {
-              ResetBottomSheetRef.current?.close();
-              getScoreDataHigh(id, scoredatatype);
-            });
-            target.clear();
-          }}
-        />
+        {currentUser ? (
+          <>
+            <StyledText
+              style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+            >
+              {t("scoredata_reset_title")}
+            </StyledText>
+            <StyledText
+              style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+            >
+              {fullname(currentUser)}
+            </StyledText>
+            <StyledText style={{ marginBottom: 8 }}>
+              {t("scoredata_reset_text")}
+            </StyledText>
+            <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
+              {t("scoredata_reset_warning")}
+            </StyledText>
+            <StyledTextInput
+              style={{ marginBottom: 8 }}
+              keyboardType="numeric"
+              onSubmitEditing={({ nativeEvent, target }) => {
+                ScoreDataService.resetScoreData(
+                  currentUser._id,
+                  scoredatatype,
+                  nativeEvent.text
+                ).then(() => {
+                  ResetBottomSheetRef.current?.close();
+                  getScoreDataHigh(id, scoredatatype);
+                });
+                target.clear();
+              }}
+            />
+          </>
+        ) : null}
       </StyledBottomSheet>
       <StyledBottomSheet ref={MusicBottomSheetRef} snapPoints={MusicSnapPoints}>
         <StyledText
@@ -201,30 +205,31 @@ export default function GroupSpeedScreen({ route, navigation }) {
           {typesOptions.find((e: any) => e.value === scoredatatype)?.name}
         </StyledText>
         <View>
-          {scoredatatype &&
-            PlayerService.getTracks(musicData[scoredatatype].tracks).map(
-              (trackData) => {
-                return (
-                  <Pressable
-                    style={{ paddingVertical: 10 }}
-                    key={trackData.id}
-                    onPress={async () => {
-                      await TrackPlayer.reset();
-                      await TrackPlayer.add(trackData);
-                      await TrackPlayer.play();
-                      MusicBottomSheetRef.current?.close();
-                    }}
-                  >
-                    <StyledText style={{ fontSize: 18, fontWeight: "500" }}>
-                      {trackData.title}
-                    </StyledText>
-                    <StyledText style={{ fontSize: 14, color: Colors.grey }}>
-                      {trackData.artist}
-                    </StyledText>
-                  </Pressable>
-                );
-              }
-            )}
+          {scoredatatype
+            ? PlayerService.getTracks(musicData[scoredatatype].tracks).map(
+                (trackData) => {
+                  return (
+                    <Pressable
+                      style={{ paddingVertical: 10 }}
+                      key={trackData.id}
+                      onPress={async () => {
+                        await TrackPlayer.reset();
+                        await TrackPlayer.add(trackData);
+                        await TrackPlayer.play();
+                        MusicBottomSheetRef.current?.close();
+                      }}
+                    >
+                      <StyledText style={{ fontSize: 18, fontWeight: "500" }}>
+                        {trackData.title}
+                      </StyledText>
+                      <StyledText style={{ fontSize: 14, color: Colors.grey }}>
+                        {trackData.artist}
+                      </StyledText>
+                    </Pressable>
+                  );
+                }
+              )
+            : null}
         </View>
       </StyledBottomSheet>
       <Player />

@@ -99,7 +99,7 @@ export default function GroupsScreen({ navigation }) {
         )}
       />
       <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        {current && (
+        {current ? (
           <>
             <StyledText
               style={{ fontWeight: "900", fontSize: 24, marginBottom: 15 }}
@@ -177,7 +177,7 @@ export default function GroupsScreen({ navigation }) {
               ]}
             />
           </>
-        )}
+        ) : null}
       </StyledBottomSheet>
       <Player />
     </StyledView>

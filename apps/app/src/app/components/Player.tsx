@@ -88,6 +88,7 @@ export default function Player() {
 
   useTrackPlayerEvents(events, async (event) => {
     if (event.type === Event.PlaybackError) {
+      // eslint-disable-next-line no-console
       console.warn("An error occurred while playing the current track.");
     }
     if (event.type === Event.PlaybackState) {
@@ -299,18 +300,16 @@ export default function Player() {
                         >
                           1
                         </Text>
-                      ) : (
-                        player.repeatMode === "queue" && (
-                          <View
-                            style={{
-                              backgroundColor: Colors.main,
-                              height: 6,
-                              width: 6,
-                              borderRadius: 3,
-                            }}
-                          ></View>
-                        )
-                      )}
+                      ) : player.repeatMode === "queue" ? (
+                        <View
+                          style={{
+                            backgroundColor: Colors.main,
+                            height: 6,
+                            width: 6,
+                            borderRadius: 3,
+                          }}
+                        ></View>
+                      ) : null}
                     </View>
                   }
                 </Pressable>

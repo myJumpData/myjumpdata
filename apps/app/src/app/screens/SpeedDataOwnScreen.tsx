@@ -92,7 +92,7 @@ export default function SpeedDataOwnScreen() {
               }}
               music={
                 musicData[item.type._id] &&
-                musicData[item.type._id].tracks.length > 0 && (
+                musicData[item.type._id].tracks.length > 0 ? (
                   <TouchableOpacity
                     onPress={() => {
                       setMusicSelect(item.type);
@@ -101,7 +101,7 @@ export default function SpeedDataOwnScreen() {
                   >
                     <StyledIcon name="Ionicons/musical-notes" size={24} />
                   </TouchableOpacity>
-                )
+                ) : null
               }
             />
           );
@@ -140,7 +140,7 @@ export default function SpeedDataOwnScreen() {
         />
       </StyledBottomSheet>
       <StyledBottomSheet ref={MusicBottomSheetRef} snapPoints={MusicSnapPoints}>
-        {musicSelect !== undefined && (
+        {musicSelect !== undefined ? (
           <>
             <StyledText
               style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
@@ -173,7 +173,7 @@ export default function SpeedDataOwnScreen() {
               )}
             </View>
           </>
-        )}
+        ) : null}
       </StyledBottomSheet>
       <Player />
     </StyledView>

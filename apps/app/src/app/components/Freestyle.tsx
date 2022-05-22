@@ -54,11 +54,11 @@ export default function Freestyle({
           />
         </View>
         <View style={{ flexGrow: 1 }}>
-          {item.level && (
+          {item.level ? (
             <Text style={{ fontSize: 12, color: Colors.grey }}>
               Lvl. {item.level}
             </Text>
-          )}
+          ) : null}
           <StyledText>
             {item.compiled
               ? item.key

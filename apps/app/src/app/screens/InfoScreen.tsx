@@ -94,7 +94,7 @@ export default function InfoScreen() {
         Platform.constants.reactNativeVersion.major
       }.${Platform.constants.reactNativeVersion.minor}.${
         Platform.constants.reactNativeVersion.patch
-      }${isHermes() && " | Hermes"}`}</StyledText>
+      }${isHermes() ? " | Hermes" : null}`}</StyledText>
     </StyledView>
   );
 }

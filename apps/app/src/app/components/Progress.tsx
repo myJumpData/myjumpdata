@@ -39,7 +39,7 @@ export default function Progress({
               styleProgress,
             ]}
           >
-            {item.blop && (
+            {item.blop ? (
               <View
                 style={{
                   backgroundColor: item.color,
@@ -51,7 +51,7 @@ export default function Progress({
                   marginRight: -6,
                 }}
               ></View>
-            )}
+            ) : null}
           </View>
         )
       )}

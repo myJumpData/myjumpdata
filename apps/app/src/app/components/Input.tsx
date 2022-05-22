@@ -64,7 +64,7 @@ export function DateInput({ setDate, date }: { setDate: any; date: Date }) {
         }}
         style={{ marginBottom: 30 }}
       />
-      {dateShow && (
+      {dateShow ? (
         <DateTimePicker
           value={date}
           mode="date"
@@ -77,7 +77,7 @@ export function DateInput({ setDate, date }: { setDate: any; date: Date }) {
             setDateShow(false);
           }}
         />
-      )}
+      ) : null}
     </>
   );
 }

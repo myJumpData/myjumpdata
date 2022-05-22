@@ -10,7 +10,7 @@ import { SafeAreaViewProps } from "react-native-safe-area-context";
 import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
 import { Colors } from "../Constants";
 
-export function StyledView(props: ViewProps) {
+export function StyledView(props: ViewProps | any) {
   const isDarkMode = useColorScheme() === "dark";
   return (
     <View
