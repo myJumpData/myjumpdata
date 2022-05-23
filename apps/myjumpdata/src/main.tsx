@@ -8,6 +8,9 @@ import Wrapper from "./components/Wrapper";
 import "./i18n";
 import { persistor, store } from "./redux/store";
 import "./styles.scss";
+import AdminClubScreen from "./screens/admin/AdminClubScreen";
+import AdminClubCreateScreen from "./screens/admin/AdminClubCreateScreen";
+import ClubAdminScreen from "./screens/ClubAdmin";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
 const FreestyleGroupScreen = lazy(
@@ -75,6 +78,7 @@ createRoot(document.getElementById("root") as Element).render(
                 //"Group Pages"
               }
               <Route path="/group" element={<GroupsScreen />} />
+              <Route path="/club/admin" element={<ClubAdminScreen />} />
               <Route path="/group/:id" element={<GroupScreen />} />
               <Route
                 path="/group/:id/settings"
@@ -133,6 +137,11 @@ createRoot(document.getElementById("root") as Element).render(
                     path="*"
                     element={<Navigate to="/admin/localization" />}
                   />
+                </Route>
+                <Route path="club">
+                  <Route index element={<AdminClubScreen />} />
+                  <Route path="create" element={<AdminClubCreateScreen />} />
+                  <Route path="*" element={<Navigate to="/admin/club" />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/admin" />} />
               </Route>

@@ -5,6 +5,7 @@ import { requestHandler, requestHandlerError } from "../requestHandler";
 import FreestyleDataElement from "../models/freestyleDataElement.model";
 import mongoose, { Query } from "mongoose";
 import FreestyleDataGroup from "../models/freestyleDataGroup.model";
+import Club from "../models/club.model";
 
 export function createLocalization(req, res) {
   Translation.create(
@@ -277,4 +278,54 @@ export function deleteFreestyleGroup(req, res) {
 
 export const getVersion = (req, res) => {
   return res.send({ v: process.env.npm_package_version });
+};
+
+export const createClub = (req, res) => {
+  const { name, country, state, city, logo } = req.body;
+  const fs = new Club({
+    name,
+    country,
+    state,
+    city,
+    logo,
+    coaches: [new mongoose.Types.ObjectId(req.userId)],
+    athletes: [new mongoose.Types.ObjectId(req.userId)],
+    admins: [new mongoose.Types.ObjectId(req.userId)],
+  });
+  fs.save((err) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    return requestHandler(
+      res,
+      200,
+      "success.create.club",
+      "Successfully created Club!"
+    );
+  });
+};
+
+export const getClubs = (req, res) => {
+  const page = req.query.page - 1 || 0;
+  const limit = req.query.limit || 5;
+  Club.find({})
+    .limit(limit)
+    .skip(page * limit)
+    .exec((err, clubs) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      Club.countDocuments().exec((err, items) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(res, 200, "", "", {
+          items,
+          clubs,
+          page,
+          pages: Math.ceil(items / limit),
+          count: clubs.length,
+        });
+      });
+    });
 };

@@ -1,11 +1,13 @@
 import { Express } from "express-serve-static-core";
 import {
+  createClub,
   createFreestyle,
   createFreestyleGroup,
   createLocalization,
   deleteFreestyle,
   deleteFreestyleGroup,
   deleteLocalization,
+  getClubs,
   getFreestyleElement,
   getFreestyleTranslation,
   getUsers,
@@ -70,4 +72,7 @@ export default function AdminRoutes(app: Express) {
   app.get("/admin/users", [verifyToken, isAdmin], getUsers);
 
   app.get("/admin/version", getVersion);
+
+  app.post("/admin/club/create", [verifyToken, isAdmin], createClub);
+  app.get("/admin/club", [verifyToken, isAdmin], getClubs);
 }

@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, ReactNode } from "react";
 import { HiCheck, HiSelector } from "react-icons/hi";
 import { classNames } from "../../utils/classNames";
 
@@ -9,7 +9,7 @@ type SelectInputProps = {
   current: any;
 };
 type SelectOptionProps = {
-  name: string | number | undefined;
+  name: string | number | undefined | ReactNode;
   value: string | number | undefined;
 };
 

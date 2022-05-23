@@ -53,3 +53,16 @@ export const deleteFreestyleGroup = (key: string) => {
 export const getUsers = (page: number, limit: number) => {
   return api.get(`/admin/users?page=${page}&limit=${limit}`);
 };
+
+export const createClub = (
+  name: string,
+  country: string,
+  state: string,
+  city: string,
+  logo: string
+) => {
+  return api.post("/admin/club/create", { name, country, state, city, logo });
+};
+export const getClubs = (page: number, limit: number) => {
+  return api.get(`/admin/club?page=${page}&limit=${limit}`);
+};

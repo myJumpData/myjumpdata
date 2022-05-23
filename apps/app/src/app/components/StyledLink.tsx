@@ -16,7 +16,8 @@ export default function StyledLink({
   return (
     <TouchableOpacity
       onPress={() => {
-        Linking.openURL(url);
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        Linking.openURL(url).then(() => {});
       }}
     >
       <Text style={[{ textDecorationLine: "underline" }, style]}>

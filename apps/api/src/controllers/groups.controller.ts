@@ -2,6 +2,7 @@ import crypto from "crypto";
 import Group from "../models/group.model";
 import User from "../models/user.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
+import Club from "../models/club.model";
 
 export function createGroup(req, res) {
   if (!req.body.name) {
@@ -137,6 +138,170 @@ export function getGroups(req, res) {
       }
       return requestHandler(res, 200, "", "", groups);
     });
+}
+
+export function getClub(req, res) {
+  Club.findOne({
+    $or: [
+      { coaches: { $in: req.userId } },
+      { athletes: { $in: req.userId } },
+      { admins: { $in: req.userId } },
+    ],
+  })
+    .populate("coaches athletes admins", "-password")
+    .exec((err, club) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "", club);
+    });
+}
+
+export function addMemberToClub(req, res) {
+  User.find({ _id: req.body.users }, (err, users) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    Club.updateOne(
+      { _id: req.params.id },
+      { $addToSet: { athletes: users.map((user) => user._id) } },
+      (err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.club.athletes.update",
+          "Club Athletes have been updated successfully!"
+        );
+      }
+    );
+  });
+}
+export function removeMemberFromClub(req, res) {
+  User.find({ _id: req.body.users }, (err, users) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    Club.updateOne(
+      { _id: req.params.id },
+      {
+        $pullAll: {
+          athletes: users.map((user) => user._id),
+          admins: users.map((user) => user._id),
+          coaches: users.map((user) => user._id),
+        },
+      },
+      (err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.club.athletes.update",
+          "Club Athletes have been updated successfully!"
+        );
+      }
+    );
+  });
+}
+export function addCoachToClub(req, res) {
+  User.find({ _id: req.body.users }, (err, users) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    Club.updateOne(
+      { _id: req.params.id },
+      { $addToSet: { coaches: users.map((user) => user._id) } },
+      (err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.club.coaches.update",
+          "Club Coaches have been updated successfully!"
+        );
+      }
+    );
+  });
+}
+export function removeCoachFromClub(req, res) {
+  User.find({ _id: req.body.users }, (err, users) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    Club.updateOne(
+      { _id: req.params.id },
+      {
+        $pullAll: {
+          coaches: users.map((user) => user._id),
+        },
+      },
+      (err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.club.coaches.update",
+          "Club Coaches have been updated successfully!"
+        );
+      }
+    );
+  });
+}
+export function addAdminToClub(req, res) {
+  User.find({ _id: req.body.users }, (err, users) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    Club.updateOne(
+      { _id: req.params.id },
+      { $addToSet: { admins: users.map((user) => user._id) } },
+      (err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.club.admins.update",
+          "Club Admins have been updated successfully!"
+        );
+      }
+    );
+  });
+}
+export function removeAdminFromClub(req, res) {
+  User.find({ _id: req.body.users }, (err, users) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    Club.updateOne(
+      { _id: req.params.id },
+      {
+        $pullAll: {
+          admins: users.map((user) => user._id),
+        },
+      },
+      (err) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.club.admins.update",
+          "Club Admins have been updated successfully!"
+        );
+      }
+    );
+  });
 }
 
 export function addAthletesToGroup(req, res) {

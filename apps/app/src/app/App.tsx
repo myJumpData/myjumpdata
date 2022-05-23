@@ -80,7 +80,7 @@ export default function App() {
   );
 
   React.useEffect(() => {
-    fetch(getApi() + "/admin/version")
+    fetch(getApi() + "/admin/version", { cache: "no-store" })
       .then((res: Response) => {
         return res.json();
       })
@@ -315,7 +315,7 @@ function MainStackScreen() {
 }
 
 const MainTab = createBottomTabNavigator();
-function MainTabScreen({ navigation }) {
+function MainTabScreen() {
   const isDarkMode = useColorScheme() === "dark";
   const { t } = useTranslation();
   return (
@@ -358,15 +358,6 @@ function MainTabScreen({ navigation }) {
         name="groups"
         component={GroupsScreen}
         options={{
-          headerRight: () => (
-            <Ionicons
-              name="add-outline"
-              size={30}
-              color={isDarkMode ? Colors.white : Colors.black}
-              style={{ paddingRight: 10 }}
-              onPress={() => navigation.navigate("group_create")}
-            />
-          ),
           title: t("common:nav_groups"),
         }}
       />

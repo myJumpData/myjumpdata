@@ -1,17 +1,28 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useIsFocused } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { BottomSheetNavList } from "../components/BottomSheetNav";
 import Player from "../components/Player";
 import StyledBottomSheet from "../components/StyledBottomSheet";
-import { StyledText } from "../components/StyledText";
+import {
+  StyledShyText,
+  StyledShyTextStyle,
+  StyledText,
+} from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
+import StyledLink from "../components/StyledLink";
 
 export default function GroupsScreen({ navigation }) {
   const isFocused = useIsFocused();
@@ -22,13 +33,21 @@ export default function GroupsScreen({ navigation }) {
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [current, setCurrent] = React.useState<any>();
+  const [club, setClub] = useState<any>();
 
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => {
-    return current?.coaches.some((i: any) => i._id === user.id) ? [400] : [200];
-  }, [current?.coaches, user.id]);
+    return club &&
+      [...club.coaches, ...club.admins].some((i: any) => i._id === user.id) &&
+      current?.coaches.some((i: any) => i._id === user.id)
+      ? [400]
+      : [200];
+  }, [club, current?.coaches, user.id]);
 
   function getGroups() {
+    GroupsService.getClub().then((response) => {
+      setClub(response.data);
+    });
     GroupsService.getGroups().then((response: any) => {
       setGroups(response.data);
       setRefreshing(false);
@@ -39,6 +58,28 @@ export default function GroupsScreen({ navigation }) {
     setRefreshing(true);
     getGroups();
   }, []);
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        if (
+          club &&
+          [...club.coaches, ...club.admins].some((i: any) => i._id === user.id)
+        ) {
+          return (
+            <Ionicons
+              name="add-outline"
+              size={30}
+              color={isDarkMode ? Colors.white : Colors.black}
+              style={{ paddingRight: 10 }}
+              onPress={() => navigation.navigate("group_create")}
+            />
+          );
+        }
+        return;
+      },
+    });
+  }, [club, isDarkMode, navigation, user.id]);
 
   React.useEffect(() => {
     if (isFocused) {
@@ -87,17 +128,64 @@ export default function GroupsScreen({ navigation }) {
 
   return (
     <StyledView style={{ padding: 10 }}>
-      <FlatList
-        renderItem={renderItem}
-        data={groups}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-        ItemSeparatorComponent={() => (
-          <StyledView
-            style={{ borderBottomWidth: 2, borderColor: Colors.grey }}
+      {club ? (
+        <View style={{ flexDirection: "row" }}>
+          <Image
+            style={{
+              width: 50,
+              height: 50,
+              marginRight: 10,
+            }}
+            source={{ uri: club.logo }}
           />
-        )}
-      />
+          <View>
+            <StyledText>{club.name}</StyledText>
+            <StyledShyText>
+              {(() => {
+                let tmp: string[] = [];
+                if (club.coaches?.some((e: any) => e._id === user.id)) {
+                  tmp = [...tmp, "Coach"];
+                }
+                if (club.athletes?.some((e: any) => e._id === user.id)) {
+                  tmp = [...tmp, "Athlete"];
+                }
+                if (club.admins?.some((e: any) => e._id === user.id)) {
+                  tmp = [...tmp, "Admin"];
+                }
+                return tmp;
+              })().join(" | ")}
+            </StyledShyText>
+          </View>
+        </View>
+      ) : null}
+      {club ? (
+        <FlatList
+          renderItem={renderItem}
+          data={groups}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          ItemSeparatorComponent={() => (
+            <StyledView
+              style={{ borderBottomWidth: 2, borderColor: Colors.grey }}
+            />
+          )}
+        />
+      ) : (
+        <View>
+          <StyledShyText style={{ marginBottom: 5, fontSize: 20 }}>
+            {t("club_notfound")}
+          </StyledShyText>
+          <StyledShyText style={{ marginBottom: 5, fontSize: 20 }}>
+            {t("club_notfound_apply")}
+          </StyledShyText>
+          <StyledLink
+            Style={StyledShyTextStyle}
+            url="mailto:myjumpdata@gmail.com"
+          >
+            myjumpdata@gmail.com
+          </StyledLink>
+        </View>
+      )}
       <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         {current ? (
           <>

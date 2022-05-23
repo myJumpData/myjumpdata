@@ -8,6 +8,28 @@ export const getGroups = () => {
   return api.get("/groups");
 };
 
+export const getClub = () => {
+  return api.get("/club");
+};
+export const addMemberToClub = (id, users) => {
+  return api.post(`/club/${id}/athletes/add`, { users });
+};
+export const removeMemberFromClub = (id, users) => {
+  return api.post(`/club/${id}/athletes/remove`, { users });
+};
+export const addCoachToClub = (id, users) => {
+  return api.post(`/club/${id}/coaches/add`, { users });
+};
+export const removeCoachFromClub = (id, users) => {
+  return api.post(`/club/${id}/coaches/remove`, { users });
+};
+export const addAdminToClub = (id, users) => {
+  return api.post(`/club/${id}/admins/add`, { users });
+};
+export const removeAdminFromClub = (id, users) => {
+  return api.post(`/club/${id}/admins/remove`, { users });
+};
+
 export const getGroup = (id: string) => {
   return api.get(`/groups/${id}`);
 };
