@@ -9,7 +9,7 @@ import { SelectInput } from "../components/Input";
 import { setFreestyle } from "../redux/freestyle.action";
 import { setRoute } from "../redux/route.action";
 import { getFreestyle, getFreestyleData } from "../service/freestyle.service";
-import { getGroup } from "../service/groups.service";
+import { getClub, getGroup } from "../service/groups.service";
 
 type freestyle_folder_data = {
   id: string;
@@ -19,6 +19,8 @@ type freestyle_folder_data = {
   group?: boolean;
   element?: boolean;
   compiled?: boolean;
+  club?: string;
+  set?: boolean;
 };
 
 export default function FreestyleGroupScreen() {
@@ -31,6 +33,7 @@ export default function FreestyleGroupScreen() {
   const [groupName, setGroupName] = useState("");
   const [userSelect, setUserSelect] = useState([]);
   const [userSelected, setUserSelected] = useState("");
+  const [club, setClub] = useState<any>();
 
   const freestyle = useSelector((state: any) => state.freestyle);
 
@@ -67,6 +70,9 @@ export default function FreestyleGroupScreen() {
   }, [freestyle]);
 
   function getUserData() {
+    getClub().then((response) => {
+      setClub(response.data);
+    });
     if (userSelected) {
       getFreestyleData(userSelected).then((response: any) => {
         setFreestyleDataUser(response.data);
@@ -123,9 +129,13 @@ export default function FreestyleGroupScreen() {
           } else if (e.back) {
             return <Back to={e.key} key="back" state={setFreestyle} />;
           } else {
+            if (club && e.set && e.club !== club._id) {
+              return null;
+            }
             return (
               <Folder
                 key={e.key}
+                set={e.set}
                 name={e.key}
                 onClick={(el) => setFreestyle(el)}
               />

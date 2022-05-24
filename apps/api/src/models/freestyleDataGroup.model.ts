@@ -1,15 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const FreestyleDataGroup = mongoose.model(
-  'FreestyleDataGroup',
+  "FreestyleDataGroup",
   new mongoose.Schema({
     key: {
       type: String,
       unique: true,
     },
+    set: Boolean,
+    club: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Club",
+    },
     parent: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'FreestyleDataGroup',
+      ref: "FreestyleDataGroup",
     },
   })
 );

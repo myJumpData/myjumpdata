@@ -6,7 +6,11 @@ import Breadcrumb from "../components/Breadcrumb";
 import { Back, Element, Folder } from "../components/Freestyle";
 import { setFreestyle } from "../redux/freestyle.action";
 import { setRoute } from "../redux/route.action";
-import { getFreestyle, getFreestyleDataOwn } from "../service/freestyle.service";
+import {
+  getFreestyle,
+  getFreestyleDataOwn,
+} from "../service/freestyle.service";
+import { getClub } from "../service/groups.service";
 
 type freestyle_folder_data = {
   id: string;
@@ -16,6 +20,8 @@ type freestyle_folder_data = {
   group?: boolean;
   element?: boolean;
   compiled?: boolean;
+  club?: string;
+  set?: boolean;
 };
 export default function FreestyleScreen() {
   useEffect(() => {
@@ -28,6 +34,7 @@ export default function FreestyleScreen() {
   const [freestyleDataOwn, setFreestyleDataOwn] = useState<any[]>([]);
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
   const { t } = useTranslation();
+  const [club, setClub] = useState<any>();
 
   useEffect(() => {
     getUserData();
@@ -39,6 +46,9 @@ export default function FreestyleScreen() {
   }, [freestyle]);
 
   function getUserData() {
+    getClub().then((response) => {
+      setClub(response.data);
+    });
     getFreestyleDataOwn().then((response: any) => {
       setFreestyleDataOwn(response.data);
     });
@@ -84,9 +94,13 @@ export default function FreestyleScreen() {
           } else if (e.back) {
             return <Back to={e.key} key="back" state={setFreestyle} />;
           } else {
+            if (club && e.set && e.club !== club._id) {
+              return null;
+            }
             return (
               <Folder
                 key={e.key}
+                set={e.set}
                 name={e.key}
                 onClick={(el) => setFreestyle(el)}
               />

@@ -46,7 +46,7 @@ export function Element({
         name
           .split("_")
           .map((item) => i18n.exists(`freestyle:${item}`))
-          .some((item) => item === false) && "border border-red-500"
+          .some((item) => !item) && "border border-red-500"
       )}
       onClick={() => {
         if (onRefresh !== undefined) {
@@ -93,17 +93,32 @@ export function Element({
     </div>
   );
 }
-export function Folder({ name, onClick }: { name: string; onClick: any }) {
+export function Folder({
+  name,
+  onClick,
+  set,
+}: {
+  name: string;
+  onClick: any;
+  set?: boolean;
+}) {
   const { t } = useTranslation();
   return (
     <div
       className={
-        "flex cursor-pointer items-center break-words rounded-xl border-2 border-gray-500 p-4 font-bold shadow sm:text-lg md:text-xl"
+        "flex cursor-pointer items-center break-words rounded-xl border-2 border-gray-500 p-4 font-bold shadow" +
+        " relative" +
+        " sm:text-lg md:text-xl"
       }
       onClick={() => {
         onClick(name);
       }}
     >
+      {set ? (
+        <span className="absolute top-0 right-0 rounded-2xl bg-gray-500/50 px-[.5rem] py-[.25rem] text-[.75rem] leading-none">
+          Set
+        </span>
+      ) : null}
       <span className="truncate">
         {t<string>(`freestyle:${name.split("_")[name.split("_").length - 1]}`)}
       </span>

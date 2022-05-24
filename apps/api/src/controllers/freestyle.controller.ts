@@ -40,7 +40,7 @@ export function getFreestyle(req, res) {
       return process(pathSplit[count], name + "_" + pathSplit[count]);
     } else {
       const groups = findGroupChilds.map((e) => {
-        return { key: e.key, group: true };
+        return { key: e.key, group: true, set: e.set, club: e.club };
       });
       const elements = findGroupElements.map((e) => {
         return {
