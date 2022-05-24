@@ -7,8 +7,7 @@ import {
 } from "@react-navigation/stack";
 import * as React from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { Linking, LogBox, ToastAndroid, useColorScheme } from "react-native";
-import DeviceInfo from "react-native-device-info";
+import { Linking, LogBox, useColorScheme } from "react-native";
 import TrackPlayer, { Capability, RepeatMode } from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
@@ -35,9 +34,9 @@ import SettingsScreen from "./screens/SettingsScreen";
 import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
 import UserProfileScreen from "./screens/UserProfileScreen";
 import UsersService from "./services/users.service";
-import getApi from "./utils/getApi";
 import TrainScreen from "./screens/TrainScreen";
 import CounterScreen from "./screens/CounterScreen";
+import Update from "./components/Update";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -49,9 +48,6 @@ export default function App() {
 
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => [200], []);
-
-  const bottomSheetRefUpdate = React.useRef<BottomSheet>(null);
-  const snapPointsUpdate = React.useMemo(() => [200], []);
 
   React.useEffect(() => {
     if (
@@ -67,39 +63,16 @@ export default function App() {
 
   React.useEffect(() => {
     (async () => {
-      TrackPlayer.setupPlayer({});
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      TrackPlayer.setupPlayer({}).then(() => {});
       TrackPlayer.updateOptions({
         capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
-      });
-      TrackPlayer.setRepeatMode(RepeatMode.Off);
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).then(() => {});
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      TrackPlayer.setRepeatMode(RepeatMode.Off).then(() => {});
     })();
   }, []);
-
-  const [newVersion, setNewVersion] = React.useState(
-    DeviceInfo.getVersion().replace("v", "")
-  );
-
-  const { ready } = useTranslation();
-
-  React.useEffect(() => {
-    if (ready) {
-      fetch(getApi() + "/admin/version", { cache: "no-store" })
-        .then((res: Response) => {
-          return res.json();
-        })
-        .then((res: { v: string }) => {
-          const currentVersion = DeviceInfo.getVersion().replace("v", "");
-          const availableVersion = res.v;
-          setNewVersion(availableVersion);
-          if (currentVersion !== availableVersion) {
-            bottomSheetRefUpdate.current?.snapToIndex(0);
-          }
-        })
-        .catch((err) => {
-          ToastAndroid.show(JSON.stringify(err), ToastAndroid.SHORT);
-        });
-    }
-  }, [ready]);
 
   return (
     <NavigationContainer
@@ -146,18 +119,7 @@ export default function App() {
           }}
         />
       </StyledBottomSheet>
-      <StyledBottomSheet
-        ref={bottomSheetRefUpdate}
-        snapPoints={snapPointsUpdate}
-      >
-        <StyledText style={{ fontSize: 24, fontWeight: "900" }}>
-          Update Available
-        </StyledText>
-
-        <StyledText style={{ fontSize: 20, fontWeight: "900" }}>
-          {`${DeviceInfo.getVersion().replace("v", "")} => ${newVersion}`}
-        </StyledText>
-      </StyledBottomSheet>
+      <Update />
     </NavigationContainer>
   );
 }

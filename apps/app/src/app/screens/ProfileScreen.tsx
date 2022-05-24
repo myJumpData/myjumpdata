@@ -1,13 +1,7 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  Platform,
-  RefreshControl,
-  ToastAndroid,
-  View,
-} from "react-native";
+import { Image, Platform, RefreshControl, View } from "react-native";
 import DeviceInfo from "react-native-device-info";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,7 +15,7 @@ import { borderRadius, Colors } from "../Constants";
 import { clearUser } from "../redux/user.action";
 import UsersService from "../services/users.service";
 import { capitalize } from "../utils/capitalize";
-import getApi from "../utils/getApi";
+import { useUpdate } from "../components/Update";
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation();
@@ -36,32 +30,13 @@ export default function ProfileScreen({ navigation }) {
   const [userOverviewScoreData, setUserOverviewScoreData] = React.useState([]);
 
   const [refreshing, setRefreshing] = React.useState(false);
+  const { newVersion, reloadVersion } = useUpdate();
 
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => {
     const NavHeight = 200;
     const InfoHeight = 150;
     return [NavHeight, NavHeight + InfoHeight];
-  }, []);
-  const [version, setVersion] = React.useState(
-    DeviceInfo.getVersion().replace("v", "")
-  );
-
-  const getServerVersion = () => {
-    fetch(getApi() + "/admin/version", { cache: "no-store" })
-      .then((res: Response) => {
-        return res.json();
-      })
-      .then((res: { v: string }) => {
-        setVersion(res.v);
-      })
-      .catch((err) => {
-        ToastAndroid.show(JSON.stringify(err), ToastAndroid.SHORT);
-      });
-  };
-
-  React.useEffect(() => {
-    getServerVersion();
   }, []);
 
   React.useEffect(() => {
@@ -80,39 +55,27 @@ export default function ProfileScreen({ navigation }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bottomSheetRef]);
 
-  React.useEffect(() => {
+  const getUser = () => {
     UsersService.getUserSearch(user.username).then((response) => {
       setUsername(response.data?.username);
       setFirstname(response.data?.firstname);
       setLastname(response.data?.lastname);
       setUserOverviewScoreData(response.data?.highdata);
-      if (response.data?.picture) {
-        fetch(response.data.picture).then((r) => {
-          if (r.status === 200) {
-            setImage(response.data.picture);
-          }
-        });
-      }
+      setImage(response.data.picture);
+      setRefreshing(false);
     });
+  };
+
+  React.useEffect(() => {
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.username]);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    getServerVersion();
-    UsersService.getUserSearch(user.username).then((response) => {
-      setUsername(response.data?.username);
-      setFirstname(response.data?.firstname);
-      setLastname(response.data?.lastname);
-      setUserOverviewScoreData(response.data?.highdata);
-      if (response.data?.picture) {
-        fetch(response.data.picture).then((r) => {
-          if (r.status === 200) {
-            setImage(response.data.picture);
-          }
-        });
-      }
-      setRefreshing(false);
-    });
+    reloadVersion();
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.username]);
 
   return (
@@ -251,7 +214,7 @@ export default function ProfileScreen({ navigation }) {
           >{`${DeviceInfo.getApplicationName()} ${DeviceInfo.getReadableVersion()}`}</StyledText>
           <StyledText
             style={{ color: Colors.grey }}
-          >{`Server ${version}`}</StyledText>
+          >{`Server ${newVersion}`}</StyledText>
         </View>
       </StyledBottomSheet>
       <View style={{ padding: 10 }}>
