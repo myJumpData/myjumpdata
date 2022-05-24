@@ -67,11 +67,11 @@ export default function App() {
 
   React.useEffect(() => {
     (async () => {
-      await TrackPlayer.setupPlayer({});
-      await TrackPlayer.updateOptions({
+      TrackPlayer.setupPlayer({});
+      TrackPlayer.updateOptions({
         capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
       });
-      await TrackPlayer.setRepeatMode(RepeatMode.Off);
+      TrackPlayer.setRepeatMode(RepeatMode.Off);
     })();
   }, []);
 
@@ -79,23 +79,27 @@ export default function App() {
     DeviceInfo.getVersion().replace("v", "")
   );
 
+  const { ready } = useTranslation();
+
   React.useEffect(() => {
-    fetch(getApi() + "/admin/version", { cache: "no-store" })
-      .then((res: Response) => {
-        return res.json();
-      })
-      .then((res: { v: string }) => {
-        const currentVersion = DeviceInfo.getVersion().replace("v", "");
-        const availableVersion = res.v;
-        setNewVersion(availableVersion);
-        if (currentVersion !== availableVersion) {
-          bottomSheetRefUpdate.current?.snapToIndex(0);
-        }
-      })
-      .catch((err) => {
-        ToastAndroid.show(JSON.stringify(err), ToastAndroid.SHORT);
-      });
-  }, []);
+    if (ready) {
+      fetch(getApi() + "/admin/version", { cache: "no-store" })
+        .then((res: Response) => {
+          return res.json();
+        })
+        .then((res: { v: string }) => {
+          const currentVersion = DeviceInfo.getVersion().replace("v", "");
+          const availableVersion = res.v;
+          setNewVersion(availableVersion);
+          if (currentVersion !== availableVersion) {
+            bottomSheetRefUpdate.current?.snapToIndex(0);
+          }
+        })
+        .catch((err) => {
+          ToastAndroid.show(JSON.stringify(err), ToastAndroid.SHORT);
+        });
+    }
+  }, [ready]);
 
   return (
     <NavigationContainer

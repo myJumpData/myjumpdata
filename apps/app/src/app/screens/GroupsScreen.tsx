@@ -129,7 +129,7 @@ export default function GroupsScreen({ navigation }) {
   return (
     <StyledView style={{ padding: 10 }}>
       {club ? (
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image
             style={{
               width: 50,

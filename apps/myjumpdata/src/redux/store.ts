@@ -1,8 +1,8 @@
 import { AnyAction, createStore, Reducer } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import rootReducer from "./rootReducer";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
 export const store =
   process.env.NODE_ENV === "development"
