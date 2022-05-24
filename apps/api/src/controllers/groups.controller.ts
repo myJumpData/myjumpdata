@@ -209,11 +209,26 @@ export function removeMemberFromClub(req, res) {
         if (err) {
           return requestHandlerError(res, err);
         }
-        return requestHandler(
-          res,
-          200,
-          "success.club.athletes.update",
-          "Club Athletes have been updated successfully!"
+        Group.update(
+          { club: req.params.id },
+          {
+            $pullAll: {
+              athletes: users.map((user) => user._id),
+
+              coaches: users.map((user) => user._id),
+            },
+          },
+          (err) => {
+            if (err) {
+              return requestHandlerError(res, err);
+            }
+            return requestHandler(
+              res,
+              200,
+              "success.club.athletes.update",
+              "Club Athletes have been updated successfully!"
+            );
+          }
         );
       }
     );
