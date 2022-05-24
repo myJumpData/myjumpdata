@@ -1,13 +1,10 @@
 import * as React from "react";
-import { FlatList, View } from "react-native";
+import { View } from "react-native";
 import { useSelector } from "react-redux";
-import Breadcrumb from "../components/Breadcrumb";
-import Freestyle from "../components/Freestyle";
 import SelectInput from "../components/Input";
 import Player from "../components/Player";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
-import { setFreestyle } from "../redux/freestyle.action";
 import {
   getFreestyle,
   getFreestyleData,
@@ -15,29 +12,19 @@ import {
 } from "../services/freestyle.service";
 import GroupsService from "../services/groups.service";
 import fullname from "../utils/fullname";
-
-type freestyle_folder_data = {
-  id: string;
-  key: string;
-  back?: boolean;
-  level?: string;
-  group?: boolean;
-  element?: boolean;
-  compiled?: boolean;
-};
+import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
 
 export default function GroupFreestyleScreen({ route, navigation }) {
   const { id } = route.params;
 
   const freestyle = useSelector((state: any) => state.freestyle);
 
-  const [freestyleDataOwn, setFreestyleDataOwn] = React.useState<any[]>([]);
-  const [folderData, setFolderData] = React.useState<freestyle_folder_data[]>(
-    []
-  );
+  const [freestyleData, setFreestyleData] = React.useState<any[]>([]);
+  const [folderData, setFolderData] = React.useState<FreestyleListType[]>([]);
   const [refreshing, setRefreshing] = React.useState(false);
   const [userSelect, setUserSelect] = React.useState([]);
   const [userSelected, setUserSelected] = React.useState("");
+  const [club, setClub] = React.useState<any>();
 
   React.useEffect(() => {
     GroupsService.getGroup(id as string).then((response: any) => {
@@ -49,7 +36,7 @@ export default function GroupFreestyleScreen({ route, navigation }) {
         };
       });
       setUserSelect(tmp);
-      setUserSelected(tmp[0].value);
+      setUserSelected(tmp[0]?.value);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -81,9 +68,12 @@ export default function GroupFreestyleScreen({ route, navigation }) {
   }, []);
 
   function getUserData() {
+    GroupsService.getClub().then((response) => {
+      setClub(response.data);
+    });
     if (userSelected) {
       getFreestyleData(userSelected).then((response: any) => {
-        setFreestyleDataOwn(response.data);
+        setFreestyleData(response.data);
         setRefreshing(false);
       });
     }
@@ -94,40 +84,6 @@ export default function GroupFreestyleScreen({ route, navigation }) {
       setFolderData(response.data);
       setRefreshing(false);
     });
-  }
-
-  function renderItem({ item }: { item: any }) {
-    if (item.element) {
-      const element = freestyleDataOwn?.find((e) => e.element === item.id);
-      return (
-        <Freestyle
-          item={item}
-          type="element"
-          element={element}
-          onSubmit={() => {
-            setRefreshing(true);
-            saveFreestyleData(
-              userSelected,
-              item.id as string,
-              !element?.stateCoach
-            ).then(() => {
-              getUserData();
-            });
-          }}
-        />
-      );
-    } else {
-      return (
-        <Freestyle
-          item={item}
-          type="navigate"
-          onNavigate={() => {
-            setRefreshing(true);
-            setFreestyle(item.key);
-          }}
-        />
-      );
-    }
   }
 
   return (
@@ -147,17 +103,21 @@ export default function GroupFreestyleScreen({ route, navigation }) {
           setState={setUserSelected}
         />
       </View>
-      <Breadcrumb data={freestyle.split("_") || []} setState={setFreestyle} />
-      <FlatList
-        renderItem={renderItem}
+      <FreestyleList
         data={folderData}
+        onSubmit={({ itemId, state }) => {
+          setRefreshing(true);
+          saveFreestyleData(userSelected, itemId, !state?.stateCoach).then(
+            () => {
+              getUserData();
+            }
+          );
+        }}
         refreshing={refreshing}
+        setRefreshing={setRefreshing}
         onRefresh={onRefresh}
-        ItemSeparatorComponent={() => (
-          <StyledView
-            style={{ borderBottomWidth: 2, borderColor: Colors.grey }}
-          />
-        )}
+        state={freestyleData}
+        club={club}
       />
       <View style={{ padding: 10 }}>
         <Player />
