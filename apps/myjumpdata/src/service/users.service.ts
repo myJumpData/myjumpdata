@@ -7,6 +7,13 @@ export const searchUsers = (search: string) => {
   }
   return api.get(`/users/${s}`);
 };
+export const searchUsersAll = (search: string) => {
+  const s = search.replace(/^[^A-Z\d]+$/i, "");
+  if (s === "") {
+    return Promise.resolve({ status: 200, data: null });
+  }
+  return api.get(`/users_all/${s}`);
+};
 
 export const updateUser = (userData) => {
   return api.post("/user_edit", userData);

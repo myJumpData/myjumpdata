@@ -36,7 +36,7 @@ export default function GroupsScreen() {
   }
 
   function handleCreateGroup() {
-    createGroup(groupName.trim()).then(() => {
+    createGroup(groupName.trim(), club?._id).then(() => {
       getGroupsFN();
       setGroupName("");
     });

@@ -3,6 +3,7 @@ import Group from "../models/group.model";
 import User from "../models/user.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
 import Club from "../models/club.model";
+import mongoose from "mongoose";
 
 export function createGroup(req, res) {
   if (!req.body.name) {
@@ -10,6 +11,7 @@ export function createGroup(req, res) {
   }
   const group = new Group({
     name: req.body.name,
+    club: new mongoose.Types.ObjectId(req.body.club),
   });
   group.save((err, group) => {
     if (err) {
@@ -128,16 +130,23 @@ export function getGroup(req, res) {
 }
 
 export function getGroups(req, res) {
-  Group.find({
+  Club.findOne({
     $or: [{ coaches: { $in: req.userId } }, { athletes: { $in: req.userId } }],
-  })
-    .populate("coaches athletes", "-password")
-    .exec((err, groups) => {
-      if (err) {
-        return requestHandlerError(res, err);
-      }
-      return requestHandler(res, 200, "", "", groups);
-    });
+  }).exec((err, club: any) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    Group.find({
+      club: { $in: club._id },
+    })
+      .populate("coaches athletes", "-password")
+      .exec((err, groups) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(res, 200, "", "", groups);
+      });
+  });
 }
 
 export function getClub(req, res) {

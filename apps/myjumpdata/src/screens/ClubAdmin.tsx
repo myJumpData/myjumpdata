@@ -3,7 +3,7 @@ import { Fragment, ReactChild, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiUserAdd, HiUserRemove } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
@@ -19,7 +19,7 @@ import {
   removeCoachFromClub,
   removeMemberFromClub,
 } from "../service/groups.service";
-import { searchUsers } from "../service/users.service";
+import { searchUsersAll } from "../service/users.service";
 import fullname from "../utils/fullname";
 
 export default function ClubAdminScreen() {
@@ -28,7 +28,6 @@ export default function ClubAdminScreen() {
     AuthVerify();
   }, []);
 
-  const params = useParams();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
@@ -65,7 +64,7 @@ export default function ClubAdminScreen() {
     setLoading(true);
     const timeoutId = setTimeout(() => {
       if (groupSearch !== "") {
-        searchUsers(groupSearch).then((response) => {
+        searchUsersAll(groupSearch).then((response) => {
           setUsers(
             [
               ...response.data,
@@ -253,7 +252,7 @@ export default function ClubAdminScreen() {
           )}
         </div>
       </div>
-      <Link to={`/group/${params.id}/`}>
+      <Link to={`/group/`}>
         <Button name={t("common:back")} design="link" />
       </Link>
     </>

@@ -6,8 +6,60 @@ import { APP_URL } from "../consts/host";
 import SendMail from "../email";
 import User from "../models/user.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
+import Club from "../models/club.model";
 
 export const searchUsers = (req, res) => {
+  if (
+    req.params.search === "" ||
+    req.params.search === null ||
+    req.params.search === undefined
+  ) {
+    return requestHandler(res, 200, "", "", []);
+  }
+  if (!req.params.search.match(/^[A-Z0-9._-]+$/i)) {
+    return requestHandler(res, 200, "", "", []);
+  }
+
+  Club.findOne({
+    $or: [
+      { coaches: { $in: req.userId } },
+      { athletes: { $in: req.userId } },
+      { admins: { $in: req.userId } },
+    ],
+  }).exec((err, club) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    User.find(
+      {
+        $text: { $search: req.params.search },
+        $or: [{ _id: { $in: club.athletes } }, { _id: { $in: club.athletes } }],
+        active: true,
+      },
+      { score: { $meta: "textScore" } }
+    )
+      .sort({ score: { $meta: "textScore" } })
+      .populate("roles")
+      .select("-password")
+      .limit(5)
+      .exec((err, users) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        const response = users.map((user) => {
+          if (user.picture === "gravatar") {
+            user.picture = `https://secure.gravatar.com/avatar/${crypto
+              .createHash("md5")
+              .update(user.email)
+              .digest("hex")}?size=300&d=404`;
+          }
+          return user;
+        });
+        return requestHandler(res, 200, "", "", response);
+      });
+  });
+};
+export const searchUsersAll = (req, res) => {
   if (
     req.params.search === "" ||
     req.params.search === null ||

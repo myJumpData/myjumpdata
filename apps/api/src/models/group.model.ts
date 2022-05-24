@@ -4,6 +4,10 @@ const Group = mongoose.model(
   "Group",
   new mongoose.Schema({
     name: String,
+    club: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Club",
+    },
     coaches: [
       {
         type: mongoose.Schema.Types.ObjectId,
