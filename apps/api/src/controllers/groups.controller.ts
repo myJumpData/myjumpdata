@@ -196,6 +196,8 @@ export function getClub(req, res) {
                   .createHash("md5")
                   .update(user.email)
                   .digest("hex")}?size=300&d=404`;
+              } else {
+                user.picture = undefined;
               }
               user.email = undefined;
               return user;
@@ -206,6 +208,8 @@ export function getClub(req, res) {
                   .createHash("md5")
                   .update(user.email)
                   .digest("hex")}?size=300&d=404`;
+              } else {
+                user.picture = undefined;
               }
               user.email = undefined;
               return user;
@@ -216,6 +220,8 @@ export function getClub(req, res) {
                   .createHash("md5")
                   .update(user.email)
                   .digest("hex")}?size=300&d=404`;
+              } else {
+                user.picture = undefined;
               }
               user.email = undefined;
               return user;

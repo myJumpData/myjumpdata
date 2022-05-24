@@ -27,7 +27,7 @@ export default function ProfileScreen() {
   return (
     <div className="w-full space-y-2">
       <div className="flex justify-start space-x-4">
-        {user?.picture !== "" ? (
+        {user?.picture && user?.picture !== "" ? (
           <div className="flex aspect-square h-24 justify-center sm:h-32 md:h-48">
             <img
               src={user?.picture}
