@@ -29,7 +29,7 @@
     "start_api": "nx run api:serve",
     "start_app_android": "nx run app:run-android",
     "build_api": "nx run api:build",
-    "postbuild_api": "pm2 restart myJumpData_API",
+    "postbuild_api": "pm2 restart myJumpData_API --update-env",
     "build_web": "nx run myjumpdata:build",
     "update": "git pull && npm install && npm run build_api && npm run build_web",
     "pm2status": "pm2 status",
