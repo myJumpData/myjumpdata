@@ -94,6 +94,9 @@ export default function FreestyleScreen() {
           } else if (e.back) {
             return <Back to={e.key} key="back" state={setFreestyle} />;
           } else {
+            if (!club && e.set) {
+              return null;
+            }
             if (club && e.set && e.club !== club._id) {
               return null;
             }

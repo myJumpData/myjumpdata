@@ -12,6 +12,7 @@ import {
   getFreestyleDataOwn,
   saveFreestyleDataOwn,
 } from "../services/freestyle.service";
+import GroupsService from "../services/groups.service";
 
 type freestyle_folder_data = {
   id: string;
@@ -21,6 +22,8 @@ type freestyle_folder_data = {
   group?: boolean;
   element?: boolean;
   compiled?: boolean;
+  club?: string;
+  set?: boolean;
 };
 
 export default function FreestyleScreen() {
@@ -31,6 +34,7 @@ export default function FreestyleScreen() {
     []
   );
   const [refreshing, setRefreshing] = React.useState(false);
+  const [club, setClub] = React.useState<any>();
 
   React.useEffect(() => {
     getUserData();
@@ -63,6 +67,9 @@ export default function FreestyleScreen() {
   }, []);
 
   function getUserData() {
+    GroupsService.getClub().then((response) => {
+      setClub(response.data);
+    });
     getFreestyleDataOwn().then((response: any) => {
       setFreestyleDataOwn(response.data);
       setRefreshing(false);
@@ -95,6 +102,12 @@ export default function FreestyleScreen() {
         />
       );
     } else {
+      if (!club && item.set && item.group) {
+        return null;
+      }
+      if (club && item.group && item.set && item.club !== club._id) {
+        return null;
+      }
       return (
         <Freestyle
           item={item}

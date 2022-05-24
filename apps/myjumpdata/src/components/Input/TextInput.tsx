@@ -74,9 +74,9 @@ export function TextInput({
         className={classNames(
           "peer h-10 w-full border-b-2 border-gray-300 bg-transparent placeholder-transparent transition focus:border-yellow-500 focus:outline-none dark:border-gray-700",
           inlineClass,
-          valid === true
+          valid
             ? "text-green-500"
-            : valid === false
+            : !valid
             ? "text-red-500"
             : "text-gray-900 dark:text-gray-100"
         )}

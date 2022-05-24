@@ -44,6 +44,7 @@ export default function UserProfileScreen({ route, navigation }) {
       .catch(() => {
         navigation.goBack();
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
   const onRefresh = React.useCallback(() => {

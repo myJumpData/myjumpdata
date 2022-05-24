@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 import { Back, Element, Folder } from "../components/Freestyle";
@@ -33,13 +33,13 @@ export default function FreestyleGroupScreen() {
   const [groupName, setGroupName] = useState("");
   const [userSelect, setUserSelect] = useState([]);
   const [userSelected, setUserSelected] = useState("");
-  const [club, setClub] = useState<any>();
 
   const freestyle = useSelector((state: any) => state.freestyle);
 
   const [freestyleDataUser, setFreestyleDataUser] = useState<any[]>([]);
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getGroup(params.id as string).then((response: any) => {
@@ -71,7 +71,9 @@ export default function FreestyleGroupScreen() {
 
   function getUserData() {
     getClub().then((response) => {
-      setClub(response.data);
+      if (!response.data) {
+        navigate(-1);
+      }
     });
     if (userSelected) {
       getFreestyleData(userSelected).then((response: any) => {
@@ -129,9 +131,6 @@ export default function FreestyleGroupScreen() {
           } else if (e.back) {
             return <Back to={e.key} key="back" state={setFreestyle} />;
           } else {
-            if (club && e.set && e.club !== club._id) {
-              return null;
-            }
             return (
               <Folder
                 key={e.key}

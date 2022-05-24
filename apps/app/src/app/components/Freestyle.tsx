@@ -96,6 +96,21 @@ export default function Freestyle({
           size={item.back ? 30 : 40}
           color={Colors.main}
         />
+        {item.set ? (
+          <StyledText
+            style={{
+              position: "absolute",
+              backgroundColor: Colors.grey,
+              fontSize: 10,
+              borderRadius: 10,
+              paddingHorizontal: 5,
+              paddingVertical: 2,
+              bottom: -3,
+            }}
+          >
+            Set
+          </StyledText>
+        ) : null}
       </View>
       <View style={{ flexGrow: 1 }}>
         <StyledText>

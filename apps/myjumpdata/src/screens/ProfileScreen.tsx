@@ -17,7 +17,7 @@ export default function ProfileScreen() {
   const [user, setUser] = useState<any>();
 
   useEffect(() => {
-    if (params.username && params.username !== null && params.username !== "") {
+    if (params.username && params.username !== "") {
       getUserSearch(params.username as string).then((response) => {
         setUser(response.data);
       });

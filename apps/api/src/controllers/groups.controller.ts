@@ -136,6 +136,9 @@ export function getGroups(req, res) {
     if (err) {
       return requestHandlerError(res, err);
     }
+    if (!club) {
+      return requestHandler(res, 200, "", "", []);
+    }
     Group.find({
       club: { $in: club._id },
     })
