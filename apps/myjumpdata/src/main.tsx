@@ -11,6 +11,7 @@ import "./styles.scss";
 import AdminClubScreen from "./screens/admin/AdminClubScreen";
 import AdminClubCreateScreen from "./screens/admin/AdminClubCreateScreen";
 import ClubAdminScreen from "./screens/ClubAdmin";
+import ClubScreen from "./screens/ClubScreen";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
 const FreestyleGroupScreen = lazy(
@@ -78,6 +79,7 @@ createRoot(document.getElementById("root") as Element).render(
                 //"Group Pages"
               }
               <Route path="/group" element={<GroupsScreen />} />
+              <Route path="/club/page/:id" element={<ClubScreen />} />
               <Route path="/club/admin" element={<ClubAdminScreen />} />
               <Route path="/group/:id" element={<GroupScreen />} />
               <Route

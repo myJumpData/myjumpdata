@@ -8,8 +8,8 @@ export const getGroups = () => {
   return api.get("/groups");
 };
 
-export const getClub = () => {
-  return api.get("/club");
+export const getClub = (id?: string) => {
+  return api.get("/club/" + id);
 };
 export const addMemberToClub = (id, users) => {
   return api.post(`/club/${id}/athletes/add`, { users });

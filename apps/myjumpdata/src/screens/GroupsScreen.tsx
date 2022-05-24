@@ -61,7 +61,10 @@ export default function GroupsScreen() {
               </Link>
             )}
           </div>
-          <span className="flex items-center space-x-2">
+          <Link
+            to={`/club/page/${club._id}`}
+            className="flex items-center space-x-2 rounded-xl py-4 px-2 hover:bg-gray-500/50"
+          >
             <span className="h-16 w-16">
               <img
                 src={club.logo}
@@ -70,7 +73,7 @@ export default function GroupsScreen() {
               />
             </span>
             <div className="flex flex-col">
-              <span className="text-xl font-bold opacity-90">{club.name}</span>
+              <span className="text-xl font-bold">{club.name}</span>
               <span className="opacity-75">
                 {(() => {
                   let tmp: string[] = [];
@@ -87,7 +90,7 @@ export default function GroupsScreen() {
                 })().join(" | ")}
               </span>
             </div>
-          </span>
+          </Link>
         </>
       ) : null}
       <div className="w-full space-y-2">

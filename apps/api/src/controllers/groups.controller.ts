@@ -153,20 +153,78 @@ export function getGroups(req, res) {
 }
 
 export function getClub(req, res) {
-  Club.findOne({
-    $or: [
-      { coaches: { $in: req.userId } },
-      { athletes: { $in: req.userId } },
-      { admins: { $in: req.userId } },
-    ],
-  })
-    .populate("coaches athletes admins", "-password")
-    .exec((err, club) => {
-      if (err) {
-        return requestHandlerError(res, err);
-      }
-      return requestHandler(res, 200, "", "", club);
-    });
+  const id = req.params.id;
+  if (!id) {
+    Club.findOne({
+      $or: [
+        { coaches: { $in: req.userId } },
+        { athletes: { $in: req.userId } },
+        { admins: { $in: req.userId } },
+      ],
+    })
+      .populate("coaches athletes admins", "-password")
+      .exec((err, club) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(res, 200, "", "", club);
+      });
+  } else {
+    Club.findOne({
+      id,
+    })
+      .populate(
+        "coaches athletes admins",
+        "-password -roles -active -checked -__v"
+      )
+      .exec((err, club) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "",
+          "",
+          [club].map((c) => {
+            if (!c) {
+              return c;
+            }
+            c.coaches = c.coaches.map((user) => {
+              if (user.picture === "gravatar") {
+                user.picture = `https://secure.gravatar.com/avatar/${crypto
+                  .createHash("md5")
+                  .update(user.email)
+                  .digest("hex")}?size=300&d=404`;
+              }
+              user.email = undefined;
+              return user;
+            });
+            c.admins = c.admins.map((user) => {
+              if (user.picture === "gravatar") {
+                user.picture = `https://secure.gravatar.com/avatar/${crypto
+                  .createHash("md5")
+                  .update(user.email)
+                  .digest("hex")}?size=300&d=404`;
+              }
+              user.email = undefined;
+              return user;
+            });
+            c.athletes = c.athletes.map((user) => {
+              if (user.picture === "gravatar") {
+                user.picture = `https://secure.gravatar.com/avatar/${crypto
+                  .createHash("md5")
+                  .update(user.email)
+                  .digest("hex")}?size=300&d=404`;
+              }
+              user.email = undefined;
+              return user;
+            });
+            return c;
+          })[0]
+        );
+      });
+  }
 }
 
 export function addMemberToClub(req, res) {
