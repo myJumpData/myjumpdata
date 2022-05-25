@@ -1,21 +1,46 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Fragment, ReactElement } from "react";
+import { Fragment, ReactElement, ReactNode } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.svg";
 import { classNames } from "../utils/classNames";
+import useBreakpoint from "../hooks/useBreakpoint";
 
 export default function Navbar({
   navigation,
   dropdown,
   dropdownButton,
+  bottom,
 }: {
   navigation: { name: string; to: string; current: boolean }[];
   dropdown?: { icon: ReactElement; name: string; to: string }[];
   dropdownButton?: ReactElement;
+  bottom: { name: string; to: string; current: boolean; icon: ReactNode }[];
 }) {
+  const breakpoint = useBreakpoint();
+
   return (
     <div className="pb-16">
+      {breakpoint === "xs" || breakpoint === "sm" ? (
+        <div className="text-back fixed bottom-0 z-50 flex w-full justify-around border-t-2 border-gray-500 bg-white dark:bg-black dark:text-white">
+          {bottom.map((item) => {
+            return (
+              <Link
+                to={item.to}
+                className={classNames(
+                  "flex flex-col items-center justify-center px-2 py-2",
+                  item.current ? "text-yellow-500" : null
+                )}
+              >
+                <span className="text-3xl leading-none">{item.icon}</span>
+                <span className="pt-2 text-[.75rem] leading-none">
+                  {item.name}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      ) : null}
       <Disclosure
         as="nav"
         className="fixed z-20 w-full bg-gray-100 dark:bg-gray-900"
@@ -24,22 +49,31 @@ export default function Navbar({
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12">
               <div className="relative flex h-16 items-center justify-between">
-                <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                  {/* Mobile menu button*/}
-                  <Disclosure.Button
-                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-500/25 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white dark:text-gray-200"
-                    aria-label="menu button"
-                  >
-                    {open ? (
-                      <HiX className="block h-6 w-6" aria-hidden="true" />
-                    ) : (
-                      <HiMenu className="block h-6 w-6" aria-hidden="true" />
-                    )}
-                  </Disclosure.Button>
-                </div>
-                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                {navigation.length > 0 ? (
+                  <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                    {/* Mobile menu button*/}
+                    <Disclosure.Button
+                      className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-500/25 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white dark:text-gray-200"
+                      aria-label="menu button"
+                    >
+                      {open ? (
+                        <HiX className="block h-6 w-6" aria-hidden="true" />
+                      ) : (
+                        <HiMenu className="block h-6 w-6" aria-hidden="true" />
+                      )}
+                    </Disclosure.Button>
+                  </div>
+                ) : null}
+                <div
+                  className={classNames(
+                    "flex flex-1 items-center sm:justify-start",
+                    navigation.length > 0
+                      ? "justify-center sm:items-stretch"
+                      : "justify-start"
+                  )}
+                >
                   <div className="flex flex-shrink-0 items-center">
-                    <Link to="/">
+                    <Link to="/" className="flex items-center space-x-2">
                       <img
                         className="h-8 w-auto scale-150"
                         src={Logo}
@@ -47,27 +81,34 @@ export default function Navbar({
                         height="2rem"
                         width="2rem"
                       />
+                      {navigation.length > 0 ? null : (
+                        <span className="text-2xl font-bold text-black dark:text-white">
+                          myJumpData
+                        </span>
+                      )}
                     </Link>
                   </div>
-                  <div className="hidden sm:ml-6 sm:block">
-                    <div className="flex space-x-4">
-                      {navigation.map((item) => (
-                        <Link
-                          key={item.name}
-                          to={item.to}
-                          className={classNames(
-                            item.current
-                              ? "bg-gray-500/50 text-black  hover:bg-gray-500/25 dark:text-white"
-                              : "text-gray-700 hover:bg-gray-500/25 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100",
-                            "whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium"
-                          )}
-                          aria-current={item.current ? "page" : undefined}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
+                  {navigation.length > 0 ? (
+                    <div className="hidden sm:ml-6 sm:block">
+                      <div className="flex space-x-4">
+                        {navigation.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.to}
+                            className={classNames(
+                              item.current
+                                ? "bg-gray-500/50 text-black  hover:bg-gray-500/25 dark:text-white"
+                                : "text-gray-700 hover:bg-gray-500/25 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100",
+                              "whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium"
+                            )}
+                            aria-current={item.current ? "page" : undefined}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  ) : null}
                 </div>
                 {dropdownButton && dropdown && (
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

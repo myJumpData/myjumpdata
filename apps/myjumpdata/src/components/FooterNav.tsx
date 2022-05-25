@@ -1,12 +1,22 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.svg";
+import useBreakpoint from "../hooks/useBreakpoint";
+import { classNames } from "../utils/classNames";
 
 export default function FooterNav({ social, links }) {
   const { t } = useTranslation();
 
+  const breakpoint = useBreakpoint();
+  const isSmall = breakpoint === "xs" || breakpoint === "sm";
+
   return (
-    <footer className="py-8 px-4 text-gray-600 dark:text-gray-400 sm:px-8 lg:px-12">
+    <footer
+      className={classNames(
+        "py-8 px-4 text-gray-600 dark:text-gray-400 sm:px-8 lg:px-12",
+        isSmall ? "mb-16" : "mb-8"
+      )}
+    >
       <div className="mx-auto flex max-w-7xl flex-col space-y-4 border-b border-gray-600 py-4 dark:border-gray-400 sm:flex-row sm:space-y-0 sm:space-x-4">
         <div className="flex shrink-0 flex-col space-y-4">
           <div className="text-4xl">
