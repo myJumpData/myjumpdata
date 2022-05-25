@@ -72,11 +72,13 @@ export default function GroupFreestyleScreen({ route, navigation }) {
       setClub(response.data);
     });
     if (userSelected) {
-      getFreestyleData(userSelected).then((response: any) => {
+      return getFreestyleData(userSelected).then((response: any) => {
         setFreestyleData(response.data);
         setRefreshing(false);
+        return Promise.resolve();
       });
     }
+    return Promise.resolve();
   }
 
   function getCurrentData() {
@@ -106,12 +108,13 @@ export default function GroupFreestyleScreen({ route, navigation }) {
       <FreestyleList
         data={folderData}
         onSubmit={({ itemId, state }) => {
-          setRefreshing(true);
-          saveFreestyleData(userSelected, itemId, !state?.stateCoach).then(
-            () => {
-              getUserData();
-            }
-          );
+          return saveFreestyleData(
+            userSelected,
+            itemId,
+            !state?.stateCoach
+          ).then(() => {
+            return getUserData();
+          });
         }}
         refreshing={refreshing}
         setRefreshing={setRefreshing}

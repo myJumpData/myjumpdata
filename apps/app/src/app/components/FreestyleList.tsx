@@ -75,7 +75,7 @@ export default function FreestyleList({
           type="element"
           element={element}
           onSubmit={() => {
-            onSubmit({ itemId: item.id, state: element });
+            return onSubmit({ itemId: item.id, state: element });
           }}
         />
       );

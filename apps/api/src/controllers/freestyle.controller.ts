@@ -91,12 +91,7 @@ export function saveFreestyleDataOwn(req, res) {
           if (err) {
             return requestHandlerError(res, err);
           }
-          return requestHandler(
-            res,
-            200,
-            "success.save.freestyle.own",
-            "Successfully saved freestyle own!"
-          );
+          return requestHandler(res, 200, "", "");
         });
       } else {
         const freestyleData = new FreestyleDataUser({
@@ -109,12 +104,7 @@ export function saveFreestyleDataOwn(req, res) {
           if (err) {
             return requestHandlerError(res, err);
           }
-          return requestHandler(
-            res,
-            200,
-            "success.save.freestyle.own",
-            "Successfully saved freestyle own!"
-          );
+          return requestHandler(res, 200, "", "");
         });
       }
     }
@@ -150,12 +140,7 @@ export function saveFreestyleData(req, res) {
         if (err) {
           return requestHandlerError(res, err);
         }
-        return requestHandler(
-          res,
-          200,
-          "success.save.freestyle.group",
-          "Successfully saved freestyle group!"
-        );
+        return requestHandler(res, 200, "", "");
       });
     } else {
       const freestyleData = new FreestyleDataUser({
@@ -168,12 +153,7 @@ export function saveFreestyleData(req, res) {
         if (err) {
           return requestHandlerError(res, err);
         }
-        return requestHandler(
-          res,
-          200,
-          "success.save.freestyle.group",
-          "Successfully saved freestyle group!"
-        );
+        return requestHandler(res, 200, "", "");
       });
     }
   });

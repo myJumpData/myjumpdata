@@ -54,6 +54,9 @@ export function Element({
           .some((item) => !item) && "border border-red-500"
       )}
       onClick={() => {
+        if (reloading) {
+          return;
+        }
         if (onRefresh !== undefined) {
           if (user === "own") {
             setReloading(true);

@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors } from "../Constants";
@@ -20,6 +20,9 @@ export default function Freestyle({
   type: "element" | "navigate";
 }) {
   const { t } = useTranslation();
+
+  const [reloading, setReloading] = React.useState(false);
+
   if (type === "element") {
     return (
       <TouchableOpacity
@@ -30,7 +33,14 @@ export default function Freestyle({
           justifyContent: "space-between",
           alignItems: "center",
         }}
-        onPress={onSubmit}
+        onPress={() => {
+          if (!reloading) {
+            setReloading(true);
+            onSubmit().then(() => {
+              setReloading(false);
+            });
+          }
+        }}
       >
         <View
           style={{
@@ -41,17 +51,21 @@ export default function Freestyle({
             alignItems: "center",
           }}
         >
-          <FontAwesome
-            name={
-              element?.stateCoach
-                ? "square"
-                : element?.stateUser
-                ? "check-square"
-                : "square-o"
-            }
-            size={element?.stateCoach ? 35 : element?.stateUser ? 35 : 40}
-            color={Colors.main}
-          />
+          {reloading ? (
+            <ActivityIndicator size={40} color={Colors.main} />
+          ) : (
+            <FontAwesome
+              name={
+                element?.stateCoach
+                  ? "square"
+                  : element?.stateUser
+                  ? "check-square"
+                  : "square-o"
+              }
+              size={element?.stateCoach ? 35 : element?.stateUser ? 35 : 40}
+              color={Colors.main}
+            />
+          )}
         </View>
         <View style={{ flexGrow: 1 }}>
           {item.level ? (

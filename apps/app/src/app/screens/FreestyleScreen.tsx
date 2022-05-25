@@ -38,9 +38,10 @@ export default function FreestyleScreen() {
     GroupsService.getClub().then((response) => {
       setClub(response.data);
     });
-    getFreestyleDataOwn().then((response: any) => {
+    return getFreestyleDataOwn().then((response: any) => {
       setFreestyleDataOwn(response.data);
       setRefreshing(false);
+      return Promise.resolve();
     });
   }
 
@@ -56,9 +57,8 @@ export default function FreestyleScreen() {
       <FreestyleList
         data={folderData}
         onSubmit={function ({ itemId, state }) {
-          setRefreshing(true);
-          saveFreestyleDataOwn(itemId, !state?.stateUser).then(() => {
-            getUserData();
+          return saveFreestyleDataOwn(itemId, !state?.stateUser).then(() => {
+            return getUserData();
           });
         }}
         refreshing={refreshing}
