@@ -6,6 +6,8 @@ import {
   saveFreestyleDataOwn,
 } from "../service/freestyle.service";
 import { classNames } from "../utils/classNames";
+import { useState } from "react";
+import Spinner from "./Spinner";
 
 export function Back({ to, state }: { to: string; state: any }) {
   const { t } = useTranslation();
@@ -35,10 +37,13 @@ export function Element({
   level?: string;
   compiled?: boolean;
   element?: { stateUser?: boolean; stateCoach?: boolean };
-  onRefresh?: () => void;
+  onRefresh?: any;
   user: "own" | string;
 }) {
   const { i18n, t } = useTranslation();
+
+  const [reloading, setReloading] = useState(false);
+
   return (
     <div
       className={classNames(
@@ -51,13 +56,19 @@ export function Element({
       onClick={() => {
         if (onRefresh !== undefined) {
           if (user === "own") {
+            setReloading(true);
             saveFreestyleDataOwn(id as string, !element?.stateUser).then(() => {
-              onRefresh();
+              onRefresh().then(() => {
+                setReloading(false);
+              });
             });
           } else {
+            setReloading(true);
             saveFreestyleData(user, id as string, !element?.stateCoach).then(
               () => {
-                onRefresh();
+                onRefresh().then(() => {
+                  setReloading(false);
+                });
               }
             );
           }
@@ -80,7 +91,9 @@ export function Element({
         )}
         {element && (
           <span className="ml-2 self-end py-2 xs:self-center xs:text-2xl">
-            {element?.stateCoach ? (
+            {reloading ? (
+              <Spinner />
+            ) : element?.stateCoach ? (
               <FaSquare />
             ) : element?.stateUser ? (
               <FaRegCheckSquare />

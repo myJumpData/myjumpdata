@@ -49,8 +49,9 @@ export default function FreestyleScreen() {
     getClub().then((response) => {
       setClub(response.data);
     });
-    getFreestyleDataOwn().then((response: any) => {
+    return getFreestyleDataOwn().then((response: any) => {
       setFreestyleDataOwn(response.data);
+      return Promise.resolve();
     });
   }
 
@@ -87,7 +88,7 @@ export default function FreestyleScreen() {
                   freestyleDataOwn?.find((i) => i.element === e.id) || {}
                 }
                 onRefresh={() => {
-                  getUserData();
+                  return getUserData();
                 }}
               />
             );

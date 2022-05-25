@@ -76,10 +76,12 @@ export default function FreestyleGroupScreen() {
       }
     });
     if (userSelected) {
-      getFreestyleData(userSelected).then((response: any) => {
+      return getFreestyleData(userSelected).then((response: any) => {
         setFreestyleDataUser(response.data);
+        return Promise.resolve();
       });
     }
+    return Promise.resolve();
   }
 
   function getCurrentData() {
@@ -124,7 +126,7 @@ export default function FreestyleGroupScreen() {
                   freestyleDataUser?.find((i) => i.element === e.id) || {}
                 }
                 onRefresh={() => {
-                  getUserData();
+                  return getUserData();
                 }}
               />
             );
