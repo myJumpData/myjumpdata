@@ -45,6 +45,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
     let dropdownButton;
     let navigation: any[] = [];
     let bottom: any[] = [];
+    let action: any = null;
 
     if (!isSmall) {
       navigation = [
@@ -64,25 +65,20 @@ export default function Wrapper({ children }: { children: ReactNode }) {
             name: t("common:nav_profile"),
             to: `/u/${user.username}`,
           },
+          { icon: <HiCog />, name: t("common:nav_settings"), to: "/settings" },
         ];
-      }
-      dropdown = [
-        ...dropdown,
-        { icon: <HiCog />, name: t("common:nav_settings"), to: "/settings" },
-      ];
-      dropdownButton =
-        image === "" ? (
-          <HiUser className="h-8 w-8 rounded-full bg-gray-200 p-1.5 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700" />
-        ) : (
-          <img
-            src={image}
-            alt="Profile"
-            className="h-8 w-8 rounded-full object-cover"
-            height="2rem"
-            width="2rem"
-          />
-        );
-      if (!isSmall) {
+        dropdownButton =
+          image === "" ? (
+            <HiUser className="h-8 w-8 rounded-full bg-gray-200 p-1.5 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700" />
+          ) : (
+            <img
+              src={image}
+              alt="Profile"
+              className="h-8 w-8 rounded-full object-cover"
+              height="2rem"
+              width="2rem"
+            />
+          );
         navigation = [
           ...navigation,
           {
@@ -102,20 +98,70 @@ export default function Wrapper({ children }: { children: ReactNode }) {
           },
         ];
       }
-    } else {
-      navigation = [
-        ...navigation,
+      if (user?.roles?.includes("admin")) {
+        bottom = [
+          ...bottom,
+          {
+            name: t("common:nav_admin"),
+            to: "/admin",
+            icon: <IoAppsOutline />,
+            current: route.match(new RegExp("admin(.*)")),
+          },
+        ];
+      }
+      bottom = [
+        ...bottom,
         {
-          name: t("common:nav_login"),
-          to: "/login",
-          current: route === "login",
+          name: t("common:nav_groups"),
+          icon: <IoMdPeople />,
+          to: "/group",
+          current: route === "group",
         },
         {
-          name: t("common:nav_signup"),
-          to: "/register",
-          current: route === "register",
+          name: t("common:nav_speeddata"),
+          to: "/speeddata/own",
+          icon: <IoIosTimer />,
+          current: route === "speeddata",
+        },
+        {
+          name: t("common:nav_freestyle"),
+          to: "/freestyle/own",
+          icon: <IoIosList />,
+          current: route === "freestyle",
+        },
+        {
+          name: t("common:nav_profile"),
+          to: `/u/${user.username}`,
+          current: route === "profile",
+          icon:
+            image === "" ? (
+              <HiUser className="h-8 w-8 rounded-full bg-gray-200 p-1.5 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700" />
+            ) : (
+              <img
+                src={image}
+                alt="Profile"
+                className="h-8 w-8 rounded-full object-cover"
+                height="2rem"
+                width="2rem"
+              />
+            ),
         },
       ];
+      if (route === "profile") {
+        action = { name: t("common:nav_settings"), to: "/settings" };
+      }
+    } else {
+      if (route === "login" || route === "home") {
+        action = {
+          name: t("common:nav_signup"),
+          to: "/register",
+        };
+      } else {
+        action = {
+          name: t("common:nav_login"),
+          to: "/login",
+        };
+      }
     }
     if (!isSmall && user?.roles?.includes("admin")) {
       navigation = [
@@ -127,58 +173,8 @@ export default function Wrapper({ children }: { children: ReactNode }) {
         },
       ];
     }
-    if (user?.roles?.includes("admin")) {
-      bottom = [
-        ...bottom,
-        {
-          name: t("common:nav_admin"),
-          to: "/admin",
-          icon: <IoAppsOutline />,
-          current: route.match(new RegExp("admin(.*)")),
-        },
-      ];
-    }
 
-    bottom = [
-      ...bottom,
-      {
-        name: t("common:nav_groups"),
-        icon: <IoMdPeople />,
-        to: "/group",
-        current: route === "group",
-      },
-      {
-        name: t("common:nav_speeddata"),
-        to: "/speeddata/own",
-        icon: <IoIosTimer />,
-        current: route === "speeddata",
-      },
-      {
-        name: t("common:nav_freestyle"),
-        to: "/freestyle/own",
-        icon: <IoIosList />,
-        current: route === "freestyle",
-      },
-      {
-        name: t("common:nav_profile"),
-        to: `/u/${user.username}`,
-        current: route === "profile",
-        icon:
-          image === "" ? (
-            <HiUser className="h-8 w-8 rounded-full bg-gray-200 p-1.5 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700" />
-          ) : (
-            <img
-              src={image}
-              alt="Profile"
-              className="h-8 w-8 rounded-full object-cover"
-              height="2rem"
-              width="2rem"
-            />
-          ),
-      },
-    ];
-
-    return { navigation, dropdownButton, dropdown, bottom };
+    return { navigation, dropdownButton, dropdown, bottom, action };
   }
 
   useEffect(() => {
@@ -422,6 +418,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
         navigation={getNavData().navigation}
         dropdown={getNavData().dropdown}
         dropdownButton={getNavData().dropdownButton}
+        action={getNavData().action}
       />
       <div className="flex h-full w-full grow flex-col md:flex-row">
         {user?.roles?.includes("admin") &&

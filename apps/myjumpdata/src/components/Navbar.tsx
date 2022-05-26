@@ -11,17 +11,19 @@ export default function Navbar({
   dropdown,
   dropdownButton,
   bottom,
+  action,
 }: {
   navigation: { name: string; to: string; current: boolean }[];
   dropdown?: { icon: ReactElement; name: string; to: string }[];
   dropdownButton?: ReactElement;
   bottom: { name: string; to: string; current: boolean; icon: ReactNode }[];
+  action?: { name: string; to: string };
 }) {
   const breakpoint = useBreakpoint();
 
   return (
     <div className="pb-16">
-      {breakpoint === "xs" || breakpoint === "sm" ? (
+      {(breakpoint === "xs" || breakpoint === "sm") && bottom.length > 0 ? (
         <div className="text-back fixed bottom-0 z-50 flex w-full justify-around border-t-2 border-gray-500 bg-white dark:bg-black dark:text-white">
           {bottom.map((item) => {
             return (
@@ -110,7 +112,7 @@ export default function Navbar({
                     </div>
                   ) : null}
                 </div>
-                {dropdownButton && dropdown && (
+                {dropdownButton && dropdown ? (
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
@@ -151,7 +153,17 @@ export default function Navbar({
                       </Transition>
                     </Menu>
                   </div>
-                )}
+                ) : action ? (
+                  <Link
+                    to={action.to}
+                    className={classNames(
+                      "text-gray-700 hover:bg-gray-300/30 hover:text-gray-800 dark:text-gray-200 dark:hover:bg-gray-500/30 dark:hover:text-gray-100",
+                      "block rounded-md px-3 py-2 text-base font-medium"
+                    )}
+                  >
+                    {action.name}
+                  </Link>
+                ) : null}
               </div>
             </div>
 
