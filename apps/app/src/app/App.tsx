@@ -37,6 +37,7 @@ import UsersService from "./services/users.service";
 import TrainScreen from "./screens/TrainScreen";
 import CounterScreen from "./screens/CounterScreen";
 import Update from "./components/Update";
+import ClubScreen from "./screens/ClubScreen";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -274,6 +275,16 @@ function MainStackScreen() {
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
           title: t("common:nav_counter"),
+        }}
+      />
+      <MainStack.Screen
+        name="club"
+        component={ClubScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+          title: t("common:nav_club"),
         }}
       />
     </MainStack.Navigator>

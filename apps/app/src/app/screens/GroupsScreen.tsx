@@ -129,34 +129,40 @@ export default function GroupsScreen({ navigation }) {
   return (
     <StyledView style={{ padding: 10 }}>
       {club ? (
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Image
-            style={{
-              width: 50,
-              height: 50,
-              marginRight: 10,
-            }}
-            source={{ uri: club.logo }}
-          />
-          <View>
-            <StyledText>{club.name}</StyledText>
-            <StyledShyText>
-              {(() => {
-                let tmp: string[] = [];
-                if (club.coaches?.some((e: any) => e._id === user.id)) {
-                  tmp = [...tmp, "Coach"];
-                }
-                if (club.athletes?.some((e: any) => e._id === user.id)) {
-                  tmp = [...tmp, "Athlete"];
-                }
-                if (club.admins?.some((e: any) => e._id === user.id)) {
-                  tmp = [...tmp, "Admin"];
-                }
-                return tmp;
-              })().join(" | ")}
-            </StyledShyText>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("club", { id: club._id });
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                marginRight: 10,
+              }}
+              source={{ uri: club.logo }}
+            />
+            <View>
+              <StyledText>{club.name}</StyledText>
+              <StyledShyText>
+                {(() => {
+                  let tmp: string[] = [];
+                  if (club.coaches?.some((e: any) => e._id === user.id)) {
+                    tmp = [...tmp, "Coach"];
+                  }
+                  if (club.athletes?.some((e: any) => e._id === user.id)) {
+                    tmp = [...tmp, "Athlete"];
+                  }
+                  if (club.admins?.some((e: any) => e._id === user.id)) {
+                    tmp = [...tmp, "Admin"];
+                  }
+                  return tmp;
+                })().join(" | ")}
+              </StyledShyText>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       ) : null}
       {club ? (
         <FlatList
