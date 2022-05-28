@@ -65,8 +65,7 @@ export default function Wrapper({
       <Component refreshControl={refreshControl}>
         <View
           style={{
-            paddingVertical: 8,
-            paddingHorizontal: 16,
+            padding: 16,
             paddingBottom: visible ? 100 : 10,
             flex: 1,
           }}
@@ -75,7 +74,12 @@ export default function Wrapper({
         </View>
       </Component>
       <View
-        style={{ padding: 10, position: "absolute", bottom: 0, width: "100%" }}
+        style={{
+          padding: 10,
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+        }}
       >
         <Player />
       </View>

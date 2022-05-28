@@ -1,5 +1,5 @@
 import { StyledView } from "../components/StyledView";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { StyledShyText, StyledText } from "../components/StyledText";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import fullname from "../utils/fullname";
 import ScoreDataService from "../services/scoredata.service";
 import { useTranslation } from "react-i18next";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Wrapper from "../components/Wrapper";
 
 export default function CounterScreen({ navigation, route }) {
   const from = route.params?.from;
@@ -21,21 +23,23 @@ export default function CounterScreen({ navigation, route }) {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
-          style={{ paddingRight: 5 }}
-          onPress={() => {
-            setCount(0);
-          }}
-        >
-          <StyledIcon name="Ionicons/refresh-outline" size={40} />
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={{ paddingRight: 5 }}
+            onPress={() => {
+              setCount(0);
+            }}
+          >
+            <StyledIcon name="Ionicons/refresh-outline" size={40} />
+          </TouchableOpacity>
+        </View>
       ),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+  }, []);
 
   return (
-    <StyledView style={{ padding: 10 }}>
+    <Wrapper as={StyledView}>
       {from ? (
         <View style={{ flexDirection: "row", marginBottom: 10 }}>
           <View
@@ -151,6 +155,6 @@ export default function CounterScreen({ navigation, route }) {
       >
         <StyledText style={{ fontSize: 24, fontWeight: "bold" }}>+1</StyledText>
       </TouchableOpacity>
-    </StyledView>
+    </Wrapper>
   );
 }

@@ -12,7 +12,6 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { BottomSheetNavList } from "../components/BottomSheetNav";
-import Player from "../components/Player";
 import StyledBottomSheet from "../components/StyledBottomSheet";
 import {
   StyledShyText,
@@ -23,6 +22,7 @@ import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 import StyledLink from "../components/StyledLink";
+import Wrapper from "../components/Wrapper";
 
 export default function GroupsScreen({ navigation }) {
   const isFocused = useIsFocused();
@@ -94,8 +94,7 @@ export default function GroupsScreen({ navigation }) {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={{
-        paddingTop: 20,
-        paddingBottom: 20,
+        paddingVertical: 20,
       }}
       onPress={() => {
         setCurrent(item);
@@ -127,7 +126,92 @@ export default function GroupsScreen({ navigation }) {
   );
 
   return (
-    <StyledView style={{ padding: 10 }}>
+    <Wrapper
+      as={StyledView}
+      outside={
+        <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+          {current ? (
+            <>
+              <StyledText
+                style={{ fontWeight: "900", fontSize: 24, marginBottom: 15 }}
+              >
+                <Ionicons
+                  name="people"
+                  size={24}
+                  color={isDarkMode ? Colors.white : Colors.black}
+                />
+                {" " + current.name}
+              </StyledText>
+
+              <BottomSheetNavList
+                bsRef={bottomSheetRef}
+                data={[
+                  {
+                    text: "Scores",
+                    icon: "filter-outline",
+                    onPress: () => {
+                      navigation.navigate("group_score", {
+                        id: current._id,
+                      });
+                    },
+                  },
+                  ...(current.coaches.some((i: any) => i._id === user.id)
+                    ? [
+                        {
+                          text: t("common:nav_freestyle"),
+                          icon: "list-outline",
+                          onPress: () => {
+                            navigation.navigate("group_freestyle", {
+                              id: current._id,
+                            });
+                          },
+                        },
+                        {
+                          text: t("common:nav_speeddata"),
+                          icon: "timer-outline",
+                          onPress: () => {
+                            navigation.navigate("group_speed", {
+                              id: current._id,
+                            });
+                          },
+                        },
+                        {
+                          text: "Mitglieder bearbeiten",
+                          icon: "people-outline",
+                          onPress: () => {
+                            navigation.navigate("group_settings_users", {
+                              id: current._id,
+                            });
+                          },
+                        },
+                        {
+                          text: "Daten bearbeiten",
+                          icon: "create-outline",
+                          onPress: () => {
+                            navigation.navigate("group_settings_data", {
+                              id: current._id,
+                            });
+                          },
+                        },
+                        {
+                          text: "Verlassen",
+                          icon: "log-out-outline",
+                          onPress: () => {
+                            GroupsService.leaveGroup(current._id).then(() => {
+                              onRefresh();
+                              bottomSheetRef.current?.close();
+                            });
+                          },
+                        },
+                      ]
+                    : []),
+                ]}
+              />
+            </>
+          ) : null}
+        </StyledBottomSheet>
+      }
+    >
       {club ? (
         <TouchableOpacity
           onPress={() => {
@@ -192,88 +276,6 @@ export default function GroupsScreen({ navigation }) {
           </StyledLink>
         </View>
       )}
-      <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        {current ? (
-          <>
-            <StyledText
-              style={{ fontWeight: "900", fontSize: 24, marginBottom: 15 }}
-            >
-              <Ionicons
-                name="people"
-                size={24}
-                color={isDarkMode ? Colors.white : Colors.black}
-              />
-              {" " + current.name}
-            </StyledText>
-
-            <BottomSheetNavList
-              bsRef={bottomSheetRef}
-              data={[
-                {
-                  text: "Scores",
-                  icon: "filter-outline",
-                  onPress: () => {
-                    navigation.navigate("group_score", {
-                      id: current._id,
-                    });
-                  },
-                },
-                ...(current.coaches.some((i: any) => i._id === user.id)
-                  ? [
-                      {
-                        text: t("common:nav_freestyle"),
-                        icon: "list-outline",
-                        onPress: () => {
-                          navigation.navigate("group_freestyle", {
-                            id: current._id,
-                          });
-                        },
-                      },
-                      {
-                        text: t("common:nav_speeddata"),
-                        icon: "timer-outline",
-                        onPress: () => {
-                          navigation.navigate("group_speed", {
-                            id: current._id,
-                          });
-                        },
-                      },
-                      {
-                        text: "Mitglieder bearbeiten",
-                        icon: "people-outline",
-                        onPress: () => {
-                          navigation.navigate("group_settings_users", {
-                            id: current._id,
-                          });
-                        },
-                      },
-                      {
-                        text: "Daten bearbeiten",
-                        icon: "create-outline",
-                        onPress: () => {
-                          navigation.navigate("group_settings_data", {
-                            id: current._id,
-                          });
-                        },
-                      },
-                      {
-                        text: "Verlassen",
-                        icon: "log-out-outline",
-                        onPress: () => {
-                          GroupsService.leaveGroup(current._id).then(() => {
-                            onRefresh();
-                            bottomSheetRef.current?.close();
-                          });
-                        },
-                      },
-                    ]
-                  : []),
-              ]}
-            />
-          </>
-        ) : null}
-      </StyledBottomSheet>
-      <Player />
-    </StyledView>
+    </Wrapper>
   );
 }

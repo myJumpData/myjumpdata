@@ -10,12 +10,13 @@ import { BottomSheetNavList } from "../components/BottomSheetNav";
 import Player from "../components/Player";
 import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
-import { StyledScrollView, StyledView } from "../components/StyledView";
+import { StyledView } from "../components/StyledView";
 import { borderRadius, Colors } from "../Constants";
 import { clearUser } from "../redux/user.action";
 import UsersService from "../services/users.service";
 import { capitalize } from "../utils/capitalize";
 import { useUpdate } from "../components/Update";
+import Wrapper from "../components/Wrapper";
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation();
@@ -79,56 +80,103 @@ export default function ProfileScreen({ navigation }) {
   }, [user.username]);
 
   return (
-    <StyledView>
-      <StyledScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <StyledView
-          style={{
-            flexDirection: "row",
-            paddingTop: 10,
-            paddingBottom: 10,
-            paddingLeft: 10,
-            paddingRight: 10,
-          }}
-        >
-          <Image
-            style={{
-              width: 150,
-              height: 150,
-              borderRadius: 75,
-              marginRight: 10,
-            }}
-            source={{ uri: image }}
+    <Wrapper
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      outside={
+        <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+          <BottomSheetNavList
+            bsRef={bottomSheetRef}
+            data={[
+              {
+                onPress: () => {
+                  navigation.navigate("settings");
+                },
+                icon: "settings-outline",
+                text: t("common:nav_settings"),
+              },
+              {
+                onPress: () => {
+                  navigation.navigate("info");
+                },
+                icon: "information-circle-outline",
+                text: t("common:nav_info"),
+              },
+              {
+                onPress: () => {
+                  clearUser();
+                },
+                icon: "log-out-outline",
+                text: t("settings_logout"),
+              },
+            ]}
           />
-          <StyledView
-            style={{
-              flex: 1,
-              justifyContent: "center",
-            }}
-          >
-            <StyledText style={{ fontWeight: "600" }}>{username}</StyledText>
-            <StyledText>
-              {capitalize(firstname) + " " + capitalize(lastname)}
-            </StyledText>
-          </StyledView>
-        </StyledView>
+          <View style={{ marginTop: 20 }}>
+            <StyledText
+              style={{ color: Colors.grey }}
+            >{`${DeviceInfo.getSystemName()} ${DeviceInfo.getSystemVersion()} - ${DeviceInfo.getBrand()} ${DeviceInfo.getModel()}`}</StyledText>
+            <StyledText
+              style={{ color: Colors.grey }}
+            >{`React Native ${Platform.constants.reactNativeVersion.major}.${Platform.constants.reactNativeVersion.minor}.${Platform.constants.reactNativeVersion.patch}`}</StyledText>
+            <StyledText
+              style={{ color: Colors.grey }}
+            >{`${DeviceInfo.getApplicationName()} ${DeviceInfo.getReadableVersion()}`}</StyledText>
+            <StyledText
+              style={{ color: Colors.grey }}
+            >{`Server ${newVersion}`}</StyledText>
+          </View>
+        </StyledBottomSheet>
+      }
+    >
+      <StyledView
+        style={{
+          flexDirection: "row",
+          paddingTop: 10,
+          paddingBottom: 10,
+          paddingLeft: 10,
+          paddingRight: 10,
+        }}
+      >
+        <Image
+          style={{
+            width: 150,
+            height: 150,
+            borderRadius: 75,
+            marginRight: 10,
+          }}
+          source={{ uri: image }}
+        />
         <StyledView
           style={{
-            paddingTop: 10,
-            paddingBottom: 10,
-            paddingLeft: 10,
-            paddingRight: 10,
+            flex: 1,
+            justifyContent: "center",
           }}
         >
-          <StyledText style={{ fontWeight: "600" }}>
-            {t("common:highscores")}
+          <StyledText style={{ fontWeight: "600" }}>{username}</StyledText>
+          <StyledText>
+            {capitalize(firstname) + " " + capitalize(lastname)}
           </StyledText>
-          <StyledView>
-            {userOverviewScoreData.map(
-              (score: { type: string; score: number; scoreOwn: number }) => (
+        </StyledView>
+      </StyledView>
+      <StyledView
+        style={{
+          paddingTop: 10,
+          paddingBottom: 10,
+          paddingLeft: 10,
+          paddingRight: 10,
+        }}
+      >
+        <StyledText style={{ fontWeight: "600" }}>
+          {t("common:highscores")}
+        </StyledText>
+        <StyledView>
+          {userOverviewScoreData.map(
+            (score: { type: string; score: number; scoreOwn: number }) => {
+              if (score.score === 0 && score.scoreOwn === 0) {
+                return null;
+              }
+              return (
                 <StyledView
                   key={score.type}
                   style={{
@@ -170,56 +218,14 @@ export default function ProfileScreen({ navigation }) {
                     </StyledView>
                   </View>
                 </StyledView>
-              )
-            )}
-          </StyledView>
+              );
+            }
+          )}
         </StyledView>
-      </StyledScrollView>
-      <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        <BottomSheetNavList
-          bsRef={bottomSheetRef}
-          data={[
-            {
-              onPress: () => {
-                navigation.navigate("settings");
-              },
-              icon: "settings-outline",
-              text: t("common:nav_settings"),
-            },
-            {
-              onPress: () => {
-                navigation.navigate("info");
-              },
-              icon: "information-circle-outline",
-              text: t("common:nav_info"),
-            },
-            {
-              onPress: () => {
-                clearUser();
-              },
-              icon: "log-out-outline",
-              text: t("settings_logout"),
-            },
-          ]}
-        />
-        <View style={{ marginTop: 20 }}>
-          <StyledText
-            style={{ color: Colors.grey }}
-          >{`${DeviceInfo.getSystemName()} ${DeviceInfo.getSystemVersion()} - ${DeviceInfo.getBrand()} ${DeviceInfo.getModel()}`}</StyledText>
-          <StyledText
-            style={{ color: Colors.grey }}
-          >{`React Native ${Platform.constants.reactNativeVersion.major}.${Platform.constants.reactNativeVersion.minor}.${Platform.constants.reactNativeVersion.patch}`}</StyledText>
-          <StyledText
-            style={{ color: Colors.grey }}
-          >{`${DeviceInfo.getApplicationName()} ${DeviceInfo.getReadableVersion()}`}</StyledText>
-          <StyledText
-            style={{ color: Colors.grey }}
-          >{`Server ${newVersion}`}</StyledText>
-        </View>
-      </StyledBottomSheet>
+      </StyledView>
       <View style={{ padding: 10 }}>
         <Player />
       </View>
-    </StyledView>
+    </Wrapper>
   );
 }
