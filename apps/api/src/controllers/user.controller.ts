@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { Query } from "mongoose";
 import { JWT_EXPIRATION, JWT_SECRET } from "../consts/auth";
@@ -12,6 +11,7 @@ import ScoreDataRecordOwn from "../models/scoreDataRecordOwn.model";
 import ScoreDataType from "../models/scoreDataType.model";
 import User from "../models/user.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
+import readUserPicture from "../utils/readUserPicture";
 
 export function signup(req, res) {
   // Initiate Variables
@@ -212,7 +212,7 @@ export async function getUser(req, res) {
     return requestHandler(res, 404, "notfound.user", "User not Found");
   }
 
-  const scoreDataTypesList = await ScoreDataType.find({}).sort("name");
+  const scoreDataTypesList = await ScoreDataType.find({}).sort("order");
   const jobQueries: Query<object, object>[] = [];
   scoreDataTypesList.forEach((type) => {
     jobQueries.push(
@@ -253,13 +253,6 @@ export async function getUser(req, res) {
     return tmp;
   });
   const roles = request.roles.map((role) => role.name);
-  let picture: null | string = null;
-  if (request.picture === "gravatar") {
-    picture = `https://secure.gravatar.com/avatar/${crypto
-      .createHash("md5")
-      .update(request.email)
-      .digest("hex")}?size=300&d=404`;
-  }
   highdata.then((highdata) => {
     return requestHandler(res, 200, "", "", {
       id: request.id,
@@ -267,7 +260,7 @@ export async function getUser(req, res) {
       firstname: request.firstname,
       lastname: request.lastname,
       roles,
-      picture,
+      picture: readUserPicture(request),
       highdata,
     });
   });
