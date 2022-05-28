@@ -328,7 +328,7 @@ export default function Player() {
               <View style={styles.barTextContainer}>
                 <Text
                   style={styles.barTitle}
-                  numberOfLines={2}
+                  numberOfLines={1}
                   ellipsizeMode="tail"
                 >
                   {playing?.title}
