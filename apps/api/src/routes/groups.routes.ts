@@ -28,6 +28,7 @@ export default function GroupsRoutes(app: Express) {
   app.get("/groups", [verifyToken], getGroups);
 
   app.get("/club/:id", [verifyToken], getClub);
+  app.get("/club", [verifyToken], getClub);
   app.post(
     "/club/:id/athletes/add",
     [verifyToken, verifyClubAdmin],
