@@ -169,7 +169,9 @@ export default function Player() {
                     height: Dimensions.get("window").width - 50,
                   },
                 ]}
-                source={PlaceholderMusic}
+                source={
+                  playing?.artwork ? { uri: playing.artwork } : PlaceholderMusic
+                }
               />
             </View>
             <View style={styles.modalBottomActionContainer}>
@@ -201,10 +203,10 @@ export default function Player() {
               <View style={styles.modalBottomActionControlsContainer}>
                 <Pressable
                   style={styles.modalBottomActionControlsButtonOuter}
-                  onPress={() => {
+                  onPress={async () => {
                     setIsPlaying(false);
                     setModalVisible(false);
-                    onPressStop();
+                    await onPressStop();
                   }}
                 >
                   <Ionicons
@@ -324,7 +326,12 @@ export default function Player() {
         >
           <View style={styles.barContainer}>
             <View style={styles.barDataContainer}>
-              <Image style={styles.barArtwork} source={PlaceholderMusic} />
+              <Image
+                style={styles.barArtwork}
+                source={
+                  playing?.artwork ? { uri: playing.artwork } : PlaceholderMusic
+                }
+              />
               <View style={styles.barTextContainer}>
                 <Text
                   style={styles.barTitle}
