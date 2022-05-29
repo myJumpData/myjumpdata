@@ -7,7 +7,7 @@ mongoose
   .connect(CONNECT_STRING_DEFAULT, {
     user: ENV_DATA.DB_USER,
     pass: ENV_DATA.DB_PSWD,
-    dbName: ENV_DATA.DB_NAME
+    dbName: ENV_DATA.DB_NAME,
   })
   .then(() => {
     const app = createServer();
@@ -15,4 +15,7 @@ mongoose
       console.log(`Listening on PORT ${API_PORT}`);
     });
   })
-  .catch((e) => { console.log(CONNECT_STRING_DEFAULT); console.log(e)});
+  .catch((e) => {
+    console.log(CONNECT_STRING_DEFAULT);
+    console.log(e);
+  });
