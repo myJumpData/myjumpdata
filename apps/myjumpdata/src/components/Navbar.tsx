@@ -25,9 +25,10 @@ export default function Navbar({
     <div className="pb-16">
       {(breakpoint === "xs" || breakpoint === "sm") && bottom.length > 0 ? (
         <div className="text-back fixed bottom-0 z-50 flex w-full justify-around border-t-2 border-gray-500 bg-white dark:bg-black dark:text-white">
-          {bottom.map((item) => {
+          {bottom.map((item, index) => {
             return (
               <Link
+                key={index}
                 to={item.to}
                 className={classNames(
                   "flex flex-col items-center justify-center px-2 py-2",
