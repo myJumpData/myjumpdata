@@ -9,7 +9,10 @@ const getGroups = () => {
 };
 
 const getClub = (id?: string) => {
-  return api.get("/club/" + id);
+  if (id) {
+    return api.get("/club/" + id);
+  }
+  return api.get("/club");
 };
 const addMemberToClub = (id, users) => {
   return api.post(`/club/${id}/athletes/add`, { users });
