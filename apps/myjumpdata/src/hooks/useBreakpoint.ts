@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const breakpoints = {
+const breakpoints: any = {
   480: "xs",
   640: "sm",
   768: "md",
@@ -9,8 +9,10 @@ const breakpoints = {
   1536: "2xl",
 };
 
-const useBreakpoint = () => {
-  const [breakpoint, setBreakPoint] = useState("");
+type BreakpointType = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+
+const useBreakpoint = (): BreakpointType => {
+  const [breakpoint, setBreakPoint] = useState<BreakpointType>("xs");
   const [windowSize, setWindowSize] = useState<{
     width: undefined | number;
     height: undefined | number;
