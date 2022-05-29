@@ -61,6 +61,9 @@ const deleteGroup = (id: string) => {
 const leaveGroup = (id: string) => {
   return api.post(`/group_leave/${id}`);
 };
+const leaveClub = () => {
+  return api.post(`/club_leave`);
+};
 
 const GroupsService = {
   getClub,
@@ -80,6 +83,7 @@ const GroupsService = {
   updateGroupName,
   deleteGroup,
   leaveGroup,
+  leaveClub,
 };
 
 export default GroupsService;

@@ -7,7 +7,6 @@ import {
   Image,
   RefreshControl,
   ScrollView,
-  TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
@@ -25,6 +24,9 @@ import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
 import StyledLink from "../components/StyledLink";
 import Wrapper from "../components/Wrapper";
+import StyledIcon from "../components/StyledIcon";
+import { StyledButton } from "../components/StyledButton";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function GroupsScreen({ navigation }) {
   const isFocused = useIsFocused();
@@ -45,6 +47,10 @@ export default function GroupsScreen({ navigation }) {
       ? [380]
       : [200];
   }, [club, current?.coaches, user.id]);
+  const bottomSheetRefLeave = React.useRef<BottomSheet>(null);
+  const snapPointsLeave = React.useMemo(() => {
+    return [200];
+  }, []);
 
   function getGroups() {
     GroupsService.getClub().then((response) => {
@@ -131,133 +137,168 @@ export default function GroupsScreen({ navigation }) {
     <Wrapper
       as={StyledView}
       outside={
-        <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-          {current ? (
-            <>
-              <StyledText
-                style={{ fontWeight: "900", fontSize: 24, marginBottom: 15 }}
-              >
-                <Ionicons
-                  name="people"
-                  size={24}
-                  color={isDarkMode ? Colors.white : Colors.black}
-                />
-                {" " + current.name}
-              </StyledText>
+        <>
+          <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+            {current ? (
+              <>
+                <StyledText
+                  style={{ fontWeight: "900", fontSize: 24, marginBottom: 15 }}
+                >
+                  <Ionicons
+                    name="people"
+                    size={24}
+                    color={isDarkMode ? Colors.white : Colors.black}
+                  />
+                  {" " + current.name}
+                </StyledText>
 
-              <BottomSheetNavList
-                bsRef={bottomSheetRef}
-                data={[
-                  {
-                    text: "Scores",
-                    icon: "filter-outline",
-                    onPress: () => {
-                      navigation.navigate("group_score", {
-                        id: current._id,
-                      });
+                <BottomSheetNavList
+                  bsRef={bottomSheetRef}
+                  data={[
+                    {
+                      text: "Scores",
+                      icon: "filter-outline",
+                      onPress: () => {
+                        navigation.navigate("group_score", {
+                          id: current._id,
+                        });
+                      },
                     },
-                  },
-                  ...(current.coaches.some((i: any) => i._id === user.id)
-                    ? [
-                        {
-                          text: t("common:nav_player"),
-                          icon: "musical-notes-outline",
-                          onPress: () => {
-                            navigation.navigate("group_player", {
-                              id: current._id,
-                            });
+                    ...(current.coaches.some((i: any) => i._id === user.id)
+                      ? [
+                          {
+                            text: t("common:nav_player"),
+                            icon: "musical-notes-outline",
+                            onPress: () => {
+                              navigation.navigate("group_player", {
+                                id: current._id,
+                              });
+                            },
                           },
-                        },
-                        {
-                          text: t("common:nav_freestyle"),
-                          icon: "list-outline",
-                          onPress: () => {
-                            navigation.navigate("group_freestyle", {
-                              id: current._id,
-                            });
+                          {
+                            text: t("common:nav_freestyle"),
+                            icon: "list-outline",
+                            onPress: () => {
+                              navigation.navigate("group_freestyle", {
+                                id: current._id,
+                              });
+                            },
                           },
-                        },
-                        {
-                          text: t("common:nav_speeddata"),
-                          icon: "timer-outline",
-                          onPress: () => {
-                            navigation.navigate("group_speed", {
-                              id: current._id,
-                            });
+                          {
+                            text: t("common:nav_speeddata"),
+                            icon: "timer-outline",
+                            onPress: () => {
+                              navigation.navigate("group_speed", {
+                                id: current._id,
+                              });
+                            },
                           },
-                        },
-                        {
-                          text: "Mitglieder bearbeiten",
-                          icon: "people-outline",
-                          onPress: () => {
-                            navigation.navigate("group_settings_users", {
-                              id: current._id,
-                            });
+                          {
+                            text: "Mitglieder bearbeiten",
+                            icon: "people-outline",
+                            onPress: () => {
+                              navigation.navigate("group_settings_users", {
+                                id: current._id,
+                              });
+                            },
                           },
-                        },
-                        {
-                          text: "Daten bearbeiten",
-                          icon: "create-outline",
-                          onPress: () => {
-                            navigation.navigate("group_settings_data", {
-                              id: current._id,
-                            });
+                          {
+                            text: "Daten bearbeiten",
+                            icon: "create-outline",
+                            onPress: () => {
+                              navigation.navigate("group_settings_data", {
+                                id: current._id,
+                              });
+                            },
                           },
-                        },
-                        {
-                          text: "Verlassen",
-                          icon: "log-out-outline",
-                          onPress: () => {
-                            GroupsService.leaveGroup(current._id).then(() => {
-                              onRefresh();
-                              bottomSheetRef.current?.close();
-                            });
+                          {
+                            text: "Verlassen",
+                            icon: "log-out-outline",
+                            onPress: () => {
+                              GroupsService.leaveGroup(current._id).then(() => {
+                                onRefresh();
+                                bottomSheetRef.current?.close();
+                              });
+                            },
                           },
-                        },
-                      ]
-                    : []),
-                ]}
-              />
-            </>
-          ) : null}
-        </StyledBottomSheet>
+                        ]
+                      : []),
+                  ]}
+                />
+              </>
+            ) : null}
+          </StyledBottomSheet>
+          <StyledBottomSheet
+            ref={bottomSheetRefLeave}
+            snapPoints={snapPointsLeave}
+          >
+            {club ? (
+              <>
+                <StyledText
+                  style={{ fontWeight: "900", fontSize: 24, marginBottom: 15 }}
+                >
+                  Are you sure you want to leave this Club?
+                </StyledText>
+                <StyledButton
+                  title={"Leave"}
+                  onPress={() => {
+                    GroupsService.leaveClub().then(() => {
+                      bottomSheetRefLeave.current?.close();
+                      getGroups();
+                    });
+                  }}
+                />
+              </>
+            ) : null}
+          </StyledBottomSheet>
+        </>
       }
     >
       {club ? (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("club", { id: club._id });
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Image
-              style={{
-                width: 50,
-                height: 50,
-                marginRight: 10,
-              }}
-              source={{ uri: club.logo }}
-            />
-            <View>
-              <StyledText>{club.name}</StyledText>
-              <StyledShyText>
-                {(() => {
-                  let tmp: string[] = [];
-                  if (club.coaches?.some((e: any) => e._id === user.id)) {
-                    tmp = [...tmp, "Coach"];
-                  }
-                  if (club.athletes?.some((e: any) => e._id === user.id)) {
-                    tmp = [...tmp, "Athlete"];
-                  }
-                  if (club.admins?.some((e: any) => e._id === user.id)) {
-                    tmp = [...tmp, "Admin"];
-                  }
-                  return tmp;
-                })().join(" | ")}
-              </StyledShyText>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("club", { id: club._id });
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                style={{
+                  width: 50,
+                  height: 50,
+                  marginRight: 10,
+                }}
+                source={{ uri: club.logo }}
+              />
+              <View>
+                <StyledText>{club.name}</StyledText>
+                <StyledShyText>
+                  {(() => {
+                    let tmp: string[] = [];
+                    if (club.coaches?.some((e: any) => e._id === user.id)) {
+                      tmp = [...tmp, "Coach"];
+                    }
+                    if (club.athletes?.some((e: any) => e._id === user.id)) {
+                      tmp = [...tmp, "Athlete"];
+                    }
+                    if (club.admins?.some((e: any) => e._id === user.id)) {
+                      tmp = [...tmp, "Admin"];
+                    }
+                    return tmp;
+                  })().join(" | ")}
+                </StyledShyText>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ paddingLeft: 10 }}
+            onPress={() => {
+              bottomSheetRefLeave.current?.snapToIndex(0);
+            }}
+          >
+            <StyledIcon size={30} name="Ionicons/ios-log-out-outline" />
+          </TouchableOpacity>
+        </View>
       ) : null}
       {club ? (
         <FlatList

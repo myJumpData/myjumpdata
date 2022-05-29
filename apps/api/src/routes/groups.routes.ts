@@ -10,6 +10,7 @@ import {
   getClub,
   getGroup,
   getGroups,
+  leaveClub,
   leaveGroup,
   removeAdminFromClub,
   removeAthletesFromGroup,
@@ -88,4 +89,5 @@ export default function GroupsRoutes(app: Express) {
   );
   app.post("/group_del/:id", [verifyToken, verifyGroupCoach], deleteGroup);
   app.post("/group_leave/:id", [verifyToken], leaveGroup);
+  app.post("/club_leave", [verifyToken], leaveClub);
 }

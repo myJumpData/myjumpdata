@@ -278,7 +278,6 @@ export function removeMemberFromClub(req, res) {
           {
             $pullAll: {
               athletes: users.map((user) => user._id),
-
               coaches: users.map((user) => user._id),
             },
           },
@@ -297,6 +296,54 @@ export function removeMemberFromClub(req, res) {
       }
     );
   });
+}
+export function leaveClub(req, res) {
+  Club.updateMany(
+    {
+      $or: [
+        { coaches: { $in: req.userId } },
+        { athletes: { $in: req.userId } },
+        { admins: { $in: req.userId } },
+      ],
+    },
+    {
+      $pullAll: {
+        athletes: [req.userId],
+        admins: [req.userId],
+        coaches: [req.userId],
+      },
+    },
+    (err) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      Group.updateMany(
+        {
+          $or: [
+            { coaches: { $in: req.userId } },
+            { athletes: { $in: req.userId } },
+          ],
+        },
+        {
+          $pullAll: {
+            athletes: [req.userId],
+            coaches: [req.userId],
+          },
+        },
+        (err) => {
+          if (err) {
+            return requestHandlerError(res, err);
+          }
+          return requestHandler(
+            res,
+            200,
+            "success.club.leave",
+            "Left the club successfully!"
+          );
+        }
+      );
+    }
+  );
 }
 export function addCoachToClub(req, res) {
   User.find({ _id: req.body.users }, (err, users) => {

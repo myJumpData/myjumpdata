@@ -1,7 +1,8 @@
 import * as React from "react";
-import { TouchableOpacity } from "react-native";
 import { borderRadius, Colors } from "../Constants";
 import { StyledText } from "./StyledText";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
 export function StyledButton(props) {
   return (
     <TouchableOpacity

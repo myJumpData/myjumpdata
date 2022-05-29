@@ -64,3 +64,7 @@ export const deleteGroup = (id: string) => {
 export const leaveGroup = (id: string) => {
   return api.post(`/group_leave/${id}`);
 };
+
+export const leaveClub = () => {
+  return api.post(`/club_leave`);
+};

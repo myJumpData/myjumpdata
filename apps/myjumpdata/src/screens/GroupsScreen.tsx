@@ -6,8 +6,14 @@ import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import { setRoute } from "../redux/route.action";
-import { createGroup, getClub, getGroups } from "../service/groups.service";
+import {
+  createGroup,
+  getClub,
+  getGroups,
+  leaveClub,
+} from "../service/groups.service";
 import { HiCog } from "react-icons/hi";
+import { IoIosLogOut } from "react-icons/io";
 
 export default function GroupsScreen() {
   useEffect(() => {
@@ -21,6 +27,8 @@ export default function GroupsScreen() {
   const [groups, setGroups] = useState([]);
   const [groupName, setGroupName] = useState("");
   const [club, setClub] = useState<any>();
+
+  const [leave, setLeave] = useState(false);
 
   useEffect(() => {
     getGroupsFN();
@@ -52,6 +60,14 @@ export default function GroupsScreen() {
                 {t<string>("common:nav_club")}
               </span>
             </div>
+            <span
+              className="cursor-pointer text-2xl"
+              onClick={() => {
+                setLeave(true);
+              }}
+            >
+              <IoIosLogOut />
+            </span>
             {club.admins?.some((i: any) => i._id === user.id) && (
               <Link
                 to={`/club/admin`}
@@ -148,6 +164,36 @@ export default function GroupsScreen() {
           <a href="mailto:myjumpdata@gmail.com">myjumpdata@gmail.com</a>
         </div>
       )}
+      <LeaveOverlay />
     </>
   );
+  function LeaveOverlay() {
+    return (
+      <div
+        className={
+          "top-0 left-0 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter " +
+          (leave ? "fixed z-50" : "z-0 hidden")
+        }
+        onClick={() => {
+          setLeave(false);
+        }}
+      >
+        <div className="mx-auto flex max-w-prose flex-col space-y-4 rounded-lg bg-gray-300/75 p-4 dark:bg-gray-600/75">
+          <span className="text-xl font-bold">
+            Are you sure you want to leave this Club?
+          </span>
+          <Button
+            name="Leave"
+            design="danger"
+            onClick={() => {
+              leaveClub().then(() => {
+                setLeave(false);
+                getGroupsFN();
+              });
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 }
