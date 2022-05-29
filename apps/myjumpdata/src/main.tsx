@@ -12,6 +12,7 @@ import AdminClubScreen from "./screens/admin/AdminClubScreen";
 import AdminClubCreateScreen from "./screens/admin/AdminClubCreateScreen";
 import ClubAdminScreen from "./screens/ClubAdmin";
 import ClubScreen from "./screens/ClubScreen";
+import GroupPlayerScreen from "./screens/GroupPlayerScreen";
 
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
 const FreestyleGroupScreen = lazy(
@@ -20,6 +21,7 @@ const FreestyleGroupScreen = lazy(
 const GroupScreen = lazy(() => import("./screens/GroupScreen"));
 const GroupsScreen = lazy(() => import("./screens/GroupsScreen"));
 const GroupSettingsScreen = lazy(() => import("./screens/GroupSettingsScreen"));
+const PlayerScreen = lazy(() => import("./screens/PlayerScreen"));
 const LegalScreen = lazy(() => import("./screens/LegalScreen"));
 const LoginScreen = lazy(() => import("./screens/LoginScreen"));
 const MainScreen = lazy(() => import("./screens/MainScreen"));
@@ -79,6 +81,7 @@ createRoot(document.getElementById("root") as Element).render(
                 //"Group Pages"
               }
               <Route path="/group" element={<GroupsScreen />} />
+              <Route path="/group/player/:id" element={<GroupPlayerScreen />} />
               <Route path="/club/page/:id" element={<ClubScreen />} />
               <Route path="/club/admin" element={<ClubAdminScreen />} />
               <Route path="/group/:id" element={<GroupScreen />} />
@@ -101,6 +104,13 @@ createRoot(document.getElementById("root") as Element).render(
               <Route path="/freestyle">
                 <Route path="own/" element={<FreestyleScreen />} />
                 <Route path="group/:id" element={<FreestyleGroupScreen />} />
+              </Route>
+
+              {
+                //"Player"
+              }
+              <Route path="/player">
+                <Route index element={<PlayerScreen />} />
               </Route>
 
               {

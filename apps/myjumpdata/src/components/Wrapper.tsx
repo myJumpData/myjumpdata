@@ -25,7 +25,7 @@ import Navbar from "../components/Navbar";
 import { getUserSearch } from "../service/users.service";
 import Alert from "./Alert";
 import useBreakpoint from "../hooks/useBreakpoint";
-import { IoAppsOutline } from "react-icons/all";
+import { IoAppsOutline, IoMusicalNotes } from "react-icons/all";
 import { classNames } from "../utils/classNames";
 
 const AdminNav = lazy(() => import("./AdminNav"));
@@ -35,7 +35,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
   const route = useSelector((state: any) => state.route);
   const { t } = useTranslation();
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<null | string>(null);
 
   const breakpoint = useBreakpoint();
   const isSmall = breakpoint === "xs" || breakpoint === "sm";
@@ -67,18 +67,18 @@ export default function Wrapper({ children }: { children: ReactNode }) {
           },
           { icon: <HiCog />, name: t("common:nav_settings"), to: "/settings" },
         ];
-        dropdownButton =
-          image === "" ? (
-            <HiUser className="h-8 w-8 rounded-full bg-gray-200 p-1.5 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700" />
-          ) : (
-            <img
-              src={image}
-              alt="Profile"
-              className="h-8 w-8 rounded-full object-cover"
-              height="2rem"
-              width="2rem"
-            />
-          );
+        dropdownButton = (
+          <img
+            src={
+              image ||
+              "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+            }
+            alt="Profile"
+            className="h-8 w-8 rounded-full object-cover"
+            height="2rem"
+            width="2rem"
+          />
+        );
         navigation = [
           ...navigation,
           {
@@ -90,6 +90,11 @@ export default function Wrapper({ children }: { children: ReactNode }) {
             name: t("common:nav_freestyle"),
             to: "/freestyle/own",
             current: route === "freestyle",
+          },
+          {
+            name: t("common:nav_player"),
+            to: "/player",
+            current: route === "player",
           },
           {
             name: t("common:nav_groups"),
@@ -130,21 +135,27 @@ export default function Wrapper({ children }: { children: ReactNode }) {
           current: route === "freestyle",
         },
         {
+          name: t("common:nav_player"),
+          to: "/player",
+          icon: <IoMusicalNotes />,
+          current: route === "player",
+        },
+        {
           name: t("common:nav_profile"),
           to: `/u/${user.username}`,
           current: route === "profile",
-          icon:
-            image === "" ? (
-              <HiUser className="h-8 w-8 rounded-full bg-gray-200 p-1.5 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700" />
-            ) : (
-              <img
-                src={image}
-                alt="Profile"
-                className="h-8 w-8 rounded-full object-cover"
-                height="2rem"
-                width="2rem"
-              />
-            ),
+          icon: (
+            <img
+              src={
+                image ||
+                "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+              }
+              alt="Profile"
+              className="h-8 w-8 rounded-full object-cover"
+              height="2rem"
+              width="2rem"
+            />
+          ),
         },
       ];
       if (route === "profile") {
@@ -180,7 +191,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
       getUserSearch(user.username).then((response) => {
-        setImage(response.data.picture);
+        setImage(response.data.picture ?? "");
       });
     }
   }, [user]);

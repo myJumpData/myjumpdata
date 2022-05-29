@@ -38,6 +38,7 @@ import TrainScreen from "./screens/TrainScreen";
 import CounterScreen from "./screens/CounterScreen";
 import Update from "./components/Update";
 import ClubScreen from "./screens/ClubScreen";
+import GroupPlayerScreen from "./screens/GroupPlayerScreen";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -170,6 +171,16 @@ function MainStackScreen() {
       <MainStack.Screen
         name="group_score"
         component={GroupScoreScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_group"),
+        }}
+      />
+      <MainStack.Screen
+        name="group_player"
+        component={GroupPlayerScreen}
         options={{
           gestureEnabled: true,
           gestureResponseDistance: 80,

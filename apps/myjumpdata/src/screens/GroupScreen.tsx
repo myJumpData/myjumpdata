@@ -93,7 +93,7 @@ export default function GroupScreen() {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex items-center">
         <div className="w-full space-y-2">
           <span className="text-xl font-bold">{groupName}</span>
         </div>
@@ -126,6 +126,9 @@ export default function GroupScreen() {
             </Link>
             <Link to={`/freestyle/group/${params.id}`}>
               <Button name={t("common:nav_freestyle")} design="primary" />
+            </Link>
+            <Link to={`/group/player/${params.id}`}>
+              <Button name={t("common:nav_player")} design="primary" />
             </Link>
           </div>
         )}

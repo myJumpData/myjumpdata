@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Image,
+  RefreshControl,
+  ScrollView,
   TouchableOpacity,
   useColorScheme,
   View,
@@ -40,7 +42,7 @@ export default function GroupsScreen({ navigation }) {
     return club &&
       [...club.coaches, ...club.admins].some((i: any) => i._id === user.id) &&
       current?.coaches.some((i: any) => i._id === user.id)
-      ? [400]
+      ? [380]
       : [200];
   }, [club, current?.coaches, user.id]);
 
@@ -158,6 +160,15 @@ export default function GroupsScreen({ navigation }) {
                   ...(current.coaches.some((i: any) => i._id === user.id)
                     ? [
                         {
+                          text: t("common:nav_player"),
+                          icon: "musical-notes-outline",
+                          onPress: () => {
+                            navigation.navigate("group_player", {
+                              id: current._id,
+                            });
+                          },
+                        },
+                        {
                           text: t("common:nav_freestyle"),
                           icon: "list-outline",
                           onPress: () => {
@@ -261,7 +272,11 @@ export default function GroupsScreen({ navigation }) {
           )}
         />
       ) : (
-        <View>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <StyledShyText style={{ marginBottom: 5, fontSize: 20 }}>
             {t("club_notfound")}
           </StyledShyText>
@@ -274,7 +289,7 @@ export default function GroupsScreen({ navigation }) {
           >
             myjumpdata@gmail.com
           </StyledLink>
-        </View>
+        </ScrollView>
       )}
     </Wrapper>
   );

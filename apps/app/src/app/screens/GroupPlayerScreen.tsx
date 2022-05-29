@@ -1,36 +1,42 @@
 import * as React from "react";
-import { FlatList, Image, Pressable, View } from "react-native";
-import TrackPlayer from "react-native-track-player";
-import PlaceholderMusic from "../assets/music_placeholder.png";
-import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
-import { borderRadius, Colors } from "../Constants";
-import PlayerService from "../services/player.service";
-import Wrapper from "../components/Wrapper";
-import { useSelector } from "react-redux";
-import getApi from "../utils/getApi";
 import api from "../services/api";
-import fullname from "../utils/fullname";
+import getApi from "../utils/getApi";
 import { capitalize } from "../utils/capitalize";
+import fullname from "../utils/fullname";
+import { FlatList, Image, Pressable, View } from "react-native";
+import { StyledText } from "../components/StyledText";
+import TrackPlayer from "react-native-track-player";
+import { borderRadius, Colors } from "../Constants";
+import PlaceholderMusic from "../assets/music_placeholder.png";
+import Wrapper from "../components/Wrapper";
 
-export default function PlayerScreen() {
+export default function GroupPlayerScreen({ route }) {
+  const { id } = route.params;
   const [freestyleTracks, setFreestyleTracks] = React.useState([]);
-  const user = useSelector((state: any) => state.user);
   const [refreshing, setRefreshing] = React.useState(false);
 
   const getFreestyleTracks = () => {
-    api.get("/track/freestyle").then((res) => {
+    api.get("/track/freestyle_group/" + id).then((res) => {
       setRefreshing(false);
-      setFreestyleTracks(
-        res.data.freestyleTracks.map(({ id, name }) => {
-          return {
-            id,
-            url: `${getApi()}/upload/${id}`,
-            title: name,
-            artist: capitalize(fullname(user)),
-          };
+      const data = res.data.users
+        .map((user) => {
+          if (user.freestyleTracks.length > 0) {
+            return user.freestyleTracks.map((track) => {
+              return {
+                id: track.id,
+                url: `${getApi()}/upload/${track.id}`,
+                title: track.name,
+                artist: capitalize(fullname(user)),
+                artwork: user.picture,
+              };
+            });
+          }
+          return null;
         })
-      );
+        .flat()
+        .filter((n) => n);
+      setFreestyleTracks(data);
     });
   };
 
@@ -40,15 +46,6 @@ export default function PlayerScreen() {
   }, []);
 
   const renderItem = ({ item }: any) => {
-    if (item.heading) {
-      return (
-        <View>
-          <StyledText style={{ fontWeight: "bold", fontSize: 18 }}>
-            {item.heading}
-          </StyledText>
-        </View>
-      );
-    }
     return (
       <Pressable
         onPress={async () => {
@@ -65,7 +62,7 @@ export default function PlayerScreen() {
               borderRadius: borderRadius / 1.5,
               marginRight: 7.5,
             }}
-            source={PlaceholderMusic}
+            source={item?.artwork ? { uri: item.artwork } : PlaceholderMusic}
           />
           <View style={{ flexDirection: "column" }}>
             <StyledText style={{ fontSize: 18, fontWeight: "500" }}>
@@ -84,18 +81,7 @@ export default function PlayerScreen() {
     <Wrapper as={StyledView}>
       <FlatList
         renderItem={renderItem}
-        data={React.useMemo(() => {
-          return [
-            {
-              heading: "Freestyle-Track",
-            },
-            ...freestyleTracks,
-            {
-              heading: "Speed-Track",
-            },
-            ...PlayerService.getLibrary(),
-          ];
-        }, [freestyleTracks])}
+        data={freestyleTracks}
         keyExtractor={(item, index) => String(index)}
         refreshing={refreshing}
         onRefresh={getFreestyleTracks}

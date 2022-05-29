@@ -16,6 +16,12 @@ const UserSchema = new mongoose.Schema({
   picture: String,
   checked: Boolean,
   checkedDate: Date,
+  freestyleTracks: [
+    {
+      name: String,
+      id: String,
+    },
+  ],
 });
 
 UserSchema.index({ username: "text", firstname: "text", lastname: "text" });
