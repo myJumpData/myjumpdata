@@ -17,6 +17,7 @@ export function TextInputInline({
   valid?: boolean | undefined;
 }) {
   const [valueHold, setValueHold] = useState(value);
+  // noinspection PointlessBooleanExpressionJS
   return (
     <div className="relative w-full">
       <input

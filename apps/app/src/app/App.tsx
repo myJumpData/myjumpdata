@@ -97,14 +97,14 @@ export default function App() {
           <Trans i18nKey="common:legal_aprove">
             <StyledText
               style={{ color: Colors.main }}
-              onPress={() => {
-                Linking.openURL("https://myjumpdata.fediv.me/terms");
+              onPress={async () => {
+                await Linking.openURL("https://myjumpdata.fediv.me/terms");
               }}
             ></StyledText>
             <StyledText
               style={{ color: Colors.main }}
-              onPress={() => {
-                Linking.openURL("https://myjumpdata.fediv.me/legal");
+              onPress={async () => {
+                await Linking.openURL("https://myjumpdata.fediv.me/legal");
               }}
             ></StyledText>
           </Trans>

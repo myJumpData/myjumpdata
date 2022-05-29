@@ -42,7 +42,9 @@ export default function GroupFreestyleScreen({ route, navigation }) {
   }, [id]);
 
   React.useEffect(() => {
-    getUserData();
+    (async () => {
+      await getUserData();
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userSelected]);
 
@@ -63,7 +65,9 @@ export default function GroupFreestyleScreen({ route, navigation }) {
       setUserSelect(tmp);
       setRefreshing(false);
     });
-    getUserData();
+    (async () => {
+      await getUserData();
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

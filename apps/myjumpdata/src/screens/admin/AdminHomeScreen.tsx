@@ -16,6 +16,7 @@ export default function AdminHomeScreen() {
   return (
     <>
       <AdminActionBar text={t("common:nav_home")} />
+      <div></div>
     </>
   );
 }

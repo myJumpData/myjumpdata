@@ -13,8 +13,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const user = getUser();
-    if (user && user.token) {
-      // @ts-ignore
+    if (user && user.token && config.headers) {
       config.headers["x-access-token"] = user.token;
     }
     return config;
@@ -25,11 +24,11 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(
-  (res: AxiosResponse<any, any>) => {
+  (res: AxiosResponse) => {
     return responseHandler(res);
   },
   (err: AxiosError) => {
-    return responseHandler(err.response as AxiosResponse<any, any>);
+    return responseHandler(err.response as AxiosResponse);
   }
 );
 

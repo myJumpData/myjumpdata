@@ -4,14 +4,14 @@ import FreestyleDataGroup from "../models/freestyleDataGroup.model";
 import FreestyleDataUser from "../models/freestyleDataUser.model";
 import { requestHandler, requestHandlerError } from "../requestHandler";
 
-export function getFreestyle(req, res) {
+export async function getFreestyle(req, res) {
   let count = 0;
   const path = req.params.path;
   let pathSplit = [""];
   if (path) {
     pathSplit = path.split("_").filter((e: string) => e);
   }
-  process(pathSplit[0], pathSplit[0]);
+  await process(pathSplit[0], pathSplit[0]);
   async function process(key, name) {
     let id = null;
     if (key) {

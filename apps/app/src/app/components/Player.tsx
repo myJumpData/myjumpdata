@@ -120,8 +120,8 @@ export default function Player() {
       }
     }
     if (event.type === Event.PlaybackQueueEnded) {
-      TrackPlayer.seekTo(0);
-      TrackPlayer.pause();
+      await TrackPlayer.seekTo(0);
+      await TrackPlayer.pause();
     }
   });
 

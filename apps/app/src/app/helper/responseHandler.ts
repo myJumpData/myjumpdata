@@ -11,7 +11,7 @@ export interface responseHandlerType {
 }
 
 export default async function responseHandler(
-  res: AxiosResponse<any, any> | Promise<any>
+  res: AxiosResponse | Promise<any>
 ) {
   const response = await res;
   const message_key: string = response?.data?.message?.key;

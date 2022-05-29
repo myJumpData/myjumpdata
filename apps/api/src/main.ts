@@ -12,10 +12,11 @@ mongoose
   .then(() => {
     const app = createServer();
     app.listen(API_PORT, () => {
+      // eslint-disable-next-line no-console
       console.log(`Listening on PORT ${API_PORT}`);
     });
   })
   .catch((e) => {
-    console.log(CONNECT_STRING_DEFAULT);
-    console.log(e);
+    // eslint-disable-next-line no-console
+    console.error(e);
   });

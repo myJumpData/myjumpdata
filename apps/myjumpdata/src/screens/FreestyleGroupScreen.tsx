@@ -72,7 +72,9 @@ export default function FreestyleGroupScreen() {
   }, [params]);
 
   useEffect(() => {
-    getUserData();
+    (async () => {
+      await getUserData();
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userSelected, breakpoint, userSelect]);
 

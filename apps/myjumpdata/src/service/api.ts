@@ -13,8 +13,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const user = getUser();
-    if (user && user.token) {
-      // @ts-ignore
+    if (user && user.token && config.headers) {
       config.headers["x-access-token"] = user.token;
     }
     return config;

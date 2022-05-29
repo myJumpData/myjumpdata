@@ -12,7 +12,7 @@ export function bodyValidateUsername(req, res, next) {
       "Not enough character Field Username"
     );
   }
-  if (!req.body.username.match(/^[A-Z0-9._-]+$/i)) {
+  if (!req.body.username.match(/^[A-Z\d._-]+$/i)) {
     return requestHandler(
       res,
       400,

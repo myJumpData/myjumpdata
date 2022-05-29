@@ -37,7 +37,9 @@ export default function FreestyleScreen() {
   const [club, setClub] = useState<any>();
 
   useEffect(() => {
-    getUserData();
+    (async () => {
+      await getUserData();
+    })();
   }, []);
 
   useEffect(() => {

@@ -408,9 +408,9 @@ export default function Wrapper({ children }: { children: ReactNode }) {
                 </span>
               </div>
               <div
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.stopPropagation();
-                  playOrPause();
+                  await playOrPause();
                 }}
                 className="cursor-pointer p-2"
               >

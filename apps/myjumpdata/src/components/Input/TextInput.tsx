@@ -63,6 +63,7 @@ export function TextInput({
     return () => clearTimeout(timeoutId);
   }, [passwordShown]);
 
+  // noinspection PointlessBooleanExpressionJS
   return (
     <div className="relative w-full py-2">
       <input

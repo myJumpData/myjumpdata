@@ -3,14 +3,14 @@ import Http from "i18next-http-backend";
 import BackendAdapter from "i18next-multiload-backend-adapter";
 import { initReactI18next } from "react-i18next";
 import { getLocales } from "react-native-localize";
-import { LANGUAGES, NAMESPACES } from "./app/Constants";
+import { DEFAULT_LANGUAGE, LANGUAGES, NAMESPACES } from "./app/Constants";
 import getApi from "./app/utils/getApi";
 
 i18n
   .use(BackendAdapter)
   .use(initReactI18next)
   .init({
-    fallbackLng: "en",
+    fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: LANGUAGES,
     ns: NAMESPACES,
     defaultNS: "translation",

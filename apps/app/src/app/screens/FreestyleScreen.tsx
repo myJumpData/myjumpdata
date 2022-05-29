@@ -30,7 +30,9 @@ export default function FreestyleScreen() {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    getUserData();
+    (async () => {
+      await getUserData();
+    })();
   }, []);
 
   function getUserData() {

@@ -16,7 +16,7 @@ export const searchUsers = (req, res) => {
   ) {
     return requestHandler(res, 200, "", "", []);
   }
-  if (!req.params.search.match(/^[A-Z0-9._-]+$/i)) {
+  if (!req.params.search.match(/^[A-Z\d._-]+$/i)) {
     return requestHandler(res, 200, "", "", []);
   }
 
@@ -67,7 +67,7 @@ export const searchUsersAll = (req, res) => {
   ) {
     return requestHandler(res, 200, "", "", []);
   }
-  if (!req.params.search.match(/^[A-Z0-9._-]+$/i)) {
+  if (!req.params.search.match(/^[A-Z\d._-]+$/i)) {
     return requestHandler(res, 200, "", "", []);
   }
   User.find(

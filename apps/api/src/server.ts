@@ -49,7 +49,6 @@ export default function createServer() {
       { $pull: { freestyleTracks: { id: id } } },
       (err) => {
         if (err) {
-          console.log(err);
           return requestHandlerError(res, err);
         }
         return requestHandler(

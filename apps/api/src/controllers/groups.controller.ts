@@ -273,7 +273,7 @@ export function removeMemberFromClub(req, res) {
         if (err) {
           return requestHandlerError(res, err);
         }
-        Group.update(
+        Group.updateMany(
           { club: req.params.id },
           {
             $pullAll: {
