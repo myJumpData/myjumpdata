@@ -19,6 +19,8 @@ import fullname from "../utils/fullname";
 import useBreakpoint from "../hooks/useBreakpoint";
 import Spinner from "../components/Spinner";
 import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
+import { classNames } from "../utils/classNames";
+import { IoFilter, IoGrid } from "react-icons/all";
 
 type freestyle_folder_data = {
   id: string;
@@ -48,6 +50,8 @@ export default function FreestyleGroupScreen() {
   const [freestyleDataUser, setFreestyleDataUser] = useState<any[]>([]);
   const [freestyleDataUsers, setFreestyleDataUsers] = useState<any>({});
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
+  const [view, setView] = useState<"grid" | "list" | "auto">("auto");
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const breakpoint = useBreakpoint();
@@ -112,10 +116,47 @@ export default function FreestyleGroupScreen() {
 
   return (
     <>
-      <div className="w-full space-y-2">
+      <div className="flex w-full items-center justify-between space-y-2">
         <span className="text-xl font-bold">
           {t("freestyle_title") + " " + groupName}
         </span>
+        {breakpoint !== "xs" && breakpoint !== "sm" ? (
+          <div className="flex h-12 items-center justify-center space-x-2 rounded-lg bg-gray-500/50 px-2 text-gray-500/50">
+            <span
+              onClick={() => {
+                setView("list");
+              }}
+              className={classNames(
+                "flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-lg font-bold",
+                view === "list" ? "bg-white/50 text-yellow-500" : ""
+              )}
+            >
+              <IoFilter />
+            </span>
+            <span
+              onClick={() => {
+                setView("grid");
+              }}
+              className={classNames(
+                "flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg p-2 text-lg font-bold",
+                view === "grid" ? "bg-white/50 text-yellow-500" : ""
+              )}
+            >
+              <IoGrid />
+            </span>
+            <span
+              onClick={() => {
+                setView("auto");
+              }}
+              className={classNames(
+                "flex h-8 cursor-pointer items-center justify-center rounded-lg px-2 text-sm font-bold leading-none",
+                view === "auto" ? "bg-white/50 text-yellow-500" : ""
+              )}
+            >
+              AUTO
+            </span>
+          </div>
+        ) : null}
       </div>
       {breakpoint === "xs" || breakpoint === "sm" || breakpoint === "md" ? (
         <div className="mb-2 flex items-center space-x-2">
@@ -133,7 +174,9 @@ export default function FreestyleGroupScreen() {
         setState={setFreestyle}
       />
 
-      {breakpoint === "xs" || breakpoint === "sm" || breakpoint === "md" ? (
+      {(view === "auto" &&
+        (breakpoint === "xs" || breakpoint === "sm" || breakpoint === "md")) ||
+      view === "grid" ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {folderData?.map((e: freestyle_folder_data) => {
             if (e.element) {
