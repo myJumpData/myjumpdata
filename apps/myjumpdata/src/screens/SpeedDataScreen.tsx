@@ -19,6 +19,11 @@ import {
 } from "../service/scoredata.service";
 import TRACKS, { musicData } from "../tracks";
 import { classNames } from "../utils/classNames";
+import { useWindowSize } from "react-use";
+import { IoArrowForward } from "react-icons/all";
+import Confetti from "react-confetti";
+import { capitalize } from "../utils/capitalize";
+import fullname from "../utils/fullname";
 
 export default function SpeedDataScreen() {
   useEffect(() => {
@@ -37,6 +42,8 @@ export default function SpeedDataScreen() {
   const [scoreDataType, setScoreDataType] = useState("");
   const [date, setDate] = useState<Date>(new Date());
   const [showResetDialog, setShowResetDialog] = useState<any>();
+  const { width, height } = useWindowSize();
+  const [modal, setModal] = useState<any>(null);
 
   useEffect(() => {
     getGroup(params.id as string).then((response: any) => {
@@ -81,6 +88,37 @@ export default function SpeedDataScreen() {
 
   return (
     <>
+      {modal ? (
+        <>
+          <div
+            className={
+              "fixed top-0 left-0 z-50 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter"
+            }
+            onClick={() => {
+              setModal(null);
+            }}
+          >
+            <div className="mx-auto flex max-w-prose flex-col justify-center space-y-2 rounded-lg bg-gray-300/75 p-4 text-center dark:bg-gray-600/75">
+              <span className="text-xl font-bold leading-none">
+                {modal.name}
+              </span>
+              <span className="text-xl font-bold leading-none">
+                {modal.type}
+              </span>
+              <div className="flex items-center justify-center">
+                <span className="text-xl font-bold leading-none">
+                  {modal.old}
+                </span>
+                <IoArrowForward />
+                <span className="text-xl font-bold leading-none">
+                  {modal.new}
+                </span>
+              </div>
+            </div>
+          </div>
+          <Confetti width={width} height={height} />
+        </>
+      ) : null}
       <span className="text-xl font-bold">
         {t("speeddata_title") + " " + groupName}
       </span>
@@ -165,13 +203,23 @@ export default function SpeedDataScreen() {
             <SpeedDataInput
               key={score.user._id}
               id={score.user._id}
-              name={
-                score.user.firstname && score.user.lastname
-                  ? `${score.user.firstname} ${score.user.lastname}`
-                  : score.user.username
-              }
+              name={capitalize(fullname(score.user))}
               score={score.score}
-              onSubmit={handleRecordDataSubmit}
+              onSubmit={(e) => {
+                const type = e.target.elements.id.value;
+                const score_new = e.target.elements[type].value;
+                if (Number(score_new) > score.score) {
+                  setModal({
+                    old: score.score,
+                    type: (typesOptions as any)?.find(
+                      (t: any) => t.value === scoreDataType
+                    )?.name,
+                    new: Number(score_new),
+                    name: capitalize(fullname(score.user)),
+                  });
+                }
+                handleRecordDataSubmit(e);
+              }}
               dropdown={[
                 {
                   name: t("scoredata_dropdown_reset"),

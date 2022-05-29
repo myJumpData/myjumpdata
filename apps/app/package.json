@@ -35,6 +35,7 @@
     "react-native-reanimated": "*",
     "nanoid": "*",
     "@gorhom/bottom-sheet": "*",
-    "i18next-multiload-backend-adapter": "*"
+    "i18next-multiload-backend-adapter": "*",
+    "react-native-confetti-cannon": "*"
   }
 }

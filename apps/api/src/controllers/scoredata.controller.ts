@@ -31,7 +31,7 @@ export function saveScoreData(req, res) {
 
 export function getScoreDataTypes(req, res) {
   ScoreDataType.find({})
-    .sort("name")
+    .sort("order")
     .exec((err, scoreDataTypes) => {
       if (err) {
         return requestHandlerError(res, err);
@@ -143,6 +143,7 @@ export function getScoreDataHigh(req, res) {
 
 export function getScoreDataOwn(req, res) {
   ScoreDataType.find({})
+    .sort("order")
     .then((scoreDataTypesList) => {
       const jobQueries: Query<object, object>[] = [];
       scoreDataTypesList.forEach((type) => {
@@ -156,7 +157,7 @@ export function getScoreDataOwn(req, res) {
     })
     .then((data) => {
       ScoreDataType.find({})
-        .sort("name")
+        .sort("order")
         .exec((err, scoreDataTypes) => {
           if (err) {
             return requestHandlerError(res, err);

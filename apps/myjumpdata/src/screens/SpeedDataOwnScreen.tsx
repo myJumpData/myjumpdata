@@ -13,6 +13,9 @@ import {
   saveScoreDataOwn,
 } from "../service/scoredata.service";
 import TRACKS, { musicData } from "../tracks";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
+import { IoArrowForward } from "react-icons/all";
 
 export default function SpeedDataOwnScreen() {
   useEffect(() => {
@@ -24,6 +27,7 @@ export default function SpeedDataOwnScreen() {
   const [date, setDate] = useState<Date>(new Date());
   const [showResetDialog, setShowResetDialog] = useState<any>();
   const { t } = useTranslation();
+  const [modal, setModal] = useState<any>(null);
 
   useEffect(() => {
     getData();
@@ -46,9 +50,32 @@ export default function SpeedDataOwnScreen() {
       });
     }
   }
+  const { width, height } = useWindowSize();
 
   return (
     <div className="w-full space-y-2">
+      {modal ? (
+        <>
+          <div
+            className={
+              "fixed top-0 left-0 z-50 flex h-full w-full flex-col justify-center p-4 backdrop-blur backdrop-filter"
+            }
+            onClick={() => {
+              setModal(null);
+            }}
+          >
+            <div className="mx-auto flex max-w-prose flex-col justify-center space-y-4 rounded-lg bg-gray-300/75 p-4 text-center dark:bg-gray-600/75">
+              <span className="text-xl font-bold">{modal.name}</span>
+              <div className="flex items-center justify-center">
+                <span className="text-xl font-bold">{modal.old}</span>
+                <IoArrowForward />
+                <span className="text-xl font-bold">{modal.new}</span>
+              </div>
+            </div>
+          </div>
+          <Confetti width={width} height={height} />
+        </>
+      ) : null}
       <span className="text-xl font-bold">
         {t<string>("common:nav_speeddataown")}
       </span>
@@ -67,7 +94,18 @@ export default function SpeedDataOwnScreen() {
                 id={score.type._id}
                 name={score.type.name}
                 score={score.score}
-                onSubmit={handleRecordDataSubmit}
+                onSubmit={(e) => {
+                  const type = e.target.elements.id.value;
+                  const score_new = e.target.elements[type].value;
+                  if (Number(score_new) > score.score) {
+                    setModal({
+                      old: score.score,
+                      new: Number(score_new),
+                      name: score.type.name,
+                    });
+                  }
+                  handleRecordDataSubmit(e);
+                }}
                 dropdown={[
                   {
                     name: t("scoredata_dropdown_reset"),

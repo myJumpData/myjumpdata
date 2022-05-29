@@ -1,7 +1,14 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import * as React from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, RefreshControl, View } from "react-native";
+import {
+  Modal,
+  Pressable,
+  RefreshControl,
+  useColorScheme,
+  View,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import TrackPlayer from "react-native-track-player";
 import { DateInput } from "../components/Input";
@@ -10,12 +17,14 @@ import StyledBottomSheet from "../components/StyledBottomSheet";
 import StyledIcon from "../components/StyledIcon";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { Colors } from "../Constants";
-import PlayerService from "../services/player.service";
+import ConfettiCannon from "react-native-confetti-cannon";
 import ScoreDataService from "../services/scoredata.service";
 import { musicData } from "../tracks";
 import { useIsFocused } from "@react-navigation/native";
 import Wrapper from "../components/Wrapper";
+import PlayerService from "../services/player.service";
+import { borderRadius, Colors } from "../Constants";
+import { StyledView } from "../components/StyledView";
 
 export default function SpeedDataOwnScreen({ navigation }) {
   const { t } = useTranslation();
@@ -36,6 +45,10 @@ export default function SpeedDataOwnScreen({ navigation }) {
       ? [musicData[musicSelect._id].tracks.length * 60 + 120]
       : [500];
   }, [musicSelect]);
+
+  const ConfettiRef = React.useRef<any>(null);
+
+  const [modal, setModal] = useState<any>(null);
 
   React.useEffect(() => {
     getData();
@@ -61,10 +74,92 @@ export default function SpeedDataOwnScreen({ navigation }) {
     getData();
   }, []);
 
+  const isDarkMode = useColorScheme() === "dark";
+
   return (
     <Wrapper
       outside={
         <>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={!!modal}
+            onRequestClose={() => {
+              setModal(null);
+            }}
+          >
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                opacity: 0.25,
+                backgroundColor: isDarkMode ? Colors.black : Colors.grey,
+              }}
+              onPress={() => {
+                setModal(null);
+              }}
+            ></Pressable>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                position: "absolute",
+                marginTop: 22,
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+            >
+              <StyledView
+                style={{
+                  flex: 0,
+                  padding: 10,
+                  borderRadius: borderRadius,
+                  borderWidth: 1,
+                  borderColor: Colors.grey,
+                  alignItems: "center",
+                }}
+              >
+                {modal ? (
+                  <>
+                    <StyledText style={{ fontWeight: "bold", fontSize: 24 }}>
+                      {modal.name}
+                    </StyledText>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <StyledText style={{ fontWeight: "bold", fontSize: 24 }}>
+                        {modal.old}
+                      </StyledText>
+                      <StyledIcon
+                        name="Ionicons/arrow-forward-outline"
+                        size={24}
+                      />
+                      <StyledText style={{ fontWeight: "bold", fontSize: 24 }}>
+                        {modal.new}
+                      </StyledText>
+                    </View>
+                  </>
+                ) : null}
+              </StyledView>
+            </View>
+          </Modal>
+          <ConfettiCannon
+            ref={ConfettiRef}
+            autoStart={false}
+            count={200}
+            origin={{ x: -10, y: 0 }}
+            fadeOut={true}
+          />
           <StyledBottomSheet
             ref={ResetBottomSheetRef}
             snapPoints={ResetSnapPoints}
@@ -161,6 +256,14 @@ export default function SpeedDataOwnScreen({ navigation }) {
                 nativeEvent.text,
                 date
               ).then(() => {
+                if (Number(nativeEvent.text) > item.score) {
+                  setModal({
+                    old: item.score,
+                    new: Number(nativeEvent.text),
+                    name: item.type.name,
+                  });
+                  ConfettiRef.current?.start();
+                }
                 getData();
               });
               target.clear();

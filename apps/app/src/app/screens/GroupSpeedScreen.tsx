@@ -1,11 +1,14 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import * as React from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Modal,
   Pressable,
   RefreshControl,
   ScrollView,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
 import TrackPlayer from "react-native-track-player";
@@ -16,7 +19,7 @@ import SpeedDataInput from "../components/SpeedData";
 import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { Colors } from "../Constants";
+import { borderRadius, Colors } from "../Constants";
 import { setScoredatatype } from "../redux/scoredatatype.action";
 import GroupsService from "../services/groups.service";
 import PlayerService from "../services/player.service";
@@ -26,6 +29,9 @@ import fullname from "../utils/fullname";
 import { useIsFocused } from "@react-navigation/native";
 import StyledIcon from "../components/StyledIcon";
 import Wrapper from "../components/Wrapper";
+import { StyledView } from "../components/StyledView";
+import ConfettiCannon from "react-native-confetti-cannon";
+import { capitalize } from "../utils/capitalize";
 
 export default function GroupSpeedScreen({ route, navigation }) {
   const { t } = useTranslation();
@@ -51,6 +57,10 @@ export default function GroupSpeedScreen({ route, navigation }) {
       ? [musicData[scoredatatype].tracks.length * 60 + 120]
       : [500];
   }, [scoredatatype]);
+
+  const isDarkMode = useColorScheme() === "dark";
+  const [modal, setModal] = useState<any>(null);
+  const ConfettiRef = React.useRef<any>(null);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -126,6 +136,94 @@ export default function GroupSpeedScreen({ route, navigation }) {
     <Wrapper
       outside={
         <>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={!!modal}
+            onRequestClose={() => {
+              setModal(null);
+            }}
+          >
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                opacity: 0.25,
+                backgroundColor: isDarkMode ? Colors.black : Colors.grey,
+              }}
+              onPress={() => {
+                setModal(null);
+              }}
+            ></Pressable>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                position: "absolute",
+                marginTop: 22,
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+            >
+              <StyledView
+                style={{
+                  flex: 0,
+                  padding: 10,
+                  borderRadius: borderRadius,
+                  borderWidth: 1,
+                  borderColor: Colors.grey,
+                  alignItems: "center",
+                }}
+              >
+                {modal ? (
+                  <>
+                    <StyledText
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 24,
+                      }}
+                    >
+                      {modal.name}
+                    </StyledText>
+                    <StyledText style={{ fontWeight: "bold", fontSize: 24 }}>
+                      {modal.type}
+                    </StyledText>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <StyledText style={{ fontWeight: "bold", fontSize: 24 }}>
+                        {modal.old}
+                      </StyledText>
+                      <StyledIcon
+                        name="Ionicons/arrow-forward-outline"
+                        size={24}
+                      />
+                      <StyledText style={{ fontWeight: "bold", fontSize: 24 }}>
+                        {modal.new}
+                      </StyledText>
+                    </View>
+                  </>
+                ) : null}
+              </StyledView>
+            </View>
+          </Modal>
+          <ConfettiCannon
+            ref={ConfettiRef}
+            autoStart={false}
+            count={200}
+            origin={{ x: -10, y: 0 }}
+            fadeOut={true}
+          />
           <StyledBottomSheet
             ref={ResetBottomSheetRef}
             snapPoints={ResetSnapPoints}
@@ -246,6 +344,16 @@ export default function GroupSpeedScreen({ route, navigation }) {
                 nativeEvent.text,
                 date
               ).then(() => {
+                if (Number(nativeEvent.text) > score.score) {
+                  setModal({
+                    old: score.score,
+                    type: typesOptions.find((t) => t.value === scoredatatype)
+                      ?.name,
+                    new: Number(nativeEvent.text),
+                    name: capitalize(fullname(score.user)),
+                  });
+                  ConfettiRef.current?.start();
+                }
                 getScoreDataHigh(id, scoredatatype);
               });
               target.clear();
