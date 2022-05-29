@@ -11,16 +11,15 @@ import {
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import Player from "../components/Player";
 import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledButton } from "../components/StyledButton";
 import StyledIcon from "../components/StyledIcon";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { StyledScrollView, StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import { clearUser, setUser } from "../redux/user.action";
 import UsersService from "../services/users.service";
+import Wrapper from "../components/Wrapper";
 
 export default function SettingsScreen({ navigation }) {
   const user = useSelector((state: any) => state.user);
@@ -134,129 +133,11 @@ export default function SettingsScreen({ navigation }) {
   }, []);
 
   return (
-    <StyledView>
-      <StyledScrollView
-        style={{ padding: 10 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <View style={{ marginBottom: 20 }}>
-          <StyledText style={{ fontWeight: "900" }}>
-            {t("settings_data")}:
-          </StyledText>
-          <View style={{ marginVertical: 10 }}>
-            <StyledText>{t("common:username")}:</StyledText>
-            <StyledTextInput
-              onChangeText={(e) => {
-                setEditing(true);
-                setUsername(e);
-              }}
-              value={username}
-              autoCapitalize="none"
-            />
-          </View>
-          <View style={{ marginVertical: 10 }}>
-            <StyledText>{t("common:firstname")}:</StyledText>
-            <StyledTextInput
-              onChangeText={(e: string) => {
-                setEditing(true);
-                setFirstname(e);
-              }}
-              value={firstname}
-              autoCapitalize="none"
-            />
-          </View>
-          <View style={{ marginVertical: 10 }}>
-            <StyledText>{t("common:lastname")}:</StyledText>
-            <StyledTextInput
-              onChangeText={(e: string) => {
-                setEditing(true);
-                setLastname(e);
-              }}
-              value={lastname}
-              autoCapitalize="none"
-            />
-          </View>
-          <View style={{ marginVertical: 10 }}>
-            <StyledText>{t("common:email")}:</StyledText>
-            <StyledTextInput
-              onChangeText={(e: string) => {
-                setEditing(true);
-                setEmail(e);
-              }}
-              value={email}
-              autoCapitalize="none"
-            />
-          </View>
-          <View style={{ marginVertical: 10 }}>
-            <StyledText>{t("common:password")}:</StyledText>
-            <StyledTextInput
-              onChangeText={(e: string) => {
-                setEditing(true);
-                setPassword(e);
-              }}
-              value={password}
-              autoCapitalize="none"
-            />
-          </View>
-        </View>
-        <View style={{ marginBottom: 20 }}>
-          <StyledText style={{ fontWeight: "900" }}>
-            {t("settings_image")}:
-          </StyledText>
-          <StyledText style={{ fontSize: 12 }}>
-            {t("settings_image_text")}
-          </StyledText>
-          <TouchableOpacity
-            onPress={() => {
-              Linking.openURL("https://gravatar.com/")
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                .then(() => {});
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-                color: Colors.main,
-                textDecorationLine: "underline",
-              }}
-            >
-              {t("settings_image_action")}
-            </Text>
-          </TouchableOpacity>
-          <Picker
-            selectedValue={picture}
-            onValueChange={(e) => {
-              setEditing(true);
-              setPicture(e);
-            }}
-            style={{
-              flex: 1,
-              color: isDarkMode ? Colors.white : Colors.black,
-            }}
-            dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
-            mode="dropdown"
-          >
-            <Picker.Item label={t("settings_image_none")} value={"none"} />
-            <Picker.Item
-              label={t("settings_image_gravatar")}
-              value={"gravatar"}
-            />
-          </Picker>
-        </View>
-        <View style={{ marginBottom: 20 }}>
-          <StyledText style={{ fontWeight: "900" }}>
-            {t("settings_danger")}:
-          </StyledText>
-          <StyledButton
-            style={{ marginTop: 20 }}
-            onPress={() => {
-              bottomSheetRef.current?.snapToIndex(0);
-            }}
-            title={t("settings_delete")}
-          />
-        </View>
+    <Wrapper
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      outside={
         <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
           <StyledText
             style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
@@ -279,10 +160,124 @@ export default function SettingsScreen({ navigation }) {
             }}
           />
         </StyledBottomSheet>
-      </StyledScrollView>
-      <View style={{ padding: 10 }}>
-        <Player />
+      }
+    >
+      <View style={{ marginBottom: 20 }}>
+        <StyledText style={{ fontWeight: "900" }}>
+          {t("settings_data")}:
+        </StyledText>
+        <View style={{ marginVertical: 10 }}>
+          <StyledText>{t("common:username")}:</StyledText>
+          <StyledTextInput
+            onChangeText={(e) => {
+              setEditing(true);
+              setUsername(e);
+            }}
+            value={username}
+            autoCapitalize="none"
+          />
+        </View>
+        <View style={{ marginVertical: 10 }}>
+          <StyledText>{t("common:firstname")}:</StyledText>
+          <StyledTextInput
+            onChangeText={(e: string) => {
+              setEditing(true);
+              setFirstname(e);
+            }}
+            value={firstname}
+            autoCapitalize="none"
+          />
+        </View>
+        <View style={{ marginVertical: 10 }}>
+          <StyledText>{t("common:lastname")}:</StyledText>
+          <StyledTextInput
+            onChangeText={(e: string) => {
+              setEditing(true);
+              setLastname(e);
+            }}
+            value={lastname}
+            autoCapitalize="none"
+          />
+        </View>
+        <View style={{ marginVertical: 10 }}>
+          <StyledText>{t("common:email")}:</StyledText>
+          <StyledTextInput
+            onChangeText={(e: string) => {
+              setEditing(true);
+              setEmail(e);
+            }}
+            value={email}
+            autoCapitalize="none"
+          />
+        </View>
+        <View style={{ marginVertical: 10 }}>
+          <StyledText>{t("common:password")}:</StyledText>
+          <StyledTextInput
+            onChangeText={(e: string) => {
+              setEditing(true);
+              setPassword(e);
+            }}
+            value={password}
+            autoCapitalize="none"
+          />
+        </View>
       </View>
-    </StyledView>
+      <View style={{ marginBottom: 20 }}>
+        <StyledText style={{ fontWeight: "900" }}>
+          {t("settings_image")}:
+        </StyledText>
+        <StyledText style={{ fontSize: 12 }}>
+          {t("settings_image_text")}
+        </StyledText>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL("https://gravatar.com/")
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              .then(() => {});
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 12,
+              color: Colors.main,
+              textDecorationLine: "underline",
+            }}
+          >
+            {t("settings_image_action")}
+          </Text>
+        </TouchableOpacity>
+        <Picker
+          selectedValue={picture}
+          onValueChange={(e) => {
+            setEditing(true);
+            setPicture(e);
+          }}
+          style={{
+            flex: 1,
+            color: isDarkMode ? Colors.white : Colors.black,
+          }}
+          dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
+          mode="dropdown"
+        >
+          <Picker.Item label={t("settings_image_none")} value={"none"} />
+          <Picker.Item
+            label={t("settings_image_gravatar")}
+            value={"gravatar"}
+          />
+        </Picker>
+      </View>
+      <View style={{ marginBottom: 20 }}>
+        <StyledText style={{ fontWeight: "900" }}>
+          {t("settings_danger")}:
+        </StyledText>
+        <StyledButton
+          style={{ marginTop: 20 }}
+          onPress={() => {
+            bottomSheetRef.current?.snapToIndex(0);
+          }}
+          title={t("settings_delete")}
+        />
+      </View>
+    </Wrapper>
   );
 }

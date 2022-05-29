@@ -32,7 +32,6 @@ import ProfileScreen from "./screens/ProfileScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SpeedDataOwnScreen from "./screens/SpeedDataOwnScreen";
-import UserProfileScreen from "./screens/UserProfileScreen";
 import UsersService from "./services/users.service";
 import TrainScreen from "./screens/TrainScreen";
 import CounterScreen from "./screens/CounterScreen";
@@ -240,7 +239,7 @@ function MainStackScreen() {
       />
       <MainStack.Screen
         name="user_profile"
-        component={UserProfileScreen}
+        component={ProfileScreen}
         options={{
           gestureEnabled: true,
           gestureResponseDistance: 80,

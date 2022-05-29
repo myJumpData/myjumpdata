@@ -2,7 +2,6 @@ import * as React from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
 import SelectInput from "../components/Input";
-import Player from "../components/Player";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import {
@@ -13,6 +12,7 @@ import {
 import GroupsService from "../services/groups.service";
 import fullname from "../utils/fullname";
 import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
+import Wrapper from "../components/Wrapper";
 
 export default function GroupFreestyleScreen({ route, navigation }) {
   const { id } = route.params;
@@ -89,12 +89,11 @@ export default function GroupFreestyleScreen({ route, navigation }) {
   }
 
   return (
-    <StyledView>
+    <Wrapper as={StyledView}>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          margin: 10,
           borderBottomColor: Colors.grey,
           borderWidth: 2,
         }}
@@ -122,9 +121,6 @@ export default function GroupFreestyleScreen({ route, navigation }) {
         state={freestyleData}
         club={club}
       />
-      <View style={{ padding: 10 }}>
-        <Player />
-      </View>
-    </StyledView>
+    </Wrapper>
   );
 }

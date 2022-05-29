@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { StyledScrollView, StyledView } from "../components/StyledView";
+import { StyledView } from "../components/StyledView";
 import GroupsService from "../services/groups.service";
+import Wrapper from "../components/Wrapper";
 
 export default function GroupCreateScreen({ navigation }) {
   const [groupname, setGroupname] = React.useState<string>("");
@@ -18,11 +19,7 @@ export default function GroupCreateScreen({ navigation }) {
   }
 
   return (
-    <StyledScrollView
-      style={{
-        padding: 10,
-      }}
-    >
+    <Wrapper>
       <StyledView
         style={{
           paddingVertical: 10,
@@ -45,6 +42,6 @@ export default function GroupCreateScreen({ navigation }) {
           onPress={handleCreateGroup}
         />
       </StyledView>
-    </StyledScrollView>
+    </Wrapper>
   );
 }

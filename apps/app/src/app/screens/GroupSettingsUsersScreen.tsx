@@ -21,6 +21,7 @@ import GroupsService from "../services/groups.service";
 import UsersService from "../services/users.service";
 import { capitalize } from "../utils/capitalize";
 import { BottomSheetNavList } from "../components/BottomSheetNav";
+import Wrapper from "../components/Wrapper";
 
 export default function GroupSettingsUsersScreen({ route, navigation }) {
   const { id } = route.params;
@@ -218,8 +219,147 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
   };
 
   return (
-    <StyledView
-      style={{ padding: 10 }}
+    <Wrapper
+      outside={
+        <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+          {current ? (
+            <>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  {current.picture !== undefined &&
+                  current.picture !== null &&
+                  current.picture !== false &&
+                  current.picture !== "false" &&
+                  current.picture !== "none" ? (
+                    <Image
+                      style={{
+                        height: 100,
+                        width: 100,
+                        borderRadius: 50,
+                        marginRight: 10,
+                      }}
+                      source={{ uri: current.picture as string }}
+                    />
+                  ) : (
+                    <View
+                      style={{
+                        height: 100,
+                        width: 100,
+                        backgroundColor: Colors.main,
+                        borderRadius: 50,
+                        marginRight: 10,
+                      }}
+                    >
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: "900",
+                          }}
+                        >
+                          {(
+                            current.firstname[0] + current.lastname[0]
+                          ).toUpperCase()}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+                  <View>
+                    <StyledText style={{ fontWeight: "700", fontSize: 24 }}>
+                      {`${capitalize(current.firstname)} ${capitalize(
+                        current.lastname
+                      )}`}
+                    </StyledText>
+                    <StyledText>{current.username}</StyledText>
+                  </View>
+                </View>
+              </View>
+              <BottomSheetNavList
+                bsRef={bottomSheetRef}
+                data={[
+                  ...(current?.roles?.some((e: any) => e.name === "coach") &&
+                  !groupCoaches.some((i: any) => i.id === current.id)
+                    ? [
+                        {
+                          text: t("settings_group_user_action_add_coach"),
+                          icon: "person-add",
+                          onPress: () => {
+                            GroupsService.addCoachesToGroup(id as string, [
+                              current.id,
+                            ]).then(() => {
+                              onRefresh();
+                            });
+                          },
+                        },
+                      ]
+                    : []),
+                  ...(groupCoaches.some((i: any) => i.id === current.id) &&
+                  current.id !== user.id
+                    ? [
+                        {
+                          text: t("settings_group_user_action_remove_coach"),
+                          icon: "person-remove",
+                          onPress: () => {
+                            GroupsService.removeCoachesFromGroup(id as string, [
+                              current.id,
+                            ]).then(() => {
+                              onRefresh();
+                            });
+                          },
+                        },
+                      ]
+                    : []),
+                  ...(!groupAthletes.some((i: any) => i.id === current.id) &&
+                  !groupCoaches.some((i: any) => i.id === current.id)
+                    ? [
+                        {
+                          text: t("settings_group_user_action_add_athlete"),
+                          icon: "person-add",
+                          onPress: () => {
+                            GroupsService.addUsersToGroup(id as string, [
+                              current.id,
+                            ]).then(() => {
+                              onRefresh();
+                            });
+                          },
+                        },
+                      ]
+                    : []),
+                  ...(groupAthletes.some((i: any) => i.id === current.id)
+                    ? [
+                        {
+                          text: t("settings_group_user_action_remove_athlete"),
+                          icon: "person-remove",
+                          onPress: () => {
+                            GroupsService.removeUsersFromGroup(id as string, [
+                              current.id,
+                            ]).then(() => {
+                              onRefresh();
+                            });
+                          },
+                        },
+                      ]
+                    : []),
+                ]}
+              />
+            </>
+          ) : null}
+        </StyledBottomSheet>
+      }
+      as={StyledView}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
@@ -251,143 +391,6 @@ export default function GroupSettingsUsersScreen({ route, navigation }) {
           />
         )}
       />
-      <StyledBottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        {current ? (
-          <>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {current.picture !== undefined &&
-                current.picture !== null &&
-                current.picture !== false &&
-                current.picture !== "false" &&
-                current.picture !== "none" ? (
-                  <Image
-                    style={{
-                      height: 100,
-                      width: 100,
-                      borderRadius: 50,
-                      marginRight: 10,
-                    }}
-                    source={{ uri: current.picture as string }}
-                  />
-                ) : (
-                  <View
-                    style={{
-                      height: 100,
-                      width: 100,
-                      backgroundColor: Colors.main,
-                      borderRadius: 50,
-                      marginRight: 10,
-                    }}
-                  >
-                    <View
-                      style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontWeight: "900",
-                        }}
-                      >
-                        {(
-                          current.firstname[0] + current.lastname[0]
-                        ).toUpperCase()}
-                      </Text>
-                    </View>
-                  </View>
-                )}
-                <View>
-                  <StyledText style={{ fontWeight: "700", fontSize: 24 }}>
-                    {`${capitalize(current.firstname)} ${capitalize(
-                      current.lastname
-                    )}`}
-                  </StyledText>
-                  <StyledText>{current.username}</StyledText>
-                </View>
-              </View>
-            </View>
-            <BottomSheetNavList
-              bsRef={bottomSheetRef}
-              data={[
-                ...(current?.roles?.some((e: any) => e.name === "coach") &&
-                !groupCoaches.some((i: any) => i.id === current.id)
-                  ? [
-                      {
-                        text: t("settings_group_user_action_add_coach"),
-                        icon: "person-add",
-                        onPress: () => {
-                          GroupsService.addCoachesToGroup(id as string, [
-                            current.id,
-                          ]).then(() => {
-                            onRefresh();
-                          });
-                        },
-                      },
-                    ]
-                  : []),
-                ...(groupCoaches.some((i: any) => i.id === current.id) &&
-                current.id !== user.id
-                  ? [
-                      {
-                        text: t("settings_group_user_action_remove_coach"),
-                        icon: "person-remove",
-                        onPress: () => {
-                          GroupsService.removeCoachesFromGroup(id as string, [
-                            current.id,
-                          ]).then(() => {
-                            onRefresh();
-                          });
-                        },
-                      },
-                    ]
-                  : []),
-                ...(!groupAthletes.some((i: any) => i.id === current.id) &&
-                !groupCoaches.some((i: any) => i.id === current.id)
-                  ? [
-                      {
-                        text: t("settings_group_user_action_add_athlete"),
-                        icon: "person-add",
-                        onPress: () => {
-                          GroupsService.addUsersToGroup(id as string, [
-                            current.id,
-                          ]).then(() => {
-                            onRefresh();
-                          });
-                        },
-                      },
-                    ]
-                  : []),
-                ...(groupAthletes.some((i: any) => i.id === current.id)
-                  ? [
-                      {
-                        text: t("settings_group_user_action_remove_athlete"),
-                        icon: "person-remove",
-                        onPress: () => {
-                          GroupsService.removeUsersFromGroup(id as string, [
-                            current.id,
-                          ]).then(() => {
-                            onRefresh();
-                          });
-                        },
-                      },
-                    ]
-                  : []),
-              ]}
-            />
-          </>
-        ) : null}
-      </StyledBottomSheet>
-    </StyledView>
+    </Wrapper>
   );
 }

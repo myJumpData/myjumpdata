@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Image, RefreshControl, View } from "react-native";
-import Player from "../components/Player";
 import { StyledShyText, StyledText } from "../components/StyledText";
-import { StyledScrollView } from "../components/StyledView";
 import GroupsService from "../services/groups.service";
 import { useTranslation } from "react-i18next";
 import { capitalize } from "../utils/capitalize";
 import fullname from "../utils/fullname";
+import Wrapper from "../components/Wrapper";
 
 export default function ClubScreen({ route }) {
   const { id } = route.params;
@@ -46,9 +45,8 @@ export default function ClubScreen({ route }) {
             }}
             source={{
               uri:
-                user?.picture !== "" && user?.picture
-                  ? user.picture
-                  : "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+                user?.picture ||
+                "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
             }}
           />
         </View>
@@ -61,8 +59,7 @@ export default function ClubScreen({ route }) {
   }
 
   return (
-    <StyledScrollView
-      style={{ padding: 10 }}
+    <Wrapper
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
@@ -99,7 +96,6 @@ export default function ClubScreen({ route }) {
           </View>
         </>
       ) : null}
-      <Player />
-    </StyledScrollView>
+    </Wrapper>
   );
 }

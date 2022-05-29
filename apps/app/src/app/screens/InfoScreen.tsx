@@ -10,8 +10,8 @@ import {
   StyledShyTextStyle,
   StyledText,
 } from "../components/StyledText";
-import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
+import Wrapper from "../components/Wrapper";
 
 export default function InfoScreen() {
   const isHermes = () => {
@@ -20,7 +20,7 @@ export default function InfoScreen() {
   };
 
   return (
-    <StyledView style={{ padding: 10 }}>
+    <Wrapper>
       <StyledHeading>Application</StyledHeading>
       <StyledShyText>
         {packageJson.name} - {DeviceInfo.getReadableVersion()}
@@ -95,6 +95,6 @@ export default function InfoScreen() {
       }.${Platform.constants.reactNativeVersion.minor}.${
         Platform.constants.reactNativeVersion.patch
       }${isHermes() ? " | Hermes" : null}`}</StyledText>
-    </StyledView>
+    </Wrapper>
   );
 }

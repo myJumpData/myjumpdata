@@ -7,7 +7,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import { BottomSheetNavList } from "../components/BottomSheetNav";
-import Player from "../components/Player";
 import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
@@ -18,7 +17,8 @@ import { capitalize } from "../utils/capitalize";
 import { useUpdate } from "../components/Update";
 import Wrapper from "../components/Wrapper";
 
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen({ route, navigation }) {
+  const params = route.params;
   const { t } = useTranslation();
   const user = useSelector((state: any) => state.user);
 
@@ -41,43 +41,49 @@ export default function ProfileScreen({ navigation }) {
   }, []);
 
   React.useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={{ paddingRight: 5 }}
-          onPress={() => {
-            bottomSheetRef.current?.snapToIndex(0);
-          }}
-        >
-          <Ionicons name="menu-outline" size={40} color={Colors.white} />
-        </TouchableOpacity>
-      ),
-    });
+    if (!params?.username) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            style={{ paddingRight: 5 }}
+            onPress={() => {
+              bottomSheetRef.current?.snapToIndex(0);
+            }}
+          >
+            <Ionicons name="menu-outline" size={40} color={Colors.white} />
+          </TouchableOpacity>
+        ),
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bottomSheetRef]);
+  }, [bottomSheetRef, params?.username]);
 
   const getUser = () => {
-    UsersService.getUserSearch(user.username).then((response) => {
-      setUsername(response.data?.username);
-      setFirstname(response.data?.firstname);
-      setLastname(response.data?.lastname);
-      setUserOverviewScoreData(response.data?.highdata);
-      setImage(response.data.picture);
-      setRefreshing(false);
-    });
+    UsersService.getUserSearch(params?.username || user.username).then(
+      (response) => {
+        setUsername(response.data?.username);
+        setFirstname(response.data?.firstname);
+        setLastname(response.data?.lastname);
+        setUserOverviewScoreData(response.data?.highdata);
+        setImage(response.data.picture);
+        setRefreshing(false);
+      }
+    );
   };
 
   React.useEffect(() => {
     getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.username]);
+  }, [user.username, params?.username]);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    reloadVersion();
+    if (!params?.username) {
+      reloadVersion();
+    }
     getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.username]);
+  }, [params?.username, user.username]);
 
   return (
     <Wrapper
@@ -132,10 +138,7 @@ export default function ProfileScreen({ navigation }) {
       <StyledView
         style={{
           flexDirection: "row",
-          paddingTop: 10,
-          paddingBottom: 10,
-          paddingLeft: 10,
-          paddingRight: 10,
+          marginBottom: 10,
         }}
       >
         <Image
@@ -145,7 +148,11 @@ export default function ProfileScreen({ navigation }) {
             borderRadius: 75,
             marginRight: 10,
           }}
-          source={{ uri: image }}
+          source={{
+            uri:
+              image ||
+              "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+          }}
         />
         <StyledView
           style={{
@@ -159,14 +166,7 @@ export default function ProfileScreen({ navigation }) {
           </StyledText>
         </StyledView>
       </StyledView>
-      <StyledView
-        style={{
-          paddingTop: 10,
-          paddingBottom: 10,
-          paddingLeft: 10,
-          paddingRight: 10,
-        }}
-      >
+      <StyledView>
         <StyledText style={{ fontWeight: "600" }}>
           {t("common:highscores")}
         </StyledText>
@@ -198,24 +198,28 @@ export default function ProfileScreen({ navigation }) {
                     <StyledText>{score.type}</StyledText>
                   </StyledView>
                   <View style={{ width: 100 }}>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <StyledText>{t("common:nav_group")}</StyledText>
-                      <StyledText>{score.score}</StyledText>
-                    </View>
-                    <StyledView
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <StyledText>{t("common:own")}</StyledText>
-                      <StyledText>{score.scoreOwn}</StyledText>
-                    </StyledView>
+                    {score.score ? (
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <StyledText>{t("common:nav_group")}</StyledText>
+                        <StyledText>{score.score}</StyledText>
+                      </View>
+                    ) : null}
+                    {score.scoreOwn ? (
+                      <StyledView
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <StyledText>{t("common:own")}</StyledText>
+                        <StyledText>{score.scoreOwn}</StyledText>
+                      </StyledView>
+                    ) : null}
                   </View>
                 </StyledView>
               );
@@ -223,9 +227,6 @@ export default function ProfileScreen({ navigation }) {
           )}
         </StyledView>
       </StyledView>
-      <View style={{ padding: 10 }}>
-        <Player />
-      </View>
     </Wrapper>
   );
 }

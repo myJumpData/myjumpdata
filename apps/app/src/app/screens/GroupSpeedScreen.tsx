@@ -12,12 +12,10 @@ import TrackPlayer from "react-native-track-player";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 import SelectInput, { DateInput } from "../components/Input";
-import Player from "../components/Player";
 import SpeedDataInput from "../components/SpeedData";
 import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import { setScoredatatype } from "../redux/scoredatatype.action";
 import GroupsService from "../services/groups.service";
@@ -27,6 +25,7 @@ import { musicData } from "../tracks";
 import fullname from "../utils/fullname";
 import { useIsFocused } from "@react-navigation/native";
 import StyledIcon from "../components/StyledIcon";
+import Wrapper from "../components/Wrapper";
 
 export default function GroupSpeedScreen({ route, navigation }) {
   const { t } = useTranslation();
@@ -124,7 +123,93 @@ export default function GroupSpeedScreen({ route, navigation }) {
   }, []);
 
   return (
-    <StyledView style={{ padding: 10 }}>
+    <Wrapper
+      outside={
+        <>
+          <StyledBottomSheet
+            ref={ResetBottomSheetRef}
+            snapPoints={ResetSnapPoints}
+          >
+            {currentUser ? (
+              <>
+                <StyledText
+                  style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+                >
+                  {t("scoredata_reset_title")}
+                </StyledText>
+                <StyledText
+                  style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+                >
+                  {fullname(currentUser)}
+                </StyledText>
+                <StyledText style={{ marginBottom: 8 }}>
+                  {t("scoredata_reset_text")}
+                </StyledText>
+                <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
+                  {t("scoredata_reset_warning")}
+                </StyledText>
+                <StyledTextInput
+                  style={{ marginBottom: 8 }}
+                  keyboardType="numeric"
+                  onSubmitEditing={({ nativeEvent, target }) => {
+                    ScoreDataService.resetScoreData(
+                      currentUser._id,
+                      scoredatatype,
+                      nativeEvent.text
+                    ).then(() => {
+                      ResetBottomSheetRef.current?.close();
+                      getScoreDataHigh(id, scoredatatype);
+                    });
+                    target.clear();
+                  }}
+                />
+              </>
+            ) : null}
+          </StyledBottomSheet>
+          <StyledBottomSheet
+            ref={MusicBottomSheetRef}
+            snapPoints={MusicSnapPoints}
+          >
+            <StyledText
+              style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+            >
+              {typesOptions.find((e: any) => e.value === scoredatatype)?.name}
+            </StyledText>
+            <View>
+              {scoredatatype
+                ? PlayerService.getTracks(musicData[scoredatatype].tracks).map(
+                    (trackData) => {
+                      return (
+                        <Pressable
+                          style={{ paddingVertical: 10 }}
+                          key={trackData.id}
+                          onPress={async () => {
+                            await TrackPlayer.reset();
+                            await TrackPlayer.add(trackData);
+                            await TrackPlayer.play();
+                            MusicBottomSheetRef.current?.close();
+                          }}
+                        >
+                          <StyledText
+                            style={{ fontSize: 18, fontWeight: "500" }}
+                          >
+                            {trackData.title}
+                          </StyledText>
+                          <StyledText
+                            style={{ fontSize: 14, color: Colors.grey }}
+                          >
+                            {trackData.artist}
+                          </StyledText>
+                        </Pressable>
+                      );
+                    }
+                  )
+                : null}
+            </View>
+          </StyledBottomSheet>
+        </>
+      }
+    >
       <DateInput setDate={setDate} date={date} />
       <View
         style={{
@@ -192,78 +277,6 @@ export default function GroupSpeedScreen({ route, navigation }) {
           />
         ))}
       </ScrollView>
-      <StyledBottomSheet ref={ResetBottomSheetRef} snapPoints={ResetSnapPoints}>
-        {currentUser ? (
-          <>
-            <StyledText
-              style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-            >
-              {t("scoredata_reset_title")}
-            </StyledText>
-            <StyledText
-              style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-            >
-              {fullname(currentUser)}
-            </StyledText>
-            <StyledText style={{ marginBottom: 8 }}>
-              {t("scoredata_reset_text")}
-            </StyledText>
-            <StyledText style={{ fontWeight: "900", marginBottom: 16 }}>
-              {t("scoredata_reset_warning")}
-            </StyledText>
-            <StyledTextInput
-              style={{ marginBottom: 8 }}
-              keyboardType="numeric"
-              onSubmitEditing={({ nativeEvent, target }) => {
-                ScoreDataService.resetScoreData(
-                  currentUser._id,
-                  scoredatatype,
-                  nativeEvent.text
-                ).then(() => {
-                  ResetBottomSheetRef.current?.close();
-                  getScoreDataHigh(id, scoredatatype);
-                });
-                target.clear();
-              }}
-            />
-          </>
-        ) : null}
-      </StyledBottomSheet>
-      <StyledBottomSheet ref={MusicBottomSheetRef} snapPoints={MusicSnapPoints}>
-        <StyledText
-          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-        >
-          {typesOptions.find((e: any) => e.value === scoredatatype)?.name}
-        </StyledText>
-        <View>
-          {scoredatatype
-            ? PlayerService.getTracks(musicData[scoredatatype].tracks).map(
-                (trackData) => {
-                  return (
-                    <Pressable
-                      style={{ paddingVertical: 10 }}
-                      key={trackData.id}
-                      onPress={async () => {
-                        await TrackPlayer.reset();
-                        await TrackPlayer.add(trackData);
-                        await TrackPlayer.play();
-                        MusicBottomSheetRef.current?.close();
-                      }}
-                    >
-                      <StyledText style={{ fontSize: 18, fontWeight: "500" }}>
-                        {trackData.title}
-                      </StyledText>
-                      <StyledText style={{ fontSize: 14, color: Colors.grey }}>
-                        {trackData.artist}
-                      </StyledText>
-                    </Pressable>
-                  );
-                }
-              )
-            : null}
-        </View>
-      </StyledBottomSheet>
-      <Player />
-    </StyledView>
+    </Wrapper>
   );
 }

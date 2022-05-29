@@ -7,9 +7,9 @@ import StyledBottomSheet from "../components/StyledBottomSheet";
 import { StyledButton } from "../components/StyledButton";
 import { StyledText } from "../components/StyledText";
 import { StyledTextInput } from "../components/StyledTextInput";
-import { StyledScrollView } from "../components/StyledView";
 import { Colors } from "../Constants";
 import GroupsService from "../services/groups.service";
+import Wrapper from "../components/Wrapper";
 
 export default function GroupSettingsDataScreen({ route, navigation }) {
   const { id } = route.params;
@@ -83,8 +83,30 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
   }, [id]);
 
   return (
-    <StyledScrollView
-      style={{ padding: 10 }}
+    <Wrapper
+      outside={
+        <StyledBottomSheet snapPoints={snapPoints} ref={bottomSheetRef}>
+          <StyledText
+            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+          >
+            {t("settings_group_delete_disclaimer_title")}
+          </StyledText>
+          <StyledText style={{ marginBottom: 10 }}>
+            {t("settings_group_delete_disclaimer_text")}
+          </StyledText>
+          <StyledButton
+            title={t("settings_group_delete_disclaimer_confirm")}
+            onPress={() => {
+              GroupsService.deleteGroup(id as string).then((response: any) => {
+                if (response.status === 200) {
+                  bottomSheetRef.current?.close();
+                  navigation.navigate("groups");
+                }
+              });
+            }}
+          />
+        </StyledBottomSheet>
+      }
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
@@ -112,27 +134,6 @@ export default function GroupSettingsDataScreen({ route, navigation }) {
           bottomSheetRef.current?.snapToIndex(0);
         }}
       />
-      <StyledBottomSheet snapPoints={snapPoints} ref={bottomSheetRef}>
-        <StyledText
-          style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
-        >
-          {t("settings_group_delete_disclaimer_title")}
-        </StyledText>
-        <StyledText style={{ marginBottom: 10 }}>
-          {t("settings_group_delete_disclaimer_text")}
-        </StyledText>
-        <StyledButton
-          title={t("settings_group_delete_disclaimer_confirm")}
-          onPress={() => {
-            GroupsService.deleteGroup(id as string).then((response: any) => {
-              if (response.status === 200) {
-                bottomSheetRef.current?.close();
-                navigation.navigate("groups");
-              }
-            });
-          }}
-        />
-      </StyledBottomSheet>
-    </StyledScrollView>
+    </Wrapper>
   );
 }

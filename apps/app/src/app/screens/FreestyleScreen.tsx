@@ -1,7 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
 import { useSelector } from "react-redux";
-import Player from "../components/Player";
 import { StyledView } from "../components/StyledView";
 import {
   getFreestyle,
@@ -10,6 +8,7 @@ import {
 } from "../services/freestyle.service";
 import GroupsService from "../services/groups.service";
 import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
+import Wrapper from "../components/Wrapper";
 
 export default function FreestyleScreen() {
   const freestyle = useSelector((state: any) => state.freestyle);
@@ -53,7 +52,7 @@ export default function FreestyleScreen() {
   }
 
   return (
-    <StyledView>
+    <Wrapper as={StyledView}>
       <FreestyleList
         data={folderData}
         onSubmit={function ({ itemId, state }) {
@@ -67,9 +66,6 @@ export default function FreestyleScreen() {
         state={freestyleDataOwn}
         club={club}
       />
-      <View style={{ padding: 10 }}>
-        <Player />
-      </View>
-    </StyledView>
+    </Wrapper>
   );
 }

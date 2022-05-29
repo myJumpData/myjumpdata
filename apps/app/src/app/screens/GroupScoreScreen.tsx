@@ -10,7 +10,6 @@ import {
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import Player from "../components/Player";
 import { StyledText } from "../components/StyledText";
 import { StyledView } from "../components/StyledView";
 import { Colors } from "../Constants";
@@ -18,6 +17,7 @@ import { setScoredatatype } from "../redux/scoredatatype.action";
 import GroupsService from "../services/groups.service";
 import ScoreDataService from "../services/scoredata.service";
 import { capitalize } from "../utils/capitalize";
+import Wrapper from "../components/Wrapper";
 
 export default function GroupScoreScreen({ route, navigation }) {
   const { id } = route.params;
@@ -165,12 +165,11 @@ export default function GroupScoreScreen({ route, navigation }) {
   );
 
   return (
-    <StyledView style={{ padding: 10 }}>
+    <Wrapper as={StyledView}>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          margin: 10,
         }}
       >
         <Picker
@@ -203,7 +202,6 @@ export default function GroupScoreScreen({ route, navigation }) {
           />
         )}
       />
-      <Player />
-    </StyledView>
+    </Wrapper>
   );
 }
