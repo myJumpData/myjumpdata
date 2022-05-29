@@ -10,6 +10,8 @@ import { setFreestyle } from "../redux/freestyle.action";
 import { setRoute } from "../redux/route.action";
 import { getFreestyle, getFreestyleData } from "../service/freestyle.service";
 import { getClub, getGroup } from "../service/groups.service";
+import { capitalize } from "../utils/capitalize";
+import fullname from "../utils/fullname";
 
 type freestyle_folder_data = {
   id: string;
@@ -46,10 +48,7 @@ export default function FreestyleGroupScreen() {
       setGroupName(response.data?.name);
       const tmp = response.data?.athletes.map((e) => {
         return {
-          name:
-            e.firstname && e.lastname
-              ? `${e.firstname} ${e.lastname}`
-              : e.username,
+          name: capitalize(fullname(e)),
           value: e.id,
         };
       });
