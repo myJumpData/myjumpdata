@@ -134,7 +134,7 @@ export default function createServer() {
         const fname =
           Date.now() +
           "_" +
-          crypto.randomUUID() +
+          crypto.randomBytes(16).toString("hex") +
           "_" +
           crypto.createHash("md5").update(file.name).digest("hex") +
           extensionName;
@@ -183,7 +183,7 @@ export default function createServer() {
     const fname =
       Date.now() +
       "_" +
-      crypto.randomUUID() +
+      crypto.randomBytes(16).toString("hex") +
       "_" +
       crypto.createHash("md5").update(file.name).digest("hex") +
       extensionName;
