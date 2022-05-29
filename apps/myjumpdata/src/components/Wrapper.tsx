@@ -162,16 +162,32 @@ export default function Wrapper({ children }: { children: ReactNode }) {
         action = { name: t("common:nav_settings"), to: "/settings" };
       }
     } else {
-      if (route === "login" || route === "home") {
-        action = {
-          name: t("common:nav_signup"),
-          to: "/register",
-        };
+      if (isSmall) {
+        if (route === "login" || route === "home") {
+          action = {
+            name: t("common:nav_signup"),
+            to: "/register",
+          };
+        } else {
+          action = {
+            name: t("common:nav_login"),
+            to: "/login",
+          };
+        }
       } else {
-        action = {
-          name: t("common:nav_login"),
-          to: "/login",
-        };
+        navigation = [
+          ...navigation,
+          {
+            name: t("common:nav_login"),
+            to: "/login",
+            current: route === "login",
+          },
+          {
+            name: t("common:nav_signup"),
+            to: "/register",
+            current: route === "signup",
+          },
+        ];
       }
     }
     if (!isSmall && user?.roles?.includes("admin")) {
