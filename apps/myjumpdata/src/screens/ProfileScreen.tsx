@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import User from "../assets/user.svg";
 import { setRoute } from "../redux/route.action";
 import { getUserSearch } from "../service/users.service";
 import fullname from "../utils/fullname";
@@ -27,19 +26,16 @@ export default function ProfileScreen() {
   return (
     <div className="w-full space-y-2">
       <div className="flex justify-start space-x-4">
-        {user?.picture && user?.picture !== "" ? (
-          <div className="flex aspect-square h-24 justify-center sm:h-32 md:h-48">
-            <img
-              src={user?.picture}
-              className="rounded-full object-cover"
-              alt={fullname(user)}
-            />
-          </div>
-        ) : (
-          <div className="flex aspect-square h-24 items-center justify-center rounded-full bg-gray-300 p-4 text-3xl text-gray-700 sm:h-32 sm:text-5xl md:h-48 md:p-8 md:text-9xl">
-            <img src={User} alt="user" />
-          </div>
-        )}
+        <div className="flex aspect-square h-24 justify-center sm:h-32 md:h-48">
+          <img
+            src={
+              user?.picture ||
+              "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+            }
+            className="rounded-full object-cover"
+            alt={fullname(user)}
+          />
+        </div>
         <div className="flex w-full min-w-0 flex-col justify-center">
           <span className="w-full truncate text-xl font-bold md:text-2xl">
             {user?.username}
