@@ -136,7 +136,7 @@ export function Folder({
         </span>
       ) : null}
       <span className="truncate">
-        {t<string>(`freestyle:${name.split("_")[name.split("_").length - 1]}`)}
+        {t<string>(`freestyle:${name.split("_").at(-1)}`)}
       </span>
     </div>
   );
