@@ -32,6 +32,7 @@ import Wrapper from "../components/Wrapper";
 import { StyledView } from "../components/StyledView";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { capitalize } from "../utils/capitalize";
+import UsersService from "../services/users.service";
 
 export default function GroupSpeedScreen({ route, navigation }) {
   const { t } = useTranslation();
@@ -62,30 +63,56 @@ export default function GroupSpeedScreen({ route, navigation }) {
   const [modal, setModal] = useState<any>(null);
   const ConfettiRef = React.useRef<any>(null);
 
+  const [pivot, setPivot] = React.useState<"users" | "type">("users");
+  const [users, setUsers] = React.useState([]);
+  const [user, setUser] = React.useState<any>(null);
+  const [selectedUser, setSelectedUser] = React.useState("");
+
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         if (musicData[scoredatatype].tracks.length > 0) {
           return (
-            <TouchableOpacity
-              style={{ paddingRight: 5 }}
-              onPress={() => {
-                MusicBottomSheetRef.current?.snapToIndex(0);
-              }}
-            >
-              <Ionicons name="musical-notes" size={35} color={Colors.white} />
-            </TouchableOpacity>
+            <View style={{ flexDirection: "row" }}>
+              {pivot === "users" ? (
+                <TouchableOpacity
+                  style={{ paddingRight: 5 }}
+                  onPress={() => {
+                    MusicBottomSheetRef.current?.snapToIndex(0);
+                  }}
+                >
+                  <Ionicons
+                    name="musical-notes"
+                    size={35}
+                    color={Colors.white}
+                  />
+                </TouchableOpacity>
+              ) : null}
+              <TouchableOpacity
+                style={{ paddingRight: 5 }}
+                onPress={() => {
+                  if (pivot === "users") {
+                    return setPivot("type");
+                  }
+                  return setPivot("users");
+                }}
+              >
+                <Ionicons name="git-compare" size={35} color={Colors.white} />
+              </TouchableOpacity>
+            </View>
           );
         }
         return null;
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scoredatatype]);
+  }, [scoredatatype, pivot]);
 
   React.useEffect(() => {
     GroupsService.getGroup(id).then((response: any) => {
       navigation.setOptions({ title: response.data.name });
+      setUsers(response.data?.athletes || []);
+      setSelectedUser(response.data?.athletes[0].id);
     });
     ScoreDataService.getScoreDataTypes().then((response: any) => {
       setScoreDataTypes(response.data);
@@ -102,6 +129,22 @@ export default function GroupSpeedScreen({ route, navigation }) {
       getScoreDataHigh(id, scoredatatype);
     }
   }, [scoredatatype, id]);
+
+  const getUser = () => {
+    if (users && selectedUser) {
+      const u: any = users.find((t: any) => t.id === selectedUser);
+      if (u) {
+        UsersService.getUserSearch(u.username).then((res) => {
+          setUser(res.data);
+        });
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedUser, users]);
 
   React.useEffect(() => {
     if (isFocused) {
@@ -129,6 +172,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getScoreDataHigh(id, scoredatatype);
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -317,13 +361,22 @@ export default function GroupSpeedScreen({ route, navigation }) {
         }}
       >
         <SelectInput
-          setState={setScoredatatype}
-          state={scoredatatype}
-          data={typesOptions}
+          setState={pivot === "users" ? setScoredatatype : setSelectedUser}
+          state={pivot === "users" ? scoredatatype : selectedUser}
+          data={
+            pivot === "users"
+              ? typesOptions
+              : users.map((u: any) => ({
+                  value: u.id,
+                  name: capitalize(fullname(u)),
+                }))
+          }
         />
-        <StyledText>
-          {t("common:high")}: {groupHigh}
-        </StyledText>
+        {pivot === "users" ? (
+          <StyledText>
+            {t("common:high")}: {groupHigh}
+          </StyledText>
+        ) : null}
       </View>
 
       <ScrollView
@@ -332,58 +385,142 @@ export default function GroupSpeedScreen({ route, navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {groupScores?.map((score: any) => (
-          <SpeedDataInput
-            key={score.user._id}
-            name={fullname(score.user)}
-            score={score.score}
-            onSubmit={({ nativeEvent, target }) => {
-              ScoreDataService.saveScoreData(
-                score.user._id,
-                scoredatatype,
-                nativeEvent.text,
-                date
-              ).then(() => {
-                if (Number(nativeEvent.text) > score.score) {
-                  setModal({
-                    old: score.score,
-                    type: typesOptions.find((t) => t.value === scoredatatype)
-                      ?.name,
-                    new: Number(nativeEvent.text),
-                    name: capitalize(fullname(score.user)),
-                  });
-                  ConfettiRef.current?.start();
-                }
-                getScoreDataHigh(id, scoredatatype);
-              });
-              target.clear();
-            }}
-            onReset={() => {
-              setCurrentUser(score.user);
-              ResetBottomSheetRef.current?.snapToIndex(0);
-            }}
-            counter={
-              <TouchableOpacity
-                style={{ marginHorizontal: 5 }}
-                onPress={() => {
-                  navigation.navigate("counter_popover", {
-                    from: {
-                      group: true,
-                      type: typesOptions.find((e) => e.value === scoredatatype)
-                        .name,
-                      type_id: scoredatatype,
-                      name: fullname(score.user),
-                      user_id: score.user._id,
-                      high: score.score,
-                    },
-                  });
-                }}
-              >
-                <StyledIcon name="Ionicons/radio-button-on" size={24} />
-              </TouchableOpacity>
+        {pivot === "users" &&
+          groupScores?.map((score: any) => (
+            <SpeedDataInput
+              key={score.user._id}
+              name={fullname(score.user)}
+              score={score.score}
+              onSubmit={({ nativeEvent, target }) => {
+                ScoreDataService.saveScoreData(
+                  score.user._id,
+                  scoredatatype,
+                  nativeEvent.text,
+                  date
+                ).then(() => {
+                  if (Number(nativeEvent.text) > score.score) {
+                    setModal({
+                      old: score.score,
+                      type: typesOptions.find((t) => t.value === scoredatatype)
+                        ?.name,
+                      new: Number(nativeEvent.text),
+                      name: capitalize(fullname(score.user)),
+                    });
+                    ConfettiRef.current?.start();
+                  }
+                  getScoreDataHigh(id, scoredatatype);
+                });
+                target.clear();
+              }}
+              onReset={() => {
+                setCurrentUser(score.user);
+                ResetBottomSheetRef.current?.snapToIndex(0);
+              }}
+              counter={
+                <TouchableOpacity
+                  style={{ marginHorizontal: 5 }}
+                  onPress={() => {
+                    navigation.navigate("counter_popover", {
+                      from: {
+                        group: true,
+                        type: typesOptions.find(
+                          (e) => e.value === scoredatatype
+                        ).name,
+                        type_id: scoredatatype,
+                        name: fullname(score.user),
+                        user_id: score.user._id,
+                        high: score.score,
+                      },
+                    });
+                  }}
+                >
+                  <StyledIcon name="Ionicons/radio-button-on" size={24} />
+                </TouchableOpacity>
+              }
+            />
+          ))}
+        {pivot === "type" &&
+          groupScores &&
+          users &&
+          user &&
+          typesOptions?.map((type: any) => {
+            const highdata = user.highdata?.find(
+              (t: any) => t.type === type.name
+            );
+            if (!user) {
+              return null;
             }
-          />
-        ))}
+            return (
+              <SpeedDataInput
+                key={type.value}
+                name={type.name}
+                score={highdata?.score || "0"}
+                music={
+                  musicData[type.value] &&
+                  musicData[type.value].tracks.length > 0 ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setScoredatatype(type.value);
+                        MusicBottomSheetRef.current?.snapToIndex(0);
+                      }}
+                    >
+                      <StyledIcon name="Ionicons/musical-notes" size={24} />
+                    </TouchableOpacity>
+                  ) : null
+                }
+                onSubmit={({ nativeEvent, target }) => {
+                  ScoreDataService.saveScoreData(
+                    user.id,
+                    type.value,
+                    nativeEvent.text,
+                    date
+                  ).then(() => {
+                    if (
+                      Number(nativeEvent.text) > Number(highdata?.score || "0")
+                    ) {
+                      setModal({
+                        old: highdata?.score || "0",
+                        type: typesOptions.find(
+                          (t) => t.value === scoredatatype
+                        )?.name,
+                        new: Number(nativeEvent.text),
+                        name: capitalize(fullname(user)),
+                      });
+                      ConfettiRef.current?.start();
+                    }
+                    getScoreDataHigh(id, scoredatatype);
+                    getUser();
+                  });
+                  target.clear();
+                }}
+                onReset={() => {
+                  setCurrentUser(users.find((t: any) => t.id === selectedUser));
+                  ResetBottomSheetRef.current?.snapToIndex(0);
+                }}
+                counter={
+                  <TouchableOpacity
+                    style={{ marginHorizontal: 5 }}
+                    onPress={() => {
+                      navigation.navigate("counter_popover", {
+                        from: {
+                          group: true,
+                          type: typesOptions.find(
+                            (e) => e.value === scoredatatype
+                          ).name,
+                          type_id: scoredatatype,
+                          name: fullname(user),
+                          user_id: user.id,
+                          high: highdata?.score || "0",
+                        },
+                      });
+                    }}
+                  >
+                    <StyledIcon name="Ionicons/radio-button-on" size={24} />
+                  </TouchableOpacity>
+                }
+              />
+            );
+          })}
       </ScrollView>
     </Wrapper>
   );
