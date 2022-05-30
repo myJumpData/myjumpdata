@@ -2,7 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiX } from "react-icons/hi";
-import { IoIosMusicalNotes } from "react-icons/io";
+import { IoIosGitCompare, IoIosMusicalNotes } from "react-icons/io";
 import { useParams } from "react-router";
 import player from "react-web-track-player";
 import AuthVerify from "../common/AuthVerify";
@@ -24,6 +24,7 @@ import { IoArrowForward } from "react-icons/all";
 import Confetti from "react-confetti";
 import { capitalize } from "../utils/capitalize";
 import fullname from "../utils/fullname";
+import { getUserSearch } from "../service/users.service";
 
 export default function SpeedDataScreen() {
   useEffect(() => {
@@ -45,9 +46,16 @@ export default function SpeedDataScreen() {
   const { width, height } = useWindowSize();
   const [modal, setModal] = useState<any>(null);
 
+  const [pivot, setPivot] = useState<"users" | "type">("users");
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState("");
+
   useEffect(() => {
     getGroup(params.id as string).then((response: any) => {
       setGroupName(response.data?.name);
+      setUsers(response.data?.athletes);
+      setSelectedUser(response.data?.athletes[0].id);
     });
     getScoreDataTypes().then((response: any) => {
       setScoreDataTypes(response.data);
@@ -62,6 +70,22 @@ export default function SpeedDataScreen() {
     }
   }, [scoreDataType, params]);
 
+  const getUser = () => {
+    if (users && selectedUser) {
+      const u: any = users.find((t: any) => t.id === selectedUser);
+      if (u) {
+        getUserSearch(u.username).then((res) => {
+          setUser(res.data);
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedUser, users]);
+
   useEffect(() => {
     const options: any = scoreDataTypes.map((type: any) => {
       return { value: type._id, name: type.name };
@@ -73,16 +97,6 @@ export default function SpeedDataScreen() {
     getScoreDataHigh(id, type).then((response: any) => {
       setGroupScores(response.data?.scores);
       setGroupHigh(response.data?.high);
-    });
-  }
-
-  function handleRecordDataSubmit(e: any) {
-    e.preventDefault();
-    const id = e.target.elements.id.value;
-    const score = e.target.elements[id].value;
-    saveScoreData(id, scoreDataType, score, date).then(() => {
-      e.target.elements[id].value = null;
-      getScoreDataHighFN(params.id, scoreDataType);
     });
   }
 
@@ -120,9 +134,9 @@ export default function SpeedDataScreen() {
         </>
       ) : null}
       <span className="text-xl font-bold">
-        {t("speeddata_title") + " " + groupName}
+        {t("speeddata_title") + " " + groupName} {pivot}
       </span>
-      <div className="flex">
+      <div className="flex items-center">
         <div className="shrink grow">
           <DateInput
             setDate={(e) => {
@@ -184,20 +198,40 @@ export default function SpeedDataScreen() {
               </Transition>
             </Menu>
           )}
+        <span
+          onClick={() => {
+            if (pivot === "users") {
+              return setPivot("type");
+            }
+            return setPivot("users");
+          }}
+        >
+          <IoIosGitCompare className="text-2xl" />
+        </span>
       </div>
       <div className="mb-2 flex items-center space-x-2">
         <div className="w-full">
           <SelectInput
-            options={typesOptions}
-            current={scoreDataType}
-            stateChange={setScoreDataType}
+            options={
+              pivot === "users"
+                ? typesOptions
+                : users.map((u: any) => ({
+                    value: u.id,
+                    name: capitalize(fullname(u)),
+                  }))
+            }
+            current={pivot === "users" ? scoreDataType : selectedUser}
+            stateChange={pivot === "users" ? setScoreDataType : setSelectedUser}
           />
         </div>
-        <span className="whitespace-nowrap text-xs uppercase">
-          {t<string>("common:high")}: {groupHigh}
-        </span>
+        {pivot === "users" ? (
+          <span className="whitespace-nowrap text-xs uppercase">
+            {t<string>("common:high")}: {groupHigh}
+          </span>
+        ) : null}
       </div>
-      {groupScores &&
+      {pivot === "users" &&
+        groupScores &&
         groupScores.map((score: any) => {
           return (
             <SpeedDataInput
@@ -206,6 +240,7 @@ export default function SpeedDataScreen() {
               name={capitalize(fullname(score.user))}
               score={score.score}
               onSubmit={(e) => {
+                e.preventDefault();
                 const type = e.target.elements.id.value;
                 const score_new = e.target.elements[type].value;
                 if (Number(score_new) > score.score) {
@@ -218,7 +253,13 @@ export default function SpeedDataScreen() {
                     name: capitalize(fullname(score.user)),
                   });
                 }
-                handleRecordDataSubmit(e);
+
+                const id = e.target.elements.id.value;
+                const score2 = e.target.elements[id].value;
+                saveScoreData(id, scoreDataType, score2, date).then(() => {
+                  e.target.elements[id].value = null;
+                  getScoreDataHighFN(params.id, scoreDataType);
+                });
               }}
               dropdown={[
                 {
@@ -228,10 +269,61 @@ export default function SpeedDataScreen() {
                       setShowResetDialog({
                         type: score.type,
                         user: score.user._id,
-                        username:
-                          score.user.firstname && score.user.lastname
-                            ? `${score.user.firstname} ${score.user.lastname}`
-                            : score.user.username,
+                        username: capitalize(fullname(score.user)),
+                      });
+                    },
+                  },
+                },
+              ]}
+            />
+          );
+        })}
+      {groupScores &&
+        users &&
+        user &&
+        typesOptions &&
+        typesOptions.map((type: any) => {
+          const highdata = user.highdata?.find(
+            (t: any) => t.type === type.name
+          );
+          if (!user) {
+            return null;
+          }
+          return (
+            <SpeedDataInput
+              key={type.value}
+              id={user.id}
+              name={type.name}
+              score={highdata?.score || "0"}
+              onSubmit={(e) => {
+                e.preventDefault();
+                const type2 = e.target.elements.id.value;
+                const score_new = e.target.elements[type2].value;
+                if (Number(score_new) > Number(highdata?.score || "0")) {
+                  setModal({
+                    old: highdata?.score || "0",
+                    type: type.name,
+                    new: Number(score_new),
+                    name: capitalize(fullname(user)),
+                  });
+                }
+
+                const id = e.target.elements.id.value;
+                const score = e.target.elements[id].value;
+                saveScoreData(user.id, type.value, score, date).then(() => {
+                  getUser();
+                  e.target.elements[id].value = null;
+                });
+              }}
+              dropdown={[
+                {
+                  name: t("scoredata_dropdown_reset"),
+                  props: {
+                    onClick: () => {
+                      setShowResetDialog({
+                        type: type,
+                        user: user.id,
+                        username: capitalize(fullname(user)),
                       });
                     },
                   },
