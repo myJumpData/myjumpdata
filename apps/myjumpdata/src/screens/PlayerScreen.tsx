@@ -59,8 +59,11 @@ export default function PlayerScreen() {
         </div>
         <div>
           {freestyleTracks.length > 0 ? (
-            freestyleTracks.map((item: any) => (
-              <div className="flex items-center justify-between space-x-2">
+            freestyleTracks.map((item: any, index) => (
+              <div
+                className="flex items-center justify-between space-x-2"
+                key={index}
+              >
                 <TrackItem track={item} />
                 <span
                   className="h-full cursor-pointer p-4 text-xl"
@@ -146,8 +149,8 @@ export default function PlayerScreen() {
           <span className="text-lg font-bold">Speed-Tracks</span>
         </div>
         <div>
-          {getLibrary().map((item: any) => (
-            <TrackItem track={item} />
+          {getLibrary().map((item: any, index) => (
+            <TrackItem track={item} key={index} />
           ))}
         </div>
       </div>

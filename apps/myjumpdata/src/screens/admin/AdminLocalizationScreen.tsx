@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPlus } from "react-icons/fa";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -57,11 +57,11 @@ export default function AdminLocalizationScreen() {
           tmp.key = item[0];
           tmp.translation = (
             <div className="flex items-center space-x-1">
-              {LANGUAGES.map((element) => {
+              {LANGUAGES.map((element, index) => {
                 const k = item[0] + "_" + element;
                 if (item[1][element] !== undefined) {
                   return (
-                    <>
+                    <Fragment key={index}>
                       <span
                         className="flex h-full w-8 items-center overflow-hidden rounded border border-gray-500/50"
                         data-for={k}
@@ -70,7 +70,7 @@ export default function AdminLocalizationScreen() {
                         <Flag code={element === "en" ? "gb" : element} />
                       </span>
                       <ReactTooltip id={k} effect="solid" />
-                    </>
+                    </Fragment>
                   );
                 }
                 return null;

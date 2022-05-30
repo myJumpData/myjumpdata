@@ -232,91 +232,96 @@ export default function FreestyleGroupScreen() {
             }}
           />
           <table>
-            <tr className="border-b border-gray-500/50">
-              <th></th>
-              {folderData?.filter((i) => i.element).length > 0
-                ? userSelect?.map(({ name }: { name: string }) => {
-                    return (
-                      <th className="rotate-180 p-2 [writing-mode:vertical-lr]">
-                        {name}
-                      </th>
-                    );
-                  })
-                : null}
-            </tr>
-            {folderData?.map((e: freestyle_folder_data) => {
-              if (e.element) {
-                return (
-                  <tr className="border-b border-gray-500/50">
-                    <td className="flex cursor-pointer flex-col py-2">
-                      <span className="text-lg font-bold leading-none">
-                        {e.compiled
-                          ? e.key
-                              .split("_")
-                              .map((item) => t(`freestyle:${item}`))
-                              .join(" ")
-                          : t(`freestyle:${e.key}`)}
-                      </span>
-                      {e.level ? (
-                        <span className="text-sm leading-none opacity-75">
-                          Lvl. {e.level}
+            <thead>
+              <tr className="border-b border-gray-500/50">
+                <th></th>
+                {folderData?.filter((i) => i.element).length > 0
+                  ? userSelect?.map(({ name }: { name: string }) => {
+                      return (
+                        <th className="rotate-180 p-2 [writing-mode:vertical-lr]">
+                          {name}
+                        </th>
+                      );
+                    })
+                  : null}
+              </tr>
+            </thead>
+            <tbody>
+              {folderData?.map((e: freestyle_folder_data, index) => {
+                if (e.element) {
+                  return (
+                    <tr className="border-b border-gray-500/50" key={index}>
+                      <td className="flex cursor-pointer flex-col py-2">
+                        <span className="text-lg font-bold leading-none">
+                          {e.compiled
+                            ? e.key
+                                .split("_")
+                                .map((item) => t(`freestyle:${item}`))
+                                .join(" ")
+                            : t(`freestyle:${e.key}`)}
                         </span>
-                      ) : null}
-                    </td>
-                    {folderData?.filter((i) => i.element).length > 0
-                      ? userSelect?.map(({ value }: any) => {
-                          if (!freestyleDataUsers) {
-                            return null;
-                          }
-                          const el = freestyleDataUsers?.find(
-                            (i: any) => i.user === value && i.element === e.id
-                          );
-                          return (
-                            <th>
-                              <Check
-                                user={value}
-                                elementId={e.id}
-                                stateCoach={
-                                  !userSelect
-                                    ? undefined
-                                    : el?.stateCoach || false
-                                }
-                                stateUser={
-                                  !userSelect
-                                    ? undefined
-                                    : el?.stateUser || false
-                                }
-                                onRefresh={getUserData}
-                              />
-                            </th>
-                          );
-                        })
-                      : null}
-                  </tr>
-                );
-              } else if (e.group) {
-                return (
-                  <tr
-                    className="cursor-pointer border-b border-gray-500/50"
-                    onClick={() => {
-                      navigate("/freestyle/group/" + params.id + "/" + e.key);
-                    }}
-                  >
-                    <td className="flex cursor-pointer flex-col py-2">
-                      <span className="text-lg font-bold leading-none">
-                        {t(`freestyle:${e.key.split("_").at(-1)}`)}
-                      </span>
-                      {e.set ? (
-                        <span className="text-sm leading-none opacity-75">
-                          {e.set ? "set" : null}
+                        {e.level ? (
+                          <span className="text-sm leading-none opacity-75">
+                            Lvl. {e.level}
+                          </span>
+                        ) : null}
+                      </td>
+                      {folderData?.filter((i) => i.element).length > 0
+                        ? userSelect?.map(({ value }: any) => {
+                            if (!freestyleDataUsers) {
+                              return null;
+                            }
+                            const el = freestyleDataUsers?.find(
+                              (i: any) => i.user === value && i.element === e.id
+                            );
+                            return (
+                              <th>
+                                <Check
+                                  user={value}
+                                  elementId={e.id}
+                                  stateCoach={
+                                    !userSelect
+                                      ? undefined
+                                      : el?.stateCoach || false
+                                  }
+                                  stateUser={
+                                    !userSelect
+                                      ? undefined
+                                      : el?.stateUser || false
+                                  }
+                                  onRefresh={getUserData}
+                                />
+                              </th>
+                            );
+                          })
+                        : null}
+                    </tr>
+                  );
+                } else if (e.group) {
+                  return (
+                    <tr
+                      className="cursor-pointer border-b border-gray-500/50"
+                      key={index}
+                      onClick={() => {
+                        navigate("/freestyle/group/" + params.id + "/" + e.key);
+                      }}
+                    >
+                      <td className="flex cursor-pointer flex-col py-2">
+                        <span className="text-lg font-bold leading-none">
+                          {t(`freestyle:${e.key.split("_").at(-1)}`)}
                         </span>
-                      ) : null}
-                    </td>
-                  </tr>
-                );
-              }
-              return null;
-            })}
+                        {e.set ? (
+                          <span className="text-sm leading-none opacity-75">
+                            {e.set ? "set" : null}
+                          </span>
+                        ) : null}
+                      </td>
+                    </tr>
+                  );
+                }
+                return null;
+              })}
+            </tbody>
           </table>
         </>
       )}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck, HiX } from "react-icons/hi";
 import ReactTooltip from "react-tooltip";
@@ -69,9 +69,8 @@ export default function AdminUsersScreen() {
         );
         item.roles = (
           <div className="flex flex-row space-x-1">
-            {item.roles.map((role) => (
-              <>
-                {" "}
+            {item.roles.map((role, index) => (
+              <Fragment key={index}>
                 <span
                   className={classNames(
                     "flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg border-2 text-sm",
@@ -85,7 +84,7 @@ export default function AdminUsersScreen() {
                   {role[0].toUpperCase()}
                 </span>
                 <ReactTooltip id={role} effect="solid" />
-              </>
+              </Fragment>
             ))}
           </div>
         );
