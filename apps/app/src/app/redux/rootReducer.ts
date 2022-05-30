@@ -6,6 +6,7 @@ import navigationReducer from "./navigation.reducer";
 import playerReducer from "./player.reducer";
 import scoredatatypeReducer from "./scoredatatype.reducer";
 import userReducer from "./user.reducer";
+import pivotReducer from "./pivot.reducer";
 
 const rootReducer = persistReducer(
   {
@@ -18,6 +19,7 @@ const rootReducer = persistReducer(
     freestyle: freestyleReducer,
     scoredatatype: scoredatatypeReducer,
     player: playerReducer,
+    pivot: pivotReducer,
   })
 );
 

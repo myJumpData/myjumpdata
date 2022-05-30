@@ -33,11 +33,13 @@ import { StyledView } from "../components/StyledView";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { capitalize } from "../utils/capitalize";
 import UsersService from "../services/users.service";
+import { switchPivot } from "../redux/pivot.action";
 
 export default function GroupSpeedScreen({ route, navigation }) {
   const { t } = useTranslation();
   const { id } = route.params;
   const scoredatatype = useSelector((state: any) => state.scoredatatype);
+  const pivot = useSelector((state: any) => state.pivot);
   const isFocused = useIsFocused();
 
   const [groupScores, setGroupScores] = React.useState([]);
@@ -62,8 +64,6 @@ export default function GroupSpeedScreen({ route, navigation }) {
   const isDarkMode = useColorScheme() === "dark";
   const [modal, setModal] = useState<any>(null);
   const ConfettiRef = React.useRef<any>(null);
-
-  const [pivot, setPivot] = React.useState<"users" | "type">("users");
   const [users, setUsers] = React.useState([]);
   const [user, setUser] = React.useState<any>(null);
   const [selectedUser, setSelectedUser] = React.useState("");
@@ -90,12 +90,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
               ) : null}
               <TouchableOpacity
                 style={{ paddingRight: 5 }}
-                onPress={() => {
-                  if (pivot === "users") {
-                    return setPivot("type");
-                  }
-                  return setPivot("users");
-                }}
+                onPress={switchPivot}
               >
                 <Ionicons name="git-compare" size={35} color={Colors.white} />
               </TouchableOpacity>
