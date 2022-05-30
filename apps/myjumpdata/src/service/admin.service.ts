@@ -17,6 +17,15 @@ export const deleteLocalization = (namespace: string, key: string) => {
     namespace,
   });
 };
+export const updateLocalization = (ids: string[], data: any) => {
+  return api.post("/admin/localization/update", {
+    ids,
+    data,
+  });
+};
+export const getLocalization = (namespace: string, key: string) => {
+  return api.get("/admin/localization/" + namespace + "/" + key);
+};
 
 export const createFreestyle = (
   key: string,

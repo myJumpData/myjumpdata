@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaPlus, FaTrash } from "react-icons/fa";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { FaPlus } from "react-icons/fa";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
@@ -13,6 +13,7 @@ import { LANGUAGES, NAMESPACES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
 import { deleteLocalization } from "../../service/admin.service";
 import { getTranslations } from "../../service/locales.service";
+import { IoPencil, IoTrash } from "react-icons/all";
 
 export default function AdminLocalizationScreen() {
   useEffect(() => {
@@ -77,14 +78,24 @@ export default function AdminLocalizationScreen() {
             </div>
           );
           tmp.action = (
-            <div className="flex justify-end">
+            <div className="flex items-center justify-end space-x-2">
+              <Link
+                to={
+                  "/admin/localization/update/" +
+                  searchParams.get("namespace") +
+                  "/" +
+                  tmp.key
+                }
+              >
+                <IoPencil className="text-gray-500/50 transition hover:text-white" />
+              </Link>
               <span
                 onClick={() => {
                   setDel(true);
                   setCurrent(item[0]);
                 }}
               >
-                <FaTrash className="text-gray-500/50 transition hover:text-white" />
+                <IoTrash className="text-gray-500/50 transition hover:text-white" />
               </span>
             </div>
           );
@@ -93,6 +104,7 @@ export default function AdminLocalizationScreen() {
       setTranslationData(data);
       setTotal(Object.entries(response.data.data).length);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [namespace]);
   useEffect(() => {
     setData(

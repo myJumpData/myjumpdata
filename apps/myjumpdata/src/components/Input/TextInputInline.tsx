@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiCheckCircle, HiPencil, HiXCircle } from "react-icons/hi";
 import { classNames } from "../../utils/classNames";
 
@@ -18,6 +18,11 @@ export function TextInputInline({
 }) {
   const [valueHold, setValueHold] = useState(value);
   // noinspection PointlessBooleanExpressionJS
+
+  useEffect(() => {
+    setValueHold(value);
+  }, [value]);
+
   return (
     <div className="relative w-full">
       <input

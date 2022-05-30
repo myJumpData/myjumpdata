@@ -10,11 +10,13 @@ import {
   getClubs,
   getFreestyleElement,
   getFreestyleTranslation,
+  getTranslation,
   getUsers,
   getVersion,
   updateFreestyleElementGroups,
   updateFreestyleElementKey,
   updateFreestyleElementLevel,
+  updateTranslation,
 } from "../controllers/admin.controller";
 import verifyToken from "../middlewares/authJwt";
 import { isAdmin } from "../middlewares/isAdmin";
@@ -29,6 +31,16 @@ export default function AdminRoutes(app: Express) {
     "/admin/localization/delete",
     [verifyToken, isAdmin],
     deleteLocalization
+  );
+  app.post(
+    "/admin/localization/update",
+    [verifyToken, isAdmin],
+    updateTranslation
+  );
+  app.get(
+    "/admin/localization/:namespace/:key",
+    [verifyToken, isAdmin],
+    getTranslation
   );
 
   app.post("/admin/freestyle/create", [verifyToken, isAdmin], createFreestyle);

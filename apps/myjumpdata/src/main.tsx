@@ -8,12 +8,17 @@ import Wrapper from "./components/Wrapper";
 import "./i18n";
 import { persistor, store } from "./redux/store";
 import "./styles.scss";
-import AdminClubScreen from "./screens/admin/AdminClubScreen";
-import AdminClubCreateScreen from "./screens/admin/AdminClubCreateScreen";
-import ClubAdminScreen from "./screens/ClubAdmin";
-import ClubScreen from "./screens/ClubScreen";
-import GroupPlayerScreen from "./screens/GroupPlayerScreen";
 
+const AdminClubScreen = lazy(() => import("./screens/admin/AdminClubScreen"));
+const AdminClubCreateScreen = lazy(
+  () => import("./screens/admin/AdminClubCreateScreen")
+);
+const AdminLocalizationUpdateScreen = lazy(
+  () => import("./screens/admin/AdminLocalizationUpdateScreen")
+);
+const ClubScreen = lazy(() => import("./screens/ClubScreen"));
+const ClubAdminScreen = lazy(() => import("./screens/ClubAdmin"));
+const GroupPlayerScreen = lazy(() => import("./screens/GroupPlayerScreen"));
 const FreestyleScreen = lazy(() => import("./screens/FreestyleScreen"));
 const FreestyleGroupScreen = lazy(
   () => import("./screens/FreestyleGroupScreen")
@@ -144,6 +149,10 @@ createRoot(document.getElementById("root") as Element).render(
                   <Route
                     path="create/:namespace"
                     element={<AdminLocalizationCreateScreen />}
+                  />
+                  <Route
+                    path="update/:namespace/:key"
+                    element={<AdminLocalizationUpdateScreen />}
                   />
                   <Route
                     path="*"

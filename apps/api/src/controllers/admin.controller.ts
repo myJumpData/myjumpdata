@@ -6,6 +6,7 @@ import FreestyleDataElement from "../models/freestyleDataElement.model";
 import mongoose, { Query } from "mongoose";
 import FreestyleDataGroup from "../models/freestyleDataGroup.model";
 import Club from "../models/club.model";
+import { LANGUAGES } from "../consts/lang";
 
 export function createLocalization(req, res) {
   Translation.create(
@@ -46,6 +47,50 @@ export function deleteLocalization(req, res) {
       "success.delete.localization",
       `Successfully deleted ${r.deletedCount} localization!`
     );
+  });
+}
+export function getTranslation(req, res) {
+  const key = req.params.key;
+  const namespace = req.params.namespace;
+  Translation.find({ key, namespace })
+    .select("-__v -key -namespace")
+    .exec((err, data) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      const tmp = {};
+      LANGUAGES.map((lang) => {
+        const d = data.find(
+          (t) => t.language.toLowerCase() === lang.toLowerCase()
+        );
+        if (d) {
+          tmp[lang] = { id: d._id, translation: d.translation };
+        }
+      });
+      return requestHandler(res, 200, "", "", tmp);
+    });
+}
+export function updateTranslation(req, res) {
+  const ids = req.body.ids;
+  const data = req.body.data;
+  if (data.translation && data.translation === "") {
+    Translation.deleteMany({
+      _id: { $in: ids.map((i) => new mongoose.Types.ObjectId(i)) },
+    }).exec((err) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "");
+    });
+  }
+  Translation.updateMany(
+    { _id: { $in: ids.map((i) => new mongoose.Types.ObjectId(i)) } },
+    data
+  ).exec((err) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    return requestHandler(res, 200, "", "");
   });
 }
 export const getUsers = (req, res) => {
