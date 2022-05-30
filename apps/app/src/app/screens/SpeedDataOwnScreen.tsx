@@ -141,7 +141,11 @@ export default function SpeedDataOwnScreen({ navigation }) {
                         {modal.old}
                       </StyledText>
                       <StyledIcon
-                        name="Ionicons/arrow-forward-outline"
+                        name={
+                          Number(modal.new) > Number(modal.old)
+                            ? "Ionicons/arrow-forward-outline"
+                            : "Ionicons/menu-outline"
+                        }
                         size={24}
                       />
                       <StyledText style={{ fontWeight: "bold", fontSize: 24 }}>
@@ -256,7 +260,7 @@ export default function SpeedDataOwnScreen({ navigation }) {
                 nativeEvent.text,
                 date
               ).then(() => {
-                if (Number(nativeEvent.text) > item.score) {
+                if (Number(nativeEvent.text) >= Number(item.score)) {
                   setModal({
                     old: item.score,
                     new: Number(nativeEvent.text),

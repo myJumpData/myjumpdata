@@ -20,7 +20,7 @@ import {
 import TRACKS, { musicData } from "../tracks";
 import { classNames } from "../utils/classNames";
 import { useWindowSize } from "react-use";
-import { IoArrowForward } from "react-icons/all";
+import { IoArrowForward, IoMenu } from "react-icons/all";
 import Confetti from "react-confetti";
 import { capitalize } from "../utils/capitalize";
 import fullname from "../utils/fullname";
@@ -125,7 +125,11 @@ export default function SpeedDataScreen() {
                 <span className="text-xl font-bold leading-none">
                   {modal.old}
                 </span>
-                <IoArrowForward />
+                {Number(modal.old) < Number(modal.new) ? (
+                  <IoArrowForward />
+                ) : (
+                  <IoMenu />
+                )}
                 <span className="text-xl font-bold leading-none">
                   {modal.new}
                 </span>
@@ -239,7 +243,7 @@ export default function SpeedDataScreen() {
                 e.preventDefault();
                 const type = e.target.elements.id.value;
                 const score_new = e.target.elements[type].value;
-                if (Number(score_new) > score.score) {
+                if (Number(score_new) >= Number(score.score)) {
                   setModal({
                     old: score.score,
                     type: (typesOptions as any)?.find(
@@ -311,7 +315,7 @@ export default function SpeedDataScreen() {
                 e.preventDefault();
                 const type2 = e.target.elements.id.value;
                 const score_new = e.target.elements[type2].value;
-                if (Number(score_new) > Number(highdata?.score || "0")) {
+                if (Number(score_new) >= Number(highdata?.score || "0")) {
                   setModal({
                     old: highdata?.score || "0",
                     type: type.name,

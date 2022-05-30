@@ -244,7 +244,11 @@ export default function GroupSpeedScreen({ route, navigation }) {
                         {modal.old}
                       </StyledText>
                       <StyledIcon
-                        name="Ionicons/arrow-forward-outline"
+                        name={
+                          Number(modal.new) > Number(modal.old)
+                            ? "Ionicons/arrow-forward-outline"
+                            : "Ionicons/menu-outline"
+                        }
                         size={24}
                       />
                       <StyledText style={{ fontWeight: "bold", fontSize: 24 }}>
@@ -393,7 +397,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
                   nativeEvent.text,
                   date
                 ).then(() => {
-                  if (Number(nativeEvent.text) > score.score) {
+                  if (Number(nativeEvent.text) >= Number(score.score)) {
                     setModal({
                       old: score.score,
                       type: typesOptions.find((t) => t.value === scoredatatype)
@@ -471,7 +475,7 @@ export default function GroupSpeedScreen({ route, navigation }) {
                     date
                   ).then(() => {
                     if (
-                      Number(nativeEvent.text) > Number(highdata?.score || "0")
+                      Number(nativeEvent.text) >= Number(highdata?.score || "0")
                     ) {
                       setModal({
                         old: highdata?.score || "0",

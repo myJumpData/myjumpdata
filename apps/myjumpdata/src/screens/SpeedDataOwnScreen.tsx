@@ -15,7 +15,7 @@ import {
 import TRACKS, { musicData } from "../tracks";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
-import { IoArrowForward } from "react-icons/all";
+import { IoArrowForward, IoMenu } from "react-icons/all";
 
 export default function SpeedDataOwnScreen() {
   useEffect(() => {
@@ -68,7 +68,11 @@ export default function SpeedDataOwnScreen() {
               <span className="text-xl font-bold">{modal.name}</span>
               <div className="flex items-center justify-center">
                 <span className="text-xl font-bold">{modal.old}</span>
-                <IoArrowForward />
+                {Number(modal.old) < Number(modal.new) ? (
+                  <IoArrowForward />
+                ) : (
+                  <IoMenu />
+                )}
                 <span className="text-xl font-bold">{modal.new}</span>
               </div>
             </div>
@@ -97,7 +101,7 @@ export default function SpeedDataOwnScreen() {
                 onSubmit={(e) => {
                   const type = e.target.elements.id.value;
                   const score_new = e.target.elements[type].value;
-                  if (Number(score_new) > score.score) {
+                  if (Number(score_new) >= score.score) {
                     setModal({
                       old: score.score,
                       new: Number(score_new),
