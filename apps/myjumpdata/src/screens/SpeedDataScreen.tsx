@@ -134,7 +134,7 @@ export default function SpeedDataScreen() {
         </>
       ) : null}
       <span className="text-xl font-bold">
-        {t("speeddata_title") + " " + groupName} {pivot}
+        {t("speeddata_title") + " " + groupName}
       </span>
       <div className="flex items-center">
         <div className="shrink grow">
