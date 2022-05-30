@@ -36,19 +36,19 @@ const useBreakpoint = (): BreakpointType => {
       if (windowSize.width < 480) {
         setBreakPoint(breakpoints[480]);
       }
-      if (480 <= windowSize.width && windowSize.width < 640) {
+      if (windowSize.width >= 480 && windowSize.width < 640) {
         setBreakPoint(breakpoints[640]);
       }
-      if (640 <= windowSize.width && windowSize.width < 768) {
+      if (windowSize.width >= 640 && windowSize.width < 768) {
         setBreakPoint(breakpoints[768]);
       }
-      if (768 <= windowSize.width && windowSize.width < 1024) {
+      if (windowSize.width >= 768 && windowSize.width < 1024) {
         setBreakPoint(breakpoints[1024]);
       }
-      if (1024 <= windowSize.width && windowSize.width < 1280) {
+      if (windowSize.width >= 1024 && windowSize.width < 1280) {
         setBreakPoint(breakpoints[1280]);
       }
-      if (1280 <= windowSize.width) {
+      if (windowSize.width >= 1280) {
         setBreakPoint(breakpoints[1536]);
       }
     }

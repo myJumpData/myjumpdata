@@ -1,3 +1,5 @@
+// noinspection PointlessBooleanExpressionJS
+
 import { useEffect, useState } from "react";
 import { HiCheckCircle, HiPencil, HiXCircle } from "react-icons/hi";
 import { classNames } from "../../utils/classNames";
@@ -17,7 +19,6 @@ export function TextInputInline({
   valid?: boolean | undefined;
 }) {
   const [valueHold, setValueHold] = useState(value);
-  // noinspection PointlessBooleanExpressionJS
 
   useEffect(() => {
     setValueHold(value);
@@ -34,16 +35,24 @@ export function TextInputInline({
         }}
         className={classNames(
           "peer w-full border-b border-black bg-transparent focus:border-gray-500/50 focus:outline-0",
-          valid === true && value !== valueHold
-            ? "text-green-500"
-            : valid === false
-            ? "text-red-500"
-            : "text-gray-900 dark:text-gray-100"
+          (() => {
+            if (valid === true && value !== valueHold) {
+              return "text-green-500";
+            }
+            if (valid === false) {
+              return "text-red-500";
+            }
+            return "text-gray-900 dark:text-gray-100";
+          })()
         )}
         name={inputName}
         id={inputName}
       />
-      {value !== valueHold ? (
+      {value === valueHold ? (
+        <span className="pointer-events-none absolute top-0 right-0 cursor-pointer text-xl text-gray-500 peer-focus:opacity-0">
+          <HiPencil />
+        </span>
+      ) : (
         <>
           <span
             className="absolute top-0 right-5 cursor-pointer text-xl text-gray-500 hover:text-red-500"
@@ -63,10 +72,6 @@ export function TextInputInline({
             <HiCheckCircle />
           </span>
         </>
-      ) : (
-        <span className="pointer-events-none absolute top-0 right-0 cursor-pointer text-xl text-gray-500 peer-focus:opacity-0">
-          <HiPencil />
-        </span>
       )}
     </div>
   );

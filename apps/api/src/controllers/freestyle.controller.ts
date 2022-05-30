@@ -35,7 +35,7 @@ export async function getFreestyle(req, res) {
     })
       .sort("level key")
       .exec();
-    count = count + 1;
+    count += 1;
     if (pathSplit.length > count) {
       return process(pathSplit[count], name + "_" + pathSplit[count]);
     } else {

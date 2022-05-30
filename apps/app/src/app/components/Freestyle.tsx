@@ -55,14 +55,21 @@ export default function Freestyle({
             <ActivityIndicator size={40} color={Colors.main} />
           ) : (
             <FontAwesome
-              name={
-                element?.stateCoach
-                  ? "square"
-                  : element?.stateUser
-                  ? "check-square"
-                  : "square-o"
-              }
-              size={element?.stateCoach ? 35 : element?.stateUser ? 35 : 40}
+              name={(() => {
+                if (element?.stateCoach) {
+                  return "square";
+                }
+                if (element?.stateUser) {
+                  return "check-square";
+                }
+                return "square-o";
+              })()}
+              size={(() => {
+                if (element?.stateCoach || element?.stateUser) {
+                  return 35;
+                }
+                return 40;
+              })()}
               color={Colors.main}
             />
           )}

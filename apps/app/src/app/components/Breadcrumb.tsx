@@ -29,11 +29,7 @@ export default function Breadcrumb({
           justifyContent: "center",
         }}
       >
-        <Ionicons
-          name={data.length < 1 ? "home" : "home"}
-          size={20}
-          color={Colors.grey}
-        />
+        <Ionicons name={"home"} size={20} color={Colors.grey} />
       </TouchableOpacity>
       {data.map((e, index, array) => {
         const last = index + 1 === array.length;

@@ -109,7 +109,7 @@ export const updateUser = (req, res) => {
       const updatedList: string[] = [];
       if (req.body.username && user.username !== req.body.username) {
         User.findOne({ username: req.body.username }).exec((err, u) => {
-          if (u === null || u == undefined) {
+          if (u === null || u === undefined) {
             User.updateOne(
               { _id: req.userId },
               { username: req.body.username.toLowerCase() }

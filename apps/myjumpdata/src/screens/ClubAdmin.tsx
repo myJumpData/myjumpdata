@@ -183,17 +183,7 @@ export default function ClubAdminScreen() {
                             />
                           ) : (
                             <>
-                              {!club.coaches.some((u: any) => u._id === _id) ? (
-                                <MenuItem
-                                  icon={<HiUserAdd />}
-                                  name={"Make Coach"}
-                                  onClick={() => {
-                                    addCoachToClub(club._id, _id).then(() => {
-                                      onRefresh();
-                                    });
-                                  }}
-                                />
-                              ) : (
+                              {club.coaches.some((u: any) => u._id === _id) ? (
                                 <MenuItem
                                   icon={<HiUserRemove />}
                                   name={"Remove Coach Status"}
@@ -205,18 +195,18 @@ export default function ClubAdminScreen() {
                                     );
                                   }}
                                 />
-                              )}
-                              {!club.admins.some((u: any) => u._id === _id) ? (
+                              ) : (
                                 <MenuItem
                                   icon={<HiUserAdd />}
-                                  name={"Make Admin"}
+                                  name={"Make Coach"}
                                   onClick={() => {
-                                    addAdminToClub(club._id, _id).then(() => {
+                                    addCoachToClub(club._id, _id).then(() => {
                                       onRefresh();
                                     });
                                   }}
                                 />
-                              ) : (
+                              )}
+                              {club.admins.some((u: any) => u._id === _id) ? (
                                 <MenuItem
                                   icon={<HiUserRemove />}
                                   name={"Remove Admin Status"}
@@ -226,6 +216,16 @@ export default function ClubAdminScreen() {
                                         onRefresh();
                                       }
                                     );
+                                  }}
+                                />
+                              ) : (
+                                <MenuItem
+                                  icon={<HiUserAdd />}
+                                  name={"Make Admin"}
+                                  onClick={() => {
+                                    addAdminToClub(club._id, _id).then(() => {
+                                      onRefresh();
+                                    });
                                   }}
                                 />
                               )}

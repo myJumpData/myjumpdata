@@ -280,14 +280,14 @@ export default function FreestyleGroupScreen() {
                                   user={value}
                                   elementId={e.id}
                                   stateCoach={
-                                    !userSelect
-                                      ? undefined
-                                      : el?.stateCoach || false
+                                    userSelect
+                                      ? el?.stateCoach || false
+                                      : undefined
                                   }
                                   stateUser={
-                                    !userSelect
-                                      ? undefined
-                                      : el?.stateUser || false
+                                    userSelect
+                                      ? el?.stateUser || false
+                                      : undefined
                                   }
                                   onRefresh={getUserData}
                                 />

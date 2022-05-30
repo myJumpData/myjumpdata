@@ -57,7 +57,35 @@ export default function Wrapper({ children }: { children: ReactNode }) {
         },
       ];
     }
-    if (Object.keys(user).length !== 0) {
+    if (Object.keys(user).length === 0) {
+      if (isSmall) {
+        if (route === "login" || route === "home") {
+          action = {
+            name: t("common:nav_signup"),
+            to: "/register",
+          };
+        } else {
+          action = {
+            name: t("common:nav_login"),
+            to: "/login",
+          };
+        }
+      } else {
+        navigation = [
+          ...navigation,
+          {
+            name: t("common:nav_login"),
+            to: "/login",
+            current: route === "login",
+          },
+          {
+            name: t("common:nav_signup"),
+            to: "/register",
+            current: route === "signup",
+          },
+        ];
+      }
+    } else {
       if (!isSmall) {
         dropdown = [
           {
@@ -160,34 +188,6 @@ export default function Wrapper({ children }: { children: ReactNode }) {
       ];
       if (route === "profile") {
         action = { name: t("common:nav_settings"), to: "/settings" };
-      }
-    } else {
-      if (isSmall) {
-        if (route === "login" || route === "home") {
-          action = {
-            name: t("common:nav_signup"),
-            to: "/register",
-          };
-        } else {
-          action = {
-            name: t("common:nav_login"),
-            to: "/login",
-          };
-        }
-      } else {
-        navigation = [
-          ...navigation,
-          {
-            name: t("common:nav_login"),
-            to: "/login",
-            current: route === "login",
-          },
-          {
-            name: t("common:nav_signup"),
-            to: "/register",
-            current: route === "signup",
-          },
-        ];
       }
     }
     if (!isSmall && user?.roles?.includes("admin")) {

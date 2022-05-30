@@ -203,7 +203,7 @@ export default function SpeedDataOwnScreen({ navigation }) {
             ref={MusicBottomSheetRef}
             snapPoints={MusicSnapPoints}
           >
-            {musicSelect !== undefined ? (
+            {musicSelect === undefined ? null : (
               <>
                 <StyledText
                   style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
@@ -238,7 +238,7 @@ export default function SpeedDataOwnScreen({ navigation }) {
                   })}
                 </View>
               </>
-            ) : null}
+            )}
           </StyledBottomSheet>
         </>
       }

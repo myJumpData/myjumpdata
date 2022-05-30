@@ -285,7 +285,22 @@ export function updateFreestyleElementGroups(req, res) {
 }
 export function createFreestyleGroup(req, res) {
   const { key, parent } = req.body;
-  if (parent !== "") {
+  if (parent === "") {
+    const fs = new FreestyleDataGroup({
+      key,
+    });
+    fs.save((err) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(
+        res,
+        200,
+        "success.create.freestyle.group",
+        "Successfully created freestyle Group!"
+      );
+    });
+  } else {
     FreestyleDataGroup.findOne({ key: parent }).then((parentData) => {
       const fs = new FreestyleDataGroup({
         key,
@@ -302,21 +317,6 @@ export function createFreestyleGroup(req, res) {
           "Successfully created freestyle Group!"
         );
       });
-    });
-  } else {
-    const fs = new FreestyleDataGroup({
-      key,
-    });
-    fs.save((err) => {
-      if (err) {
-        return requestHandlerError(res, err);
-      }
-      return requestHandler(
-        res,
-        200,
-        "success.create.freestyle.group",
-        "Successfully created freestyle Group!"
-      );
     });
   }
 }

@@ -52,11 +52,10 @@ export default function App() {
 
   React.useEffect(() => {
     if (
-      user.token !== undefined &&
-      user.token !== null &&
-      user.active === true &&
-      Object.keys(user).length !== 0 &&
-      !user.checked
+      Object.keys(user).length > 0 &&
+      !user.checked &&
+      !user.token &&
+      user.active
     ) {
       bottomSheetRef.current?.snapToIndex(0);
     }
@@ -310,16 +309,27 @@ function MainTabScreen() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "groups") {
-            iconName = focused ? "people" : "people-outline";
-          } else if (route.name === "train") {
-            iconName = focused ? "body" : "body-outline";
-          } else if (route.name === "counter") {
-            iconName = focused ? "radio-button-on" : "radio-button-on-outline";
-          } else if (route.name === "player") {
-            iconName = focused ? "musical-notes" : "musical-notes-outline";
-          } else if (route.name === "profile") {
-            iconName = focused ? "person" : "person-outline";
+
+          switch (route.name) {
+            case "groups":
+              iconName = focused ? "people" : "people-outline";
+              break;
+            case "train":
+              iconName = focused ? "body" : "body-outline";
+              break;
+            case "counter":
+              iconName = focused
+                ? "radio-button-on"
+                : "radio-button-on-outline";
+              break;
+            case "player":
+              iconName = focused ? "musical-notes" : "musical-notes-outline";
+              break;
+            case "profile":
+              iconName = focused ? "person" : "person-outline";
+              break;
+            default:
+              iconName = "close";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;

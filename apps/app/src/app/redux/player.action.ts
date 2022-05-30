@@ -49,6 +49,7 @@ export async function onPressRepeatMode() {
 }
 
 export async function setRepeatMode(mode: "off" | "track" | "queue") {
+  let modeNew = mode;
   if (mode === "off") {
     await TrackPlayer.setRepeatMode(RepeatMode.Off);
   }
@@ -60,9 +61,9 @@ export async function setRepeatMode(mode: "off" | "track" | "queue") {
     if (q.length > 1) {
       await TrackPlayer.setRepeatMode(RepeatMode.Queue);
     } else {
-      mode = "off";
+      modeNew = "off";
       await TrackPlayer.setRepeatMode(RepeatMode.Off);
     }
   }
-  return store.dispatch({ type: "setRepeatMode", payload: mode });
+  return store.dispatch({ type: "setRepeatMode", payload: modeNew });
 }

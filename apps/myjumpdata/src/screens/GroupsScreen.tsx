@@ -114,7 +114,15 @@ export default function GroupsScreen() {
           {t<string>("common:nav_group")}
         </span>
       </div>
-      {club !== null ? (
+      {club === null ? (
+        <div className="flex flex-col">
+          <span className="mb-4 text-lg opacity-75">{t("club_notfound")}</span>
+          <span className="mb-4 text-lg opacity-75">
+            {t("club_notfound_apply")}
+          </span>
+          <a href="mailto:myjumpdata@gmail.com">myjumpdata@gmail.com</a>
+        </div>
+      ) : (
         <>
           <div className="flex flex-col space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0 md:grid-cols-3 lg:grid-cols-4">
             {groups?.map((group: any) => (
@@ -155,14 +163,6 @@ export default function GroupsScreen() {
             </>
           ) : null}
         </>
-      ) : (
-        <div className="flex flex-col">
-          <span className="mb-4 text-lg opacity-75">{t("club_notfound")}</span>
-          <span className="mb-4 text-lg opacity-75">
-            {t("club_notfound_apply")}
-          </span>
-          <a href="mailto:myjumpdata@gmail.com">myjumpdata@gmail.com</a>
-        </div>
       )}
       <LeaveOverlay />
     </>

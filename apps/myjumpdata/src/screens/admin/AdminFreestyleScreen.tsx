@@ -55,12 +55,12 @@ export default function AdminFreestyleScreen() {
           const newItem: any = {};
           const onClick = () => {
             if (item.back) {
-              navigate(
+              return navigate(
                 generatePath("/admin/freestyle/list/:path", { path: item.key })
               );
             }
             if (item.group) {
-              navigate(
+              return navigate(
                 generatePath("/admin/freestyle/list/:path", { path: item.key })
               );
             }
@@ -209,15 +209,15 @@ export default function AdminFreestyleScreen() {
       <AdminActionBar
         text={t("common:nav_freestyle")}
         actions={[
-          path !== ""
-            ? {
+          path === ""
+            ? null
+            : {
                 icon: FaPlus,
                 onClick: () => {
                   navigate(`/admin/freestyle/create/${path}`);
                   return;
                 },
-              }
-            : null,
+              },
           {
             icon: FaFolderPlus,
             onClick: () => {
@@ -260,7 +260,7 @@ export default function AdminFreestyleScreen() {
                 return;
               }
               createFreestyleGroup(
-                `${path !== "" ? `${path}_` : ""}${newFolder}`,
+                `${path === "" ? "" : `${path}_`}${newFolder}`,
                 path
               ).then(() => {
                 getData();

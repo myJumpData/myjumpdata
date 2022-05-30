@@ -129,29 +129,7 @@ export function signin(req, res) {
         );
       }
 
-      if (user.active !== true) {
-        const token = jwt.sign(
-          { id: user.id, email: user.email, timestamp: Date.now() },
-          JWT_SECRET
-        );
-        const url = `${API_URL}/verify/${token}`;
-        SendMail({
-          to: user.email,
-          subject: "Please Confirm your E-Mail-Adress",
-          html: `<a href="${url}">${url}</a>`,
-        })
-          .then(() => {
-            return requestHandler(
-              res,
-              403,
-              "wrong.field.active",
-              "Not Active Account. Confirm your E-Mail"
-            );
-          })
-          .catch((err) => {
-            return requestHandlerError(res, err);
-          });
-      } else {
+      if (user.active === true) {
         const token = jwt.sign({ id: user.id }, JWT_SECRET, {
           expiresIn: JWT_EXPIRATION,
         });
@@ -176,6 +154,28 @@ export function signin(req, res) {
             checked: user.checked,
           }
         );
+      } else {
+        const token = jwt.sign(
+          { id: user.id, email: user.email, timestamp: Date.now() },
+          JWT_SECRET
+        );
+        const url = `${API_URL}/verify/${token}`;
+        SendMail({
+          to: user.email,
+          subject: "Please Confirm your E-Mail-Adress",
+          html: `<a href="${url}">${url}</a>`,
+        })
+          .then(() => {
+            return requestHandler(
+              res,
+              403,
+              "wrong.field.active",
+              "Not Active Account. Confirm your E-Mail"
+            );
+          })
+          .catch((err) => {
+            return requestHandlerError(res, err);
+          });
       }
     });
 }

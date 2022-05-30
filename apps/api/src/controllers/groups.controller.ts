@@ -154,22 +154,7 @@ export function getGroups(req, res) {
 
 export function getClub(req, res) {
   const id = req.params.id;
-  if (!id) {
-    Club.findOne({
-      $or: [
-        { coaches: { $in: req.userId } },
-        { athletes: { $in: req.userId } },
-        { admins: { $in: req.userId } },
-      ],
-    })
-      .populate("coaches athletes admins", "-password")
-      .exec((err, club) => {
-        if (err) {
-          return requestHandlerError(res, err);
-        }
-        return requestHandler(res, 200, "", "", club);
-      });
-  } else {
+  if (id) {
     Club.findOne({
       id,
     })
@@ -229,6 +214,21 @@ export function getClub(req, res) {
             return c;
           })[0]
         );
+      });
+  } else {
+    Club.findOne({
+      $or: [
+        { coaches: { $in: req.userId } },
+        { athletes: { $in: req.userId } },
+        { admins: { $in: req.userId } },
+      ],
+    })
+      .populate("coaches athletes admins", "-password")
+      .exec((err, club) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(res, 200, "", "", club);
       });
   }
 }
