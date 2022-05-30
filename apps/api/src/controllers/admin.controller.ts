@@ -73,8 +73,22 @@ export function getTranslation(req, res) {
 export function updateTranslation(req, res) {
   const ids = req.body.ids;
   const data = req.body.data;
-  if (data.translation && data.translation === "") {
-    Translation.deleteMany({
+  if (ids.includes("create")) {
+    const t = new Translation({
+      language: data.language,
+      namespace: data.namespace,
+      translation: data.translation,
+      key: data.key,
+    });
+    return t.save((err) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "");
+    });
+  }
+  if (data.translation === "") {
+    return Translation.deleteMany({
       _id: { $in: ids.map((i) => new mongoose.Types.ObjectId(i)) },
     }).exec((err) => {
       if (err) {
@@ -83,7 +97,7 @@ export function updateTranslation(req, res) {
       return requestHandler(res, 200, "", "");
     });
   }
-  Translation.updateMany(
+  return Translation.updateMany(
     { _id: { $in: ids.map((i) => new mongoose.Types.ObjectId(i)) } },
     data
   ).exec((err) => {

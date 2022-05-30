@@ -7,6 +7,7 @@ export const getLocales = (req, res) => {
   Translation.find({
     namespace: { $in: ns },
     language: { $in: lng },
+    translation: { $ne: "" },
   }).exec((err, translations) => {
     if (err) {
       return requestHandlerError(res, err);

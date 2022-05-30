@@ -84,19 +84,27 @@ export default function AdminLocalizationUpdateScreen() {
               </span>
 
               <span className="w-full px-4 py-2">
-                {translations[lang]?.translation ? (
-                  <TextInputInline
-                    inputName={lang.toUpperCase()}
-                    value={translations[lang]?.translation}
-                    onSubmit={(value) => {
-                      updateLocalization([translations[lang]?.id], {
-                        translation: value,
-                      }).then(() => {
-                        getData();
-                      });
-                    }}
-                  />
-                ) : null}
+                <TextInputInline
+                  inputName={lang.toUpperCase()}
+                  value={translations[lang]?.translation}
+                  onSubmit={(value) => {
+                    updateLocalization(
+                      [translations[lang]?.id || "create"],
+                      translations[lang]?.id
+                        ? {
+                            translation: value,
+                          }
+                        : {
+                            language: lang,
+                            namespace: params.namespace,
+                            translation: value,
+                            key: params.key,
+                          }
+                    ).then(() => {
+                      getData();
+                    });
+                  }}
+                />
               </span>
             </div>
           );
