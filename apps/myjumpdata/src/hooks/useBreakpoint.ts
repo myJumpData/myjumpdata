@@ -33,7 +33,7 @@ const useBreakpoint = (): BreakpointType => {
     handleResize();
 
     if (windowSize.width) {
-      if (0 <= windowSize.width && windowSize.width < 480) {
+      if (windowSize.width < 480) {
         setBreakPoint(breakpoints[480]);
       }
       if (480 <= windowSize.width && windowSize.width < 640) {
@@ -48,7 +48,7 @@ const useBreakpoint = (): BreakpointType => {
       if (1024 <= windowSize.width && windowSize.width < 1280) {
         setBreakPoint(breakpoints[1280]);
       }
-      if (1280 <= windowSize.width && windowSize.width < 1536) {
+      if (1280 <= windowSize.width) {
         setBreakPoint(breakpoints[1536]);
       }
     }
