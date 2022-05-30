@@ -145,7 +145,8 @@ export default function SpeedDataScreen() {
             date={date}
           />
         </div>
-        {musicData[scoreDataType] &&
+        {pivot === "users" &&
+          musicData[scoreDataType] &&
           musicData[scoreDataType].tracks.length > 0 && (
             <Menu as="div" className="relative ml-2">
               <div className="inset-y-0 flex items-center ring-0">
@@ -295,6 +296,22 @@ export default function SpeedDataScreen() {
               id={user.id}
               name={type.name}
               score={highdata?.score || "0"}
+              music={
+                musicData[type.value] && musicData[type.value].tracks.length > 0
+                  ? TRACKS.filter((e) =>
+                      musicData[type.value].tracks.some((id) => id === e.id)
+                    ).map((t) => ({
+                      name: t.title,
+                      props: {
+                        onClick: async () => {
+                          await player.reset();
+                          await player.add([t]);
+                          await player.play();
+                        },
+                      },
+                    }))
+                  : undefined
+              }
               onSubmit={(e) => {
                 e.preventDefault();
                 const type2 = e.target.elements.id.value;
