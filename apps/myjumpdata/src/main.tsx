@@ -107,8 +107,13 @@ createRoot(document.getElementById("root") as Element).render(
                 //"Freestyle"
               }
               <Route path="/freestyle">
-                <Route path="own/" element={<FreestyleScreen />} />
+                <Route path="own" element={<FreestyleScreen />} />
+                <Route path="own/:freestyle" element={<FreestyleScreen />} />
                 <Route path="group/:id" element={<FreestyleGroupScreen />} />
+                <Route
+                  path="group/:id/:freestyle"
+                  element={<FreestyleGroupScreen />}
+                />
               </Route>
 
               {

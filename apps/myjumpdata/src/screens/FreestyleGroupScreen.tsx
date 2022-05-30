@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 import { Back, Element, Folder } from "../components/Freestyle";
 import { SelectInput } from "../components/Input";
-import { setFreestyle } from "../redux/freestyle.action";
 import { setRoute } from "../redux/route.action";
 import {
   getFreestyle,
@@ -45,7 +43,7 @@ export default function FreestyleGroupScreen() {
   const [userSelect, setUserSelect] = useState([]);
   const [userSelected, setUserSelected] = useState("");
 
-  const freestyle = useSelector((state: any) => state.freestyle);
+  const freestyle = params.freestyle || "";
 
   const [freestyleDataUser, setFreestyleDataUser] = useState<any[]>([]);
   const [freestyleDataUsers, setFreestyleDataUsers] = useState<any>({});
@@ -173,7 +171,9 @@ export default function FreestyleGroupScreen() {
       ) : null}
       <Breadcrumb
         data={freestyle ? freestyle.split("_") : []}
-        setState={setFreestyle}
+        setState={(e) => {
+          navigate("/freestyle/group/" + params.id + "/" + e);
+        }}
       />
 
       {(view === "auto" &&
@@ -199,14 +199,24 @@ export default function FreestyleGroupScreen() {
                 />
               );
             } else if (e.back) {
-              return <Back to={e.key} key="back" state={setFreestyle} />;
+              return (
+                <Back
+                  to={e.key}
+                  key="back"
+                  state={(e) => {
+                    navigate("/freestyle/group/" + params.id + "/" + e);
+                  }}
+                />
+              );
             } else {
               return (
                 <Folder
                   key={e.key}
                   set={e.set}
                   name={e.key}
-                  onClick={(el) => setFreestyle(el)}
+                  onClick={(e) => {
+                    navigate("/freestyle/group/" + params.id + "/" + e);
+                  }}
                 />
               );
             }
@@ -217,7 +227,9 @@ export default function FreestyleGroupScreen() {
           <Back
             to={folderData?.find((i) => i.back)?.key || ""}
             key="back"
-            state={setFreestyle}
+            state={(e) => {
+              navigate("/freestyle/group/" + params.id + "/" + e);
+            }}
           />
           <table>
             <tr className="border-b border-gray-500/50">
@@ -287,7 +299,7 @@ export default function FreestyleGroupScreen() {
                   <tr
                     className="cursor-pointer border-b border-gray-500/50"
                     onClick={() => {
-                      setFreestyle(e.key);
+                      navigate("/freestyle/group/" + params.id + "/" + e.key);
                     }}
                   >
                     <td className="flex cursor-pointer flex-col py-2">

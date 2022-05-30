@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 import { Back, Element, Folder } from "../components/Freestyle";
-import { setFreestyle } from "../redux/freestyle.action";
 import { setRoute } from "../redux/route.action";
 import {
   getFreestyle,
   getFreestyleDataOwn,
 } from "../service/freestyle.service";
 import { getClub } from "../service/groups.service";
+import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 type freestyle_folder_data = {
   id: string;
@@ -29,11 +29,14 @@ export default function FreestyleScreen() {
     AuthVerify();
   }, []);
 
-  const freestyle = useSelector((state: any) => state.freestyle);
+  const params = useParams();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const freestyle = params.freestyle || "";
 
   const [freestyleDataOwn, setFreestyleDataOwn] = useState<any[]>([]);
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
-  const { t } = useTranslation();
   const [club, setClub] = useState<any>();
 
   useEffect(() => {
@@ -72,7 +75,9 @@ export default function FreestyleScreen() {
       </div>
       <Breadcrumb
         data={freestyle ? freestyle.split("_") : []}
-        setState={setFreestyle}
+        setState={(e) => {
+          navigate("/freestyle/own/" + e);
+        }}
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -95,7 +100,15 @@ export default function FreestyleScreen() {
               />
             );
           } else if (e.back) {
-            return <Back to={e.key} key="back" state={setFreestyle} />;
+            return (
+              <Back
+                to={e.key}
+                key="back"
+                state={(e) => {
+                  navigate("/freestyle/own/" + e);
+                }}
+              />
+            );
           } else {
             if (!club && e.set) {
               return null;
@@ -108,7 +121,9 @@ export default function FreestyleScreen() {
                 key={e.key}
                 set={e.set}
                 name={e.key}
-                onClick={(el) => setFreestyle(el)}
+                onClick={(e) => {
+                  navigate("/freestyle/own/" + e);
+                }}
               />
             );
           }
