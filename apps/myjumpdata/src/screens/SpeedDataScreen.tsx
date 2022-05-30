@@ -25,6 +25,8 @@ import Confetti from "react-confetti";
 import { capitalize } from "../utils/capitalize";
 import fullname from "../utils/fullname";
 import { getUserSearch } from "../service/users.service";
+import { useSelector } from "react-redux";
+import { switchPivot } from "../redux/pivot.action";
 
 export default function SpeedDataScreen() {
   useEffect(() => {
@@ -46,10 +48,10 @@ export default function SpeedDataScreen() {
   const { width, height } = useWindowSize();
   const [modal, setModal] = useState<any>(null);
 
-  const [pivot, setPivot] = useState<"users" | "type">("users");
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState<any>(null);
   const [selectedUser, setSelectedUser] = useState("");
+  const pivot = useSelector((state: any) => state.pivot);
 
   useEffect(() => {
     getGroup(params.id as string).then((response: any) => {
@@ -199,14 +201,7 @@ export default function SpeedDataScreen() {
               </Transition>
             </Menu>
           )}
-        <span
-          onClick={() => {
-            if (pivot === "users") {
-              return setPivot("type");
-            }
-            return setPivot("users");
-          }}
-        >
+        <span onClick={switchPivot}>
           <IoIosGitCompare className="text-2xl" />
         </span>
       </div>
