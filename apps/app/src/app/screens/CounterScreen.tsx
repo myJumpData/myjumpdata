@@ -1,5 +1,5 @@
 import { StyledView } from "../components/StyledView";
-import { View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import { StyledShyText, StyledText } from "../components/StyledText";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -10,8 +10,13 @@ import { useSelector } from "react-redux";
 import fullname from "../utils/fullname";
 import ScoreDataService from "../services/scoredata.service";
 import { useTranslation } from "react-i18next";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import Wrapper from "../components/Wrapper";
+import BottomSheet from "@gorhom/bottom-sheet";
+import StyledBottomSheet from "../components/StyledBottomSheet";
+import { StyledTextInput } from "../components/StyledTextInput";
+import { StyledButton } from "../components/StyledButton";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import api from "../services/api";
 
 export default function CounterScreen({ navigation, route }) {
   const from = route.params?.from;
@@ -19,6 +24,15 @@ export default function CounterScreen({ navigation, route }) {
 
   const { t } = useTranslation();
   const user = useSelector((state: any) => state.user);
+
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => {
+    return [300];
+  }, []);
+  const isDarkMode = useColorScheme() === "dark";
+
+  const [newKey, setNewKey] = React.useState("");
+  const [newCode, setNewCode] = React.useState("");
 
   useEffect(() => {
     navigation.setOptions({
@@ -32,14 +46,67 @@ export default function CounterScreen({ navigation, route }) {
           >
             <StyledIcon name="Ionicons/refresh-outline" size={40} />
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{ paddingRight: 5 }}
+            onPress={() => {
+              if (newKey === "" && newCode === "") {
+                bottomSheetRef.current?.snapToIndex(0);
+              } else {
+                setNewKey("");
+                setNewCode("");
+              }
+            }}
+          >
+            <StyledIcon
+              name="Ionicons/radio"
+              size={40}
+              color={
+                newKey === "" && newCode === ""
+                  ? isDarkMode
+                    ? Colors.white
+                    : Colors.black
+                  : Colors.main
+              }
+            />
+          </TouchableOpacity>
         </View>
       ),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [newKey, newCode, isDarkMode, bottomSheetRef]);
+
+  React.useEffect(() => {
+    api
+      .post("/live/counter/set", {
+        key: newKey,
+        code: newCode,
+        count: count,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .then(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count, newCode, newKey]);
 
   return (
-    <Wrapper as={StyledView}>
+    <Wrapper
+      as={StyledView}
+      outside={
+        <StyledBottomSheet snapPoints={snapPoints} ref={bottomSheetRef}>
+          <StyledShyText>Key:</StyledShyText>
+          <StyledTextInput value={newKey} onChangeText={setNewKey} />
+          <StyledShyText>Code:</StyledShyText>
+          <StyledTextInput value={newCode} onChangeText={setNewCode} />
+          <View style={{ paddingTop: 20 }}>
+            <StyledButton
+              title="Connect"
+              onPress={() => {
+                bottomSheetRef.current?.close();
+              }}
+            />
+          </View>
+        </StyledBottomSheet>
+      }
+    >
       {from ? (
         <View style={{ flexDirection: "row", marginBottom: 10 }}>
           <View

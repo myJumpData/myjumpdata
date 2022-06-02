@@ -18,9 +18,53 @@ import Group from "./models/group.model";
 import { verifyGroupCoach } from "./middlewares/verifyGroupCoach";
 import mongoose from "mongoose";
 import readUserPicture from "./utils/readUserPicture";
+import { Server } from "socket.io";
+import Live from "./models/live.model";
 
 export default function createServer() {
   const app = express();
+
+  const io = new Server({});
+
+  io.on("connection", (socket) => {
+    console.log("+ " + socket.id);
+
+    socket.on("GET:LIVE:COUNTER", (...params) => {
+      const d = params[0];
+      if (d.key) {
+        Live.find({
+          key: { $exists: true, $eq: d.key },
+        }).exec((err, ddb) => {
+          const data = ddb[0];
+          if (!err && data) {
+            socket.join("LIVE:" + data._id);
+            socket.emit("LIVE:COUNTER", {
+              count: data.count,
+              id: data._id,
+              key: d.key,
+            });
+          }
+        });
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("- " + socket.id);
+    });
+  });
+
+  io.listen(3000);
+
+  Live.watch().on("change", (change) => {
+    if (change.updateDescription?.updatedFields.count !== undefined) {
+      const docId = String(change.documentKey?._id);
+      io.to("LIVE:" + docId).emit("LIVE:COUNTER", {
+        id: docId,
+        count: change.updateDescription?.updatedFields.count,
+      });
+    }
+  });
+
   app.use(
     cors({
       origin: APP_URL,
@@ -41,6 +85,56 @@ export default function createServer() {
       abortOnLimit: true,
     })
   );
+
+  app.post("/live/counter/create", [verifyToken], (req, res) => {
+    Live.find({ key: req.body.key }).exec((err, data) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      if (data.length > 0) {
+        return requestHandler(res, 409, "error.key.duplicate", "Duplicate Key");
+      }
+      const d = new Live({
+        type: "counter",
+        key: req.body.key,
+        code: req.body.code,
+        count: 0,
+      });
+      d.save(() => {
+        return requestHandler(res, 200, "", "");
+      });
+    });
+  });
+  app.post("/live/counter/get", [verifyToken], (req, res) => {
+    Live.find({ key: { $in: req.body.map((e) => e.key) } })
+      .select("-type -__v -code -count")
+      .exec((err, data) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "",
+          "",
+          data.map((e) => ({ id: e._id, key: e.key }))
+        );
+      });
+  });
+  app.post("/live/counter/set", [verifyToken], (req, res) => {
+    Live.findOneAndUpdate(
+      { key: req.body.key, code: req.body.code },
+      { count: req.body.count }
+    ).exec((err, data) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      if (!data) {
+        return requestHandler(res, 404, "error.key.notfound", "Key not found");
+      }
+      return requestHandler(res, 200, "", "", req.body);
+    });
+  });
 
   app.post("/delete/track/freestyle", [verifyToken], (req, res) => {
     const id = req.body.id;

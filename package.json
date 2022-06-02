@@ -102,6 +102,8 @@
     "redux-persist-sensitive-storage": "^1.0.0",
     "regenerator-runtime": "0.13.9",
     "sass": "^1.51.0",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
     "tailwindcss": "^3.0.23",
     "tslib": "^2.3.1",
     "uuid": "^8.3.2"

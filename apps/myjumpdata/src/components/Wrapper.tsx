@@ -438,7 +438,12 @@ export default function Wrapper({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen flex-col overflow-x-hidden bg-gray-100 pb-12 dark:bg-gray-900">
+    <div
+      className={classNames(
+        "flex min-h-screen flex-col overflow-x-hidden bg-gray-100 dark:bg-gray-900",
+        route === "live" ? "" : "pb-12"
+      )}
+    >
       <Player />
       <Navbar
         bottom={getNavData().bottom}
@@ -457,30 +462,32 @@ export default function Wrapper({ children }: { children: ReactNode }) {
           </div>
         </div>
       </div>
-      <FooterNav
-        social={[
-          {
-            link: "https://instagram.com/myJumpData",
-            icon: <FaInstagram />,
-            name: "Instagram",
-          },
-        ]}
-        links={[
-          {
-            heading: t("common:nav_trust_legal"),
-            links: [
-              {
-                name: t("common:nav_terms"),
-                to: "/terms",
-              },
-              {
-                name: t("common:nav_legal"),
-                to: "/legal",
-              },
-            ],
-          },
-        ]}
-      />
+      {route === "live" ? null : (
+        <FooterNav
+          social={[
+            {
+              link: "https://instagram.com/myJumpData",
+              icon: <FaInstagram />,
+              name: "Instagram",
+            },
+          ]}
+          links={[
+            {
+              heading: t("common:nav_trust_legal"),
+              links: [
+                {
+                  name: t("common:nav_terms"),
+                  to: "/terms",
+                },
+                {
+                  name: t("common:nav_legal"),
+                  to: "/legal",
+                },
+              ],
+            },
+          ]}
+        />
+      )}
     </div>
   );
 }
