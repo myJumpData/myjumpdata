@@ -24,7 +24,9 @@ import Live from "./models/live.model";
 export default function createServer() {
   const app = express();
 
-  const io = new Server({});
+  const io = new Server({
+    transports: ["websocket"],
+  });
 
   io.on("connection", (socket) => {
     console.log("+ " + socket.id);
