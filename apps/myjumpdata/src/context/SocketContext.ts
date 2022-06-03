@@ -7,7 +7,6 @@ export const socket = io(
     : "https://socket.myjumpdata.fediv.me",
   {
     transports: ["websocket"],
-    secure: true,
   }
 );
 

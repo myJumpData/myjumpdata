@@ -1,6 +1,17 @@
 import cors from "cors";
+import crypto from "crypto";
 import express from "express";
+import fileUpload from "express-fileupload";
+import mongoose from "mongoose";
+import path from "path";
+import { Server } from "socket.io";
 import { APP_URL } from "./consts/host";
+import verifyToken from "./middlewares/authJwt";
+import { verifyGroupCoach } from "./middlewares/verifyGroupCoach";
+import Group from "./models/group.model";
+import Live from "./models/live.model";
+import User from "./models/user.model";
+import { requestHandler, requestHandlerError } from "./requestHandler";
 import AdminRoutes from "./routes/admin.routes";
 import FreestyleRoutes from "./routes/freestyle.routes";
 import GroupsRoutes from "./routes/groups.routes";
@@ -8,24 +19,17 @@ import LocalesRoutes from "./routes/locales.routes";
 import ScoredataRoutes from "./routes/scoredata.routes";
 import UserRoutes from "./routes/user.routes";
 import UsersRoutes from "./routes/users.routes";
-import fileUpload from "express-fileupload";
-import path from "path";
-import crypto from "crypto";
-import verifyToken from "./middlewares/authJwt";
-import User from "./models/user.model";
-import { requestHandler, requestHandlerError } from "./requestHandler";
-import Group from "./models/group.model";
-import { verifyGroupCoach } from "./middlewares/verifyGroupCoach";
-import mongoose from "mongoose";
 import readUserPicture from "./utils/readUserPicture";
-import { Server } from "socket.io";
-import Live from "./models/live.model";
 
 export default function createServer() {
   const app = express();
 
   const io = new Server({
     transports: ["websocket"],
+    cors: {
+      origin: APP_URL,
+      methods: ['GET','POST']
+    },
   });
 
   io.on("connection", (socket) => {
