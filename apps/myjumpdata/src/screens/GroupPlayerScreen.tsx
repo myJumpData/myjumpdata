@@ -1,10 +1,10 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import AuthVerify from "../common/AuthVerify";
 import { setRoute } from "../redux/route.action";
 import { getGroup } from "../service/groups.service";
-import * as React from "react";
 import api from "../service/api";
 import getApi from "../utils/getApi";
 import { capitalize } from "../utils/capitalize";
@@ -28,6 +28,7 @@ export default function GroupPlayerScreen() {
 
   const [freestyleTracks, setFreestyleTracks] = useState([]);
   const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [users, setUsers] = useState([]);
   const [userSelect, setUserSelect] = useState([]);
   const [userSelected, setUserSelected] = useState("");
   const [del, setDel] = useState(false);
@@ -57,6 +58,14 @@ export default function GroupPlayerScreen() {
   };
 
   useEffect(() => {
+    const filter: any = users.filter(
+      (x: any) => !freestyleTracks.some((e: any) => e.artist === x.name)
+    );
+    setUserSelect(filter);
+    setUserSelected(filter[0].value);
+  }, [freestyleTracks, users]);
+
+  useEffect(() => {
     getFreestyleTracks();
     getGroup(params.id as string).then((response: any) => {
       setGroupName(response.data?.name);
@@ -66,11 +75,11 @@ export default function GroupPlayerScreen() {
           value: e.id,
         };
       });
-      setUserSelect(tmp);
+      setUsers(tmp);
       setUserSelected(tmp[0].value);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [params.id]);
 
   return (
     <>
