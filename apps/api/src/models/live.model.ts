@@ -10,7 +10,7 @@ const Live = mongoose.model(
       count: Number,
       expireAt: {
         type: Date,
-        default: Date.now,
+        default: new Date(new Date().valueOf() + 1000 * 60 * 60 * 24 * 7),
         expires: 60 * 60 * 24 * 7,
       },
     },
