@@ -5,7 +5,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { borderRadius, Colors } from "../Constants";
 import StyledIcon from "../components/StyledIcon";
-import Player from "../components/Player";
 import { useSelector } from "react-redux";
 import fullname from "../utils/fullname";
 import ScoreDataService from "../services/scoredata.service";
@@ -181,7 +180,20 @@ export default function CounterScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
       ) : null}
-      <Player />
+      {newKey === "" ? null : (
+        <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              backgroundColor: Colors.grey,
+              borderRadius: borderRadius,
+              paddingVertical: 4,
+              paddingHorizontal: 8,
+            }}
+          >
+            <StyledText>{newKey}</StyledText>
+          </View>
+        </View>
+      )}
       <View
         style={{
           alignItems: "flex-end",
