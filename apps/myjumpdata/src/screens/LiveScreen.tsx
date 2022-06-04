@@ -19,9 +19,9 @@ export default function LiveScreen() {
 
   const [searchParams, setSearchParams] = useSearchParams({
     q: "",
+    cols: "2",
   } as any);
 
-  const [cols, setCols] = useState(2);
   const [ids, setIds] = useState<any>(null);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function LiveScreen() {
         socket.off("connect");
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dataKey, cols]);
+    }, [dataKey]);
 
     useEffect(() => {
       socket.on("LIVE:COUNTER", (...params) => {
@@ -124,8 +124,13 @@ export default function LiveScreen() {
                       { name: "11", value: 11 },
                       { name: "12", value: 12 },
                     ]}
-                    current={cols}
-                    stateChange={setCols}
+                    current={Number(searchParams.get("cols") || "2")}
+                    stateChange={(e) => {
+                      setSearchParams({
+                        q: searchParams.get("q") || "",
+                        cols: e,
+                      });
+                    }}
                   />
                 </div>
                 <div className="pb-8">
@@ -136,6 +141,7 @@ export default function LiveScreen() {
                     onSubmit={(e) => {
                       setSearchParams({
                         q: btoa(e),
+                        cols: searchParams.get("cols") || "2",
                       });
                     }}
                   />
@@ -165,6 +171,7 @@ export default function LiveScreen() {
                                   ]),
                                 ].join("+")
                               ),
+                              cols: searchParams.get("cols") || "2",
                             });
                             close();
                           }
@@ -186,18 +193,18 @@ export default function LiveScreen() {
       <div
         className={classNames(
           "grid gap-4 pb-16",
-          cols === 1 ? "grid-cols-1" : "",
-          cols === 2 ? "grid-cols-2" : "",
-          cols === 3 ? "grid-cols-3" : "",
-          cols === 4 ? "grid-cols-4" : "",
-          cols === 5 ? "grid-cols-5" : "",
-          cols === 6 ? "grid-cols-6" : "",
-          cols === 7 ? "grid-cols-7" : "",
-          cols === 8 ? "grid-cols-8" : "",
-          cols === 9 ? "grid-cols-9" : "",
-          cols === 10 ? "grid-cols-10" : "",
-          cols === 11 ? "grid-cols-11" : "",
-          cols === 12 ? "grid-cols-12" : ""
+          Number(searchParams.get("cols") || "2") === 1 ? "grid-cols-1" : "",
+          Number(searchParams.get("cols") || "2") === 2 ? "grid-cols-2" : "",
+          Number(searchParams.get("cols") || "2") === 3 ? "grid-cols-3" : "",
+          Number(searchParams.get("cols") || "2") === 4 ? "grid-cols-4" : "",
+          Number(searchParams.get("cols") || "2") === 5 ? "grid-cols-5" : "",
+          Number(searchParams.get("cols") || "2") === 6 ? "grid-cols-6" : "",
+          Number(searchParams.get("cols") || "2") === 7 ? "grid-cols-7" : "",
+          Number(searchParams.get("cols") || "2") === 8 ? "grid-cols-8" : "",
+          Number(searchParams.get("cols") || "2") === 9 ? "grid-cols-9" : "",
+          Number(searchParams.get("cols") || "2") === 10 ? "grid-cols-10" : "",
+          Number(searchParams.get("cols") || "2") === 11 ? "grid-cols-11" : "",
+          Number(searchParams.get("cols") || "2") === 12 ? "grid-cols-12" : ""
         )}
       >
         {ids?.map((d, index) => {
