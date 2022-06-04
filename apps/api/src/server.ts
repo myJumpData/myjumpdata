@@ -28,7 +28,7 @@ export default function createServer() {
     transports: ["websocket"],
     cors: {
       origin: APP_URL,
-      methods: ['GET','POST']
+      methods: ["GET", "POST"],
     },
   });
 
@@ -130,7 +130,10 @@ export default function createServer() {
   app.post("/live/counter/set", [verifyToken], (req, res) => {
     Live.findOneAndUpdate(
       { key: req.body.key, code: req.body.code },
-      { count: req.body.count }
+      {
+        count: req.body.count,
+        expireAt: new Date(new Date().valueOf() + 60 * 60 * 24 * 7),
+      }
     ).exec((err, data) => {
       if (err) {
         return requestHandlerError(res, err);
