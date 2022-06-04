@@ -148,7 +148,14 @@ export default function LiveScreen() {
                           if (res.status === 200) {
                             setSearchParams({
                               q: btoa(
-                                atob(searchParams.get("q") || "") + "+" + key
+                                [
+                                  ...new Set([
+                                    ...atob(searchParams.get("q") || "").split(
+                                      "+"
+                                    ),
+                                    key,
+                                  ]),
+                                ].join("+")
                               ),
                             });
                             close();
@@ -170,7 +177,7 @@ export default function LiveScreen() {
       </Disclosure>
       <div
         className={classNames(
-          "grid gap-4",
+          "grid gap-4 pb-16",
           cols === 1 ? "grid-cols-1" : "",
           cols === 2 ? "grid-cols-2" : "",
           cols === 3 ? "grid-cols-3" : "",
