@@ -51,6 +51,14 @@ export default function LiveScreen() {
       socket.emit("GET:LIVE:COUNTER", {
         key: dataKey,
       });
+      socket.on("connect", () => {
+        socket.emit("GET:LIVE:COUNTER", {
+          key: dataKey,
+        });
+      });
+      return () => {
+        socket.off("connect");
+      };
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataKey, cols]);
 
