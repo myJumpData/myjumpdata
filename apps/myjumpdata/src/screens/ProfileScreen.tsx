@@ -51,24 +51,35 @@ export default function ProfileScreen() {
         </span>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {user?.highdata?.map(
-            (score: { type: string; score: number; scoreOwn: number }) => (
-              <div
-                className="flex w-full items-center justify-between space-x-4 rounded-lg bg-gray-200 px-4 py-2 shadow dark:bg-gray-800"
-                key={score.type}
-              >
-                <span className="w-full text-base font-bold">{score.type}</span>
-                <div className="flex flex-col whitespace-nowrap text-sm">
-                  <div className="flex justify-between space-x-2">
-                    <span>{t<string>("common:nav_group")}</span>
-                    <span>{score.score}</span>
-                  </div>
-                  <div className="flex justify-between space-x-2">
-                    <span>{t<string>("common:own")}</span>
-                    <span>{score.scoreOwn}</span>
+            (score: { type: string; score: number; scoreOwn: number }) => {
+              if (!score.score && !score.scoreOwn) {
+                return null;
+              }
+              return (
+                <div
+                  className="flex w-full items-center justify-between space-x-4 rounded-lg bg-gray-200 px-4 py-2 shadow dark:bg-gray-800"
+                  key={score.type}
+                >
+                  <span className="w-full text-base font-bold">
+                    {score.type}
+                  </span>
+                  <div className="flex flex-col whitespace-nowrap text-sm">
+                    {score.score ? (
+                      <div className="flex justify-between space-x-2">
+                        <span>{t<string>("common:nav_group")}</span>
+                        <span>{score.score}</span>
+                      </div>
+                    ) : null}
+                    {score.scoreOwn ? (
+                      <div className="flex justify-between space-x-2">
+                        <span>{t<string>("common:own")}</span>
+                        <span>{score.scoreOwn}</span>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
-              </div>
-            )
+              );
+            }
           )}
         </div>
       </div>
