@@ -93,73 +93,78 @@ export default function LiveScreen() {
           leaveTo="transform scale-95 opacity-0"
         >
           <Disclosure.Panel className="rounded-lg bg-gray-500/25 p-4">
-            <div className="flex items-center space-x-2">
-              <IoSettings />
-              <span className="font-bold">Settings</span>
-            </div>
-            <div className="pb-8">
-              <span className="text-sm opacity-75">Cols:</span>
-              <SelectInput
-                options={[
-                  { name: "1", value: 1 },
-                  { name: "2", value: 2 },
-                  { name: "3", value: 3 },
-                  { name: "4", value: 4 },
-                  { name: "5", value: 5 },
-                  { name: "6", value: 6 },
-                  { name: "7", value: 7 },
-                  { name: "8", value: 8 },
-                  { name: "9", value: 9 },
-                  { name: "10", value: 10 },
-                  { name: "11", value: 11 },
-                  { name: "12", value: 12 },
-                ]}
-                current={cols}
-                stateChange={setCols}
-              />
-            </div>
-            <div className="pb-8">
-              <span className="text-sm opacity-75">Connection String:</span>
-              <TextInputInline
-                value={atob(searchParams.get("q") || "")}
-                inputName={"q"}
-                onSubmit={(e) => {
-                  setSearchParams({
-                    q: btoa(e),
-                  });
-                }}
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <IoAdd />
-              <span className="font-bold">Create</span>
-            </div>
-            <div>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const key = e.target["key"].value;
-                  const code = e.target["code"].value;
-                  api
-                    .post("/live/counter/create", { key, code })
-                    .then((res: any) => {
-                      if (res.status === 200) {
-                        setSearchParams({
-                          q: btoa(
-                            atob(searchParams.get("q") || "") + "+" + key
-                          ),
-                        });
-                      }
-                    });
-                }}
-              >
-                <div className="flex flex-col space-x-0 sm:flex-row sm:space-x-2">
-                  <TextInput type="text" name="key" inputName="key" />
-                  <TextInput type="text" name="code" inputName="code" />
+            {({ close }) => (
+              <>
+                <div className="flex items-center space-x-2">
+                  <IoSettings />
+                  <span className="font-bold">Settings</span>
                 </div>
-                <Button name="Submit" design="success" type="submit" />
-              </form>
-            </div>
+                <div className="pb-8">
+                  <span className="text-sm opacity-75">Cols:</span>
+                  <SelectInput
+                    options={[
+                      { name: "1", value: 1 },
+                      { name: "2", value: 2 },
+                      { name: "3", value: 3 },
+                      { name: "4", value: 4 },
+                      { name: "5", value: 5 },
+                      { name: "6", value: 6 },
+                      { name: "7", value: 7 },
+                      { name: "8", value: 8 },
+                      { name: "9", value: 9 },
+                      { name: "10", value: 10 },
+                      { name: "11", value: 11 },
+                      { name: "12", value: 12 },
+                    ]}
+                    current={cols}
+                    stateChange={setCols}
+                  />
+                </div>
+                <div className="pb-8">
+                  <span className="text-sm opacity-75">Connection String:</span>
+                  <TextInputInline
+                    value={atob(searchParams.get("q") || "")}
+                    inputName={"q"}
+                    onSubmit={(e) => {
+                      setSearchParams({
+                        q: btoa(e),
+                      });
+                    }}
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <IoAdd />
+                  <span className="font-bold">Create</span>
+                </div>
+                <div>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const key = e.target["key"].value;
+                      const code = e.target["code"].value;
+                      api
+                        .post("/live/counter/create", { key, code })
+                        .then((res: any) => {
+                          if (res.status === 200) {
+                            setSearchParams({
+                              q: btoa(
+                                atob(searchParams.get("q") || "") + "+" + key
+                              ),
+                            });
+                            close();
+                          }
+                        });
+                    }}
+                  >
+                    <div className="flex flex-col space-x-0 sm:flex-row sm:space-x-2">
+                      <TextInput type="text" name="key" inputName="key" />
+                      <TextInput type="text" name="code" inputName="code" />
+                    </div>
+                    <Button name="Submit" design="success" type="submit" />
+                  </form>
+                </div>
+              </>
+            )}
           </Disclosure.Panel>
         </Transition>
       </Disclosure>
