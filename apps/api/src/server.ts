@@ -105,6 +105,7 @@ export default function createServer() {
         key: req.body.key,
         code: req.body.code,
         count: 0,
+        expireAt: new Date(new Date().valueOf() + 1000 * 60 * 60 * 24 * 7),
       });
       d.save(() => {
         return requestHandler(res, 200, "", "");
@@ -132,7 +133,7 @@ export default function createServer() {
       { key: req.body.key, code: req.body.code },
       {
         count: req.body.count,
-        expireAt: new Date(new Date().valueOf() + 60 * 60 * 24 * 7),
+        expireAt: new Date(new Date().valueOf() + 1000 * 60 * 60 * 24 * 7),
       }
     ).exec((err, data) => {
       if (err) {

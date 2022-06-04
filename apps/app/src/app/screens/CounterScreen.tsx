@@ -180,7 +180,7 @@ export default function CounterScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
       ) : null}
-      {newKey === "" ? null : (
+      {newKey === "" || newCode === "" ? null : (
         <View style={{ flexDirection: "row" }}>
           <View
             style={{
