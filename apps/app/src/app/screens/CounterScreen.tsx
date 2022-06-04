@@ -49,7 +49,7 @@ export default function CounterScreen({ navigation, route }) {
           <TouchableOpacity
             style={{ paddingRight: 5 }}
             onPress={() => {
-              if (newKey === "" && newCode === "") {
+              if (newKey === "" || newCode === "") {
                 bottomSheetRef.current?.snapToIndex(0);
               } else {
                 setNewKey("");
@@ -61,7 +61,7 @@ export default function CounterScreen({ navigation, route }) {
               name="Ionicons/radio"
               size={40}
               color={
-                newKey === "" && newCode === ""
+                newKey === "" || newCode === ""
                   ? isDarkMode
                     ? Colors.white
                     : Colors.black
@@ -76,14 +76,16 @@ export default function CounterScreen({ navigation, route }) {
   }, [newKey, newCode, isDarkMode, bottomSheetRef]);
 
   React.useEffect(() => {
-    api
-      .post("/live/counter/set", {
-        key: newKey,
-        code: newCode,
-        count: count,
-      })
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .then(() => {});
+    if (newKey !== "" && newCode !== "") {
+      api
+        .post("/live/counter/set", {
+          key: newKey,
+          code: newCode,
+          count: count,
+        })
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .then(() => {});
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, newCode, newKey]);
 
@@ -93,9 +95,17 @@ export default function CounterScreen({ navigation, route }) {
       outside={
         <StyledBottomSheet snapPoints={snapPoints} ref={bottomSheetRef}>
           <StyledShyText>Key:</StyledShyText>
-          <StyledTextInput value={newKey} onChangeText={setNewKey} />
+          <StyledTextInput
+            value={newKey}
+            onChangeText={setNewKey}
+            autoCapitalize="none"
+          />
           <StyledShyText>Code:</StyledShyText>
-          <StyledTextInput value={newCode} onChangeText={setNewCode} />
+          <StyledTextInput
+            value={newCode}
+            onChangeText={setNewCode}
+            autoCapitalize="none"
+          />
           <View style={{ paddingTop: 20 }}>
             <StyledButton
               title="Connect"
