@@ -1,6 +1,4 @@
-import { Track } from "react-native-track-player";
-
-const TRACKS: Track[] = [
+const TRACKS = [
   {
     id: "1",
     url: "https://www.dtb.de/fileadmin/user_upload/dtb.de/Sportarten/Rope_Skipping/Speed-Tracks/2016-SRSS_-_30s.mp3",
@@ -93,13 +91,18 @@ const TRACKS: Track[] = [
   },
 ];
 
-export const musicData = {};
-musicData["616de41ee22a705079dcc6be"] = { tracks: ["1", "6", "9", "13"] }; // 30s Speed
-musicData["616de41ee22a705079dcc6bf"] = { tracks: ["5", "11"] }; // 30s DU
-musicData["616de41ee22a705079dcc6c0"] = { tracks: ["3"] }; // 2m Speed
-musicData["616de41ee22a705079dcc6c1"] = { tracks: ["4", "12"] }; // 3m Speed
-musicData["61733e79e7141256a47e0d8b"] = { tracks: ["10"] }; // TU
-musicData["61954f50f3c9237faf68d81d"] = { tracks: [] }; // 30s Crosses
-musicData["620d44e9a60b7100b71abd07"] = { tracks: ["2"] }; // 1m Speed
+export const musicData = {
+  "616de41ee22a705079dcc6be": { tracks: ["1", "6", "9", "13"] }, // 30s Speed
+  "616de41ee22a705079dcc6bf": { tracks: ["5", "11"] }, // 30s DU
+  "616de41ee22a705079dcc6c0": { tracks: ["3"] }, // 2m Speed
+  "616de41ee22a705079dcc6c1": { tracks: ["4", "12"] }, // 3m Speed
+  "61733e79e7141256a47e0d8b": { tracks: ["10"] }, // TU
+  "61954f50f3c9237faf68d81d": { tracks: [] }, // 30s Crosses
+  "620d44e9a60b7100b71abd07": { tracks: ["2"] }, // 1m Speed
+  "629ceefbc0f39493314b458a": { tracks: ["6", "13"] }, // 4x30s Speed
+  "629cef10c0f39493314b458c": { tracks: ["11"] }, // 2x30s Double Under
+  "629cef2fc0f39493314b458e": { tracks: ["14"] }, // 4x30s Double Dutch Speed
+  "629cef44c0f39493314b4590": { tracks: ["15"] }, // 1x1m Double Dutch Speed
+};
 
 export default TRACKS;

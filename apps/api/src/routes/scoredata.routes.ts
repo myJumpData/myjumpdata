@@ -7,6 +7,7 @@ import {
   getScoreDataTypesTeam,
   resetScoreData,
   resetScoreDataOwn,
+  resetScoreDataTeam,
   saveScoreData,
   saveScoreDataOwn,
   saveScoreDataTeam,
@@ -60,5 +61,10 @@ export default function ScoredataRoutes(app: Express) {
     "/scoredata/team/:id",
     [verifyToken, verifyTeamCoach],
     getScoreDataHighTeam
+  );
+  app.post(
+    "/scoredata/team/:id/reset",
+    [verifyToken, verifyTeamCoach],
+    resetScoreDataTeam
   );
 }

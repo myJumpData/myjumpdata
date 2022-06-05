@@ -304,3 +304,16 @@ export function getScoreDataHighTeam(req, res) {
       return requestHandlerError(res, err);
     });
 }
+
+export function resetScoreDataTeam(req, res) {
+  ScoreDataRecordTeam.deleteMany({
+    team: req.params.id,
+    type: req.body.type,
+    score: { $gte: req.body.score },
+  }).exec((err, data) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    return requestHandler(res, 200, "", "", data);
+  });
+}

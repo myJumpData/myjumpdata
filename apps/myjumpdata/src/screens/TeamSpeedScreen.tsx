@@ -145,11 +145,9 @@ export default function TeamSpeedScreen() {
                 name: t("scoredata_dropdown_reset"),
                 props: {
                   onClick: () => {
-                    /*setShowResetDialog({
-                        type: type,
-                        user: user.id,
-                        username: capitalize(fullname(user)),
-                      });*/
+                    setShowResetDialog({
+                      type: data.type,
+                    });
                   },
                 },
               },
@@ -175,7 +173,7 @@ export default function TeamSpeedScreen() {
           <span className="text-xl font-bold">
             {t<string>("scoredata_reset_title") +
               " | " +
-              showResetDialog?.username}
+              showResetDialog?.type.name}
           </span>
           <span>{t<string>("scoredata_reset_text")}</span>
           <span className="font-bold">
@@ -184,13 +182,15 @@ export default function TeamSpeedScreen() {
           <form
             onSubmit={(e: any) => {
               e.preventDefault();
-              /*resetScoreData(
-                showResetDialog?.user,
-                scoreDataType,
-                e.target.elements.score.value
-              ).then(() => {
-                setShowResetDialog(undefined);
-              });*/
+              api
+                .post(`/scoredata/team/${params.id}/reset`, {
+                  type: showResetDialog?.type._id,
+                  score: e.target.elements.score.value,
+                })
+                .then(() => {
+                  getData();
+                  setShowResetDialog(undefined);
+                });
             }}
           >
             <input type="hidden" name="id" value={showResetDialog?.type._id} />

@@ -25,6 +25,8 @@ import { StyledView } from "../components/StyledView";
 import ConfettiCannon from "react-native-confetti-cannon";
 import TeamService from "../services/team.service";
 import api from "../services/api";
+import { useTranslation } from "react-i18next";
+import { StyledTextInput } from "../components/StyledTextInput";
 
 export default function TeamSpeedScreen({ route, navigation }) {
   const { id } = route.params;
@@ -45,6 +47,7 @@ export default function TeamSpeedScreen({ route, navigation }) {
   const [music, setMusic] = useState<any>(null);
   const ConfettiRef = React.useRef<any>(null);
   const [scoreDataRecords, setScoreDataRecords] = React.useState<any>([]);
+  const [showResetDialog, setShowResetDialog] = React.useState<any>();
 
   React.useEffect(() => {
     getData();
@@ -58,6 +61,7 @@ export default function TeamSpeedScreen({ route, navigation }) {
     api.get("/scoredata/team/" + id).then((response: any) => {
       setScoreDataRecords(response.data);
     });
+    setRefreshing(false);
   };
 
   React.useEffect(() => {
@@ -72,6 +76,8 @@ export default function TeamSpeedScreen({ route, navigation }) {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const { t } = useTranslation();
 
   return (
     <Wrapper
@@ -165,7 +171,7 @@ export default function TeamSpeedScreen({ route, navigation }) {
             ref={ResetBottomSheetRef}
             snapPoints={ResetSnapPoints}
           >
-            {/*currentUser ? (
+            {showResetDialog ? (
               <>
                 <StyledText
                   style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
@@ -175,7 +181,7 @@ export default function TeamSpeedScreen({ route, navigation }) {
                 <StyledText
                   style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
                 >
-                  {teamName}
+                  {showResetDialog.type.name}
                 </StyledText>
                 <StyledText style={{ marginBottom: 8 }}>
                   {t("scoredata_reset_text")}
@@ -187,19 +193,21 @@ export default function TeamSpeedScreen({ route, navigation }) {
                   style={{ marginBottom: 8 }}
                   keyboardType="numeric"
                   onSubmitEditing={({ nativeEvent, target }) => {
-                    ScoreDataService.resetScoreData(
-                      currentUser._id,
-                      scoredatatype,
-                      nativeEvent.text
-                    ).then(() => {
-                      ResetBottomSheetRef.current?.close();
-                      getScoreDataHigh(id, scoredatatype);
-                    });
-                    target.clear();
+                    api
+                      .post(`/scoredata/team/${id}/reset`, {
+                        type: showResetDialog?.type._id,
+                        score: Number(nativeEvent.text),
+                      })
+                      .then(() => {
+                        target.clear();
+                        getData();
+                        ResetBottomSheetRef.current?.close();
+                        setShowResetDialog(undefined);
+                      });
                   }}
                 />
               </>
-            ) : null*/}
+            ) : null}
           </StyledBottomSheet>
           <StyledBottomSheet
             ref={MusicBottomSheetRef}
@@ -294,8 +302,10 @@ export default function TeamSpeedScreen({ route, navigation }) {
                 target.clear();
               }}
               onReset={() => {
-                /*setCurrentUser(users.find((t: any) => t.id === selectedUser));
-                ResetBottomSheetRef.current?.snapToIndex(0);*/
+                setShowResetDialog({
+                  type: data.type,
+                });
+                ResetBottomSheetRef.current?.snapToIndex(0);
               }}
               counter={
                 <TouchableOpacity
