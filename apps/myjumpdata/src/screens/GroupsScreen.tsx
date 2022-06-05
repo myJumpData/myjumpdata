@@ -14,6 +14,7 @@ import {
 } from "../service/groups.service";
 import { HiCog } from "react-icons/hi";
 import { IoIosLogOut } from "react-icons/io";
+import { createTeam, getTeams } from "../service/team.service";
 
 export default function GroupsScreen() {
   useEffect(() => {
@@ -25,7 +26,9 @@ export default function GroupsScreen() {
   const { t } = useTranslation();
 
   const [groups, setGroups] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [groupName, setGroupName] = useState("");
+  const [teamName, setTeamName] = useState("");
   const [club, setClub] = useState<any>();
 
   const [leave, setLeave] = useState(false);
@@ -41,12 +44,21 @@ export default function GroupsScreen() {
     getGroups().then((response: any) => {
       setGroups(response.data);
     });
+    getTeams().then((response: any) => {
+      setTeams(response.data);
+    });
   }
 
   function handleCreateGroup() {
     createGroup(groupName.trim(), club?._id).then(() => {
       getGroupsFN();
       setGroupName("");
+    });
+  }
+  function handleCreateTeam() {
+    createTeam(teamName.trim(), club?._id).then(() => {
+      getGroupsFN();
+      setTeamName("");
     });
   }
 
@@ -157,6 +169,53 @@ export default function GroupsScreen() {
                 <Button
                   name={t("common:create_group")}
                   onClick={handleCreateGroup}
+                  design="success"
+                />
+              </div>
+            </>
+          ) : null}
+        </>
+      )}
+      <div className="w-full space-y-2">
+        <span className="text-xl font-bold">
+          {t<string>("common:nav_team")}
+        </span>
+      </div>
+      {club === null ? null : (
+        <>
+          <div className="flex flex-col space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0 md:grid-cols-3 lg:grid-cols-4">
+            {teams?.map((team: any) => (
+              <Link
+                to={`/team/${team._id}`}
+                key={team._id}
+                className="flex w-full items-center overflow-hidden overflow-ellipsis rounded-lg bg-gray-300 px-4 py-2 shadow outline-gray-700 hover:bg-gray-200 dark:bg-transparent dark:outline dark:outline-gray-200 dark:hover:bg-gray-800 md:justify-center md:px-8 md:py-4"
+              >
+                <span className="text-lg font-bold md:text-xl">
+                  {team.name}
+                </span>
+              </Link>
+            ))}
+          </div>
+          {club &&
+          [...club.coaches, ...club.admins].some(
+            (i: any) => i._id === user.id
+          ) ? (
+            <>
+              <div className="w-full space-y-2">
+                <span className="text-xl font-bold">
+                  {t<string>("common:create_team")}
+                </span>
+              </div>
+              <div className="max-w-screen-sm">
+                <TextInput
+                  name={t("common:team_name") + ":"}
+                  type="text"
+                  value={teamName}
+                  stateChange={setTeamName}
+                />
+                <Button
+                  name={t("common:create_team")}
+                  onClick={handleCreateTeam}
                   design="success"
                 />
               </div>

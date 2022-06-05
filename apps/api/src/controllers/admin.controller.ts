@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import Translation from "../models/translation.model";
 import User from "../models/user.model";
-import { requestHandler, requestHandlerError } from "../requestHandler";
+import { requestHandler, requestHandlerError } from "../utils/requestHandler";
 import FreestyleDataElement from "../models/freestyleDataElement.model";
 import mongoose, { Query } from "mongoose";
 import FreestyleDataGroup from "../models/freestyleDataGroup.model";

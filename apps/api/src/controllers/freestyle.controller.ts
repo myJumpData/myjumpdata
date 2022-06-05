@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import FreestyleDataElement from "../models/freestyleDataElement.model";
 import FreestyleDataGroup from "../models/freestyleDataGroup.model";
 import FreestyleDataUser from "../models/freestyleDataUser.model";
-import { requestHandler, requestHandlerError } from "../requestHandler";
+import { requestHandler, requestHandlerError } from "../utils/requestHandler";
 
 export async function getFreestyle(req, res) {
   let count = 0;

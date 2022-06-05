@@ -1,5 +1,5 @@
 import Translation from "../models/translation.model";
-import { requestHandler, requestHandlerError } from "../requestHandler";
+import { requestHandler, requestHandlerError } from "../utils/requestHandler";
 
 export const getLocales = (req, res) => {
   const lng = req.params.lng.split("+");

@@ -4,7 +4,7 @@ import Group from "../models/group.model";
 import ScoreDataRecord from "../models/scoreDataRecord.model";
 import ScoreDataRecordOwn from "../models/scoreDataRecordOwn.model";
 import ScoreDataType from "../models/scoreDataType.model";
-import { requestHandler, requestHandlerError } from "../requestHandler";
+import { requestHandler, requestHandlerError } from "../utils/requestHandler";
 
 export function saveScoreData(req, res) {
   const scoreData = new ScoreDataRecord({

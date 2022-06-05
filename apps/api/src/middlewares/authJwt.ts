@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../consts/auth";
 import User from "../models/user.model";
-import { requestHandler } from "../requestHandler";
+import { requestHandler } from "../utils/requestHandler";
 
 const { TokenExpiredError } = jwt;
 

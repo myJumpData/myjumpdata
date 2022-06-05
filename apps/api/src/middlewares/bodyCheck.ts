@@ -1,4 +1,4 @@
-import { requestHandler } from "../requestHandler";
+import { requestHandler } from "../utils/requestHandler";
 
 export function bodyCheckNullUsername(req, res, next) {
   if (!req.body.username || req.body.username === "") {

@@ -1,4 +1,4 @@
-import { requestHandler } from "../requestHandler";
+import { requestHandler } from "../utils/requestHandler";
 
 export function bodyValidateUsername(req, res, next) {
   if (!req.body.username) {

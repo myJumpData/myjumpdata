@@ -1,4 +1,4 @@
-import { requestHandler, requestHandlerError } from "../requestHandler";
+import { requestHandler, requestHandlerError } from "../utils/requestHandler";
 import Club from "../models/club.model";
 
 export function verifyClubAdmin(req, res, next) {

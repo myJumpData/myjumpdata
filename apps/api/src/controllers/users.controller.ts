@@ -3,9 +3,9 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../consts/auth";
 import { APP_URL } from "../consts/host";
-import SendMail from "../email";
+import SendMail from "../utils/email";
 import User from "../models/user.model";
-import { requestHandler, requestHandlerError } from "../requestHandler";
+import { requestHandler, requestHandlerError } from "../utils/requestHandler";
 import Club from "../models/club.model";
 
 export const searchUsers = (req, res) => {

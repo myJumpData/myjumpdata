@@ -3,14 +3,14 @@ import jwt from "jsonwebtoken";
 import { Query } from "mongoose";
 import { JWT_EXPIRATION, JWT_SECRET } from "../consts/auth";
 import { API_URL, APP_URL } from "../consts/host";
-import SendMail from "../email";
+import SendMail from "../utils/email";
 import Group from "../models/group.model";
 import Role from "../models/role.model";
 import ScoreDataRecord from "../models/scoreDataRecord.model";
 import ScoreDataRecordOwn from "../models/scoreDataRecordOwn.model";
 import ScoreDataType from "../models/scoreDataType.model";
 import User from "../models/user.model";
-import { requestHandler, requestHandlerError } from "../requestHandler";
+import { requestHandler, requestHandlerError } from "../utils/requestHandler";
 import readUserPicture from "../utils/readUserPicture";
 
 export function signup(req, res) {

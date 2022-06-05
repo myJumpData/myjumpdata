@@ -1,4 +1,4 @@
-import { requestHandler } from "../requestHandler";
+import { requestHandler } from "../utils/requestHandler";
 
 export function isAdmin(req, res, next) {
   if (!req.userRoles?.includes("admin")) {

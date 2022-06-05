@@ -37,6 +37,8 @@ const SettingsScreen = lazy(() => import("./screens/SettingsScreen"));
 const SpeedDataOwnScreen = lazy(() => import("./screens/SpeedDataOwnScreen"));
 const SpeedDataScreen = lazy(() => import("./screens/SpeedDataScreen"));
 const TermsScreen = lazy(() => import("./screens/TermsScreen"));
+const TeamScreen = lazy(() => import("./screens/TeamScreen"));
+const TeamSettingsScreen = lazy(() => import("./screens/TeamSettingsScreen"));
 
 const AdminHomeScreen = lazy(() => import("./screens/admin/AdminHomeScreen"));
 const AdminUsersScreen = lazy(() => import("./screens/admin/AdminUsersScreen"));
@@ -103,6 +105,13 @@ createRoot(document.getElementById("root") as Element).render(
                   path="/group/:id/settings"
                   element={<GroupSettingsScreen />}
                 />
+                {
+                  //"Team"
+                }
+                <Route path="team">
+                  <Route path=":id" element={<TeamScreen />} />
+                  <Route path=":id/settings" element={<TeamSettingsScreen />} />
+                </Route>
 
                 {
                   //"Speeddata"

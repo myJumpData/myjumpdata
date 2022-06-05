@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { EMAIL_PSWD, EMAIL_USER } from "./consts/email";
+import { EMAIL_PSWD, EMAIL_USER } from "../consts/email";
 
 const transporter = nodemailer.createTransport(
   {
