@@ -1,6 +1,5 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import * as React from "react";
-import { useState } from "react";
 import {
   Modal,
   Pressable,
@@ -43,11 +42,12 @@ export default function TeamSpeedScreen({ route, navigation }) {
   const MusicSnapPoints = React.useMemo(() => [500], []);
 
   const isDarkMode = useColorScheme() === "dark";
-  const [modal, setModal] = useState<any>(null);
-  const [music, setMusic] = useState<any>(null);
+  const [modal, setModal] = React.useState<any>(null);
+  const [music, setMusic] = React.useState<any>(null);
   const ConfettiRef = React.useRef<any>(null);
   const [scoreDataRecords, setScoreDataRecords] = React.useState<any>([]);
   const [showResetDialog, setShowResetDialog] = React.useState<any>();
+  const [teamName, setTeamName] = React.useState<any>(null);
 
   React.useEffect(() => {
     getData();
@@ -56,6 +56,7 @@ export default function TeamSpeedScreen({ route, navigation }) {
 
   const getData = () => {
     TeamService.getTeam(id).then((response: any) => {
+      setTeamName(response.data.name);
       navigation.setOptions({ title: response.data.name });
     });
     api.get("/scoredata/team/" + id).then((response: any) => {
@@ -311,16 +312,16 @@ export default function TeamSpeedScreen({ route, navigation }) {
                 <TouchableOpacity
                   style={{ marginHorizontal: 5 }}
                   onPress={() => {
-                    /*navigation.navigate("counter_popover", {
+                    navigation.navigate("counter_popover", {
                       from: {
-                        group: true,
+                        team: true,
                         type: data.type.name,
                         type_id: data.type._id,
                         name: teamName,
-                        user_id: user.id,
-                        high: highdata?.score || "0",
+                        team_id: id,
+                        high: data.score,
                       },
-                    });*/
+                    });
                   }}
                 >
                   <StyledIcon name="Ionicons/radio-button-on" size={24} />

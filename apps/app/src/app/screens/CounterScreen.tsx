@@ -133,7 +133,7 @@ export default function CounterScreen({ navigation, route }) {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <StyledIcon
                   name={
-                    from.group
+                    from.group || from.team
                       ? "Ionicons/people-outline"
                       : "Ionicons/body-outline"
                   }
@@ -172,6 +172,18 @@ export default function CounterScreen({ navigation, route }) {
                   setCount(0);
                   navigation.goBack();
                 });
+              }
+              if (from.team) {
+                api
+                  .post("/scoredata/team/" + from.team_id, {
+                    score: count,
+                    type: from.type_id,
+                    date: new Date(),
+                  })
+                  .then(() => {
+                    setCount(0);
+                    navigation.goBack();
+                  });
               }
               return;
             }}
