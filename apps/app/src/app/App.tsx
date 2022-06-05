@@ -38,6 +38,10 @@ import CounterScreen from "./screens/CounterScreen";
 import Update from "./components/Update";
 import ClubScreen from "./screens/ClubScreen";
 import GroupPlayerScreen from "./screens/GroupPlayerScreen";
+import TeamSettingsUsersScreen from "./screens/TeamSettingsUsersScreen";
+import TeamPlayerScreen from "./screens/TeamPlayerScreen";
+import TeamSettingsDataScreen from "./screens/TeamSettingsDataScreen";
+import TeamSpeedScreen from "./screens/TeamSpeedScreen";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -294,6 +298,46 @@ function MainStackScreen() {
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
           title: t("common:nav_club"),
+        }}
+      />
+      <MainStack.Screen
+        name="team_settings_users"
+        component={TeamSettingsUsersScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_settings"),
+        }}
+      />
+      <MainStack.Screen
+        name="team_player"
+        component={TeamPlayerScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_player"),
+        }}
+      />
+      <MainStack.Screen
+        name="team_settings_data"
+        component={TeamSettingsDataScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_settings"),
+        }}
+      />
+      <MainStack.Screen
+        name="team_speed"
+        component={TeamSpeedScreen}
+        options={{
+          gestureEnabled: true,
+          gestureResponseDistance: 80,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          title: t("common:nav_speed"),
         }}
       />
     </MainStack.Navigator>

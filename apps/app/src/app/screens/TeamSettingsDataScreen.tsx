@@ -1,0 +1,137 @@
+import BottomSheet from "@gorhom/bottom-sheet";
+import * as React from "react";
+import { useTranslation } from "react-i18next";
+import { RefreshControl, TouchableOpacity, View } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import StyledBottomSheet from "../components/StyledBottomSheet";
+import { StyledButton } from "../components/StyledButton";
+import { StyledText } from "../components/StyledText";
+import { StyledTextInput } from "../components/StyledTextInput";
+import { Colors } from "../Constants";
+import Wrapper from "../components/Wrapper";
+import TeamService from "../services/team.service";
+
+export default function TeamSettingsDataScreen({ route, navigation }) {
+  const { id } = route.params;
+  const { t } = useTranslation();
+
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [editing, setEditing] = React.useState(false);
+  const [teamName, setTeamName] = React.useState("");
+
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => [300], []);
+
+  React.useEffect(() => {
+    setEditing(false);
+    setRefreshing(true);
+    TeamService.getTeam(id as string).then((response: any) => {
+      setTeamName(response.data.name);
+      setRefreshing(false);
+    });
+  }, [id]);
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        if (editing) {
+          return (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <TouchableOpacity
+                style={{ paddingRight: 5 }}
+                onPress={() => {
+                  setEditing(false);
+                  setRefreshing(true);
+                  TeamService.updateTeamName("", id).then((response) => {
+                    setTeamName(response.data.name);
+                    setRefreshing(false);
+                  });
+                }}
+              >
+                <Ionicons name="close-outline" size={40} color={Colors.white} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ paddingRight: 10, marginTop: -1 }}
+                onPress={() => {
+                  setEditing(false);
+                  setRefreshing(true);
+                  TeamService.updateTeamName(teamName, id).then((response) => {
+                    setTeamName(response.data.name);
+                    setRefreshing(false);
+                  });
+                }}
+              >
+                <Ionicons name="checkmark" size={35} color={Colors.main} />
+              </TouchableOpacity>
+            </View>
+          );
+        }
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+
+  const onRefresh = React.useCallback(() => {
+    setEditing(false);
+    setRefreshing(true);
+    TeamService.getTeam(id as string).then((response: any) => {
+      setTeamName(response.data.name);
+      setRefreshing(false);
+    });
+  }, [id]);
+
+  return (
+    <Wrapper
+      outside={
+        <StyledBottomSheet snapPoints={snapPoints} ref={bottomSheetRef}>
+          <StyledText
+            style={{ fontWeight: "900", fontSize: 24, marginBottom: 8 }}
+          >
+            {t("settings_group_delete_disclaimer_title")}
+          </StyledText>
+          <StyledText style={{ marginBottom: 10 }}>
+            {t("settings_group_delete_disclaimer_text")}
+          </StyledText>
+          <StyledButton
+            title={t("settings_group_delete_disclaimer_confirm")}
+            onPress={() => {
+              TeamService.deleteTeam(id as string).then((response: any) => {
+                if (response.status === 200) {
+                  bottomSheetRef.current?.close();
+                  navigation.navigate("groups");
+                }
+              });
+            }}
+          />
+        </StyledBottomSheet>
+      }
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <StyledText style={{ fontWeight: "900" }}>
+        {t("settings_data")}:
+      </StyledText>
+      <View style={{ marginVertical: 10, marginBottom: 30 }}>
+        <StyledText>{t("common:team_name")}:</StyledText>
+        <StyledTextInput
+          onChangeText={(e) => {
+            setEditing(true);
+            setTeamName(e);
+          }}
+          value={teamName}
+          autoCapitalize="none"
+        />
+      </View>
+      <StyledText style={{ fontWeight: "900" }}>
+        {t("settings_danger")}:
+      </StyledText>
+      <StyledButton
+        title={t("settings_team_delete")}
+        onPress={() => {
+          bottomSheetRef.current?.snapToIndex(0);
+        }}
+      />
+    </Wrapper>
+  );
+}

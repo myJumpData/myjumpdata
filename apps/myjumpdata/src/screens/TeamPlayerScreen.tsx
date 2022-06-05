@@ -56,25 +56,24 @@ export default function GroupPlayerScreen() {
       <span className="text-xl font-bold">
         {t("speeddata_title") + " " + groupName}
       </span>
-      {freestyleTracks?.length > 0 ? (
-        freestyleTracks.map((item: any, index) => (
-          <div
-            className="flex items-center justify-between space-x-2"
-            key={index}
+      {freestyleTracks?.map((item: any, index) => (
+        <div
+          className="flex items-center justify-between space-x-2"
+          key={index}
+        >
+          <TrackItem track={item} />
+          <span
+            className="h-full cursor-pointer p-4 text-xl"
+            onClick={() => {
+              setCurrent({ item });
+              setDel(true);
+            }}
           >
-            <TrackItem track={item} />
-            <span
-              className="h-full cursor-pointer p-4 text-xl"
-              onClick={() => {
-                setCurrent({ item });
-                setDel(true);
-              }}
-            >
-              <IoMdTrash />
-            </span>
-          </div>
-        ))
-      ) : (
+            <IoMdTrash />
+          </span>
+        </div>
+      ))}
+      {freestyleTracks?.length >= 2 ? null : (
         <div
           className={
             "flex items-center justify-center rounded-lg border-2" +

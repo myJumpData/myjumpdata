@@ -27,12 +27,14 @@ import Wrapper from "../components/Wrapper";
 import StyledIcon from "../components/StyledIcon";
 import { StyledButton } from "../components/StyledButton";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import TeamService from "../services/team.service";
 
 export default function GroupsScreen({ navigation }) {
   const isFocused = useIsFocused();
   const user = useSelector((state: any) => state.user);
   const { t } = useTranslation();
   const [groups, setGroups] = React.useState([]);
+  const [teams, setTeams] = React.useState([]);
   const isDarkMode = useColorScheme() === "dark";
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -41,12 +43,15 @@ export default function GroupsScreen({ navigation }) {
 
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => {
-    return club &&
-      [...club.coaches, ...club.admins].some((i: any) => i._id === user.id) &&
-      current?.coaches.some((i: any) => i._id === user.id)
-      ? [380]
-      : [200];
-  }, [club, current?.coaches, user.id]);
+    if (current?.group) {
+      return club &&
+        [...club.coaches, ...club.admins].some((i: any) => i._id === user.id) &&
+        current?.coaches.some((i: any) => i._id === user.id)
+        ? [380]
+        : [200];
+    }
+    return [200];
+  }, [club, current?.coaches, current?.group, user.id]);
   const bottomSheetRefLeave = React.useRef<BottomSheet>(null);
   const snapPointsLeave = React.useMemo(() => {
     return [200];
@@ -60,6 +65,10 @@ export default function GroupsScreen({ navigation }) {
       setGroups(response.data);
       setRefreshing(false);
     });
+    TeamService.getTeams().then((response: any) => {
+      setTeams(response.data);
+    });
+    setRefreshing(false);
   }
 
   const onRefresh = React.useCallback(() => {
@@ -99,39 +108,57 @@ export default function GroupsScreen({ navigation }) {
     getGroups();
   }, []);
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={{
-        paddingVertical: 20,
-      }}
-      onPress={() => {
-        setCurrent(item);
-        bottomSheetRef.current?.snapToIndex(0);
-      }}
-    >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <StyledText style={{ fontSize: 24, fontWeight: "900" }}>
-          {item.name}
-        </StyledText>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Ionicons
-            name="ellipsis-vertical"
-            style={{
-              color: isDarkMode ? Colors.white : Colors.black,
-              padding: 5,
-            }}
-            size={25}
-          />
+  const renderItem = ({ item }) => {
+    if (item.heading) {
+      return (
+        <View
+          style={{
+            paddingVertical: 20,
+          }}
+        >
+          <StyledText style={{ fontSize: 24, fontWeight: "900" }}>
+            {item.heading}
+          </StyledText>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      );
+    }
+    if (item.group || item.team) {
+      return (
+        <TouchableOpacity
+          style={{
+            paddingVertical: 20,
+          }}
+          onPress={() => {
+            setCurrent(item);
+            bottomSheetRef.current?.snapToIndex(0);
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <StyledText style={{ fontSize: 24, fontWeight: "600" }}>
+              {item.name}
+            </StyledText>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons
+                name="ellipsis-vertical"
+                style={{
+                  color: isDarkMode ? Colors.white : Colors.black,
+                  padding: 5,
+                }}
+                size={25}
+              />
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  };
 
   return (
     <Wrapper
@@ -154,76 +181,142 @@ export default function GroupsScreen({ navigation }) {
 
                 <BottomSheetNavList
                   bsRef={bottomSheetRef}
-                  data={[
-                    {
-                      text: "Scores",
-                      icon: "filter-outline",
-                      onPress: () => {
-                        navigation.navigate("group_score", {
-                          id: current._id,
-                        });
-                      },
-                    },
-                    ...(current.coaches.some((i: any) => i._id === user.id)
+                  data={
+                    current.group
                       ? [
                           {
-                            text: t("common:nav_player"),
-                            icon: "musical-notes-outline",
+                            text: "Scores",
+                            icon: "filter-outline",
                             onPress: () => {
-                              navigation.navigate("group_player", {
+                              navigation.navigate("group_score", {
                                 id: current._id,
                               });
                             },
                           },
-                          {
-                            text: t("common:nav_freestyle"),
-                            icon: "list-outline",
-                            onPress: () => {
-                              navigation.navigate("group_freestyle", {
-                                id: current._id,
-                              });
-                            },
-                          },
-                          {
-                            text: t("common:nav_speeddata"),
-                            icon: "timer-outline",
-                            onPress: () => {
-                              navigation.navigate("group_speed", {
-                                id: current._id,
-                              });
-                            },
-                          },
-                          {
-                            text: "Mitglieder bearbeiten",
-                            icon: "people-outline",
-                            onPress: () => {
-                              navigation.navigate("group_settings_users", {
-                                id: current._id,
-                              });
-                            },
-                          },
-                          {
-                            text: "Daten bearbeiten",
-                            icon: "create-outline",
-                            onPress: () => {
-                              navigation.navigate("group_settings_data", {
-                                id: current._id,
-                              });
-                            },
-                          },
-                          {
-                            text: "Verlassen",
-                            icon: "log-out-outline",
-                            onPress: () => {
-                              GroupsService.leaveGroup(current._id).then(() => {
-                                onRefresh();
-                                bottomSheetRef.current?.close();
-                              });
-                            },
-                          },
+                          ...(current.coaches.some(
+                            (i: any) => i._id === user.id
+                          )
+                            ? [
+                                {
+                                  text: t("common:nav_player"),
+                                  icon: "musical-notes-outline",
+                                  onPress: () => {
+                                    navigation.navigate("group_player", {
+                                      id: current._id,
+                                    });
+                                  },
+                                },
+                                {
+                                  text: t("common:nav_freestyle"),
+                                  icon: "list-outline",
+                                  onPress: () => {
+                                    navigation.navigate("group_freestyle", {
+                                      id: current._id,
+                                    });
+                                  },
+                                },
+                                {
+                                  text: t("common:nav_speeddata"),
+                                  icon: "timer-outline",
+                                  onPress: () => {
+                                    navigation.navigate("group_speed", {
+                                      id: current._id,
+                                    });
+                                  },
+                                },
+                                {
+                                  text: "Mitglieder bearbeiten",
+                                  icon: "people-outline",
+                                  onPress: () => {
+                                    navigation.navigate(
+                                      "group_settings_users",
+                                      {
+                                        id: current._id,
+                                      }
+                                    );
+                                  },
+                                },
+                                {
+                                  text: "Daten bearbeiten",
+                                  icon: "create-outline",
+                                  onPress: () => {
+                                    navigation.navigate("group_settings_data", {
+                                      id: current._id,
+                                    });
+                                  },
+                                },
+                                {
+                                  text: "Verlassen",
+                                  icon: "log-out-outline",
+                                  onPress: () => {
+                                    GroupsService.leaveGroup(current._id).then(
+                                      () => {
+                                        onRefresh();
+                                        bottomSheetRef.current?.close();
+                                      }
+                                    );
+                                  },
+                                },
+                              ]
+                            : []),
                         ]
-                      : []),
-                  ]}
+                      : [
+                          ...(current.coaches.some(
+                            (i: any) => i._id === user.id
+                          )
+                            ? [
+                                {
+                                  text: t("common:nav_player"),
+                                  icon: "musical-notes-outline",
+                                  onPress: () => {
+                                    navigation.navigate("team_player", {
+                                      id: current._id,
+                                    });
+                                  },
+                                },
+                                {
+                                  text: t("common:nav_speeddata"),
+                                  icon: "timer-outline",
+                                  onPress: () => {
+                                    navigation.navigate("team_speed", {
+                                      id: current._id,
+                                    });
+                                  },
+                                },
+                                {
+                                  text: "Mitglieder bearbeiten",
+                                  icon: "people-outline",
+                                  onPress: () => {
+                                    navigation.navigate("team_settings_users", {
+                                      id: current._id,
+                                    });
+                                  },
+                                },
+                                {
+                                  text: "Daten bearbeiten",
+                                  icon: "create-outline",
+                                  onPress: () => {
+                                    navigation.navigate("team_settings_data", {
+                                      id: current._id,
+                                    });
+                                  },
+                                },
+                                {
+                                  text: "Verlassen",
+                                  icon: "log-out-outline",
+                                  onPress: () => {
+                                    TeamService.leaveTeam(current._id).then(
+                                      () => {
+                                        onRefresh();
+                                        bottomSheetRef.current?.close();
+                                      }
+                                    );
+                                  },
+                                },
+                              ]
+                            : []),
+                        ]
+                  }
                 />
               </>
             ) : null}
@@ -303,7 +396,12 @@ export default function GroupsScreen({ navigation }) {
       {club ? (
         <FlatList
           renderItem={renderItem}
-          data={groups}
+          data={[
+            { heading: t("common:nav_group") },
+            ...groups.map((e: any[]) => ({ ...e, group: true })),
+            { heading: t("common:nav_team") },
+            ...teams.map((e: any[]) => ({ ...e, team: true })),
+          ]}
           refreshing={refreshing}
           onRefresh={onRefresh}
           ItemSeparatorComponent={() => (
