@@ -122,7 +122,14 @@ export default function TeamScreen() {
       </div>
       <div>
         {teamCoaches?.some((i: any) => i.id === user.id) && (
-          <div className="mb-4"></div>
+          <div className="mb-4">
+            <Link to={`/team/${params.id}/speeddata`}>
+              <Button name={t("common:nav_speeddata")} design="primary" />
+            </Link>
+            <Link to={`/team/${params.id}/player/`}>
+              <Button name={t("common:nav_player")} design="primary" />
+            </Link>
+          </div>
         )}
         <Link to={`/group`}>
           <Button name={t("common:back")} design="link" />

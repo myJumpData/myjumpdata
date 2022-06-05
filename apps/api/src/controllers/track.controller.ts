@@ -5,6 +5,7 @@ import readUserPicture from "../utils/readUserPicture";
 import mongoose from "mongoose";
 import path from "path";
 import crypto from "crypto";
+import Team from "../models/team.model";
 
 export const getFreestyleGroupTrack = (req, res) => {
   const id = req.params.id;
@@ -214,4 +215,81 @@ export const uploadFreestyleTrack = (req: any, res) => {
       }
     );
   });
+};
+export const uploadFreestyleTeamTrack = (req: any, res) => {
+  if (!req.files) {
+    return requestHandler(
+      res,
+      400,
+      "error.file.none",
+      "No files were uploaded"
+    );
+  }
+  const file = req.files.file;
+  const extensionName = path.extname(file.name); // fetch the file extension
+  const allowedExtension = [".wav", ".mp3"];
+  if (!allowedExtension.includes(extensionName)) {
+    return requestHandler(res, 422, "error.file.invalid", "Invalid File");
+  }
+  const fname =
+    Date.now() +
+    "_" +
+    crypto.randomBytes(16).toString("hex") +
+    "_" +
+    crypto.createHash("md5").update(file.name).digest("hex") +
+    extensionName;
+  const p = __dirname + "/../files/" + fname;
+  file.mv(p, (err) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    Team.findOneAndUpdate(
+      { _id: new mongoose.Types.ObjectId(req.params.id) },
+      {
+        $push: { freestyleTracks: [{ id: fname, name: file.name }] },
+      },
+      (err, team) => {
+        if (err) {
+          return requestHandlerError(res, err);
+        }
+        return requestHandler(
+          res,
+          200,
+          "success.file.upload",
+          "File uploaded successfully",
+          { team }
+        );
+      }
+    );
+  });
+};
+export const getFreestyleTeamTrack = (req, res) => {
+  Team.findOne({ _id: new mongoose.Types.ObjectId(req.params.id) }).exec(
+    (err, team) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "", {
+        freestyleTracks: team?.freestyleTracks,
+      });
+    }
+  );
+};
+export const deleteFreestyleTeamTrack = (req, res) => {
+  const id = req.body.id;
+  Team.findOneAndUpdate(
+    { id: req.params.id },
+    { $pull: { freestyleTracks: { id: id } } },
+    (err) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(
+        res,
+        200,
+        "success.file.delete",
+        "File deleted successfully"
+      );
+    }
+  );
 };

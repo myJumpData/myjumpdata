@@ -20,6 +20,12 @@ const Team = mongoose.model(
         ref: "User",
       },
     ],
+    freestyleTracks: [
+      {
+        name: String,
+        id: String,
+      },
+    ],
   })
 );
 

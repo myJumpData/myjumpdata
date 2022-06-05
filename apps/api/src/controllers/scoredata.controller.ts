@@ -5,6 +5,8 @@ import ScoreDataRecord from "../models/scoreDataRecord.model";
 import ScoreDataRecordOwn from "../models/scoreDataRecordOwn.model";
 import ScoreDataType from "../models/scoreDataType.model";
 import { requestHandler, requestHandlerError } from "../utils/requestHandler";
+import ScoreDataTypeTeam from "../models/scoreDataTypeTeam";
+import ScoreDataRecordTeam from "../models/scoreDataRecordTeam.model";
 
 export function saveScoreData(req, res) {
   const scoreData = new ScoreDataRecord({
@@ -37,6 +39,17 @@ export function getScoreDataTypes(req, res) {
         return requestHandlerError(res, err);
       }
       return requestHandler(res, 200, "", "", scoreDataTypes);
+    });
+}
+
+export function getScoreDataTypesTeam(req, res) {
+  ScoreDataTypeTeam.find({})
+    .sort("order")
+    .exec((err, scoreDataTypesTeam) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "", scoreDataTypesTeam);
     });
 }
 
@@ -226,4 +239,68 @@ export function resetScoreData(req, res) {
     }
     return requestHandler(res, 200, "", "", data);
   });
+}
+
+export function saveScoreDataTeam(req, res) {
+  const scoreData = new ScoreDataRecordTeam({
+    team: new mongoose.Types.ObjectId(req.params.id),
+    score: req.body.score,
+    type: new mongoose.Types.ObjectId(req.body.type),
+    createdAt: req.body.date,
+  });
+
+  scoreData.save((err, scoredata) => {
+    if (err) {
+      return requestHandlerError(res, err);
+    }
+    return requestHandler(
+      res,
+      200,
+      "success.save.scoredata",
+      "Successfully saved scoredata!",
+      scoredata
+    );
+  });
+}
+
+export function getScoreDataHighTeam(req, res) {
+  ScoreDataTypeTeam.find({ team: new mongoose.Types.ObjectId(req.params.id) })
+    .sort("order")
+    .then((scoreDataTypesList) => {
+      const jobQueries: Query<object, object>[] = [];
+      scoreDataTypesList.forEach((type) => {
+        jobQueries.push(
+          ScoreDataRecordTeam.findOne({
+            team: new mongoose.Types.ObjectId(req.params.id),
+            type: type._id,
+          })
+            .sort("-score")
+            .populate("type", "-__v")
+        );
+      });
+      return Promise.all(jobQueries);
+    })
+    .then((data) => {
+      ScoreDataTypeTeam.find({})
+        .sort("order")
+        .exec((err, scoreDataTypes) => {
+          if (err) {
+            return requestHandlerError(res, err);
+          }
+          const response: any[] = [];
+          scoreDataTypes.forEach((item) => {
+            if (data.some((r: any) => r?.type.name === item.name)) {
+              response.push(
+                data.find((value: any) => value?.type.name === item.name)
+              );
+            } else {
+              response.push({ type: item, score: 0 });
+            }
+          });
+          return requestHandler(res, 200, "", "", response);
+        });
+    })
+    .catch((err) => {
+      return requestHandlerError(res, err);
+    });
 }

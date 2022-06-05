@@ -62,7 +62,7 @@ export default function GroupPlayerScreen() {
       (x: any) => !freestyleTracks.some((e: any) => e.artist === x.name)
     );
     setUserSelect(filter);
-    setUserSelected(filter[0].value);
+    setUserSelected(filter[0]?.value);
   }, [freestyleTracks, users]);
 
   useEffect(() => {
@@ -87,8 +87,11 @@ export default function GroupPlayerScreen() {
         {t("speeddata_title") + " " + groupName}
       </span>
       {freestyleTracks.length > 0
-        ? freestyleTracks.map((item: any) => (
-            <div className="flex items-center justify-between space-x-2">
+        ? freestyleTracks.map((item: any, index) => (
+            <div
+              className="flex items-center justify-between space-x-2"
+              key={index}
+            >
               <TrackItem track={item} />
               <span
                 className="h-full cursor-pointer p-4 text-xl"

@@ -1,12 +1,15 @@
 import { Express } from "express-serve-static-core";
 import {
   getScoreDataHigh,
+  getScoreDataHighTeam,
   getScoreDataOwn,
   getScoreDataTypes,
+  getScoreDataTypesTeam,
   resetScoreData,
   resetScoreDataOwn,
   saveScoreData,
   saveScoreDataOwn,
+  saveScoreDataTeam,
 } from "../controllers/scoredata.controller";
 import verifyToken from "../middlewares/authJwt";
 import {
@@ -15,6 +18,7 @@ import {
   bodyCheckNullType,
   bodyCheckNullUser,
 } from "../middlewares/bodyCheck";
+import { verifyTeamCoach } from "../middlewares/verifyTeamCoach";
 
 export default function ScoredataRoutes(app: Express) {
   app.post(
@@ -29,11 +33,17 @@ export default function ScoredataRoutes(app: Express) {
     saveScoreData
   );
   app.post(
+    "/scoredata/team/:id",
+    [verifyToken, verifyTeamCoach],
+    saveScoreDataTeam
+  );
+  app.post(
     "/scoredata/reset",
     [verifyToken, bodyCheckNullType, bodyCheckNullScore, bodyCheckNullUser],
     resetScoreData
   );
   app.get("/scoredata/types", [verifyToken], getScoreDataTypes);
+  app.get("/scoredata/typesTeam", [verifyToken], getScoreDataTypesTeam);
   app.get("/scoredata/own", [verifyToken], getScoreDataOwn);
   app.post(
     "/scoredata/own/reset",
@@ -46,4 +56,9 @@ export default function ScoredataRoutes(app: Express) {
     saveScoreDataOwn
   );
   app.get("/scoredata/high/:id/:type", [verifyToken], getScoreDataHigh);
+  app.get(
+    "/scoredata/team/:id",
+    [verifyToken, verifyTeamCoach],
+    getScoreDataHighTeam
+  );
 }

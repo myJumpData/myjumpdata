@@ -3,13 +3,17 @@ import verifyToken from "../middlewares/authJwt";
 import { verifyGroupCoach } from "../middlewares/verifyGroupCoach";
 import {
   deleteFreestyleGroupTrack,
+  deleteFreestyleTeamTrack,
   deleteFreestyleTrack,
   getFile,
   getFreestyleGroupTrack,
+  getFreestyleTeamTrack,
   getFreestyleTrack,
   uploadFreestyleGroupTrack,
+  uploadFreestyleTeamTrack,
   uploadFreestyleTrack,
 } from "../controllers/track.controller";
+import { verifyTeamCoach } from "../middlewares/verifyTeamCoach";
 
 export default function TrackRoutes(app: Express) {
   app.get(
@@ -31,4 +35,15 @@ export default function TrackRoutes(app: Express) {
     uploadFreestyleGroupTrack
   );
   app.post("/upload/track/freestyle", [verifyToken], uploadFreestyleTrack);
+  app.post(
+    "/upload/track_team/freestyle/:id",
+    [verifyToken, verifyTeamCoach],
+    uploadFreestyleTeamTrack
+  );
+  app.get("/track/freestyle_team/:id", [verifyToken], getFreestyleTeamTrack);
+  app.post(
+    "/delete/track_team/freestyle/:id",
+    [verifyToken, verifyTeamCoach],
+    deleteFreestyleTeamTrack
+  );
 }
