@@ -19,7 +19,12 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    lng: getLocales()[0].languageCode,
+    lng: (() => {
+      const all = getLocales();
+      const map = all.map((item: any) => item.languageCode.toLowerCase());
+      const filter = map.filter((e) => LANGUAGES.some((i) => i === e));
+      return filter[0];
+    })(),
     compatibilityJSON: "v3",
     backend: {
       backend: Http,
