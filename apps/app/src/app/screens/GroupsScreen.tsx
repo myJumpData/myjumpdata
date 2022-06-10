@@ -108,57 +108,48 @@ export default function GroupsScreen({ navigation }) {
     getGroups();
   }, []);
 
-  const renderItem = ({ item }) => {
-    if (item.heading) {
-      return (
-        <View
-          style={{
-            paddingVertical: 20,
-          }}
-        >
-          <StyledText style={{ fontSize: 24, fontWeight: "900" }}>
-            {item.heading}
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      style={{
+        paddingVertical: 10,
+      }}
+      onPress={() => {
+        setCurrent(item);
+        bottomSheetRef.current?.snapToIndex(0);
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View>
+          <StyledText style={{ fontSize: 24, fontWeight: "600" }}>
+            {item.name}
           </StyledText>
+          <StyledShyText>
+            {item.team
+              ? t("common:nav_team")
+              : item.group
+              ? t("common:nav_group")
+              : ""}
+          </StyledShyText>
         </View>
-      );
-    }
-    if (item.group || item.team) {
-      return (
-        <TouchableOpacity
-          style={{
-            paddingVertical: 20,
-          }}
-          onPress={() => {
-            setCurrent(item);
-            bottomSheetRef.current?.snapToIndex(0);
-          }}
-        >
-          <View
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Ionicons
+            name="ellipsis-vertical"
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              color: isDarkMode ? Colors.white : Colors.black,
+              padding: 5,
             }}
-          >
-            <StyledText style={{ fontSize: 24, fontWeight: "600" }}>
-              {item.name}
-            </StyledText>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons
-                name="ellipsis-vertical"
-                style={{
-                  color: isDarkMode ? Colors.white : Colors.black,
-                  padding: 5,
-                }}
-                size={25}
-              />
-            </View>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-    return null;
-  };
+            size={25}
+          />
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <Wrapper
@@ -397,9 +388,7 @@ export default function GroupsScreen({ navigation }) {
         <FlatList
           renderItem={renderItem}
           data={[
-            { heading: t("common:nav_group") },
             ...groups.map((e: any[]) => ({ ...e, group: true })),
-            { heading: t("common:nav_team") },
             ...teams.map((e: any[]) => ({ ...e, team: true })),
           ]}
           refreshing={refreshing}
