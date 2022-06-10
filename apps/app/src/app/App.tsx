@@ -18,7 +18,7 @@ import { Colors } from "./Constants";
 import { setNavigation } from "./redux/navigation.action";
 import { setUser } from "./redux/user.action";
 import FreestyleScreen from "./screens/FreestyleScreen";
-import GroupCreateScreen from "./screens/GroupCreateScreen";
+import CreateScreen from "./screens/CreateScreen";
 import GroupFreestyleScreen from "./screens/GroupFreestyleScreen";
 import GroupScoreScreen from "./screens/GroupScoreScreen";
 import GroupSettingsDataScreen from "./screens/GroupSettingsDataScreen";
@@ -211,13 +211,13 @@ function MainStackScreen() {
         }}
       />
       <MainStack.Screen
-        name="group_create"
-        component={GroupCreateScreen}
+        name="create"
+        component={CreateScreen}
         options={{
           gestureEnabled: true,
           gestureResponseDistance: 80,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          title: t("common:nav_group_create"),
+          title: t("common:create"),
         }}
       />
       <MainStack.Screen

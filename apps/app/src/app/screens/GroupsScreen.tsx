@@ -89,7 +89,7 @@ export default function GroupsScreen({ navigation }) {
               size={30}
               color={isDarkMode ? Colors.white : Colors.black}
               style={{ paddingRight: 10 }}
-              onPress={() => navigation.navigate("group_create")}
+              onPress={() => navigation.navigate("create")}
             />
           );
         }

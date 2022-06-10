@@ -1,7 +1,7 @@
 import api from "./api";
 
-const createGroup = (name: string) => {
-  return api.post("/groups", { name });
+const createGroup = (name: string, club: string) => {
+  return api.post("/groups", { name, club });
 };
 
 const getGroups = () => {
