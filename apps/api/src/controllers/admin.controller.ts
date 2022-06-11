@@ -7,6 +7,7 @@ import mongoose, { Query } from "mongoose";
 import FreestyleDataGroup from "../models/freestyleDataGroup.model";
 import Club from "../models/club.model";
 import { LANGUAGES } from "../consts/lang";
+import TranslationMissing from "../models/translationMissing.model";
 
 export function createLocalization(req, res) {
   Translation.create(
@@ -27,14 +28,26 @@ export function createLocalization(req, res) {
         return element !== null;
       })
   ).then(() => {
-    return requestHandler(
-      res,
-      200,
-      "success.create.localization",
-      "Successfully created localization!"
-    );
+    TranslationMissing.deleteMany({ key: req.body.key.trim() }).then(() => {
+      return requestHandler(
+        res,
+        200,
+        "success.create.localization",
+        "Successfully created localization!"
+      );
+    });
   });
 }
+export const getMissingLocales = (req, res) => {
+  TranslationMissing.find({})
+    .select("-_id -__v")
+    .exec((err, data) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "", data);
+    });
+};
 
 export function deleteLocalization(req, res) {
   Translation.deleteMany({

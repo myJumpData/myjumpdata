@@ -1,5 +1,6 @@
 import Translation from "../models/translation.model";
 import { requestHandler, requestHandlerError } from "../utils/requestHandler";
+import TranslationMissing from "../models/translationMissing.model";
 
 export const getLocales = (req, res) => {
   const lng = req.params.lng.split("+");
@@ -24,6 +25,30 @@ export const getLocales = (req, res) => {
       return acc;
     }, {});
     return res.status(200).send(data);
+  });
+};
+export const addLocales = (req, res) => {
+  Translation.find({
+    namespace: req.body.ns,
+    key: req.body.key,
+  }).exec((_, d) => {
+    if (d.length <= 0) {
+      TranslationMissing.find({
+        key: req.body.key,
+        namespace: req.body.ns,
+      }).exec((_, data) => {
+        if (data.length <= 0) {
+          const t = new TranslationMissing({
+            key: req.body.key,
+            namespace: req.body.ns,
+          });
+          t.save((t) => {
+            console.log(t);
+          });
+          return res.status(200).send({});
+        }
+      });
+    }
   });
 };
 export const getTranslations = (req, res) => {

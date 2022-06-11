@@ -14,6 +14,7 @@ import { setRoute } from "../../redux/route.action";
 import { deleteLocalization } from "../../service/admin.service";
 import { getTranslations } from "../../service/locales.service";
 import { IoPencil, IoTrash } from "react-icons/all";
+import api from "../../service/api";
 
 export default function AdminLocalizationScreen() {
   useEffect(() => {
@@ -37,8 +38,12 @@ export default function AdminLocalizationScreen() {
   const [translationData, setTranslationData] = useState<any>([]);
   const [data, setData] = useState<any>([]);
   const [total, setTotal] = useState(0);
+  const [missing, setMissing] = useState<any[]>([]);
 
   useEffect(() => {
+    api.get("/admin/localization_missing").then((res) => {
+      setMissing(res.data);
+    });
     getTranslations(namespace).then((response) => {
       const data = Object.entries(response.data.data)
         .sort((a: any, b: any) => {
@@ -163,6 +168,16 @@ export default function AdminLocalizationScreen() {
         data={data}
         total={total}
       />
+      {missing.length > 0 ? (
+        <div>
+          <span className="font-bold">Missing:</span>
+          <div className="flex flex-col">
+            {missing.map((e) => (
+              <span>{`${e.namespace}:${e.key}`}</span>
+            ))}
+          </div>
+        </div>
+      ) : null}
       <DelOverlay />
     </>
   );

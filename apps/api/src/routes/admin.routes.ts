@@ -10,6 +10,7 @@ import {
   getClubs,
   getFreestyleElement,
   getFreestyleTranslation,
+  getMissingLocales,
   getTranslation,
   getUsers,
   getVersion,
@@ -41,6 +42,11 @@ export default function AdminRoutes(app: Express) {
     "/admin/localization/:namespace/:key",
     [verifyToken, isAdmin],
     getTranslation
+  );
+  app.get(
+    "/admin/localization_missing/",
+    [verifyToken, isAdmin],
+    getMissingLocales
   );
 
   app.post("/admin/freestyle/create", [verifyToken, isAdmin], createFreestyle);

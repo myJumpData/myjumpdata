@@ -2,9 +2,10 @@ import i18n from "i18next";
 import Http from "i18next-http-backend";
 import BackendAdapter from "i18next-multiload-backend-adapter";
 import { initReactI18next } from "react-i18next";
-import { getLocales } from "react-native-localize";
 import { DEFAULT_LANGUAGE, LANGUAGES, NAMESPACES } from "./app/Constants";
 import getApi from "./app/utils/getApi";
+import api from "../../myjumpdata/src/service/api";
+import { getLang } from "./app/utils/getLang";
 
 i18n
   .use(BackendAdapter)
@@ -19,13 +20,17 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    lng: (() => {
-      const all = getLocales();
-      const map = all.map((item: any) => item.languageCode.toLowerCase());
-      const filter = map.filter((e) => LANGUAGES.some((i) => i === e));
-      return filter[0];
-    })(),
+    lng: getLang(),
     compatibilityJSON: "v3",
+    saveMissing: true,
+    missingKeyHandler: (_, ns, key) => {
+      api
+        .post("/locales", {
+          ns,
+          key,
+        })
+        .then(() => {});
+    },
     backend: {
       backend: Http,
       backendOption: {
