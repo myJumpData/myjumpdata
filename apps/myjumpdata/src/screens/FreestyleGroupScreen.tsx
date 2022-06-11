@@ -19,6 +19,7 @@ import Spinner from "../components/Spinner";
 import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
 import { classNames } from "../utils/classNames";
 import { IoFilter, IoGrid } from "react-icons/all";
+import i18next from "i18next";
 
 type freestyle_folder_data = {
   id: string;
@@ -36,6 +37,7 @@ export default function FreestyleGroupScreen() {
   useEffect(() => {
     setRoute("group");
     AuthVerify();
+    i18next.loadNamespaces("freestyle").then(() => {});
   }, []);
   const params = useParams();
 

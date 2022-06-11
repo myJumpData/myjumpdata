@@ -13,6 +13,7 @@ import GroupsService from "../services/groups.service";
 import fullname from "../utils/fullname";
 import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
 import Wrapper from "../components/Wrapper";
+import i18next from "i18next";
 
 export default function GroupFreestyleScreen({ route, navigation }) {
   const { id } = route.params;
@@ -25,6 +26,11 @@ export default function GroupFreestyleScreen({ route, navigation }) {
   const [userSelect, setUserSelect] = React.useState([]);
   const [userSelected, setUserSelected] = React.useState("");
   const [club, setClub] = React.useState<any>();
+
+  React.useEffect(() => {
+    i18next.loadNamespaces("freestyle").then(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     GroupsService.getGroup(id as string).then((response: any) => {

@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import Logo from "../assets/Logo.svg";
 import { setRoute } from "../redux/route.action";
+import i18next from "i18next";
 
 export default function MainScreen() {
   useEffect(() => {
     setRoute("home");
+    i18next.loadNamespaces("main").then(() => {});
   }, []);
 
   const { t } = useTranslation();

@@ -5,9 +5,9 @@ import {
   saveFreestyleData,
   saveFreestyleDataOwn,
 } from "../service/freestyle.service";
-import { classNames } from "../utils/classNames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
+import i18next from "i18next";
 
 export function Back({ to, state }: { to: string; state: any }) {
   const { t } = useTranslation();
@@ -40,21 +40,22 @@ export function Element({
   onRefresh?: any;
   user: "own" | string;
 }) {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
+    });
+  }, []);
 
   const [reloading, setReloading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <div
-      className={classNames(
-        "relative flex cursor-pointer items-center justify-between rounded-lg border p-2 hover:bg-gray-500/50 ",
-        name
-          .split("_")
-          .map((item) => i18n.exists(`freestyle:${item}`))
-          .some((item) => !item) && "border border-red-500"
-      )}
+      className="relative flex cursor-pointer items-center justify-between rounded-lg border p-2 hover:bg-gray-500/50"
       onClick={() => {
-        if (reloading) {
+        if (reloading || !loaded) {
           return;
         }
         if (onRefresh !== undefined) {
@@ -79,12 +80,14 @@ export function Element({
       }}
     >
       <span className="break-word overflow-hidden overflow-ellipsis text-sm xs:text-base">
-        {compiled
-          ? name
-              .split("_")
-              .map((item) => t<string>(`freestyle:${item}`))
-              .join(" ")
-          : t<string>(`freestyle:${name}`)}
+        {loaded
+          ? compiled
+            ? name
+                .split("_")
+                .map((item) => t<string>(`freestyle:${item}`))
+                .join(" ")
+            : t<string>(`freestyle:${name}`)
+          : ""}
       </span>
       <div className="flex flex-col xs:flex-row">
         {level && (

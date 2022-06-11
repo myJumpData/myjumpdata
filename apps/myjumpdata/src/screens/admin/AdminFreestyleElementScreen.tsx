@@ -21,12 +21,16 @@ import {
 import { FaPlus } from "react-icons/fa";
 import { getFreestyle } from "../../service/freestyle.service";
 import { classNames } from "../../utils/classNames";
+import i18next from "i18next";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
     setRoute("admin/freestyle");
     AuthVerify({
       isAdmin: true,
+    });
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
     });
   }, []);
   const params = useParams();
@@ -49,6 +53,7 @@ export default function AdminFreestyleElementScreen() {
   const [newGroupValid, setNewGroupValid] = useState<undefined | boolean>();
   const [keyNew, setKeyNew] = useState<undefined | string>();
   const [keyNewValid, setKeyNewValid] = useState<undefined | boolean>();
+  const [loaded, setLoaded] = useState(false);
 
   const getData = () => {
     getFreestyleElement(params.id as string).then((response: any) => {
@@ -99,7 +104,7 @@ export default function AdminFreestyleElementScreen() {
     <>
       <AdminActionBar
         text={`${t<string>("common:nav_freestyle")}${
-          freestyleElementData
+          freestyleElementData && loaded
             ? ` - ${freestyleElementData.key
                 .split("_")
                 .map((item) => t<string>(`freestyle:${item}`))

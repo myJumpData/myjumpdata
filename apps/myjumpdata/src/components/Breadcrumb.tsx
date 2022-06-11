@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { HiChevronRight, HiHome, HiOutlineHome } from "react-icons/hi";
+import { useEffect, useState } from "react";
+import i18next from "i18next";
 
 export default function Breadcrumb({
   data,
@@ -9,6 +11,14 @@ export default function Breadcrumb({
   setState: any;
 }) {
   const { t, i18n } = useTranslation();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
+    });
+  }, []);
+
   return (
     <div className="flex h-full flex-wrap items-center space-x-2 rounded-xl bg-gray-500/50 px-4 py-2">
       <span
@@ -35,7 +45,11 @@ export default function Breadcrumb({
           >
             <HiChevronRight className="text-2xl" />
             <span className={"whitespace-nowrap " + (last && "font-bold")}>
-              {i18n.exists(`freestyle:${e}`) ? t(`freestyle:${e}`) : e}
+              {loaded
+                ? i18n.exists(`freestyle:${e}`)
+                  ? t(`freestyle:${e}`)
+                  : e
+                : ""}
             </span>
           </span>
         );

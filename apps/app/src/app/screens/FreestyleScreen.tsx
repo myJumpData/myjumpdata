@@ -9,6 +9,7 @@ import {
 import GroupsService from "../services/groups.service";
 import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
 import Wrapper from "../components/Wrapper";
+import i18next from "i18next";
 
 export default function FreestyleScreen() {
   const freestyle = useSelector((state: any) => state.freestyle);
@@ -19,6 +20,7 @@ export default function FreestyleScreen() {
   const [club, setClub] = React.useState<any>();
 
   React.useEffect(() => {
+    i18next.loadNamespaces("freestyle").then(() => {});
     onRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

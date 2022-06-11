@@ -1,4 +1,4 @@
-import { t } from "i18next";
+import i18next, { t } from "i18next";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -12,6 +12,11 @@ export default function Breadcrumb({
   data: any[];
   setState: any;
 }) {
+  React.useEffect(() => {
+    i18next.loadNamespaces("freestyle").then(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View
       style={{

@@ -12,7 +12,7 @@ i18n
   .init({
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: LANGUAGES,
-    ns: NAMESPACES,
+    ns: NAMESPACES.filter((e) => e !== "main" && e !== "freestyle"),
     defaultNS: "translation",
     lowerCaseLng: true,
     cleanCode: true,

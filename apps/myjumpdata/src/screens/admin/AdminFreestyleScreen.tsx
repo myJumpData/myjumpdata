@@ -16,6 +16,7 @@ import {
   deleteFreestyleGroup,
 } from "../../service/admin.service";
 import { useParams } from "react-router";
+import i18next from "i18next";
 
 type freestyle_folder_data = {
   id: string;
@@ -33,6 +34,9 @@ export default function AdminFreestyleScreen() {
     AuthVerify({
       isAdmin: true,
     });
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
+    });
   }, []);
   const navigate = useNavigate();
   const params = useParams();
@@ -44,6 +48,7 @@ export default function AdminFreestyleScreen() {
   const [newFolderValid, setNewFolderValid] = useState<undefined | boolean>();
   const [del, setDel] = useState(false);
   const [parent, setParent] = useState("");
+  const [loaded, setLoaded] = useState(false);
 
   const getData = () => {
     getFreestyle(path).then((response: any) => {
@@ -86,26 +91,26 @@ export default function AdminFreestyleScreen() {
                 })()}
               </span>
               <span>
-                {
-                  (() => {
-                    if (item.back) {
-                      return t("common:back");
-                    }
-                    if (item.group) {
-                      return t(`freestyle:${item.key.split("_").at(-1)}`);
-                    }
-                    if (item.element) {
-                      if (item.compiled) {
-                        return item.key
-                          .split("_")
-                          .map((item) => t(`freestyle:${item}`))
-                          .join(" ");
+                {loaded
+                  ? ((() => {
+                      if (item.back) {
+                        return t("common:back");
                       }
-                      return t(`freestyle:${item.key}`);
-                    }
-                    return "";
-                  })() as string
-                }
+                      if (item.group) {
+                        return t(`freestyle:${item.key.split("_").at(-1)}`);
+                      }
+                      if (item.element) {
+                        if (item.compiled) {
+                          return item.key
+                            .split("_")
+                            .map((item) => t(`freestyle:${item}`))
+                            .join(" ");
+                        }
+                        return t(`freestyle:${item.key}`);
+                      }
+                      return "";
+                    })() as string)
+                  : null}
               </span>
             </div>
           );
@@ -189,9 +194,11 @@ export default function AdminFreestyleScreen() {
   };
 
   useEffect(() => {
-    getData();
+    if (loaded) {
+      getData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path]);
+  }, [path, loaded]);
 
   useEffect(() => {
     setNewFolderValid(undefined);

@@ -11,6 +11,7 @@ import {
 import { getClub } from "../service/groups.service";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
+import i18next from "i18next";
 
 type freestyle_folder_data = {
   id: string;
@@ -27,6 +28,9 @@ export default function FreestyleScreen() {
   useEffect(() => {
     setRoute("freestyle");
     AuthVerify();
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
+    });
   }, []);
 
   const params = useParams();
@@ -38,6 +42,7 @@ export default function FreestyleScreen() {
   const [freestyleDataOwn, setFreestyleDataOwn] = useState<any[]>([]);
   const [folderData, setFolderData] = useState<freestyle_folder_data[]>([]);
   const [club, setClub] = useState<any>();
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -46,9 +51,11 @@ export default function FreestyleScreen() {
   }, []);
 
   useEffect(() => {
-    getCurrentData();
+    if (loaded) {
+      getCurrentData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [freestyle]);
+  }, [freestyle, loaded]);
 
   function getUserData() {
     getClub().then((response) => {
