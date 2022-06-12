@@ -1,4 +1,4 @@
-import { LANGUAGES } from "../../../../myjumpdata/src/Constants";
+import { LANGUAGES } from "../Constants";
 
 export function getLang() {
   let lngs: string[] = [];
