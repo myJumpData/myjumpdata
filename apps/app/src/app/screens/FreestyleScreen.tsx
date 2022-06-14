@@ -1,15 +1,15 @@
+import i18next from "i18next";
 import * as React from "react";
 import { useSelector } from "react-redux";
+import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
 import { StyledView } from "../components/StyledView";
+import Wrapper from "../components/Wrapper";
 import {
   getFreestyle,
   getFreestyleDataOwn,
   saveFreestyleDataOwn,
 } from "../services/freestyle.service";
 import GroupsService from "../services/groups.service";
-import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
-import Wrapper from "../components/Wrapper";
-import i18next from "i18next";
 
 export default function FreestyleScreen() {
   const freestyle = useSelector((state: any) => state.freestyle);
@@ -18,9 +18,12 @@ export default function FreestyleScreen() {
   const [folderData, setFolderData] = React.useState<FreestyleListType[]>([]);
   const [refreshing, setRefreshing] = React.useState(false);
   const [club, setClub] = React.useState<any>();
+  const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    i18next.loadNamespaces("freestyle").then(() => {});
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
+    });
     onRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -57,19 +60,21 @@ export default function FreestyleScreen() {
 
   return (
     <Wrapper as={StyledView}>
-      <FreestyleList
-        data={folderData}
-        onSubmit={function ({ itemId, state }) {
-          return saveFreestyleDataOwn(itemId, !state?.stateUser).then(() => {
-            return getUserData();
-          });
-        }}
-        refreshing={refreshing}
-        setRefreshing={setRefreshing}
-        onRefresh={onRefresh}
-        state={freestyleDataOwn}
-        club={club}
-      />
+      {loaded ? (
+        <FreestyleList
+          data={folderData}
+          onSubmit={function ({ itemId, state }) {
+            return saveFreestyleDataOwn(itemId, !state?.stateUser).then(() => {
+              return getUserData();
+            });
+          }}
+          refreshing={refreshing}
+          setRefreshing={setRefreshing}
+          onRefresh={onRefresh}
+          state={freestyleDataOwn}
+          club={club}
+        />
+      ) : null}
     </Wrapper>
   );
 }

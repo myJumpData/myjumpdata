@@ -1,5 +1,5 @@
 import i18next, { t } from "i18next";
-import React from "react";
+import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors } from "../Constants";
@@ -13,9 +13,16 @@ export default function Breadcrumb({
   setState: any;
 }) {
   React.useEffect(() => {
-    i18next.loadNamespaces("freestyle").then(() => {});
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const [loaded, setLoaded] = useState(false);
+
+  if (!loaded) {
+    return <div></div>;
+  }
 
   return (
     <View

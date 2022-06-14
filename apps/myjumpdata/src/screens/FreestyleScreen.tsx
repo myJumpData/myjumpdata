@@ -1,5 +1,8 @@
+import i18next from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import { Outlet, useNavigate } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 import { Back, Element, Folder } from "../components/Freestyle";
@@ -9,9 +12,6 @@ import {
   getFreestyleDataOwn,
 } from "../service/freestyle.service";
 import { getClub } from "../service/groups.service";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router-dom";
-import i18next from "i18next";
 
 type freestyle_folder_data = {
   id: string;
@@ -71,6 +71,10 @@ export default function FreestyleScreen() {
     getFreestyle(freestyle).then((response: any) => {
       setFolderData(response.data);
     });
+  }
+
+  if (!loaded) {
+    return <Outlet />;
   }
 
   return (

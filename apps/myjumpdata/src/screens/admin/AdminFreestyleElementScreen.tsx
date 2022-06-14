@@ -1,15 +1,17 @@
+import i18next from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { HiTrash } from "react-icons/all";
+import { FaPlus } from "react-icons/fa";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import Flag from "react-world-flags";
 import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
 import Breadcrumb from "../../components/Breadcrumb";
+import Button from "../../components/Button";
 import { TextInput, TextInputInline } from "../../components/Input";
 import { LANGUAGES } from "../../Constants";
 import { setRoute } from "../../redux/route.action";
-import { HiTrash } from "react-icons/all";
-import Button from "../../components/Button";
 import {
   deleteFreestyle,
   getFreestyleElement,
@@ -18,10 +20,8 @@ import {
   updateFreestyleElementKey,
   updateFreestyleElementLevel,
 } from "../../service/admin.service";
-import { FaPlus } from "react-icons/fa";
 import { getFreestyle } from "../../service/freestyle.service";
 import { classNames } from "../../utils/classNames";
-import i18next from "i18next";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -99,6 +99,10 @@ export default function AdminFreestyleElementScreen() {
       });
     }
   }, [keyNew]);
+
+  if (!loaded) {
+    return <Outlet />;
+  }
 
   return (
     <>

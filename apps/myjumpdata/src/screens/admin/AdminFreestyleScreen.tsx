@@ -1,22 +1,22 @@
+import i18next from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaFolder, FaFolderMinus, FaFolderPlus, FaPlus } from "react-icons/fa";
 import { HiArrowLeft, HiArrowRight, HiCheck } from "react-icons/hi";
-import { generatePath, useNavigate } from "react-router-dom";
+import { useParams } from "react-router";
+import { generatePath, Outlet, useNavigate } from "react-router-dom";
 import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
 import Breadcrumb from "../../components/Breadcrumb";
-import { setRoute } from "../../redux/route.action";
-import { getFreestyle } from "../../service/freestyle.service";
-import Table from "../../components/Table";
-import { TextInput } from "../../components/Input";
 import Button from "../../components/Button";
+import { TextInput } from "../../components/Input";
+import Table from "../../components/Table";
+import { setRoute } from "../../redux/route.action";
 import {
   createFreestyleGroup,
   deleteFreestyleGroup,
 } from "../../service/admin.service";
-import { useParams } from "react-router";
-import i18next from "i18next";
+import { getFreestyle } from "../../service/freestyle.service";
 
 type freestyle_folder_data = {
   id: string;
@@ -210,6 +210,10 @@ export default function AdminFreestyleScreen() {
       }
     }
   }, [i18n, newFolder]);
+
+  if (!loaded) {
+    return <Outlet />;
+  }
 
   return (
     <>

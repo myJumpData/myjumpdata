@@ -1,8 +1,11 @@
+import i18next from "i18next";
 import * as React from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
+import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
 import SelectInput from "../components/Input";
 import { StyledView } from "../components/StyledView";
+import Wrapper from "../components/Wrapper";
 import { Colors } from "../Constants";
 import {
   getFreestyle,
@@ -11,9 +14,6 @@ import {
 } from "../services/freestyle.service";
 import GroupsService from "../services/groups.service";
 import fullname from "../utils/fullname";
-import FreestyleList, { FreestyleListType } from "../components/FreestyleList";
-import Wrapper from "../components/Wrapper";
-import i18next from "i18next";
 
 export default function GroupFreestyleScreen({ route, navigation }) {
   const { id } = route.params;
@@ -26,9 +26,12 @@ export default function GroupFreestyleScreen({ route, navigation }) {
   const [userSelect, setUserSelect] = React.useState([]);
   const [userSelected, setUserSelected] = React.useState("");
   const [club, setClub] = React.useState<any>();
+  const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    i18next.loadNamespaces("freestyle").then(() => {});
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

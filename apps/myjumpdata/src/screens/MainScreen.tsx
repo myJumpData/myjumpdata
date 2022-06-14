@@ -1,16 +1,24 @@
-import { useEffect } from "react";
+import i18next from "i18next";
+import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { Outlet } from "react-router-dom";
 import Logo from "../assets/Logo.svg";
 import { setRoute } from "../redux/route.action";
-import i18next from "i18next";
 
 export default function MainScreen() {
   useEffect(() => {
     setRoute("home");
-    i18next.loadNamespaces("main").then(() => {});
+    i18next.loadNamespaces("main").then(() => {
+      setLoaded(true);
+    });
   }, []);
 
   const { t } = useTranslation();
+  const [loaded, setLoaded] = useState(false);
+
+  if (!loaded) {
+    return <Outlet />;
+  }
 
   return (
     <div className="flex flex-col space-y-12">

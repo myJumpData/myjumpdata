@@ -1,10 +1,15 @@
+import i18next from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { IoFilter, IoGrid } from "react-icons/all";
+import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
 import { Back, Element, Folder } from "../components/Freestyle";
 import { SelectInput } from "../components/Input";
+import Spinner from "../components/Spinner";
+import useBreakpoint from "../hooks/useBreakpoint";
 import { setRoute } from "../redux/route.action";
 import {
   getFreestyle,
@@ -13,13 +18,8 @@ import {
 } from "../service/freestyle.service";
 import { getClub, getGroup } from "../service/groups.service";
 import { capitalize } from "../utils/capitalize";
-import fullname from "../utils/fullname";
-import useBreakpoint from "../hooks/useBreakpoint";
-import Spinner from "../components/Spinner";
-import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
 import { classNames } from "../utils/classNames";
-import { IoFilter, IoGrid } from "react-icons/all";
-import i18next from "i18next";
+import fullname from "../utils/fullname";
 
 type freestyle_folder_data = {
   id: string;
@@ -37,9 +37,12 @@ export default function FreestyleGroupScreen() {
   useEffect(() => {
     setRoute("group");
     AuthVerify();
-    i18next.loadNamespaces("freestyle").then(() => {});
+    i18next.loadNamespaces("freestyle").then(() => {
+      setLoaded(true);
+    });
   }, []);
   const params = useParams();
+  const [loaded, setLoaded] = useState(false);
 
   const [groupName, setGroupName] = useState("");
   const [userSelect, setUserSelect] = useState([]);
@@ -114,6 +117,10 @@ export default function FreestyleGroupScreen() {
       });
       return Promise.resolve();
     }
+  }
+
+  if (!loaded) {
+    return <Outlet />;
   }
 
   return (
