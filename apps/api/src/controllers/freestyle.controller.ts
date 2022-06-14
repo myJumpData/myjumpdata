@@ -55,7 +55,6 @@ export async function getFreestyle(req, res) {
         return requestHandler(res, 200, "", "", [...groups, ...elements]);
       } else {
         return requestHandler(res, 200, "", "", [
-          { key: pathSplit.slice(0, -1).join("_"), back: true },
           ...(groups || []),
           ...(elements || []),
         ]);
@@ -113,6 +112,21 @@ export function saveFreestyleDataOwn(req, res) {
 
 export function getFreestyleData(req, res) {
   FreestyleDataUser.find({ user: req.params.id })
+    .select("-createdAt -updatedAt -_id -__v")
+    .exec((err, data) => {
+      if (err) {
+        return requestHandlerError(res, err);
+      }
+      return requestHandler(res, 200, "", "", data);
+    });
+}
+export function getUserFreestyle(req, res) {
+  FreestyleDataUser.find({
+    user: { $in: req.body?.user },
+    element: {
+      $in: req.body.freestyle?.map((e) => new mongoose.Types.ObjectId(e)),
+    },
+  })
     .select("-createdAt -updatedAt -_id -__v")
     .exec((err, data) => {
       if (err) {

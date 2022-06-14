@@ -1,28 +1,13 @@
+import i18next from "i18next";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaRegCheckSquare, FaRegSquare, FaSquare } from "react-icons/fa";
-import { HiArrowLeft } from "react-icons/hi";
 import {
   saveFreestyleData,
   saveFreestyleDataOwn,
 } from "../service/freestyle.service";
-import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
-import i18next from "i18next";
 
-export function Back({ to, state }: { to: string; state: any }) {
-  const { t } = useTranslation();
-  return (
-    <div
-      className="flex cursor-pointer items-center break-words rounded-xl bg-gray-500/50 p-4 font-bold shadow sm:text-lg md:text-xl"
-      onClick={() => {
-        state(to);
-      }}
-    >
-      <HiArrowLeft className="mr-2 text-xl" />
-      {t<string>("common:back")}
-    </div>
-  );
-}
 export function Element({
   id,
   name,
@@ -48,6 +33,12 @@ export function Element({
     });
   }, []);
 
+  useEffect(() => {
+    if (element !== null) {
+      setReloading(false);
+    }
+  }, [element]);
+
   const [reloading, setReloading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -62,17 +53,13 @@ export function Element({
           if (user === "own") {
             setReloading(true);
             saveFreestyleDataOwn(id as string, !element?.stateUser).then(() => {
-              onRefresh().then(() => {
-                setReloading(false);
-              });
+              onRefresh();
             });
           } else {
             setReloading(true);
             saveFreestyleData(user, id as string, !element?.stateCoach).then(
               () => {
-                onRefresh().then(() => {
-                  setReloading(false);
-                });
+                onRefresh();
               }
             );
           }
@@ -109,6 +96,34 @@ export function Element({
           </span>
         )}
       </div>
+    </div>
+  );
+}
+export function Check({ user, elementId, stateCoach, stateUser, onRefresh }) {
+  const [reloading, setReloading] = useState(false);
+
+  return (
+    <div
+      onClick={() => {
+        setReloading(true);
+        saveFreestyleData(user, elementId as string, !stateCoach).then(() => {
+          onRefresh().then(() => {
+            setReloading(false);
+          });
+        });
+      }}
+    >
+      <span className="ml-2 flex items-center justify-center self-end py-2 xs:self-center xs:text-2xl">
+        {reloading || (stateUser === undefined && stateCoach === undefined) ? (
+          <Spinner />
+        ) : stateCoach ? (
+          <FaSquare />
+        ) : stateUser ? (
+          <FaRegCheckSquare />
+        ) : (
+          <FaRegSquare />
+        )}
+      </span>
     </div>
   );
 }

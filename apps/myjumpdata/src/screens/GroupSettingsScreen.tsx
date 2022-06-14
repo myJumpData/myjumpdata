@@ -10,7 +10,15 @@ import Button from "../components/Button";
 import { TextInput } from "../components/Input";
 import Spinner from "../components/Spinner";
 import { setRoute } from "../redux/route.action";
-import { addCoachesToGroup, addUsersToGroup, deleteGroup, getGroup, removeCoachesFromGroup, removeUsersFromGroup, updateGroupName } from "../service/groups.service";
+import {
+  addCoachesToGroup,
+  addUsersToGroup,
+  deleteGroup,
+  getGroup,
+  removeCoachesFromGroup,
+  removeUsersFromGroup,
+  updateGroupName,
+} from "../service/groups.service";
 import { searchUsers } from "../service/users.service";
 
 export default function GroupSettingsScreen() {
