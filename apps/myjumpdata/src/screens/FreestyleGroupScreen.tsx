@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoFilter, IoGrid } from "react-icons/all";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import AuthVerify from "../common/AuthVerify";
 import Breadcrumb from "../components/Breadcrumb";
@@ -11,6 +12,7 @@ import { SelectInput } from "../components/Input";
 import Spinner from "../components/Spinner";
 import useBreakpoint from "../hooks/useBreakpoint";
 import { setRoute } from "../redux/route.action";
+import { setViewAuto, setViewGrid, setViewList } from "../redux/view.action";
 import { getFreestyle, getUserFreestyle } from "../service/freestyle.service";
 import { getGroup } from "../service/groups.service";
 import { freestyle_folder_data } from "../types/freestyle_folder_data";
@@ -32,6 +34,7 @@ export default function FreestyleGroupScreen() {
   const { t } = useTranslation();
   const freestyle = params.freestyle || "";
   const breakpoint = useBreakpoint();
+  const view = useSelector((state: any) => state.view);
 
   const {
     isFetching: freestyle_isFetching,
@@ -47,8 +50,6 @@ export default function FreestyleGroupScreen() {
   const [groupName, setGroupName] = useState("");
   const [userSelect, setUserSelect] = useState([]);
   const [userSelected, setUserSelected] = useState("");
-
-  const [view, setView] = useState<"grid" | "list" | "auto">("auto");
 
   const {
     isFetching: freestyle_user_isFetching,
@@ -101,7 +102,7 @@ export default function FreestyleGroupScreen() {
           <div className="flex h-12 items-center justify-center space-x-2 rounded-lg bg-gray-500/50 px-2 text-gray-500/50">
             <span
               onClick={() => {
-                setView("list");
+                setViewList();
               }}
               className={classNames(
                 "flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-lg font-bold",
@@ -112,7 +113,7 @@ export default function FreestyleGroupScreen() {
             </span>
             <span
               onClick={() => {
-                setView("grid");
+                setViewGrid();
               }}
               className={classNames(
                 "flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg p-2 text-lg font-bold",
@@ -123,7 +124,7 @@ export default function FreestyleGroupScreen() {
             </span>
             <span
               onClick={() => {
-                setView("auto");
+                setViewAuto();
               }}
               className={classNames(
                 "flex h-8 cursor-pointer items-center justify-center rounded-lg px-2 text-sm font-bold leading-none",

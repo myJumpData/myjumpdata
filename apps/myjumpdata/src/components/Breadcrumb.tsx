@@ -31,7 +31,7 @@ export default function Breadcrumb({
   }, []);
 
   return (
-    <div className="flex h-full flex-wrap items-center space-x-2 rounded-xl bg-gray-500/50">
+    <div className="flex h-full items-center space-x-2 rounded-xl bg-gray-500/50">
       <div className="flex items-center space-x-2 px-4 py-2">
         <span
           className="cursor-pointer"
@@ -61,7 +61,7 @@ export default function Breadcrumb({
           </span>
         ) : null}
       </div>
-      <div className="flex items-center space-x-2 border-l-2 border-gray-500/50 px-4 py-2">
+      <div className="flex flex-wrap items-center space-x-2 border-l-2 border-gray-500/50 px-4 py-2">
         <span
           onClick={() => {
             setState("");
