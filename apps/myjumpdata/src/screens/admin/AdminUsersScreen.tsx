@@ -1,15 +1,15 @@
+import classNames from "classnames";
 import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiCheck, HiX } from "react-icons/hi";
+import { useSearchParams } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import AuthVerify from "../../common/AuthVerify";
 import AdminActionBar from "../../components/AdminActionBar";
 import Table from "../../components/Table";
 import { setRoute } from "../../redux/route.action";
 import { getUsers } from "../../service/admin.service";
-import { classNames } from "../../utils/classNames";
 import initials from "../../utils/initials";
-import { useSearchParams } from "react-router-dom";
 
 export default function AdminUsersScreen() {
   useEffect(() => {
@@ -61,7 +61,8 @@ export default function AdminUsersScreen() {
           <span
             className={classNames(
               "flex w-full items-center justify-center text-2xl",
-              item.active ? "text-green-500" : "text-red-500"
+              { "text-green-500": item.active },
+              { "text-red-500": !item.active }
             )}
           >
             {item.active ? <HiCheck /> : <HiX />}
@@ -74,9 +75,9 @@ export default function AdminUsersScreen() {
                 <span
                   className={classNames(
                     "flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg border-2 text-sm",
-                    role === "athlete" && "border-orange-500",
-                    role === "coach" && "border-blue-500",
-                    role === "admin" && "border-red-500"
+                    { "border-orange-500": role === "athlete" },
+                    { "border-blue-500": role === "coach" },
+                    { "border-red-500": role === "admin" }
                   )}
                   data-for={role}
                   data-tip={role}

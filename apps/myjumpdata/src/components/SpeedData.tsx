@@ -1,9 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
+import classNames from "classnames";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { HiDotsVertical, HiPlus } from "react-icons/hi";
 import { IoIosMusicalNotes } from "react-icons/io";
-import { classNames } from "../utils/classNames";
 import { TextInput } from "./Input";
 
 export function SpeedDataInput({
@@ -54,7 +54,7 @@ export function SpeedDataInput({
                       {({ active }) => (
                         <span
                           className={classNames(
-                            active && "bg-gray-100 dark:bg-gray-900",
+                            { "bg-gray-100 dark:bg-gray-900": active },
                             "flex cursor-pointer items-center justify-start px-4 py-2 text-sm leading-none"
                           )}
                           {...e.props}
@@ -93,7 +93,7 @@ export function SpeedDataInput({
                       {({ active }) => (
                         <span
                           className={classNames(
-                            active && "bg-gray-100 dark:bg-gray-900",
+                            { "bg-gray-100 dark:bg-gray-900": active },
                             "flex cursor-pointer items-center justify-start px-4 py-2 text-sm leading-none"
                           )}
                           {...e.props}

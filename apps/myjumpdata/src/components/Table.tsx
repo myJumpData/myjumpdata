@@ -1,5 +1,5 @@
+import classNames from "classnames";
 import { Dispatch, SetStateAction } from "react";
-import { classNames } from "../utils/classNames";
 import { SelectInput } from "./Input";
 import Pagination from "./Pagination";
 

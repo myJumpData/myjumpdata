@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import i18next from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,6 @@ import { getFreestyle, getUserFreestyle } from "../service/freestyle.service";
 import { getGroup } from "../service/groups.service";
 import { freestyle_folder_data } from "../types/freestyle_folder_data";
 import { capitalize } from "../utils/capitalize";
-import { classNames } from "../utils/classNames";
 import fullname from "../utils/fullname";
 
 export default function FreestyleGroupScreen() {
@@ -106,7 +106,7 @@ export default function FreestyleGroupScreen() {
               }}
               className={classNames(
                 "flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-lg font-bold",
-                view === "list" ? "bg-white/50 text-yellow-500" : ""
+                { "bg-white/50 text-yellow-500": view === "list" }
               )}
             >
               <IoFilter />
@@ -117,7 +117,7 @@ export default function FreestyleGroupScreen() {
               }}
               className={classNames(
                 "flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg p-2 text-lg font-bold",
-                view === "grid" ? "bg-white/50 text-yellow-500" : ""
+                { "bg-white/50 text-yellow-500": view === "grid" }
               )}
             >
               <IoGrid />
@@ -128,7 +128,7 @@ export default function FreestyleGroupScreen() {
               }}
               className={classNames(
                 "flex h-8 cursor-pointer items-center justify-center rounded-lg px-2 text-sm font-bold leading-none",
-                view === "auto" ? "bg-white/50 text-yellow-500" : ""
+                { "bg-white/50 text-yellow-500": view === "auto" }
               )}
             >
               AUTO

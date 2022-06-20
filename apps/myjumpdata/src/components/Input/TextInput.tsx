@@ -1,6 +1,6 @@
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { classNames } from "../../utils/classNames";
 
 type TextInputProps = {
   name?: string;

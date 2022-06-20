@@ -1,9 +1,9 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
+import classNames from "classnames";
 import { Fragment, ReactElement, ReactNode } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.svg";
-import { classNames } from "../utils/classNames";
 import useBreakpoint from "../hooks/useBreakpoint";
 
 export default function Navbar({
@@ -32,7 +32,7 @@ export default function Navbar({
                 to={item.to}
                 className={classNames(
                   "flex flex-col items-center justify-center px-2 py-2",
-                  item.current ? "text-yellow-500" : null
+                  { "text-yellow-500": item.current }
                 )}
               >
                 <span className="text-3xl leading-none">{item.icon}</span>
@@ -70,9 +70,10 @@ export default function Navbar({
                 <div
                   className={classNames(
                     "flex flex-1 items-center sm:justify-start",
-                    navigation.length > 0
-                      ? "justify-center sm:items-stretch"
-                      : "justify-start"
+                    {
+                      "justify-center sm:items-stretch": navigation.length > 0,
+                    },
+                    { "justify-start": !(navigation.length > 0) }
                   )}
                 >
                   <div className="flex flex-shrink-0 items-center">
@@ -99,9 +100,14 @@ export default function Navbar({
                             key={item.name}
                             to={item.to}
                             className={classNames(
-                              item.current
-                                ? "bg-gray-500/50 text-black  hover:bg-gray-500/25 dark:text-white"
-                                : "text-gray-700 hover:bg-gray-500/25 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100",
+                              {
+                                "bg-gray-500/50 text-black  hover:bg-gray-500/25 dark:text-white":
+                                  item.current,
+                              },
+                              {
+                                "text-gray-700 hover:bg-gray-500/25 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-100":
+                                  !item.current,
+                              },
                               "whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium"
                             )}
                             aria-current={item.current ? "page" : undefined}
@@ -138,7 +144,7 @@ export default function Navbar({
                                 <Link
                                   to={e.to}
                                   className={classNames(
-                                    active && "bg-gray-100 dark:bg-gray-900",
+                                    { "bg-gray-100 dark:bg-gray-900": active },
                                     "flex items-center justify-start px-4 py-2 text-sm leading-none"
                                   )}
                                 >
@@ -157,10 +163,7 @@ export default function Navbar({
                 ) : action ? (
                   <Link
                     to={action.to}
-                    className={classNames(
-                      "text-gray-700 hover:bg-gray-300/30 hover:text-gray-800 dark:text-gray-200 dark:hover:bg-gray-500/30 dark:hover:text-gray-100",
-                      "block rounded-md px-3 py-2 text-base font-medium"
-                    )}
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-300/30 hover:text-gray-800 dark:text-gray-200 dark:hover:bg-gray-500/30 dark:hover:text-gray-100"
                   >
                     {action.name}
                   </Link>
@@ -176,9 +179,14 @@ export default function Navbar({
                     as={Link}
                     to={item.to}
                     className={classNames(
-                      item.current
-                        ? "bg-gray-300/50 text-black hover:bg-gray-300/75 dark:bg-gray-500/50 dark:text-white dark:hover:bg-gray-500/75"
-                        : "text-gray-700 hover:bg-gray-300/30 hover:text-gray-800 dark:text-gray-200 dark:hover:bg-gray-500/30 dark:hover:text-gray-100",
+                      {
+                        "bg-gray-300/50 text-black hover:bg-gray-300/75 dark:bg-gray-500/50 dark:text-white dark:hover:bg-gray-500/75":
+                          item.current,
+                      },
+                      {
+                        "text-gray-700 hover:bg-gray-300/30 hover:text-gray-800 dark:text-gray-200 dark:hover:bg-gray-500/30 dark:hover:text-gray-100":
+                          !item.current,
+                      },
                       "block rounded-md px-3 py-2 text-base font-medium"
                     )}
                     aria-current={item.current ? "page" : undefined}

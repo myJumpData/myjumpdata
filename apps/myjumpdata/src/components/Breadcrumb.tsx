@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import i18next from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,7 +9,6 @@ import {
   HiOutlineHome,
   HiRefresh,
 } from "react-icons/hi";
-import { classNames } from "../utils/classNames";
 
 export default function Breadcrumb({
   data,
@@ -38,23 +38,22 @@ export default function Breadcrumb({
           onClick={() => {
             const d = [...data];
             d.pop();
-            console.log(d.join("_"));
             setState(d.join("_"));
           }}
         >
           <HiArrowLeft
             className={classNames(
               "text-2xl transition-opacity",
-              data.length > 0 ? "opacity-100" : "opacity-50"
+              { "opacity-100": data.length > 0 },
+              { "opacity-50": !(data.length > 0) }
             )}
           />
         </span>
         {refresh ? (
           <span
-            className={classNames(
-              "cursor-pointer",
-              isRefreshing ? "animate-spin-reverse" : ""
-            )}
+            className={classNames("cursor-pointer", {
+              "animate-spin-reverse": isRefreshing,
+            })}
             onClick={refresh}
           >
             <HiRefresh className="text-2xl" />

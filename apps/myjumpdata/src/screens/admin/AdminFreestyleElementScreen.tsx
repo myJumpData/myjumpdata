@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import i18next from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +22,6 @@ import {
   updateFreestyleElementLevel,
 } from "../../service/admin.service";
 import { getFreestyle } from "../../service/freestyle.service";
-import { classNames } from "../../utils/classNames";
 
 export default function AdminFreestyleElementScreen() {
   useEffect(() => {
@@ -192,10 +192,9 @@ export default function AdminFreestyleElementScreen() {
             {freestyleElementData.groups.map((group) => (
               <div className="my-2 flex items-center" key={group.key}>
                 <div
-                  className={classNames(
-                    "grow",
-                    freestyleElementData.groups.length > 1 && "pr-4"
-                  )}
+                  className={classNames("grow", {
+                    "pr-4": freestyleElementData.groups.length > 1,
+                  })}
                 >
                   <Breadcrumb
                     data={group.key.split("_")}

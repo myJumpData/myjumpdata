@@ -1,6 +1,6 @@
+import classNames from "classnames";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
-import { classNames } from "../utils/classNames";
 
 export default function Pagination({
   page,
@@ -31,9 +31,9 @@ export default function Pagination({
         }}
         className={classNames(
           "flex h-8 w-8 items-center justify-center rounded-full bg-gray-500/50 text-white transition",
-          active && "outline outline-yellow-500",
-          !disabled && "cursor-pointer hover:bg-yellow-500 hover:text-black",
-          disabled && "opacity-50"
+          { "outline outline-yellow-500": active },
+          { "cursor-pointer hover:bg-yellow-500 hover:text-black": !disabled },
+          { "opacity-50": disabled }
         )}
       >
         {children}

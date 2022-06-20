@@ -1,21 +1,21 @@
-import AdminActionBar from "../../components/AdminActionBar";
-import { TextInput } from "../../components/Input";
-import Breadcrumb from "../../components/Breadcrumb";
-import { LANGUAGES } from "../../Constants";
-import { useTranslation } from "react-i18next";
+import classNames from "classnames";
 import { useEffect, useState } from "react";
-import Flag from "react-world-flags";
-import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
+import { HiTrash } from "react-icons/all";
+import { FaPlus } from "react-icons/fa";
 import { HiCheck } from "react-icons/hi";
+import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
+import Flag from "react-world-flags";
+import AdminActionBar from "../../components/AdminActionBar";
+import Breadcrumb from "../../components/Breadcrumb";
+import Button from "../../components/Button";
+import { TextInput } from "../../components/Input";
+import { LANGUAGES } from "../../Constants";
 import {
   createFreestyle,
   getFreestyleTranslation,
 } from "../../service/admin.service";
-import { FaPlus } from "react-icons/fa";
-import { classNames } from "../../utils/classNames";
-import { HiTrash } from "react-icons/all";
-import Button from "../../components/Button";
 import { getFreestyle } from "../../service/freestyle.service";
 
 export default function AdminFreestyleCreateScreen() {
@@ -118,7 +118,7 @@ export default function AdminFreestyleCreateScreen() {
         </div>
         {groups.map((group) => (
           <div className="my-2 flex items-center" key={group.key}>
-            <div className={classNames("grow", groups.length > 1 && "pr-4")}>
+            <div className={classNames("grow", { "pr-4": groups.length > 1 })}>
               <Breadcrumb
                 data={group.key.split("_")}
                 setState={() => {

@@ -3,9 +3,9 @@ import Http from "i18next-http-backend";
 import BackendAdapter from "i18next-multiload-backend-adapter";
 import { initReactI18next } from "react-i18next";
 import { DEFAULT_LANGUAGE, LANGUAGES, NAMESPACES } from "./Constants";
-import getApi from "./utils/getApi";
 import api from "./service/api";
-import { getLang } from "../../app/src/app/utils/getLang";
+import getApi from "./utils/getApi";
+import { getLang } from "./utils/getLang";
 
 i18n
   .use(BackendAdapter)

@@ -1,8 +1,8 @@
+import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.svg";
 import useBreakpoint from "../hooks/useBreakpoint";
-import { classNames } from "../utils/classNames";
 
 export default function FooterNav({ social, links }) {
   const { t } = useTranslation();
@@ -14,7 +14,8 @@ export default function FooterNav({ social, links }) {
     <footer
       className={classNames(
         "py-8 px-4 text-gray-600 dark:text-gray-400 sm:px-8 lg:px-12",
-        isSmall ? "mb-16" : "mb-8"
+        { "mb-16": isSmall },
+        { "mb-8": !isSmall }
       )}
     >
       <div className="mx-auto flex max-w-7xl flex-col space-y-4 border-b border-gray-600 py-4 dark:border-gray-400 sm:flex-row sm:space-y-0 sm:space-x-4">

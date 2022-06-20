@@ -1,14 +1,20 @@
 import { Menu, Transition } from "@headlessui/react";
+import classNames from "classnames";
 import { Fragment, useEffect, useState } from "react";
+import Confetti from "react-confetti";
 import { useTranslation } from "react-i18next";
+import { IoArrowForward, IoMenu } from "react-icons/all";
 import { HiX } from "react-icons/hi";
 import { IoIosGitCompare, IoIosMusicalNotes } from "react-icons/io";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { useWindowSize } from "react-use";
 import player from "react-web-track-player";
 import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { DateInput, SelectInput, TextInput } from "../components/Input";
 import { SpeedDataInput } from "../components/SpeedData";
+import { switchPivot } from "../redux/pivot.action";
 import { setRoute } from "../redux/route.action";
 import { getGroup } from "../service/groups.service";
 import {
@@ -17,16 +23,10 @@ import {
   resetScoreData,
   saveScoreData,
 } from "../service/scoredata.service";
+import { getUserSearch } from "../service/users.service";
 import TRACKS, { musicData } from "../tracks";
-import { classNames } from "../utils/classNames";
-import { useWindowSize } from "react-use";
-import { IoArrowForward, IoMenu } from "react-icons/all";
-import Confetti from "react-confetti";
 import { capitalize } from "../utils/capitalize";
 import fullname from "../utils/fullname";
-import { getUserSearch } from "../service/users.service";
-import { useSelector } from "react-redux";
-import { switchPivot } from "../redux/pivot.action";
 
 export default function SpeedDataScreen() {
   useEffect(() => {
@@ -191,7 +191,7 @@ export default function SpeedDataScreen() {
                         {({ active }) => (
                           <span
                             className={classNames(
-                              active && "bg-gray-100 dark:bg-gray-900",
+                              { "bg-gray-100 dark:bg-gray-900": active },
                               "flex cursor-pointer items-center justify-start px-4 py-2 text-sm leading-none"
                             )}
                             {...e.props}

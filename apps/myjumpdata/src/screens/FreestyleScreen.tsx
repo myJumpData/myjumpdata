@@ -41,15 +41,12 @@ export default function FreestyleScreen() {
     isSuccess: freestyle_user_isSuccess,
     data: freestyle_user_data,
     refetch: freestyle_user_refetch,
-  } = useQuery(
-    ["freestyle_user", freestyle, freestyle_data, user],
-    async () => {
-      return await getUserFreestyle(
-        [user.id],
-        freestyle_data?.data.map((e: any) => e.id)
-      );
-    }
-  );
+  } = useQuery(["freestyle_user", freestyle_data, user], async () => {
+    return await getUserFreestyle(
+      [user.id],
+      freestyle_data?.data?.map((e: any) => e.id)
+    );
+  });
 
   const [loaded, setLoaded] = useState(false);
 

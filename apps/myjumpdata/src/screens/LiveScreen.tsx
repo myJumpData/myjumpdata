@@ -1,13 +1,12 @@
-import * as React from "react";
-import { useContext, useEffect, useState } from "react";
-import { setRoute } from "../redux/route.action";
-import SocketContext from "../context/SocketContext";
-import { useSearchParams } from "react-router-dom";
-import { SelectInput, TextInput, TextInputInline } from "../components/Input";
 import { Disclosure, Transition } from "@headlessui/react";
+import classNames from "classnames";
+import { useContext, useEffect, useState } from "react";
 import { IoAdd, IoCaretDown, IoSettings } from "react-icons/all";
-import { classNames } from "../utils/classNames";
+import { useSearchParams } from "react-router-dom";
 import Button from "../components/Button";
+import { SelectInput, TextInput, TextInputInline } from "../components/Input";
+import SocketContext from "../context/SocketContext";
+import { setRoute } from "../redux/route.action";
 import api from "../service/api";
 
 export default function LiveScreen() {
@@ -193,18 +192,18 @@ export default function LiveScreen() {
       <div
         className={classNames(
           "grid gap-4 pb-16",
-          Number(searchParams.get("cols") || "2") === 1 ? "grid-cols-1" : "",
-          Number(searchParams.get("cols") || "2") === 2 ? "grid-cols-2" : "",
-          Number(searchParams.get("cols") || "2") === 3 ? "grid-cols-3" : "",
-          Number(searchParams.get("cols") || "2") === 4 ? "grid-cols-4" : "",
-          Number(searchParams.get("cols") || "2") === 5 ? "grid-cols-5" : "",
-          Number(searchParams.get("cols") || "2") === 6 ? "grid-cols-6" : "",
-          Number(searchParams.get("cols") || "2") === 7 ? "grid-cols-7" : "",
-          Number(searchParams.get("cols") || "2") === 8 ? "grid-cols-8" : "",
-          Number(searchParams.get("cols") || "2") === 9 ? "grid-cols-9" : "",
-          Number(searchParams.get("cols") || "2") === 10 ? "grid-cols-10" : "",
-          Number(searchParams.get("cols") || "2") === 11 ? "grid-cols-11" : "",
-          Number(searchParams.get("cols") || "2") === 12 ? "grid-cols-12" : ""
+          { "grid-cols-1": Number(searchParams.get("cols") || "2") === 1 },
+          { "grid-cols-2": Number(searchParams.get("cols") || "2") === 2 },
+          { "grid-cols-3": Number(searchParams.get("cols") || "2") === 3 },
+          { "grid-cols-4": Number(searchParams.get("cols") || "2") === 4 },
+          { "grid-cols-5": Number(searchParams.get("cols") || "2") === 5 },
+          { "grid-cols-6": Number(searchParams.get("cols") || "2") === 6 },
+          { "grid-cols-7": Number(searchParams.get("cols") || "2") === 7 },
+          { "grid-cols-8": Number(searchParams.get("cols") || "2") === 8 },
+          { "grid-cols-9": Number(searchParams.get("cols") || "2") === 9 },
+          { "grid-cols-10": Number(searchParams.get("cols") || "2") === 10 },
+          { "grid-cols-11": Number(searchParams.get("cols") || "2") === 11 },
+          { "grid-cols-12": Number(searchParams.get("cols") || "2") === 12 }
         )}
       >
         {ids?.map((d, index) => {

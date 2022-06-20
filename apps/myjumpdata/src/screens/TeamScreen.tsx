@@ -1,18 +1,17 @@
-import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { setRoute } from "../redux/route.action";
-import AuthVerify from "../common/AuthVerify";
-import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
-import api from "../service/api";
-import { classNames } from "../utils/classNames";
-import initials from "../utils/initials";
-import fullname from "../utils/fullname";
-import Button from "../components/Button";
 import { HiCog } from "react-icons/hi";
 import { IoIosLogOut } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
+import AuthVerify from "../common/AuthVerify";
+import Button from "../components/Button";
+import { setRoute } from "../redux/route.action";
+import api from "../service/api";
 import { leaveTeam } from "../service/team.service";
+import fullname from "../utils/fullname";
+import initials from "../utils/initials";
 
 export default function TeamScreen() {
   useEffect(() => {
@@ -52,9 +51,7 @@ export default function TeamScreen() {
     return (
       <Link
         to={`/u/${user.username}`}
-        className={classNames(
-          "group relative flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full bg-orange-500 sm:h-14 sm:w-14 md:h-16 md:w-16"
-        )}
+        className="group relative flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full bg-orange-500 sm:h-14 sm:w-14 md:h-16 md:w-16"
       >
         {user.picture === null ? (
           <span className="text-center uppercase">{initials(user)}</span>

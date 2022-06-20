@@ -1,7 +1,7 @@
+import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { classNames } from "../utils/classNames";
 
 export default function AdminNav() {
   const route = useSelector((state: any) => state.route);
@@ -48,7 +48,7 @@ export default function AdminNav() {
               to={`/admin/${item.key}`}
               className={classNames(
                 "rounded-t-2xl py-2 px-4 md:rounded-l-2xl md:rounded-tr-none",
-                item.current && "bg-white dark:bg-black"
+                { "bg-white dark:bg-black": item.current }
               )}
             >
               <span>{item.name}</span>

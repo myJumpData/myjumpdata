@@ -1,8 +1,6 @@
-// noinspection PointlessBooleanExpressionJS
-
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { HiCheckCircle, HiPencil, HiXCircle } from "react-icons/hi";
-import { classNames } from "../../utils/classNames";
 
 export function TextInputInline({
   value,

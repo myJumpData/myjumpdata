@@ -1,5 +1,7 @@
+import classNames from "classnames";
 import { lazy, ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IoAppsOutline, IoMusicalNotes } from "react-icons/all";
 import { FaAngleDown, FaCircle, FaInstagram } from "react-icons/fa";
 import { HiCog, HiUser } from "react-icons/hi";
 import {
@@ -22,11 +24,9 @@ import player, {
 import PlaceholderMusic from "../assets/music_placeholder.png";
 import FooterNav from "../components/FooterNav";
 import Navbar from "../components/Navbar";
+import useBreakpoint from "../hooks/useBreakpoint";
 import { getUserSearch } from "../service/users.service";
 import Alert from "./Alert";
-import useBreakpoint from "../hooks/useBreakpoint";
-import { IoAppsOutline, IoMusicalNotes } from "react-icons/all";
-import { classNames } from "../utils/classNames";
 
 const AdminNav = lazy(() => import("./AdminNav"));
 
@@ -278,18 +278,11 @@ export default function Wrapper({ children }: { children: ReactNode }) {
 
     if (isModal) {
       return (
-        <div
-          className={classNames(
-            "fixed right-0 bottom-0 top-0 left-0 z-50 flex items-end justify-center" +
-              " bg-black/25 p-4 backdrop-blur xs:pointer-events-none xs:justify-end xs:bg-transparent" +
-              " xs:backdrop-blur-none"
-          )}
-        >
+        <div className="fixed right-0 bottom-0 top-0 left-0 z-50 flex items-end justify-center bg-black/25 p-4 backdrop-blur xs:pointer-events-none xs:justify-end xs:bg-transparent xs:backdrop-blur-none">
           <div
             className={classNames(
-              "pointer-events-auto h-fit max-w-sm grow overflow-hidden rounded-xl bg-white text-black" +
-                " dark:bg-black dark:text-white",
-              isSmall ? "mb-16" : ""
+              "pointer-events-auto h-fit max-w-sm grow overflow-hidden rounded-xl bg-white text-black dark:bg-black dark:text-white",
+              { "mb-16": isSmall }
             )}
           >
             <div className="flex h-auto flex-col items-center bg-gray-500/50 p-4 sm:py-2">
@@ -311,11 +304,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
                   <FaAngleDown className="text-2xl" />
                 </span>
               </div>
-              <div
-                className={classNames(
-                  "flex h-full flex-col items-center sm:flex-row sm:space-x-4"
-                )}
-              >
+              <div className="flex h-full flex-col items-center sm:flex-row sm:space-x-4">
                 <div className="flex shrink items-center justify-center">
                   <img
                     src={PlaceholderMusic}
@@ -382,17 +371,13 @@ export default function Wrapper({ children }: { children: ReactNode }) {
         <div
           className={classNames(
             "max-w-sm grow cursor-pointer overflow-hidden rounded-xl bg-white text-black dark:bg-black dark:text-white",
-            isSmall ? "mb-16" : ""
+            { "mb-16": isSmall }
           )}
           onClick={() => {
             setIsModal(true);
           }}
         >
-          <div
-            className={classNames(
-              "relative flex h-[4.25rem] flex-col items-center bg-gray-500/50"
-            )}
-          >
+          <div className="relative flex h-[4.25rem] flex-col items-center bg-gray-500/50">
             <div className="flex h-[4.25rem] w-full items-center p-2 pb-3">
               <img
                 src={PlaceholderMusic}
@@ -441,7 +426,7 @@ export default function Wrapper({ children }: { children: ReactNode }) {
     <div
       className={classNames(
         "flex min-h-screen flex-col overflow-x-hidden bg-gray-100 dark:bg-gray-900",
-        route === "live" ? "" : "pb-12"
+        { "pb-12": !(route === "live") }
       )}
     >
       <Player />

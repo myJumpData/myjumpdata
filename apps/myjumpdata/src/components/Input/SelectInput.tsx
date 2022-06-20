@@ -1,7 +1,7 @@
 import { Listbox, Transition } from "@headlessui/react";
+import classNames from "classnames";
 import { Fragment, ReactNode } from "react";
 import { HiCheck, HiSelector } from "react-icons/hi";
-import { classNames } from "../../utils/classNames";
 
 type SelectInputProps = {
   options: SelectOptionProps[];
@@ -21,15 +21,7 @@ export function SelectInput({
   return (
     <Listbox value={current} onChange={stateChange}>
       <div className="relative">
-        <Listbox.Button
-          className={classNames(
-            "relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left sm:text-sm",
-            "border border-gray-200 dark:border-gray-500",
-            "bg-transparent",
-            "focus-visible:ring-2 focus-visible:ring-transparent focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300",
-            "focus:ring-2 focus:ring-transparent focus:ring-offset-2 focus:ring-offset-orange-300"
-          )}
-        >
+        <Listbox.Button className="relative w-full cursor-default rounded-lg border border-gray-200 bg-transparent py-2 pl-3 pr-10 text-left focus:ring-2 focus:ring-transparent focus:ring-offset-2 focus:ring-offset-orange-300 focus-visible:ring-2 focus-visible:ring-transparent focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 dark:border-gray-500 sm:text-sm">
           <span className="block truncate">
             {
               options.find((e) => {
@@ -53,9 +45,11 @@ export function SelectInput({
                 key={i}
                 className={({ active }) =>
                   classNames(
-                    active
-                      ? "text-dark bg-yellow-100 dark:bg-yellow-900 dark:text-white"
-                      : "text-gray-900 dark:text-gray-100",
+                    {
+                      "text-dark bg-yellow-100 dark:bg-yellow-900 dark:text-white":
+                        active,
+                    },
+                    { "text-gray-900 dark:text-gray-100": !active },
                     "relative cursor-default select-none py-2 pl-10 pr-4"
                   )
                 }
@@ -71,11 +65,7 @@ export function SelectInput({
                       {e.name}
                     </span>
                     {selected ? (
-                      <span
-                        className={classNames(
-                          "absolute inset-y-0 left-0 flex items-center pl-3 text-yellow-500"
-                        )}
-                      >
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-yellow-500">
                         <HiCheck className="h-5 w-5" aria-hidden="true" />
                       </span>
                     ) : null}

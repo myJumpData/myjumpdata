@@ -8,7 +8,6 @@ import AuthVerify from "../common/AuthVerify";
 import Button from "../components/Button";
 import { setRoute } from "../redux/route.action";
 import { getGroup, leaveGroup } from "../service/groups.service";
-import { classNames } from "../utils/classNames";
 import fullname from "../utils/fullname";
 import initials from "../utils/initials";
 
@@ -50,9 +49,7 @@ export default function GroupScreen() {
     return (
       <Link
         to={`/u/${user.username}`}
-        className={classNames(
-          "group relative flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full bg-orange-500 sm:h-14 sm:w-14 md:h-16 md:w-16"
-        )}
+        className="group relative flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full bg-orange-500 sm:h-14 sm:w-14 md:h-16 md:w-16"
       >
         {user.picture === null ? (
           <span className="text-center uppercase">{initials(user)}</span>

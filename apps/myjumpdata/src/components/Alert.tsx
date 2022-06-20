@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useEffect } from "react";
 import {
   HiCheckCircle,
@@ -8,7 +9,6 @@ import {
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { clearMessage } from "../redux/message.action";
-import { classNames } from "../utils/classNames";
 
 export default function Alert() {
   const message = useSelector((state: any) => state.message);
