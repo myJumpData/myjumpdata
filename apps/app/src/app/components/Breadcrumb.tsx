@@ -31,7 +31,7 @@ export default function Breadcrumb({
       >
         <Ionicons name={"home"} size={20} color={Colors.grey} />
       </TouchableOpacity>
-      {data.map((e, index, array) => {
+      {data?.map((e, index, array) => {
         const last = index + 1 === array.length;
         return (
           <React.Fragment key={index}>

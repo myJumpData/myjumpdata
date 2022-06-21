@@ -84,7 +84,7 @@ export default function Freestyle({
             {item.compiled
               ? item.key
                   .split("_")
-                  .map((i) => t(`freestyle:${i}`))
+                  ?.map((i) => t(`freestyle:${i}`))
                   .join(" ")
               : t(`freestyle:${item.key}`)}
           </StyledText>

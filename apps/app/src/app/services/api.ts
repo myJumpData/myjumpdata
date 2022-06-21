@@ -19,6 +19,9 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
+    if (process.env["NODE_ENV"] === "development") {
+      console.log(error);
+    }
     return Promise.reject(error);
   }
 );
@@ -28,6 +31,9 @@ instance.interceptors.response.use(
     return responseHandler(res);
   },
   (err: AxiosError) => {
+    if (process.env["NODE_ENV"] === "development") {
+      console.log(err);
+    }
     return responseHandler(err.response as AxiosResponse);
   }
 );

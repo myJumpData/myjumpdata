@@ -6,7 +6,7 @@ import { requestHandler, requestHandlerError } from "../utils/requestHandler";
 
 export async function getFreestyle(req, res) {
   let count = 0;
-  const path = req.params.path;
+  const path = req.params.path || "";
   let pathSplit = [""];
   if (path) {
     pathSplit = path.split("_").filter((e: string) => e);
@@ -62,17 +62,6 @@ export async function getFreestyle(req, res) {
     }
   }
 }
-
-export function getFreestyleDataOwn(req, res) {
-  FreestyleDataUser.find({ user: req.userId })
-    .select("-createdAt -updatedAt -_id -__v")
-    .exec((err, data) => {
-      if (err) {
-        return requestHandlerError(res, err);
-      }
-      return requestHandler(res, 200, "", "", data);
-    });
-}
 export function saveFreestyleDataOwn(req, res) {
   FreestyleDataUser.find({ user: req.userId, element: req.body.element }).exec(
     (err, response) => {
@@ -109,22 +98,11 @@ export function saveFreestyleDataOwn(req, res) {
     }
   );
 }
-
-export function getFreestyleData(req, res) {
-  FreestyleDataUser.find({ user: req.params.id })
-    .select("-createdAt -updatedAt -_id -__v")
-    .exec((err, data) => {
-      if (err) {
-        return requestHandlerError(res, err);
-      }
-      return requestHandler(res, 200, "", "", data);
-    });
-}
 export function getUserFreestyle(req, res) {
   FreestyleDataUser.find({
     user: { $in: req.body?.user },
     element: {
-      $in: req.body.freestyle?.map((e) => new mongoose.Types.ObjectId(e)),
+      $in: [...req.body.freestyle].map((e) => new mongoose.Types.ObjectId(e)),
     },
   })
     .select("-createdAt -updatedAt -_id -__v")

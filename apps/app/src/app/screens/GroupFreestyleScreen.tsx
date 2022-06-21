@@ -1,4 +1,3 @@
-import i18next from "i18next";
 import * as React from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
@@ -9,7 +8,7 @@ import Wrapper from "../components/Wrapper";
 import { Colors } from "../Constants";
 import {
   getFreestyle,
-  getFreestyleData,
+  getUserFreestyle,
   saveFreestyleData,
 } from "../services/freestyle.service";
 import GroupsService from "../services/groups.service";
@@ -26,14 +25,6 @@ export default function GroupFreestyleScreen({ route, navigation }) {
   const [userSelect, setUserSelect] = React.useState([]);
   const [userSelected, setUserSelected] = React.useState("");
   const [club, setClub] = React.useState<any>();
-  const [loaded, setLoaded] = React.useState(false);
-
-  React.useEffect(() => {
-    i18next.loadNamespaces("freestyle").then(() => {
-      setLoaded(true);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   React.useEffect(() => {
     GroupsService.getGroup(id as string).then((response: any) => {
@@ -85,7 +76,10 @@ export default function GroupFreestyleScreen({ route, navigation }) {
       setClub(response.data);
     });
     if (userSelected) {
-      return getFreestyleData(userSelected).then((response: any) => {
+      return getUserFreestyle(
+        [userSelected],
+        [...folderData.map((e) => e.id)]
+      ).then((response: any) => {
         setFreestyleData(response.data);
         setRefreshing(false);
         return Promise.resolve();

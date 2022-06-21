@@ -3,9 +3,9 @@ import Http from "i18next-http-backend";
 import BackendAdapter from "i18next-multiload-backend-adapter";
 import { initReactI18next } from "react-i18next";
 import { DEFAULT_LANGUAGE, LANGUAGES, NAMESPACES } from "./app/Constants";
+import api from "./app/services/api";
 import getApi from "./app/utils/getApi";
 import { getLang } from "./app/utils/getLang";
-import api from "./app/services/api"
 
 i18n
   .use(BackendAdapter)
@@ -13,7 +13,7 @@ i18n
   .init({
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: LANGUAGES,
-    ns: NAMESPACES.filter((e) => e !== "main" && e !== "freestyle"),
+    ns: NAMESPACES.filter((e) => e !== "main"),
     defaultNS: "translation",
     lowerCaseLng: true,
     cleanCode: true,
